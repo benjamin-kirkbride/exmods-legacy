@@ -1,0 +1,15 @@
+[
+  {
+    "file": "game:itemtypes/resource/crushed/crushed.json",
+    "side": "Server",
+    "dependsOn": [{ "modid": "em" }],
+    "op": "add",
+    "path": "/grindingPropsByType/*-coke",
+    "value": {
+      "groundStack": {
+        "type": "item",
+        "code": "em:powdered-ore-coal"
+      }
+    }
+  }
+]

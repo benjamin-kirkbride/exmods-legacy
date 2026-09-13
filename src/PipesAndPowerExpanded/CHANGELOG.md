@@ -1,0 +1,178 @@
+# Changelog - Pipes and Power Expanded (`ppex`)
+
+All notable changes to this mod are documented here. The format is based on
+[Keep a Changelog](https://keepachangelog.com/), and the project follows
+[Semantic Versioning](https://semver.org/). For changes before this file existed,
+see the git history.
+
+## [0.6.8] - 2026-08-13
+
+No changes to this mod. It requires Expanded Library 0.7.2, which stops a pipe losing what it knows
+about its network when an update renames it - the fix lives there, and this release is what makes
+sure you have it.
+
+## [0.6.7] - 2026-08-09
+
+### Changed
+
+- **The engine fluid pump's configured rate is the rate you get.** It was quietly multiplied by three
+  in code, so the number in the config meant nothing on its own. That factor is folded into the
+  default and the pump now moves exactly what it says: 30 L/s on a Watt, 20/40/80 on a Cornish.
+  Sized at three mechanical pumps to one engine pump on the same engine.
+- The hand pump's delivery head is a config key rather than a fixed value.
+
+### Fixed
+
+- Engine sub-machines showed nothing when looked at. The water pump now reports its flow and delivery
+  pressure - and says so when it has no intake on the source line - and the mechanical generator
+  reports shaft speed against the engine's rating, including when the shaft is labouring.
+- **A water wheel drove its whole network at the wrong speed after a world reload**, until you broke
+  and replaced any axle. This is a bug in the game's own water wheel: its periodic water check
+  overwrites the wheel's gearing with a fixed value, and the check always fires once on load. A
+  network is only ever as fast as its gearing says, so every machine on the shaft ran wrong with it -
+  a geared blower fed a blast furnace a fraction of the air it should have, and the furnace went out.
+  Patched here, since nothing downstream can work around it.
+- **Steam engines sprayed water at the outlet even with a pipe connected.** A condensate line that is
+  full - which is what a closed water loop always is - reads the same as no line at all to the code
+  that decided this. Only an outlet with nothing plumbed onto it, or one plumbed into a line carrying
+  gas, sprays now; a line that is merely backed up takes what it can and the rest is lost quietly.
+- **The mechanical fluid pump read the raw network speed**, ignoring its own gear ratio. A network's
+  speed is held in the frame of whichever machine started it, so a geared pump's stroke rate changed
+  between one world load and the next.
+- **The Engines article recommended a build that bursts the engine.** It said a single Cornish
+  boiler can safely power a Watt engine; the boiler holds up to 5 atm and the Watt wears toward a
+  burst above 4. The article now sends you to a pressure valve between the two.
+- **A temperature difference was converted like a temperature.** The imperial conversion added the
+  freezing-point offset to a delta, so any figure that is a number of degrees gained or lost - the
+  converter's scrap heat cost - read 32 °F too high. Absolute temperatures were always right.
+- The Fluid Intake link in the starter walkthrough went to an empty handbook search in English.
+- **A pipe carrying its whole load reported "Empty"** (player-reported, of blast furnace tuyeres). A
+  run drained as fast as it is fed holds nothing, and its medium label clears with the last litre -
+  and the throughput line was shown only when that label was set, so the pipes working hardest were
+  the ones that looked dead. Throughput is now reported whenever gas is moving, named when the run
+  still knows what it carries.
+
+## [0.6.6] - 2026-08-09
+
+Covers the 0.6.4 and 0.6.5 development bumps, which were never published separately.
+
+### Added
+
+- **Mechanical Fluid Pump** - a walking-beam pump driven from the mechanical power
+  network instead of by steam, so it can fill a boiler whose fire is out. It sits between
+  the hand crank and the engine pump: 8 L/s at full axle speed against a fixed 1.5 atm
+  head, scaling down to nothing below half speed. Right-click constructed - the grid
+  recipe gives a wooden frame, and the axle, piston, pipework and reservoir follow. The
+  axle couples on the east face; water is drawn from beneath the far cell and delivered
+  from its top.
+
+### Changed
+
+- **The mechanical-power overstress ceiling scales with the shaft.** It judged a shared
+  network's whole resistance against a single engine's rating, so adding engines could not
+  raise it and a bank stalled well below what it should carry. The load an engine holds
+  per unit of power was raised from 0.875 to 1.37 to match, which puts three Cornish
+  engines on one shaft at roughly 500 W where they previously reached about 320 W.
+- **The engine pump's `x3` throughput factor is now a named constant.** It is playtest
+  calibration rather than a stray coefficient: the quoted rates are what the pump actually
+  delivers once the intake draw and the output main's free capacity bite. Both the pump's and
+  the blower's rates are now pinned by tests.
+
+### Fixed
+
+- **Engine stroke sounds no longer fire on a backward step.** The cycle predicate read a
+  decreasing frame as "the animation wrapped", but a backward-running cycle arrives the
+  same way - so a single engine emitted roughly twenty plays a second per keyframe instead
+  of two a revolution. A handful of machines then exhausted the game's concurrent-sound
+  cap, at which point all audio starts being dropped, the game's own included.
+- **Pipe bends no longer pop out of the world** when a neighbour changes beside a
+  connector that faces a solid wall.
+- **A blocked or over-pressured line no longer bursts from one long server tick.**
+
+## [0.6.3] - 2026-06-21
+
+### Added
+
+- **Manual boiler draining with buckets** - take water back out of a boiler by hand.
+- **Localizable measurement units.** `.exmod measure` reports your display units and
+  `.exmod measure metric` / `imperial` switches them (L/atm/°C vs gal/psi/°F); a
+  display-only change, the simulation stays metric.
+- **Recipe-cost levels** for ppex's construction recipes, switchable via the shared
+  `/exmod recipes` command.
+- **Russian and Ukrainian** translations.
+
+### Changed
+
+- **Boilers no longer have an upper boil limit** - water is gated on the way in, so
+  the old hard cap was removed - and the boiler **water-draw speed is gated to
+  10 L/s**, so it no longer gulps its whole intake buffer in one tick.
+- An **open boiler lid drops pressure to 0 atm while idle**.
+- **Molten chiselling generalized** into the shared behaviour (consistent
+  tool/sound/recovery handling).
+- **Boilers no longer drop their base block when broken** - a broken boiler scatters
+  its build materials (custom salvage ratio) instead of dropping the whole mega-block.
+- **Raised break-tool requirements** for mega-blocks.
+- Machines **read live config changes** without a world reload.
+
+### Fixed
+
+- The **Watt engine** now displays its togglable pressure band correctly.
+- The **Cornish engine** now correctly costs bricks to construct.
+- Assorted **valve** issues.
+- Network blocks that are not pipes could incorrectly **burst**.
+- Right-click-constructable blocks ignored their **last construction stage** when
+  computing dropped materials.
+- **Handbook**: command strings displayed incorrectly, and measurement units did not
+  refresh mid-session after a `.exmod measure` change.
+- Block display-name ordering and assorted localization issues.
+
+## [0.6.2] - 2026-06-18
+
+### Added
+
+- The **handbook now documents** the mod's chat commands.
+
+The boiler bucket-draining and localizable measurement-unit work from this cycle are
+listed under 0.6.3 above.
+
+## [0.6.1] - 2026-06-16
+
+### Added
+
+- **Craftable iron and steel gears** for the machine recipes.
+
+### Changed
+
+- Tuned **steam-engine power scaling**.
+
+### Fixed
+
+- The **fluid network** now displays pressures below 1 atm; corrected engine power
+  calculation.
+
+## [0.6.0] - 2026-06-14
+
+### Changed
+
+- Build and packaging maintenance (resolved Cake build warnings) ahead of the new
+  publish pipeline.
+
+## [0.5.1] - 2026-06-14
+
+### Added
+
+- **Manual hand-cranked fluid pump** - an engine-free water pump.
+
+## [0.5.0] - 2026-06-13
+
+The first release of **Pipes and Power Expanded**, split out from Steelmaking
+Expanded as the home of the new steam-power system.
+
+### Added
+
+- **Unified pipe network** carrying gas, steam or water, with network-wide pressure
+  and temperature.
+- **Boilers** and **steam engines** (Watt and Cornish).
+- **Sub-machines** driven by the engines: a water pump and an air blower.
+- **Gas/pressure valves**, a directional **pressure-relief valve**, and a **condenser**.
+- **Mechanical-power integration** so engines can drive vanilla MP machines.

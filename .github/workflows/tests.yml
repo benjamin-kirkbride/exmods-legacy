@@ -1,0 +1,69 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      vs_version:
+        description: "Vintage Story version (full patch, or major.minor for the latest patch)"
+        required: false
+        default: "1.22"
+
+# Primary pipeline: builds + tests the mods against the CURRENT game version (the non-legacy
+# target), with coverage and the coverage gate. The older game versions are covered by a separate
+# workflow (tests-legacy.yml) so the two run as independent checks.
+#
+# The build references the game assemblies (VintagestoryAPI.dll, VSSurvivalMod.dll, VSEssentials.dll
+# and the Lib/*.dll), and the headless test harness resolves them at runtime. scripts/provision-game.sh
+# fetches the freely-downloadable dedicated-server archive (which carries those assemblies) into
+# .game/<slug> - the same in-repo location the build/resolver default to - so no env var, game install
+# or licence is needed.
+env:
+  # Primary tracks the latest patch of the current series (legacy pins .0 - see tests-legacy.yml).
+  VS_VERSION: ${{ github.event.inputs.vs_version || '1.22' }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Cache Vintage Story install
+        id: cache-vs
+        uses: actions/cache@v4
+        with:
+          path: .game
+          key: vs-game-${{ env.VS_VERSION }}
+
+      - name: Provision Vintage Story (server assemblies)
+        run: bash scripts/provision-game.sh -Version "$VS_VERSION" -Kind server
+
+      - name: Restore
+        run: dotnet restore VintageStory.sln
+
+      - name: Run tests with coverage
+        run: |
+          dotnet tool install -g dotnet-coverage
+          export PATH="$PATH:$HOME/.dotnet/tools"
+          dotnet-coverage collect -f cobertura -o coverage.xml \
+            "dotnet test VintageStory.sln --no-restore -c Debug"
+
+      - name: Coverage gate (mod assemblies)
+        run: python3 scripts/coverage_gate.py coverage.xml
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage.xml

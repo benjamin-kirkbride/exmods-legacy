@@ -1,0 +1,135 @@
+<strong>What is hot blast?</strong> Preheated air under pressure that allows
+chemical processes and smelting occur inside the furnace. For the purposes of
+this production, blast is air above 800 °C carried at working pressure. The two
+machines that drink it ask for different pressures: the <strong>blast furnace
+fires from 1.5 atm</strong>, while the <a href=\"handbooksearch://bessemer
+converter\">Bessemer converter</a> holds out for <strong>2.5 atm</strong>. That
+gap is what separates iron from steel - see the air sources below.
+<br><br>
+<strong>Why hot blast?</strong> A furnace on plain cold air tops out around
+1543 °C, which already melts iron - hot blast is what makes it melt
+<em>fast</em>. You reclaim the heat it throws away through the exhaust and feed
+it back in, which lifts the hearth ceiling to 1740 °C and roughly triples the
+melting rate. There is no threshold to cross: the ceiling and the heating rate
+both climb smoothly with the temperature of the air you deliver, so a
+part-charged stove is worth a part of the boost, and a full one at 1240 °C is
+worth all of it. A stove also cools whenever it is idle and drains faster the
+harder you blow, so alternating two of them is a real decision. 
+<br><br>
+<strong>The gas network.</strong> Everything breathes through <a
+href=\"handbooksearch://piping\">pipes</a> (from Pipes and Power Expanded). In
+this situation we will work with gas in three kinds: ordinary <strong>Air</strong>, hot
+<strong>Exhaust</strong> spilling from the furnace, and forced
+<strong>Blast</strong> (pressurized air). You need to setup a few specific
+machines and structures for this to work. For the air/exhaust you will need:
+<br>
+- The <a href=\"handbooksearch://air blower\">Air Blower</a> - a steam-engine
+sub-machine that pressurizes Air into <strong>Blast</strong>. This is what forces
+gas through the cowper stoves and into the furnace through tuyeres. It can reach
+the converter's 2.5 atm, but only if the engine is fed enough steam - its output
+is capped at about 75% of the engine's inlet pressure.
+<br>
+- The <a href=\"handbooksearch://twin-tub blower\">Twin-Tub Blower</a> - bellows
+worked by an axle instead of by steam. Cheaper and weaker, and described below.
+<br>
+- <a href=\"handbooksearch://piping valve\">Valves</a> open and close a line by
+hand - essential for swapping the cowper stoves around and controlling the flow
+inside pipe networks. 
+<br>
+- <a href=\"handbooksearch://pressure valve\">Pressure valves</a> open
+automatically above their gate pressure, allowing overflow to another side
+(input side is marked with copper textured rim). 
+<br>
+- <a href=\"handbooksearch://pipe outlet\">Outlets</a> connect the network to a
+structure's face and are a part of their multiblock footprint.
+<br>
+Each network tracks its gas type, volume and temperature; an open-ended pipe
+leaks. Think carefully how many machines you need so you won't under or over
+supply!
+<br><br>
+<strong>The Twin-Tub Blower - blast without steam.</strong> A pair of bellows
+worked by a mechanical axle, so a waterwheel or a windmill can blow the furnace
+and the iron stage never has to wait for a boiler. It holds its main at
+<strong>2.0 atm</strong>: over the furnace's gate, under the converter's. That is
+the whole trade - a mechanically blown furnace will make you iron, but steel still
+needs steam behind an <a href=\"handbooksearch://air blower\">Air Blower</a>.
+<br>
+How much air it moves follows the shaft, but with falling returns: worked harder
+the tubs have less time to refill, so output climbs steeply at low speed and then
+flattens toward a ceiling it never reaches. <strong>Gear it up.</strong> A
+waterwheel on its own turns the bellows at about <strong>20 L/s</strong> - one
+tuyere, so the furnace runs at reduced rate - while the same wheel through one
+large gear turns them <strong>5.5x</strong> faster for <strong>3x</strong> the
+air, about <strong>60 L/s</strong>, which covers both tuyeres with room to spare.
+That geared build is what a blast furnace is meant to be fed by. Stacking more
+gearing keeps paying, less each time, and can never reach what a steam
+<a href=\"handbooksearch://air blower\">Air Blower</a> makes.
+<br>
+It is raised in stages like a boiler or an engine: craft the wooden frame on the
+grid, then <hk>rightmouse</hk> it with each stage's materials in your hotbar to
+add the beam, the axle and gear, the tubs and finally the pipe connection. The
+frame is 1 x 2 x 3 - the axle couples on the side of the tall near end, and the
+blast main butts against the far end.
+<br><br>
+<strong>The Cowper Stove - a heat regenerator.</strong> Pipe the furnace's
+<strong>Exhaust</strong> into a <a href=\"handbooksearch://cowper stove
+intake\">Cowper Stove</a> and it soaks that heat into its heatsink at the core
+(\"charging\"); burning a coal pile inside charges it faster, with anthracite
+fastest. Beware: burning low grades of coal makes the stove itself produce
+exhaust from its main output! 
+<br>
+Once charged, route plain <strong>Blast</strong> through the same stove and
+it pours out scorching hot. Feed that into the furnace tuyeres and the internal
+temperature will start rising again toward the 1740 °C ceiling.
+<br><br>
+<strong>Which port is which.</strong> A finished stove has four gas connections,
+and they are easiest to read as a front and a back. The front is the side the
+intake block faces: the <strong>intake block itself takes the furnace's exhaust
+in</strong>, and the <strong>outlet directly above it gives the hot blast
+out</strong>. The back carries the cold side: the <strong>passthrough at the
+top takes air from the blowers in</strong>, and the <strong>outlet at the
+bottom sends the spent exhaust on</strong> - to a smoke stack, or to the next
+stove. Read it as a cross: heat enters low at the front and leaves high at the
+front, air enters high at the back and leaves low at the back.
+<br><br>
+<strong>Blocks required (per stove - you want two):</strong> 
+<br>
+- 48 x Refractory Bricks (any tier) 
+<br>
+- 1 x Cowper Stove Intake (the control block) 
+<br>
+- 4 x Heat Sink (refractory brick, any tier)
+<br>
+- 2 x Gas Outlet (any refractory)
+<br>
+- 1 x Gas Passthrough (any refractory)
+<br>
+- 1 x Iron Hatch Door 
+<br>
+<i>One slot below the intake is left open for the coal pile that speeds up the
+heat exchange.</i> 
+<br><br>
+A single stove only does one job at a time, and a charged core runs down as you
+draw blast from it. Run <strong>two stoves as a pair</strong>: while one
+<strong>charges</strong> on exhaust, the other <strong>discharges</strong> hot
+blast for the furnace. When the discharging one cools down below 800 °C, swap
+their roles with valves. Keep exhaust and air on separate paths - if they mix
+inside a stove it cannot heat up. 
+<br><br>
+<strong>The Smoke Stack.</strong> A blast furnace produces more exhaust than the
+stoves can swallow. The <a href=\"handbooksearch://smoke stack intake\">Smoke
+Stack</a> vents the surplus to the sky - a backed-up exhaust line stalls the
+furnace back to its natural draught and stops the melt, so treat it as the safety
+valve of the whole system.
+<br>
+<strong>Blocks required:</strong> 
+<br>
+- 1 x Smoke Stack Intake (the control block) 
+<br>
+- 24 x Refractory Bricks (any tier)
+<br>
+- 36 x Any Bricks
+<br><br>
+<strong>Don't forget about the Stoves!</strong> All of this doesn't operate on
+it's own and you need to keep an eye on the stoves' temperature. Otherwise your
+furnace may stop smelting iron or even extinguish! 

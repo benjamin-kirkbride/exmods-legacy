@@ -1,0 +1,423 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build-exlib",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/src/ExpandedLib/ExpandedLib.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build-smex",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/src/SteelmakingExpanded/SteelmakingExpanded.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "stage-mods (exlib, ppex, smex)",
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-File",
+        "${workspaceFolder}/scripts/stage-mods.ps1",
+        "-Dest",
+        "${workspaceFolder}/bin/Mods",
+        "exlib=${workspaceFolder}/src/ExpandedLib/bin/Debug/Mods/mod",
+        "smex=${workspaceFolder}/src/SteelmakingExpanded/bin/Debug/Mods/mod",
+        "ppex=${workspaceFolder}/src/PipesAndPowerExpanded/bin/Debug/Mods/mod"
+      ],
+      "linux": {
+        "command": "bash",
+        "args": [
+          "${workspaceFolder}/scripts/stage-mods.sh",
+          "-Dest",
+          "${workspaceFolder}/bin/Mods",
+          "exlib=${workspaceFolder}/src/ExpandedLib/bin/Debug/Mods/mod",
+          "smex=${workspaceFolder}/src/SteelmakingExpanded/bin/Debug/Mods/mod",
+          "ppex=${workspaceFolder}/src/PipesAndPowerExpanded/bin/Debug/Mods/mod"
+        ]
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Publish mods",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "run",
+        "--project",
+        "${workspaceFolder}/dist/CakeBuild/CakeBuild.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+
+    // ----------------------------------------------------------------------------------------
+    // Test runners - separate, independently-runnable targets per game version. Each builds the
+    // test projects for that version (auto-provisioning its game binaries on demand) and runs the
+    // suite; projects run in parallel. "Test: all" runs every version concurrently. Pick one from
+    // "Run Test Task", or run any via "Run Task".
+    // ----------------------------------------------------------------------------------------
+    {
+      "label": "Test: latest (1.22)",
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-File",
+        "${workspaceFolder}/scripts/run-tests.ps1",
+        "-Version",
+        "latest"
+      ],
+      "linux": {
+        "command": "bash",
+        "args": ["${workspaceFolder}/scripts/run-tests.sh", "latest"]
+      },
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Test: 1.21 (legacy)",
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-File",
+        "${workspaceFolder}/scripts/run-tests.ps1",
+        "-Version",
+        "1.21"
+      ],
+      "linux": {
+        "command": "bash",
+        "args": ["${workspaceFolder}/scripts/run-tests.sh", "1.21"]
+      },
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Test: 1.20 (legacy)",
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-File",
+        "${workspaceFolder}/scripts/run-tests.ps1",
+        "-Version",
+        "1.20"
+      ],
+      "linux": {
+        "command": "bash",
+        "args": ["${workspaceFolder}/scripts/run-tests.sh", "1.20"]
+      },
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Test: all versions (parallel)",
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-File",
+        "${workspaceFolder}/scripts/run-tests.ps1",
+        "-Version",
+        "all"
+      ],
+      "linux": {
+        "command": "bash",
+        "args": ["${workspaceFolder}/scripts/run-tests.sh", "all"]
+      },
+      "group": { "kind": "test", "isDefault": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "Test: coverage (latest + gate)",
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-File",
+        "${workspaceFolder}/scripts/run-tests.ps1",
+        "-Coverage"
+      ],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "provision-dotnet (latest)",
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-File",
+        "${workspaceFolder}/scripts/provision-dotnet.ps1",
+        "-Version",
+        "latest"
+      ],
+      "linux": {
+        "command": "bash",
+        "args": ["${workspaceFolder}/scripts/provision-dotnet.sh", "latest"]
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "provision-dotnet (1.21)",
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-File",
+        "${workspaceFolder}/scripts/provision-dotnet.ps1",
+        "-Version",
+        "1.21"
+      ],
+      "linux": {
+        "command": "bash",
+        "args": ["${workspaceFolder}/scripts/provision-dotnet.sh", "1.21"]
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "provision-dotnet (1.20)",
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-File",
+        "${workspaceFolder}/scripts/provision-dotnet.ps1",
+        "-Version",
+        "1.20"
+      ],
+      "linux": {
+        "command": "bash",
+        "args": ["${workspaceFolder}/scripts/provision-dotnet.sh", "1.20"]
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "provision-game (1.22)",
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-File",
+        "${workspaceFolder}/scripts/provision-game.ps1",
+        "-Version",
+        "1.22",
+        "-Kind",
+        "client"
+      ],
+      "linux": {
+        "command": "bash",
+        "args": [
+          "${workspaceFolder}/scripts/provision-game.sh",
+          "-Version",
+          "1.22.0",
+          "-Kind",
+          "client"
+        ]
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "launch-prep (smex)",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "provision-dotnet (latest)",
+        "provision-game (1.22)",
+        "build-smex",
+        "stage-mods (exlib, ppex, smex)"
+      ],
+      "problemMatcher": []
+    },
+
+    // ----------------------------------------------------------------------------------------
+    // Legacy game versions (1.21 -> net8.0, 1.20 -> net7.0). Opt-in multi-target via -p:Legacy.
+    // Each version is provisioned into .game/<slug> by scripts/provision-game.* (no machine-wide
+    // install needed); the build and launch read it from there. build-smex pulls exlib + ppex via
+    // project references, so a single build covers the chain.
+    // ----------------------------------------------------------------------------------------
+    {
+      "label": "build-exlib (1.21)",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/src/ExpandedLib/ExpandedLib.csproj",
+        "-p:Legacy=true",
+        "-p:TargetFramework=net8.0"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build-smex (1.21)",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/src/SteelmakingExpanded/SteelmakingExpanded.csproj",
+        "-p:Legacy=true",
+        "-p:TargetFramework=net8.0"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build-exlib (1.20)",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/src/ExpandedLib/ExpandedLib.csproj",
+        "-p:Legacy=true",
+        "-p:TargetFramework=net7.0"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build-smex (1.20)",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/src/SteelmakingExpanded/SteelmakingExpanded.csproj",
+        "-p:Legacy=true",
+        "-p:TargetFramework=net7.0"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "stage-mods 1.21 (exlib, ppex, smex)",
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-File",
+        "${workspaceFolder}/scripts/stage-mods.ps1",
+        "-Dest",
+        "${workspaceFolder}/bin/Mods-1.21",
+        "exlib=${workspaceFolder}/src/ExpandedLib/bin/Debug/net8.0/Mods/mod",
+        "ppex=${workspaceFolder}/src/PipesAndPowerExpanded/bin/Debug/net8.0/Mods/mod",
+        "smex=${workspaceFolder}/src/SteelmakingExpanded/bin/Debug/net8.0/Mods/mod"
+      ],
+      "linux": {
+        "command": "bash",
+        "args": [
+          "${workspaceFolder}/scripts/stage-mods.sh",
+          "-Dest",
+          "${workspaceFolder}/bin/Mods-1.21",
+          "exlib=${workspaceFolder}/src/ExpandedLib/bin/Debug/net8.0/Mods/mod",
+          "ppex=${workspaceFolder}/src/PipesAndPowerExpanded/bin/Debug/net8.0/Mods/mod",
+          "smex=${workspaceFolder}/src/SteelmakingExpanded/bin/Debug/net8.0/Mods/mod"
+        ]
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "stage-mods 1.20 (exlib, ppex, smex)",
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-File",
+        "${workspaceFolder}/scripts/stage-mods.ps1",
+        "-Dest",
+        "${workspaceFolder}/bin/Mods-1.20",
+        "exlib=${workspaceFolder}/src/ExpandedLib/bin/Debug/net7.0/Mods/mod",
+        "ppex=${workspaceFolder}/src/PipesAndPowerExpanded/bin/Debug/net7.0/Mods/mod",
+        "smex=${workspaceFolder}/src/SteelmakingExpanded/bin/Debug/net7.0/Mods/mod"
+      ],
+      "linux": {
+        "command": "bash",
+        "args": [
+          "${workspaceFolder}/scripts/stage-mods.sh",
+          "-Dest",
+          "${workspaceFolder}/bin/Mods-1.20",
+          "exlib=${workspaceFolder}/src/ExpandedLib/bin/Debug/net7.0/Mods/mod",
+          "ppex=${workspaceFolder}/src/PipesAndPowerExpanded/bin/Debug/net7.0/Mods/mod",
+          "smex=${workspaceFolder}/src/SteelmakingExpanded/bin/Debug/net7.0/Mods/mod"
+        ]
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "provision-game (1.21)",
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-File",
+        "${workspaceFolder}/scripts/provision-game.ps1",
+        "-Version",
+        "1.21.0",
+        "-Kind",
+        "client"
+      ],
+      "linux": {
+        "command": "bash",
+        "args": [
+          "${workspaceFolder}/scripts/provision-game.sh",
+          "-Version",
+          "1.21.0",
+          "-Kind",
+          "client"
+        ]
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "provision-game (1.20)",
+      "type": "process",
+      "command": "pwsh",
+      "args": [
+        "-NoProfile",
+        "-File",
+        "${workspaceFolder}/scripts/provision-game.ps1",
+        "-Version",
+        "1.20.0",
+        "-Kind",
+        "client"
+      ],
+      "linux": {
+        "command": "bash",
+        "args": [
+          "${workspaceFolder}/scripts/provision-game.sh",
+          "-Version",
+          "1.20.0",
+          "-Kind",
+          "client"
+        ]
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "launch-prep (smex 1.21)",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "provision-dotnet (1.21)",
+        "provision-game (1.21)",
+        "build-smex (1.21)",
+        "stage-mods 1.21 (exlib, ppex, smex)"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "launch-prep (smex 1.20)",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "provision-dotnet (1.20)",
+        "provision-game (1.20)",
+        "build-smex (1.20)",
+        "stage-mods 1.20 (exlib, ppex, smex)"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}
