@@ -22,23 +22,25 @@ public static class Program {
   }
 }
 
-/// <summary>One buildable mod project in the monorepo.</summary>
-public record ModProject(string Folder, string ModId, string Version);
+/// <summary>One buildable mod project in the monorepo. Folder is the csproj's own directory name
+/// (e.g. "ExpandedLib"), Dir is where that folder now lives under legacy/ (e.g. "exlib").</summary>
+public record ModProject(string Folder, string Dir, string ModId, string Version);
 
 /// <summary>A supported game version to publish for: its TFM, the game version stamped into the
 /// packaged modinfo, and whether it's the current (non-legacy) target. Keep in sync with the version
-/// manifest in src/Directory.Build.props (Cake can't read MSBuild, so this is the one duplication -
+/// manifest in Directory.Build.props (Cake can't read MSBuild, so this is the one duplication -
 /// same as the CI workflows).</summary>
 public record GameTarget(string Tfm, string GameVersion, bool IsCurrent);
 
 public class BuildContext : FrostingContext {
   // Build order matters: exlib first (the shared lib both mods reference), then ppex
-  // (referenced by smex), then smex.
-  public static readonly string[] ProjectFolders =
+  // (referenced by smex), then smex. Folder is the csproj's own directory name; Dir is where
+  // that folder lives under legacy/ after the reshape.
+  public static readonly (string Folder, string Dir)[] ProjectFolders =
   [
-    "ExpandedLib",
-    "PipesAndPowerExpanded",
-    "SteelmakingExpanded",
+    ("ExpandedLib", "exlib"),
+    ("PipesAndPowerExpanded", "ppex"),
+    ("SteelmakingExpanded", "smex"),
   ];
 
   // Every supported game version. The legacy ones (IsCurrent=false) build with -p:Legacy=true and
@@ -62,11 +64,11 @@ public class BuildContext : FrostingContext {
     BuildConfiguration = context.Argument("configuration", "Release");
     SkipJsonValidation = context.Argument("skipJsonValidation", false);
 
-    foreach (var folder in ProjectFolders) {
+    foreach (var (folder, dir) in ProjectFolders) {
       var modInfo = context.DeserializeJsonFromFile<ModInfo>(
-        $"../../src/{folder}/modinfo.json"
+        $"../../{dir}/modinfo.json"
       );
-      Projects.Add(new ModProject(folder, modInfo.ModID, modInfo.Version));
+      Projects.Add(new ModProject(folder, dir, modInfo.ModID, modInfo.Version));
     }
   }
 
@@ -74,8 +76,8 @@ public class BuildContext : FrostingContext {
   /// Mods/mod path; legacy targets append their TFM (see the mod csproj OutputPath).</summary>
   public string PublishDir(ModProject project, GameTarget target) =>
     target.IsCurrent
-      ? $"../../src/{project.Folder}/bin/{BuildConfiguration}/Mods/mod/publish"
-      : $"../../src/{project.Folder}/bin/{BuildConfiguration}/{target.Tfm}/Mods/mod/publish";
+      ? $"../../{project.Dir}/bin/{BuildConfiguration}/Mods/mod/publish"
+      : $"../../{project.Dir}/bin/{BuildConfiguration}/{target.Tfm}/Mods/mod/publish";
 }
 
 [TaskName("ValidateJson")]
@@ -86,7 +88,7 @@ public sealed class ValidateJsonTask : FrostingTask<BuildContext> {
 
     foreach (var project in context.Projects) {
       var jsonFiles = context.GetFiles(
-        $"../../src/{project.Folder}/assets/**/*.json"
+        $"../../{project.Dir}/assets/**/*.json"
       );
       foreach (var file in jsonFiles) {
         try {
@@ -107,10 +109,10 @@ public sealed class ValidateJsonTask : FrostingTask<BuildContext> {
 public sealed class BuildTask : FrostingTask<BuildContext> {
   public override void Run(BuildContext context) {
     foreach (var project in context.Projects) {
-      string csproj = $"../../src/{project.Folder}/{project.Folder}.csproj";
+      string csproj = $"../../{project.Dir}/{project.Folder}.csproj";
       // Wipe the whole bin so stale per-version outputs can't leak into a package.
       string binDir =
-        $"../../src/{project.Folder}/bin/{context.BuildConfiguration}";
+        $"../../{project.Dir}/bin/{context.BuildConfiguration}";
       context.EnsureDirectoryExists(binDir);
       context.CleanDirectory(binDir);
 
@@ -161,16 +163,16 @@ public sealed class PackageTask : FrostingTask<BuildContext> {
             $"{context.PublishDir(project, target)}/assets",
             $"{stageDir}/assets"
           );
-        if (context.FileExists($"../../src/{project.Folder}/modicon.png"))
+        if (context.FileExists($"../../{project.Dir}/modicon.png"))
           context.CopyFile(
-            $"../../src/{project.Folder}/modicon.png",
+            $"../../{project.Dir}/modicon.png",
             $"{stageDir}/modicon.png"
           );
 
         // Authoritative modinfo: the source declares the current game version, so point the game
         // dependency at this target's version (no-op for the current one).
         string modinfoSource = File.ReadAllText(
-          $"../../src/{project.Folder}/modinfo.json"
+          $"../../{project.Dir}/modinfo.json"
         );
         string modinfo = modinfoSource.Replace(
           $"\"game\": \"{BuildContext.SourceGameVersion}\"",
@@ -181,7 +183,7 @@ public sealed class PackageTask : FrostingTask<BuildContext> {
         // the CURRENT game dependency, which the target game then rejects. Fail the build instead.
         if (!target.IsCurrent && modinfo == modinfoSource)
           throw new Exception(
-            $"{project.Folder}/modinfo.json: expected to rewrite \"game\": \"{BuildContext.SourceGameVersion}\" "
+            $"{project.Dir}/modinfo.json: expected to rewrite \"game\": \"{BuildContext.SourceGameVersion}\" "
               + $"to \"{target.GameVersion}\", but the text was unchanged. The legacy package would ship "
               + "the current game dependency and be rejected by the game."
           );
@@ -200,7 +202,7 @@ public sealed class PackageTask : FrostingTask<BuildContext> {
 [TaskName("PackageTesting")]
 [IsDependentOn(typeof(PackageTask))]
 public sealed class PackageTestingTask : FrostingTask<BuildContext> {
-  // The headless test harness (test/ExpandedLib.Testing) is a DEVELOPER library, not a game mod, so
+  // The headless test harness (tests/ExpandedLib.Testing) is a DEVELOPER library, not a game mod, so
   // it isn't a mod zip and isn't on NuGet (its API still moves a lot release to release). We ship it
   // as a dev bundle attached to the GitHub release: ExpandedLib.Testing.dll plus the exlib.dll it
   // compiles against (exlib's AssemblyName is "exlib"), which a downstream test project references
@@ -223,7 +225,7 @@ public sealed class PackageTestingTask : FrostingTask<BuildContext> {
 
     // Build the harness for the current target (single-TFM => flat bin/<config> output).
     context.DotNetBuild(
-      "../../test/ExpandedLib.Testing/ExpandedLib.Testing.csproj",
+      "../../tests/ExpandedLib.Testing/ExpandedLib.Testing.csproj",
       new DotNetBuildSettings {
         Configuration = context.BuildConfiguration,
         Framework = current.Tfm,
@@ -237,7 +239,7 @@ public sealed class PackageTestingTask : FrostingTask<BuildContext> {
     context.EnsureDirectoryExists(stageDir);
 
     context.CopyFile(
-      $"../../test/ExpandedLib.Testing/bin/{context.BuildConfiguration}/ExpandedLib.Testing.dll",
+      $"../../tests/ExpandedLib.Testing/bin/{context.BuildConfiguration}/ExpandedLib.Testing.dll",
       $"{stageDir}/ExpandedLib.Testing.dll"
     );
     // exlib.dll comes from exlib's own publish output (the harness references it Private=false, so

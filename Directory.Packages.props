@@ -1,0 +1,7 @@
+<Project>
+  <!-- The old projects carry their package versions inline; the family's central management
+       above this folder must not reach them. Nearest file wins. -->
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+</Project>

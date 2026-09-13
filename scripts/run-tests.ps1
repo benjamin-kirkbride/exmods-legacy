@@ -54,7 +54,7 @@ if ($Coverage) {
     $dc = Join-Path $toolsDir ('dotnet-coverage' + ($(if ([System.OperatingSystem]::IsWindows()) { '.exe' } else { '' })))
     $cov = Join-Path $repoRoot 'coverage.xml'
     Write-Host "Collecting coverage over the latest suite..."
-    & $dc collect -f cobertura -o $cov "$dotnet test `"$(Join-Path $repoRoot 'VintageStory.sln')`" -c Debug --nologo"
+    & $dc collect -f cobertura -o $cov "$dotnet test `"$(Join-Path $repoRoot 'Legacy.sln')`" -c Debug --nologo"
     if ($LASTEXITCODE -ne 0) { throw "Coverage collection failed." }
     $py = (Get-Command python -ErrorAction SilentlyContinue) ?? (Get-Command python3 -ErrorAction SilentlyContinue)
     if (-not $py) { throw "Python is required for the coverage gate but was not found (coverage.xml was still written)." }
@@ -72,7 +72,7 @@ $work = foreach ($v in $wanted) {
             Version = $v
             Tfm     = $tfms[$v]
             Project = $p
-            Proj    = (Join-Path $repoRoot "test/$p/$p.csproj")
+            Proj    = (Join-Path $repoRoot "tests/$p/$p.csproj")
             Legacy  = $legacy
         }
     }

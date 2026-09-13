@@ -1,2 +1,0 @@
-# Shell scripts must stay LF-terminated or they fail to run (the shebang would carry a CR).
-*.sh text eol=lf

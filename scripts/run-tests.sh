@@ -49,7 +49,7 @@ for v in "${wanted[@]}"; do for p in "${projects[@]}"; do combos+=("$v/$p"); don
 echo "Building ${#combos[@]} test target(s) across version(s): ${wanted[*]}"
 for c in "${combos[@]}"; do
   v="${c%%/*}"; p="${c##*/}"; tfm="${tfms[$v]}"
-  args=(build "$repo_root/test/$p/$p.csproj" -f "$tfm" --nologo -v q)
+  args=(build "$repo_root/tests/$p/$p.csproj" -f "$tfm" --nologo -v q)
   [[ "$tfm" != "net10.0" ]] && args+=(-p:Legacy=true)
   "$dotnet_bin" "${args[@]}" > "$log_dir/${c//\//_}.build.log" 2>&1 || echo "build-failed:$c" >> "$log_dir/buildfail"
 done
@@ -59,7 +59,7 @@ pids=()
 names=()
 for c in "${combos[@]}"; do
   v="${c%%/*}"; p="${c##*/}"; tfm="${tfms[$v]}"
-  args=(test "$repo_root/test/$p/$p.csproj" -f "$tfm" --no-build --nologo)
+  args=(test "$repo_root/tests/$p/$p.csproj" -f "$tfm" --no-build --nologo)
   [[ "$tfm" != "net10.0" ]] && args+=(-p:Legacy=true)
   "$dotnet_bin" "${args[@]}" > "$log_dir/${c//\//_}.log" 2>&1 &
   pids+=($!)
