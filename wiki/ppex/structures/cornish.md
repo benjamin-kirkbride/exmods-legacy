@@ -1,3 +1,13 @@
+---
+title: Cornish boiler
+---
+
+The Cornish boiler is the entry vessel: one flue in an iron or steel shell, 800 L of water and
+steam together, 32 L/s of steam out, and a choke pressure of 5 atm. It is a multiblock, not a
+block: a brick firebox with a hatch door, a plinth, a vessel raised in three stages from the block
+you place, and a pipe outlet for the exhaust, all inside a box 3 wide, 3 high and 8 long. This page
+is the build and the first firing; the operating numbers are on Boilers.
+
 ## The site
 
 Clear a box 3 wide, 3 high and 8 long before you place anything: 2 cells at the near end for the

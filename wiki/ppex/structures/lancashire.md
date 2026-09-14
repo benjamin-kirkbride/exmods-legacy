@@ -1,3 +1,13 @@
+---
+title: Lancashire boiler
+---
+
+The Lancashire boiler is the steel tier: twin flues, 1200 L of water and steam together, 48 L/s of
+steam out, and a choke pressure of 12 atm, which is the pressure a Cornish Engine wants and a
+Cornish boiler cannot reach. It is built as the smaller vessel is, in a box 3 wide, 3 high and 10
+long, and in steel wherever that one takes iron. This page is the build and the first firing; the
+operating numbers are on Boilers.
+
 ## The site
 
 Clear a box 3 wide, 3 high and 10 long: 2 cells at the near end for the firebox and its door, 6 for

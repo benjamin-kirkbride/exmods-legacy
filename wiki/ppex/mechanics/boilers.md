@@ -3,6 +3,7 @@ title: Boilers
 covers:
   - "ppex:boilercornish-*"
   - "ppex:boilerlancashire-*"
+order: 2
 version: 0.6.8
 ---
 

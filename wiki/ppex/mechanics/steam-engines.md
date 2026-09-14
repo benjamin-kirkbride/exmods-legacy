@@ -3,6 +3,7 @@ title: Steam engines
 covers:
   - "ppex:enginewatt-*"
   - "ppex:enginecornish-*"
+order: 3
 version: 0.6.8
 ---
 
@@ -34,10 +35,10 @@ pressure. That is what a pump lifts against and what a blower blows at.
 
 ## Matching an engine to a boiler
 
-A Cornish Boiler chokes at 5 atm. That is above the Watt's 4 atm wear point, so a Watt behind a
-Cornish boiler needs a Piping (Pressure Valve) gated around 2.5 to 3 atm, hung off the run the
-engine sits on and venting to air or to an overflow, or it will break. It is also only just at
-the Cornish engine's low setting and below its normal and high settings, so a Cornish engine wants
+A Cornish Boiler chokes at 5 atm. That is above the Watt Engine's 4 atm wear point, so a Watt
+behind a Cornish boiler needs a Piping (Pressure Valve) gated around 2.5 to 3 atm, hung off the run
+the engine sits on and venting to air or to an overflow, or it will break. It is also only just at
+the Cornish Engine's low setting and below its normal and high settings, so a Cornish engine wants
 a Lancashire Boiler, which chokes at 12 atm.
 
 A Lancashire needs a valve of its own, for the same reason. Every Cornish setting wears above
@@ -64,21 +65,21 @@ setting and the band it runs in.
 Above the wear pressure an engine runs hot for 60 s and then bursts. It is inert until repaired,
 and dropping back into the band before the 60 s are up clears the count. Right-click a broken
 engine with a wrench in hand to read the bill, then right-click again with the materials in your
-hotbar. A Watt takes 4 iron or steel plates and 2 iron or steel rods; a Cornish takes 4 steel plates
-and 2 steel rods.
+hotbar. A Watt Engine takes 4 iron or steel plates and 2 iron or steel rods; a Cornish Engine takes
+4 steel plates and 2 steel rods.
 
-Spent steam leaves as hot condensate on the engine's water outlet face, 1 L/s from a Watt. A water
-line there takes it, at no pressure of its own; an unplumbed face sprays it on the ground.
+Spent steam leaves as hot condensate on the engine's water outlet face, 1 L/s from a Watt Engine.
+A water line there takes it, at no pressure of its own; an unplumbed face sprays it on the ground.
 
 ## Why they feel weak, and what they are for
 
 There is no kilowatt or horsepower figure anywhere in this mod, and the power numbers above are
 bare ratios. What they buy is shaft load: an engine's Mechanical Power Generator holds a load of
-twice the engine's power at full speed, so 0.6 for a Watt and 1.6 for a Cornish on high. A vanilla
-helve hammer resists 0.125, which puts a Watt at about five hammers and a Cornish on high at about
-thirteen. The in-game handbook still says two and six; those figures predate the 0.6.6 rebalance,
-which raised the load an engine holds per unit of power so that an engine out-pulls a vanilla
-waterwheel rather than giving up where the wheel merely bogs down.
+twice the engine's power at full speed, so 0.6 for a Watt Engine and 1.6 for a Cornish Engine on
+high. A vanilla helve hammer resists 0.125, which puts a Watt at about five hammers and a Cornish
+on high at about thirteen. The game's own handbook still says two and six; those figures predate
+the 0.6.6 rebalance, which raised the load an engine holds per unit of power so that an engine
+out-pulls a vanilla waterwheel rather than giving up where the wheel merely bogs down.
 
 Pulling power is not the reason to build steam, though. What it is instead:
 

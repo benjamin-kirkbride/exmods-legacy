@@ -1,7 +1,9 @@
 ---
 title: Compatibility
 covers:
-  - "ppex:*"
+  - "ppex:boilercornish-*"
+  - "ppex:boilerlancashire-*"
+order: 7
 version: 0.6.8
 ---
 
