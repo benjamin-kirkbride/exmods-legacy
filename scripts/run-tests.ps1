@@ -29,7 +29,7 @@ $wanted = switch ($Version) {
 }
 
 # Pick the dotnet host. Use the system one if it already has every runtime major we need; otherwise
-# provision a self-contained .dotnet and use ITS muxer - the global muxer ignores DOTNET_ROOT, so a
+# provision a self-contained .dotnet and use its own muxer - the global muxer ignores DOTNET_ROOT, so a
 # local muxer is the only reliable way to run on locally-installed runtimes (verified). This is what
 # lets a fresh clone without .NET 7/8 installed still run the legacy suites.
 $majors = @{ '1.22' = '10'; '1.21' = '8'; '1.20' = '7' }
@@ -79,7 +79,7 @@ $work = foreach ($v in $wanted) {
 }
 if ($Throttle -le 0) { $Throttle = $work.Count }
 
-# Build phase, SERIAL: the test projects share the mod projects (exlib/ppex/smex), so building them
+# Build phase, serial: the test projects share the mod projects (exlib/ppex/smex), so building them
 # concurrently would race on the same intermediate DLLs (CS2012). Building here also auto-provisions
 # each version's game binaries once, up front. The test phase then runs in parallel with --no-build.
 Write-Host "Building $($work.Count) test target(s) across version(s): $($wanted -join ', ')"

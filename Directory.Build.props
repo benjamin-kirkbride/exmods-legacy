@@ -1,13 +1,13 @@
 <Project>
   <!--
     ============================================================================================
-    SINGLE SOURCE OF TRUTH for the supported VintageStory versions: the "VERSION MANIFEST" region
-    below is the ONLY place to edit when the version set changes.
+    The supported VintageStory versions live here, and only here; the "version manifest" region
+    below is the only place to edit when the version set changes.
 
-    To ADD a version: append its TFM to $(AllGameTfms), add a per-version PropertyGroup (game
+    To add a version: append its TFM to $(AllGameTfms), add a per-version PropertyGroup (game
     version + folder slug + install env var), and add one GAME_GE_<ver> line in the
     capability-constants block.
-    To PROMOTE a new primary (e.g. when 1.22 becomes legacy and 1.23 arrives): point
+    To promote a new primary (e.g. when 1.22 becomes legacy and 1.23 arrives): point
     $(CurrentGameTfm)/$(CurrentGameVer) at the new row (leaving the old one in $(AllGameTfms)).
 
     Nothing in the csprojs or the #if-guarded code changes for a version move - it all derives
@@ -15,27 +15,27 @@
       * $(CurrentGameTfm)/$(AllGameTfms) - csprojs read these for TargetFramework(s)
       * $(GamePath)/$(GameVer)/$(GameVersion) - per-TFM install, version, modinfo stamp
       * GAME_GE_<major>_<minor> compile constants - defined for every version <= the one being
-        built, so code guards on a CAPABILITY THRESHOLD (#if GAME_GE_1_22) not a raw TFM
+        built, so code guards on a capability threshold (#if GAME_GE_1_22) rather than a raw TFM
         (#if NET10_0). A threshold stays correct as newer versions appear: 1.23 is also >= 1.22,
         so a "#if GAME_GE_1_22" current-API path keeps covering it and a "#if !GAME_GE_1_22"
-        legacy shim keeps covering only < 1.22 - including 1.22 itself once it is no longer
-        primary. (Mods are written against the CURRENT API; a shim bridges an OLDER version up to
+        legacy shim keeps covering only < 1.22 - including 1.22 itself once it stops being
+        primary. (Mods are written against the current API; a shim bridges an older version up to
         it, so its guard is "version < where-this-API-arrived".)
       * GameInstallEnv assembly metadata - lets runtime code (the test harness resolver) pick the
         matching install without its own #if ladder.
 
-    Only an ACTUAL new API divergence still needs hand-written code: add a GAME_GE_<new> guard +
+    Only a real new API divergence still needs hand-written code: add a GAME_GE_<new> guard and
     the shim. The plumbing never needs per-version edits again.
 
-    NOTE on evaluation: properties are evaluated before items in MSBuild, so the manifest is
-    properties (not an item list) to stay robust. $(TargetFramework) is empty during evaluation of
-    the default single-target / outer multi-target build (it's only a global property in the
-    legacy inner builds), so $(_GameTfm) falls back to the primary TFM.
+    Properties are evaluated before items in MSBuild, so the manifest is properties (not an item
+    list) to stay robust. $(TargetFramework) is empty during evaluation of the default
+    single-target / outer multi-target build (it's only a global property in the legacy inner
+    builds), so $(_GameTfm) falls back to the primary TFM.
     ============================================================================================
   -->
 
-  <!-- ===================== VERSION MANIFEST (edit only this region) ===================== -->
-  <!-- GameVer is the game-version FLOOR each TFM supports - the .0 of the series - and is stamped
+  <!-- ===================== Version manifest (edit only this region) ===================== -->
+  <!-- GameVer is the game-version floor each TFM supports - the .0 of the series - and is stamped
        into the legacy output modinfo. The mods are kept source-compatible with that .0 release (so
        a player on any patch of the series can run them); the legacy shims target the .0 API surface.
        (The GAME_GE_* thresholds below compare on major.minor, so the patch component is irrelevant
@@ -83,7 +83,7 @@
       Condition="$([MSBuild]::VersionGreaterThanOrEquals('$(GameVer)', '1.22'))"
       >$(DefineConstants);GAME_GE_1_22</DefineConstants>
   </PropertyGroup>
-  <!-- =================== end VERSION MANIFEST =================== -->
+  <!-- =================== end version manifest =================== -->
 
   <!-- Game version stamped into the legacy output modinfo (current keeps the authored value). -->
   <PropertyGroup>
@@ -91,7 +91,7 @@
       >$(GameVer)</GameVersion>
   </PropertyGroup>
 
-  <!-- $(GamePath) = the install for THIS TFM. Priority:
+  <!-- $(GamePath) = the install for this TFM. Priority:
          1. An explicit env-var override (its name is in $(GameInstallEnv)) - used by CI and by anyone
             pointing the build at an external install.
          2. Otherwise the in-repo install provisioned into .game/<slug> by scripts/provision-game.*
@@ -132,7 +132,7 @@
     <NoWarn>$(NoWarn);CS8625</NoWarn>
   </PropertyGroup>
 
-  <!-- Auto-provision the SERVER binaries into .game/<slug> when they're missing and no env override is
+  <!-- Auto-provision the server binaries into .game/<slug> when they're missing and no env override is
        set, so a fresh `dotnet build` / `dotnet test` works seamlessly with no manual step. The playable
        client is never fetched here - only the launch tasks pull it (provision-game ... -Kind client). -->
   <Target

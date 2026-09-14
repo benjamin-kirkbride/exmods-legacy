@@ -18,8 +18,8 @@ namespace Integration.Tests;
 /// <c>smex_values.json</c> ever took the new molten-flow or furnace values.
 /// </summary>
 public class ConfigMigrationTests {
-  /// <summary>Assembly name to the mod's folder under legacy/ (the folder no longer matches the
-  /// assembly name since the D2 reshape).</summary>
+  /// <summary>Assembly name to the mod's folder under legacy/ (the folder does not match the
+  /// assembly name).</summary>
   private static readonly Dictionary<string, string> ModDirs = new() {
     ["ExpandedLib"] = "exlib",
     ["PipesAndPowerExpanded"] = "ppex",

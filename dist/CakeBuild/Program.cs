@@ -159,11 +159,11 @@ public sealed class PackageTask : FrostingTask<BuildContext> {
         context.EnsureDirectoryExists(stageDir);
 
         context.CopyFiles($"{context.PublishDir(project, target)}/*", stageDir);
-        // Copy assets from the per-target PUBLISH output, NOT from raw source: the csproj applies
+        // Assets come from the per-target publish output, not raw source: the csproj applies
         // per-game-version `Content Remove` filtering (e.g. legacy-only patches whose crushed codes
-        // don't resolve on newer versions), and only the publish output reflects it. Copying source
-        // assets here bypassed that and shipped both versions' files into every package, which
-        // crashed clients on world-load when the wrong patch referenced a non-existent stack.
+        // don't resolve on newer versions), and only the publish output reflects it. Copying from
+        // raw source would ship both versions' files into every package and crash clients on
+        // world-load when the wrong patch references a non-existent stack.
         if (context.DirectoryExists($"{context.PublishDir(project, target)}/assets"))
           context.CopyDirectory(
             $"{context.PublishDir(project, target)}/assets",
@@ -186,7 +186,7 @@ public sealed class PackageTask : FrostingTask<BuildContext> {
         );
         // The rewrite is a literal match, so a source modinfo that spells its game dependency any
         // other way ("1.21" for "1.21.0", say) silently no-ops and ships a legacy package carrying
-        // the CURRENT game dependency, which the target game then rejects. Fail the build instead.
+        // the current game dependency, which the target game then rejects. Fail the build instead.
         if (!target.IsCurrent && modinfo == modinfoSource)
           throw new Exception(
             $"{project.Dir}/modinfo.json: expected to rewrite \"game\": \"{BuildContext.SourceGameVersion}\" "
@@ -208,14 +208,14 @@ public sealed class PackageTask : FrostingTask<BuildContext> {
 [TaskName("PackageTesting")]
 [IsDependentOn(typeof(PackageTask))]
 public sealed class PackageTestingTask : FrostingTask<BuildContext> {
-  // The headless test harness (tests/ExpandedLib.Testing) is a DEVELOPER library, not a game mod, so
-  // it isn't a mod zip and isn't on NuGet (its API still moves a lot release to release). We ship it
+  // The headless test harness (tests/ExpandedLib.Testing) is a developer library, not a game mod, so
+  // it isn't a mod zip and isn't on NuGet (its API still moves a lot release to release). It ships
   // as a dev bundle attached to the GitHub release: ExpandedLib.Testing.dll plus the exlib.dll it
   // compiles against (exlib's AssemblyName is "exlib"), which a downstream test project references
   // directly (the game assemblies and NSubstitute the consumer supplies - see the wiki
   // "Consuming outside this repo").
   //
-  // Built for the CURRENT game version only (net10.0 / 1.22); on 1.20/1.21 reference it from source.
+  // Built for the current game version only (net10.0 / 1.22); on 1.20/1.21 reference it from source.
   const string BundleReadme =
     "ExpandedLib.Testing - headless Vintage Story test harness (dev library)\n"
     + "\n"

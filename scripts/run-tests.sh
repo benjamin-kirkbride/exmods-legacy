@@ -21,9 +21,9 @@ case "$version" in
 esac
 
 # Pick the dotnet host: the system one if it already has every runtime major we need, else a
-# self-contained .dotnet (provisioned on demand) and ITS muxer - the global muxer ignores DOTNET_ROOT,
-# so a local muxer is the only reliable way to run on locally-installed runtimes. Lets a fresh clone
-# without .NET 7/8 run the legacy suites.
+# self-contained .dotnet (provisioned on demand) and its own muxer - the global muxer ignores
+# DOTNET_ROOT, so a local muxer is the only reliable way to run on locally-installed runtimes. Lets
+# a fresh clone without .NET 7/8 run the legacy suites.
 declare -A majors=( [1.22]=10 [1.21]=8 [1.20]=7 )
 sys_runtimes="$(dotnet --list-runtimes 2>/dev/null || true)"
 missing=()
@@ -41,7 +41,7 @@ echo "Using dotnet host: $dotnet_bin"
 mkdir -p "$repo_root/.game/.cache"
 log_dir="$(mktemp -d)"
 
-# Build phase, SERIAL: the test projects share the mod projects (exlib/ppex/smex), so building them
+# Build phase, serial: the test projects share the mod projects (exlib/ppex/smex), so building them
 # concurrently would race on the same intermediate DLLs. Building here also auto-provisions each
 # version's game binaries once. The test phase then runs in parallel with --no-build.
 combos=()
