@@ -7,6 +7,7 @@ covers:
   - "smex:slagpathslab*"
   - "smex:slagpathstairs*"
   - "smex:solidifiediron"
+order: 5
 version: 0.9.8
 ---
 

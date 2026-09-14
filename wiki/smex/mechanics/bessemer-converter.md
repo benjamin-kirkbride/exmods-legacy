@@ -5,15 +5,14 @@ covers:
   - "smex:converterbessemer*"
   - "smex:converter-intake*"
   - "smex:convertertransmission*"
+order: 6
 version: 0.9.8
 ---
 
-The Bessemer Converter blows air through a bath of molten iron, burns the carbon out of it and
+The Bessemer converter blows air through a bath of molten iron, burns the carbon out of it and
 leaves mild steel. It is the last stage of the line and the most demanding machine in the mod: it
 needs molten iron delivered by canal, mechanical power to tilt the vessel, and blast at 2.5 atm,
 which only a steam-driven Air Blower reaches.
-
-The build is on the [[Bessemer Control]] page.
 
 ## What it needs running
 

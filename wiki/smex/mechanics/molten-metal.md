@@ -10,6 +10,7 @@ covers:
   - "smex:moltencanal-moldpedestal*"
   - "smex:moltenbarrel"
   - "smex:blastfurnacetap*"
+order: 3
 version: 0.9.8
 ---
 

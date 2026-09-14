@@ -1,5 +1,5 @@
 ---
-title: Blast furnace
+title: Ironmaking
 covers:
   - "smex:blastfurnacedoor*"
   - "smex:hopperreinforced"
@@ -10,6 +10,7 @@ covers:
   - "smex:solidifiediron"
   - "smex:engineairblower*"
   - "smex:mpblower*"
+order: 1
 version: 0.9.8
 ---
 
@@ -18,7 +19,7 @@ burden, a packed charge of ore, fuel and flux that only its own hoppers make, an
 under pressure at its two tuyeres from the moment the charge catches. Almost everything that goes
 wrong with a furnace follows from the second half of that sentence.
 
-The build itself is on the [[Blast Furnace Door]] page.
+The build is on the [[Blast furnace]] page.
 
 ## The charge
 
@@ -151,7 +152,7 @@ outlets have filled, which takes a couple of seconds.
 ## Running a heat
 
 1. Build the furnace and check the door reports the structure complete. See
-   [[Blast Furnace Door]].
+   [[Blast furnace]].
 2. Stock the Reinforced Hopper with iron, fuel and lime. The Bell Hopper starts dropping on its
    own; ctrl and right-click on the Reinforced Hopper stops and restarts it.
 3. Wait for the shaft to fill. The door reads `Burden loaded: 320 / 320` when there is enough to
@@ -189,8 +190,8 @@ solidifies into two Solidified Iron blocks in the hearth, holding one iron bit p
 metal between them, and the slag is lost. Mine them back out.
 
 **The hopper will not take crushed coke.** It takes whole coke now, two per batch. Crushed coke
-was retired in 0.9.5 and is hidden from the handbook and creative; existing stacks are migrated
-as chunks load.
+was retired in 0.9.5 and is hidden from the in-game handbook and creative; existing stacks
+are migrated as chunks load.
 
 ## What changed, and when
 

@@ -4,6 +4,7 @@ covers:
   - "smex:cowperstove-intake*"
   - "smex:cowperstoveheatsink*"
   - "smex:smokestack-intake*"
+order: 2
 version: 0.9.8
 ---
 
@@ -12,7 +13,7 @@ way to the tuyeres. A cowper stove is that core: it charges on exhaust, then dis
 Nothing about it is required to make iron, and everything about it is worth building anyway,
 because it roughly triples the melt rate.
 
-The builds are on the [[Cowper Stove Intake]] and [[Smoke Stack Intake]] pages.
+The builds are on the [[Cowper stove]] and [[Smoke stack]] pages.
 
 ## What it buys
 
@@ -80,8 +81,8 @@ places before the blowing one runs down.
 5. Swap: shut A's exhaust valve, open A's air valve. It reads "Heating Air" and the furnace picks
    up the boost.
 6. Charge B the same way while A blows, and change them over when A's heat sinks drop toward the
-   point where the boost is no longer worth it. Nothing in the code fixes that point; the handbook
-   suggests swapping below 800 C.
+   point where the boost is no longer worth it. Nothing in the code fixes that point; the in-game
+   handbook suggests swapping below 800 C.
 7. One valve per stove at a time, always. Both open is the fault below.
 
 ## The smoke stack

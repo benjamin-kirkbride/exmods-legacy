@@ -2,6 +2,7 @@
 title: Commands and config
 covers:
   - "smex:toolmold*"
+order: 7
 version: 0.9.8
 ---
 
@@ -19,7 +20,7 @@ this mod is always `/exmod config smex ...`.
 | `/exmod recipes smex` | reads the recipe cost level |
 | `/exmod recipes smex <normal or cheap>` | sets it. Applies on the next world reload |
 | `/exmod molds <plate, ingot, rod or all>` | reports whether those molds are available |
-| `/exmod molds <plate, ingot, rod or all> <on or off>` | switches them. Placed molds stop casting at once; the clay-forming recipe and the handbook entry change on the next world reload |
+| `/exmod molds <plate, ingot, rod or all> <on or off>` | switches them. Placed molds stop casting at once; the clay-forming recipe and the in-game handbook entry change on the next world reload |
 | `.exmod measure <metric or imperial>` | a per-player display choice from Pipes and Power Expanded: litres, atm and C, or gallons, psi and F. It changes the panels, never the simulation |
 | `.exmod network hi` and `.exmod network unhi` | Expanded Library's per-network block highlight, which is the fastest way to see what a pipe or canal run is actually connected to |
 

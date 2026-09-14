@@ -3,6 +3,7 @@ title: Compatibility
 covers:
   - "smex:hopperreinforced"
   - "smex:burden"
+order: 8
 version: 0.9.8
 ---
 

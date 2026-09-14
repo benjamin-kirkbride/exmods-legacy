@@ -4,6 +4,7 @@ covers:
   - "smex:toolmold*"
   - "smex:moltencanal-moldpedestal*"
   - "smex:moltencanal-tap*"
+order: 4
 version: 0.9.8
 ---
 
@@ -29,7 +30,7 @@ the mold pedestal." or "This mold will not fit on the pedestal." when you try th
 
 An admin can switch any of the three added molds off; see [[Commands and config]]. A mold that is
 switched off stops yielding a casting at once, even one already placed and full; its clay-forming
-recipe and its handbook entry go on the next world load.
+recipe and its in-game handbook entry go on the next world load.
 
 ## Filling a mold
 
