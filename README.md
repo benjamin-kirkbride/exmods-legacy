@@ -17,7 +17,7 @@ manifest never reach it.
 | `dist/CakeBuild/`| -       | -       | Cake build project that publishes per-game-version release zips into `dist/Releases/`. |
 | `docs/`          | -       | -       | Diagrams, screenshots, moddb listing + handbook drafts. |
 | `scripts/`       | -       | -       | Game/.NET provisioning, mod staging, test runners. |
-| `wiki/`          | -       | -       | The current-mods wiki home pages (fed to the wiki site). |
+| `wiki/`          | -       | -       | The current-mods wiki pages - home, FAQ and instructions per mod (read by the wiki site). |
 | `Legacy.sln`     | -       | -       | Solution tying the projects together. |
 
 `smex` project-references `exlib` and `ppex` (with `Private=false`), so players install all

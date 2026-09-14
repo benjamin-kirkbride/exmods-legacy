@@ -20,10 +20,10 @@ case "$version" in
   *) echo "Usage: run-tests.sh [latest|all|1.22|1.21|1.20]" >&2; exit 1 ;;
 esac
 
-# Pick the dotnet host: the system one if it already has every runtime major we need, else a
-# self-contained .dotnet (provisioned on demand) and its own muxer - the global muxer ignores
-# DOTNET_ROOT, so a local muxer is the only reliable way to run on locally-installed runtimes. Lets
-# a fresh clone without .NET 7/8 run the legacy suites.
+# Pick the dotnet host: the system one if it already carries every runtime major the wanted
+# versions need, else a self-contained .dotnet (provisioned on demand) and its own muxer - the
+# global muxer ignores DOTNET_ROOT, so a local muxer is the only reliable way to run on
+# locally-installed runtimes. Lets a fresh clone without .NET 7/8 run the legacy suites.
 declare -A majors=( [1.22]=10 [1.21]=8 [1.20]=7 )
 sys_runtimes="$(dotnet --list-runtimes 2>/dev/null || true)"
 missing=()
@@ -40,6 +40,7 @@ echo "Using dotnet host: $dotnet_bin"
 
 mkdir -p "$repo_root/.game/.cache"
 log_dir="$(mktemp -d)"
+trap 'rm -rf "$log_dir"' EXIT
 
 # Build phase, serial: the test projects share the mod projects (exlib/ppex/smex), so building them
 # concurrently would race on the same intermediate DLLs. Building here also auto-provisions each
@@ -53,6 +54,9 @@ for c in "${combos[@]}"; do
   [[ "$tfm" != "net10.0" ]] && args+=(-p:Legacy=true)
   "$dotnet_bin" "${args[@]}" > "$log_dir/${c//\//_}.build.log" 2>&1 || echo "build-failed:$c" >> "$log_dir/buildfail"
 done
+if [[ -s "$log_dir/buildfail" ]]; then
+  { cat "$log_dir/buildfail"; for f in "$log_dir"/*.build.log; do echo "--- $f"; tail -20 "$f"; done; } >&2
+fi
 
 echo "Running tests in parallel..."
 pids=()
@@ -68,10 +72,9 @@ done
 fail=0
 for i in "${!pids[@]}"; do
   if wait "${pids[$i]}"; then status=PASS; else status=FAIL; fail=$((fail+1)); fi
-  line="$(grep -hE 'Passed!|Failed!|error' "$log_dir/${names[$i]//\//_}.log" | tail -1 | tr -s ' ')"
+  line="$(grep -hE 'Passed!|Failed!|error' "$log_dir/${names[$i]//\//_}.log" | tail -1 | tr -s ' ' || true)"
   printf '%s  %-40s %s\n' "$status" "${names[$i]}" "$line"
 done
 
-rm -rf "$log_dir"
 [[ $fail -eq 0 ]] || { echo "$fail test run(s) failed." >&2; exit 1; }
 echo "All ${#pids[@]} test run(s) passed."

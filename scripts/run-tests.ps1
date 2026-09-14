@@ -28,22 +28,22 @@ $wanted = switch ($Version) {
     default { @($Version) }
 }
 
-# Pick the dotnet host. Use the system one if it already has every runtime major we need; otherwise
-# provision a self-contained .dotnet and use its own muxer - the global muxer ignores DOTNET_ROOT, so a
-# local muxer is the only reliable way to run on locally-installed runtimes (verified). This is what
-# lets a fresh clone without .NET 7/8 installed still run the legacy suites.
+# Pick the dotnet host. Use the system one if it already carries every runtime major the wanted
+# versions need; otherwise provision a self-contained .dotnet and use its own muxer - the global
+# muxer ignores DOTNET_ROOT, so a local muxer is the only reliable way to run on locally-installed
+# runtimes. This is what lets a fresh clone without .NET 7/8 installed still run the legacy suites.
 $majors = @{ '1.22' = '10'; '1.21' = '8'; '1.20' = '7' }
 $needed = @($wanted | ForEach-Object { $majors[$_] } | Select-Object -Unique)
-# Empty when dotnet isn't installed at all - that just means every runtime is "missing" and we
-# bootstrap the whole .NET (SDK + runtimes) into .dotnet, so even a machine with no dotnet works.
+# Empty when dotnet is not installed at all - every runtime then counts as missing and the whole
+# .NET (SDK + runtimes) is bootstrapped into .dotnet, so a machine with no dotnet works.
 $sysRuntimes = try { (& dotnet --list-runtimes 2>$null) -join "`n" } catch { '' }
 $missing = @($needed | Where-Object { $sysRuntimes -notmatch "Microsoft\.NETCore\.App $([regex]::Escape($_))\." })
 $dotnet = 'dotnet'
 if ($missing.Count -gt 0) {
     Write-Host "Missing .NET runtime major(s) system-wide: $($missing -join ', ') - provisioning a local .dotnet..."
     & (Join-Path $PSScriptRoot 'provision-dotnet.ps1') -Version $Version
-    if ($LASTEXITCODE -ne 0) { throw "Provisioning .dotnet failed." }
     $dotnet = Join-Path $repoRoot ('.dotnet/dotnet' + ($(if ([System.OperatingSystem]::IsWindows()) { '.exe' } else { '' })))
+    if (-not (Test-Path $dotnet)) { throw "Provisioning .dotnet failed: $dotnet is missing." }
 }
 Write-Host "Using dotnet host: $dotnet"
 
@@ -55,7 +55,7 @@ if ($Coverage) {
     $dc = Join-Path $toolsDir ('dotnet-coverage' + ($(if ([System.OperatingSystem]::IsWindows()) { '.exe' } else { '' })))
     $cov = Join-Path $repoRoot 'coverage.xml'
     Write-Host "Collecting coverage over the latest suite..."
-    & $dc collect -f cobertura -o $cov "$dotnet test `"$(Join-Path $repoRoot 'Legacy.sln')`" -c Debug --nologo"
+    & $dc collect -f cobertura -o $cov "`"$dotnet`" test `"$(Join-Path $repoRoot 'Legacy.sln')`" -c Debug --nologo"
     if ($LASTEXITCODE -ne 0) { throw "Coverage collection failed." }
     $py = (Get-Command python -ErrorAction SilentlyContinue) ?? (Get-Command python3 -ErrorAction SilentlyContinue)
     if (-not $py) { throw "Python is required for the coverage gate but was not found (coverage.xml was still written)." }
