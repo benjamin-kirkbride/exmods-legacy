@@ -1,0 +1,92 @@
+# Steelmaking Expanded: frequently asked questions
+
+Questions that need both Steelmaking Expanded and Pipes and Power Expanded to answer. For
+pipes-and-power-only questions, see the [Pipes and Power Expanded FAQ](../ppex/FAQ.md).
+
+## It just says extinguishing
+
+The burden only lights and stays lit when air is already flowing into the tuyeres under pressure;
+lighting a burden with the blowers off is the single most common failure reported. The "10/10
+liters of blast" reading on the furnace door is the burden charge, not a live air supply, and
+reading it as proof the blast is connected has cost more than one player a run. The working numbers
+are 2.5 atm at the blower side, an overflow line valved at 0.5 because the furnace chokes at 0.8,
+and an air budget of 12 L/s per tuyere against 16 L/s per blower, so two blowers or a throttled
+Cornish engine, since a mechanical-power blower alone tops out at 2 atm. The threshold itself was
+lowered to 1.5 atm on 2026-08-13; a furnace built before that date needs its door broken and
+replaced. See [Steelmaking: Blast Furnace](handbook/blastfurnace/) and
+[the blast furnace build and its first tap](Instructions.md#the-blast-furnace-build-and-its-first-tap).
+
+## I do not quite understand how the cowper stoves are supposed to function
+
+The bottom intake and outlet carry furnace exhaust, the upper passthrough and outlet carry air, and
+each stove has two valves. Run one at a time: exhaust first to warm the heatsinks, then air, since
+both valves open at once is what "exhaust mixes with air" means. Leftover air in a segment blocks
+reheating, because the stove cannot push into a side already at higher pressure. Burning coal under
+the stove only speeds heating and turns the output into exhaust, so the fire must be out before
+switching to blast, and an idle stove neither heats nor cools by design. As of 2026-09-10 a player
+reported the stoves broken and skippable by running cold air straight into the furnace instead,
+against "you absolutely need two" from June; no owner statement confirms or denies that. See
+[the cowper stove](Instructions.md#the-cowper-stove).
+
+## Is it compatible with Improved Metallurgy / IME / Expanded Matter?
+
+Improved Metallurgy implements the same mechanic a different way, so pick one mod, not both: running
+them together crashed a whole server through duplicate nugget-crushing patches, so "pick one" means
+they collide, not that they are merely redundant. Expanded Matter's crushed ores already work; a
+failure there means an out-of-date install. Interesting Mining and Extraction is unanswered; the
+community's own guess is that it would need its own crusher recipe and probably is not worth adding.
+
+## How do I pick up molds with molten ingots without getting hurt, and why do they take 70 minutes to cool?
+
+Wear heavy leather or blacksmithing gloves; tongs do not work and were rejected by design, since the
+player holds a mold with both hands. A filled mold can be picked up, unlike vanilla, but landing in
+a non-active slot or swapping slots destroys the molten metal, so keep it in your active slot until
+it solidifies. Cooling rides on the item stack, not a fixed timer: about three minutes from a
+crucible pour against roughly seventy real minutes from a canal tap, so count your molds before
+tapping rather than after. Pulling a mold off its pedestal onto the ground cools it faster. Ceramic
+molds are planned to be replaced by sand and cast iron molds, so this answer is dated. See
+[Steelmaking: Molten Metal Casting](handbook/casting/) and
+[molds and casting](Instructions.md#molds-and-casting).
+
+## How do I know when the steel is done?
+
+The stone coffin makes blister steel and the crucible process is bolted onto the end of that route,
+not a replacement for it. The coal pile under the cementation furnace burns for eight in-game hours
+regardless of coal type and must be topped up. You tell it is done by looking at the coffin, and the
+door is safe to open at that point. The Bessemer step needs no new recipe logic to accept a new
+alloy; it would need converter, ingot, plate, toolhead and mold changes together. See
+[Steelmaking: Bessemer Converter](handbook/bessemer/) and
+[the Bessemer run](Instructions.md#the-bessemer-run).
+
+## The molten will not travel more than four canals
+
+A real regression once stalled metal after four canal segments; it was fixed the same day it was
+reported, so check your version rather than assume it is still open. Molten metal does not
+back-flow: a tap with nothing under it solidifies rather than waiting, and a junction always fills
+its first non-full exit first. Canal start blocks accept a manual crucible pour as a valid target,
+and chiseling one out means chiseling solidified metal, which does not work on the canal's
+non-cube shapes.
+
+## It extinguishes every time I switch the stoves
+
+Build the overflow line to the smoke stack before the first switch: the exhaust has nowhere else to
+go, and a valve set to 0.5 works because the furnace chokes at 0.8. Cycling a valve faster does not
+fix this; the fix is the overflow line. Merge the output network so both tuyeres share pipes, or
+temperature drops below 1500C on every switch. See
+[the cowper stove](Instructions.md#the-cowper-stove).
+
+## All the pressure drops the moment we start refining
+
+The Bessemer converter's input is not a network block, so a pipe must sit between the blower and the
+converter. The converter needs 2.5 atm and a mechanical-power blower cannot reach that; a
+steam-driven blower is required. Building pressure above 2.5 before starting is not a complete
+answer: a mid-blow sag to about 2.48 has been reported with no fix, so expect the run to need
+watching, not just a high starting number. See
+[the Bessemer run](Instructions.md#the-bessemer-run).
+
+## How do I change the numbers this mod uses?
+
+`/exmod config` and `/exmod recipes` are Expanded Library's own commands, not this mod's; the mod id
+is the section name, so tuning smex is `/exmod config smex ...` and its recipe costs are
+`/exmod recipes smex ...`. Gameplay tunables live in `ModConfig/smex_values.json` and construction
+costs in `ModConfig/smex_recipes.json`, both editable live through those commands.

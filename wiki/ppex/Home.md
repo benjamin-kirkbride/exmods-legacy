@@ -22,3 +22,6 @@ both editable live with `/exmod config` and `/exmod recipes`.
 
 ppex's successor is Iron Industry Expanded, a new mod built on exlib 0.8 and later rather than an
 update to this one; worlds do not carry over between the two.
+
+See the [FAQ](FAQ.md) for questions players actually asked, and
+[Instructions](Instructions.md) for the setups they most often got wrong.

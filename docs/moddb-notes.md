@@ -1,21 +1,12 @@
-# Mod database listing notes - the maintenance release
+# Mod database listing notes
 
-Copy for the mod database (moddb) pages when the ppex 0.6.9 and smex 0.9.9 zips go up. The owner
-uploads through the web form; nothing here is published automatically.
-
-## ppex release notes (listing changelog entry)
-
-Maintenance release. Not compatible with exlib 0.8 and later: keep exlib 0.7.2 installed with
-this mod. This mod's successor is Iron Industry Expanded, a new mod rather than an update; worlds
-do not carry over.
-
-## smex release notes (listing changelog entry)
-
-Maintenance release. Not compatible with exlib 0.8 and later: keep exlib 0.7.2 installed with
-this mod. This mod's successor is Steel Industry Expanded, a new mod rather than an update; worlds
-do not carry over.
+There is no maintenance release: ppex stays at 0.6.8 and smex at 0.9.8, and exlib 0.8 refuses to
+load beside them before any of their code runs, so no guard of theirs ever gets the chance to fire.
+The only listing change is on exlib's own page. The owner uploads through the web form; nothing
+here is published automatically.
 
 ## exlib listing description change
 
-0.7.2 is the last version for Steelmaking Expanded and Pipes and Power Expanded; 0.8 and later
-serve Iron Industry Expanded and Steel Industry Expanded.
+0.7.2 is the last version of exlib that Steelmaking Expanded and Pipes and Power Expanded run on.
+0.8 and later serve Iron Industry Expanded and Steel Industry Expanded instead; keep exlib 0.7.2
+installed alongside ppex and smex, not 0.8 or later.
