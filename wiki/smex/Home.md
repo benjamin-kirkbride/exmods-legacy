@@ -6,13 +6,15 @@ air, a network of canals that plumbs the melt to molds, and a Bessemer converter
 iron into steel. This is version 0.9.8, and it needs Expanded Library 0.7.2 and
 [Pipes and Power Expanded](/current/ppex/Home/) 0.6.8. It carries no guard against later library
 versions: with exlib 0.8 or newer installed the game simply does not load this mod, because its
-assembly reference no longer matches.
+assembly reference no longer matches. exlib 0.8 does not leave that silent: it logs one error and
+tells every joining player `exlib <version> does not work with Steelmaking Expanded and Pipes and
+Power Expanded: keep exlib 0.7.2 with them, or replace them with Iron Industry Expanded.`
 
 The line has two halves. Iron comes out of the [[Blast furnace]], a tall refractory tower fed by a
 pair of hoppers that combine ore, fuel and lime into burden, blown through two tuyeres and tapped
-into a [[Molten metal]] network of canals, taps and barrels that carries the melt to a pedestal for
-[[Casting]]. [[Hot blast]] is the upgrade to that half: a pair of cowper stoves reclaim the heat
-from the furnace's own exhaust and hand it back to the air, which roughly triples the melt rate,
+into a network of canals, taps and barrels that carries the melt to a pedestal for [[Casting]].
+[[Hot blast]] is the upgrade to that half: a pair of cowper stoves reclaim the heat from the
+furnace's own exhaust and hand it back to the air, which roughly triples the melt rate,
 with a smoke stack venting the surplus. Steel is the second half: the [[Bessemer process]] blows
 air through a bath of molten iron to burn the carbon out of it, and it is the most demanding
 machine here, wanting mechanical power and a blast pressure only a steam-driven blower reaches.

@@ -1,18 +1,19 @@
 ## The shape of it
 
 The stack is a squat three by three base with a single-cell flue running up out of it, twelve
-levels in all, so it needs open sky above. The Smoke Stack Intake is the control block and sits at
-the bottom of the front face, at ground level, with one level of base below it.
+levels in all. The Smoke Stack Intake is the control block and sits at the bottom of the front
+face, at ground level, with one level of base below it.
 
-- The base is three levels of refractory brick, three by three, with the cells directly above the
-  intake left open as the bottom of the flue.
+- The base is three levels of refractory brick, three by three. The bottom level is solid; from
+  the intake's level up, the centre cell of each course, one cell behind the intake, is left open
+  as the bottom of the flue.
 - The chimney above it is nine more levels: four brick cells around one open cell, straight up. Any
   ordinary brick does for these, fire clay, clinker or a brick course of any colour.
 
 ## Build order
 
-1. Find a spot with twelve levels of clear air and a pipe route back to the furnace's exhaust main.
-   Roofs and overhangs count as blocked.
+1. Find a spot with twelve clear levels and a pipe route back to the furnace's exhaust main. A roof
+   or an overhang inside those twelve levels blocks the build; nothing above them is checked.
 2. Place the intake facing the way the pipe will arrive; it is the control block.
 3. Hold ctrl and shift and right-click it for the build outline and the chat list of what is still
    missing.
@@ -32,7 +33,8 @@ away, which is more than one blast furnace makes at full melt rate.
 2. Put a pressure-relief valve in the branch that leads to it, so the stack takes the surplus and
    the stoves take the rest. A fresh valve gates at 1.0 atm, which is under the 2.0 atm the furnace
    pushes its exhaust to, so it opens under load.
-3. Look at the intake to see what it is actually clearing: "Consuming 48.0 L of Gas".
+3. Look at the intake to see what it is actually clearing: `Consuming 96.0 L of Gas` when the run
+   has that much in it, less when it has not. The figure is what the stack took on the last tick.
 
 Smoke rises from it while it is venting, sooty for exhaust and pale for steam. A stack passing
 plain air shows nothing, which is not a fault.

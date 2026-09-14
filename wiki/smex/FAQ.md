@@ -1,7 +1,7 @@
 # Steelmaking Expanded: frequently asked questions
 
 Questions that need both Steelmaking Expanded and Pipes and Power Expanded to answer. For
-pipes-and-power-only questions, see the [Pipes and Power Expanded FAQ](../../ppex/FAQ/).
+pipes-and-power-only questions, see the [Pipes and Power Expanded FAQ](/current/ppex/FAQ/).
 
 ## It just says extinguishing
 
@@ -11,6 +11,10 @@ gives you ten seconds before the piles go out. The gate is 1.5 atm, and the door
 rate arriving and the pressure standing; a line moving plenty of air under the gate reads fine on
 the first line and puts the furnace out anyway. A boiler safety valve setting is a different
 quantity from the pressure at the tuyere.
+
+The line at the top of the door, `Burden loaded: 320 / 320`, is not the air supply. It counts the
+charge in the shaft, and the two blast lines under it are the only ones that say anything about
+air. Two players reported a furnace broken on that reading alone.
 
 A lit furnace goes out for four reasons: burden robbed below 144, exhaust arriving at a tuyere, no
 blast at 1.5 atm, or the door left open. One of them gives 30 seconds of grace, or 10 for the door;
@@ -23,15 +27,16 @@ keeps the old figure until its door is broken and replaced.
 ## I do not quite understand how the cowper stoves are supposed to function
 
 Four connections in two pairs. The intake block itself takes furnace exhaust in and the outlet
-directly above it gives hot blast out; at the back, the passthrough one level up takes air in from
-the blowers and the outlet below it sends spent exhaust on to the stack. One valve open at a time:
-exhaust first to charge the core, then air to blow it into the furnace. Both open is what "exhaust
-mixes with the air" means, and the stove will not charge in that state.
+directly above it gives the preheated air out; at the back, the passthrough one level up takes air
+in from the blowers and the outlet below it sends spent exhaust on to the stack. One valve open at
+a time: exhaust first to charge the core, then air to blow it into the furnace. Both open is what
+"exhaust mixes with the air" means, and the stove will not charge in that state.
 
 Anthracite is not required. The coal pile under the intake only speeds charging, and the stove
-charges without one, just slowly. A cold idle stove is not broken either: it neither heats nor
-cools without gas flowing. Full detail, rates and the pair loop are on [[Hot blast]]; the build is
-on [[Cowper Stove Intake]].
+charges without one, just slowly. A cold stove reading Idle is not broken either; it simply has
+nothing to do. A charged one is not storage, though: it bleeds toward ambient whatever it is doing,
+halving its margin over the air around it about every 19 minutes. Full detail, rates and the pair
+loop are on [[Hot blast]]; the build is on [[Cowper Stove Intake]].
 
 ## Is it compatible with Improved Metallurgy / IME / Expanded Matter?
 
@@ -72,8 +77,9 @@ whatever coal it is. The converter is a different, parallel way to make steel, a
 
 There is no distance limit in the code. A run reaches as far as you feed it, and what stops it is
 metal freezing in a cell: below its melting point a cell sets solid, drops off the network, and
-blocks everything past it. The four-block stall reported in August 2026 was a real regression and
-was fixed the same day, so check your version before assuming it is that.
+blocks everything past it. The four-block stall reported in August 2026 was a real regression, and
+0.9.7 fixed it by doubling canal capacity and throughput and dropping the head the old flow rule
+cost at every block. Check your version against 0.9.7 before assuming it is that.
 
 Metal also does not back up and wait: a tap with nothing under it pours into a start that fills and
 freezes, and a junction fills the first exit that is not already full. [[Molten metal]] has the flow

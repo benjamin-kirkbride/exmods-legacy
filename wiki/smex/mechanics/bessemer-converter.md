@@ -57,15 +57,16 @@ Molten iron arrives through the input tap while the converter is set to Filling.
 at a time; a second metal is refused with "Metal type mismatch!".
 
 Cold scrap is charged by hand: hold iron or steel bits and right-click the vessel's upper hatch,
-not the control block. One click charges the whole stack you are holding, so split it first if you
-only want part of it in. A bit is worth 5 units. Scrap goes in before the blow, alongside a raw
-iron charge or into an empty vessel; it will not go into finished steel.
+not the control block. The click takes everything in the active hand, limited only by the room
+left in the vessel, and nothing from the rest of the hotbar; to put in less, split the stack
+first. A bit is worth 5 units. Scrap goes in before the blow, alongside a raw iron charge or into
+an empty vessel; it will not go into finished steel.
 
 Scrap is cold mass on the heat balance: every unit of it costs the bath 0.8 C, and the bath has to
 stay at 1500 C or the blow stalls. That is the whole of the limit, which is why the table above
 gives the allowance per pressure rather than a fixed cap. The panel prints what the scrap in the
-vessel is costing. Scrap melts into the heat when the blow finishes and comes out as steel with the
-rest.
+vessel is costing. Until the blow ends the scrap is heat load and not metal; at the end it joins
+the heat unit for unit and pours with it.
 
 ## A run
 

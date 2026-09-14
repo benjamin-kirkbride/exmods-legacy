@@ -21,6 +21,10 @@ that is now old.
 Mismatched versions of these three is a real failure mode and not an obvious one: in August 2026 it
 was twice the actual cause of "blocks missing after the update" reports. Update them together.
 
+exlib 0.8 and later do not fail quietly. The library logs one error and sends every joining player
+the line `exlib <version> does not work with Steelmaking Expanded and Pipes and Power Expanded:
+keep exlib 0.7.2 with them, or replace them with Iron Industry Expanded.`
+
 Two facts about exlib 0.7 that the mod page never answered: all three comments on it report clients
 crashing when they look at rideable or interactable entities on 0.7.0, and all three report that
 rolling back to 0.6.0 stops it (2026-06-23 to 2026-07-02). One reporter narrowed it to vanilla

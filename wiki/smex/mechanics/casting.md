@@ -27,9 +27,9 @@ its own definition says otherwise. The two large molds, the anvil and the helve 
 a pedestal; they go under a Molten Canal (Tap) instead, and the game says "This mold is used with
 the mold pedestal." or "This mold will not fit on the pedestal." when you try the wrong one.
 
-An admin can switch any of the three added molds off; see [[Commands and config]]. A disabled mold
-loses its clay-forming recipe on the next world load and yields nothing from then on, even if it
-is already placed and full.
+An admin can switch any of the three added molds off; see [[Commands and config]]. A mold that is
+switched off stops yielding a casting at once, even one already placed and full; its clay-forming
+recipe and its handbook entry go on the next world load.
 
 ## Filling a mold
 
@@ -80,8 +80,8 @@ Two rules, both enforced once a second on the server:
    wearing heavy leather gloves or a blacksmith's gloves. Tongs do not help and were rejected by
    design, since a mold is held with both hands.
 2. **Liquid metal only rides in your active hand.** A mold with liquid metal in any other slot, a
-   backpack, a chest or a mold rack loses its contents at once: "The molten metal spilled out of
-   the mold!" Switching to another hotbar slot spills the one you just left.
+   backpack, a chest or a mold rack loses its contents at once: `The molten metal spilled out of
+   the mold!` Switching to another hotbar slot spills the one you just left.
 
 A cast that has cooled past liquid is safe to stash; the spill rule only looks at metal that is
 still liquid, and the burn rule only at metal over 200 C.

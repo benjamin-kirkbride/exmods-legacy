@@ -17,7 +17,7 @@ The builds are on the [[Cowper Stove Intake]] and [[Smoke Stack Intake]] pages.
 ## What it buys
 
 A furnace on plain blower air tops out at a 1540 C hearth, climbs at 4 C/s and melts at 0.61x.
-Blast at 1240 C lifts that to a 1740 C hearth, a 8 C/s climb and 2.0x, which is 20.4 units of iron
+Blast at 1240 C lifts that to a 1740 C hearth, an 8 C/s climb and 2.0x, which is 20.4 units of iron
 per second against 6.2. There is no threshold to cross: the ceiling and the climb both interpolate
 from the cold figures to the hot ones across the blast temperature, so a part-charged stove is
 worth part of the boost. 1240 C is where the gain stops, and it is also the hottest a stove core
@@ -35,10 +35,11 @@ Cowper Stove Intake block as the front, at its own level:
 | passthrough | back, one block up | air in from the blowers |
 | outlet | back, low | spent exhaust on to the stack or the next stove |
 
-Heat enters low at the front and leaves high at the front; air enters high at the back and leaves
-low at the back. The four Heat Sinks stand in the column between them and show the core
-temperature when you look at one. A pipe merely routed past the intake face is not plumbed in: the
-stove only draws from a run whose pipe presents a connector back at it.
+The front pair is the furnace's side, exhaust in at the bottom and hot blast out at the top; the
+back pair is the blowers' side, air in at the top and spent gas out at the bottom. Each stream
+crosses the core on its way through. The four Heat Sinks stand in the column between them and show
+the core temperature when you look at one. A pipe merely routed past the intake face is not plumbed
+in: the stove only draws from a run whose pipe presents a connector back at it.
 
 ## Charging
 
@@ -98,12 +99,9 @@ that raised the furnace's exhaust ceiling to 2.0 atm.
 ## What goes wrong
 
 **"Cannot heat up, exhaust mixes with the air!"** Both valves of one stove are open. Exhaust and
-air are arriving at the same stove, and it will not charge. Shut the air valve; the gas stranded in
-the passthrough is vented on the next tick, and the stove charges from then on.
-
-**A segment will not reheat.** It still holds air from the last cycle, and the stove cannot push
-into a side already at a higher pressure. Clear the segment down to near zero before you switch it
-back to exhaust.
+air are arriving at the same stove, and it will not charge. Shut the air valve: the stove vents the
+gas stranded in its passthrough on the next tick and charges from the one after, so there is
+nothing to clear by hand. A stove that keeps the message has its air valve still open somewhere.
 
 **The furnace goes out every time you swap.** The exhaust has nowhere to go for the moment the
 valve is shut. Build the overflow to the smoke stack, and merge the hot side so both tuyeres keep
@@ -114,16 +112,19 @@ at once.
 **The blast temperature falls below 1500 C on every swap.** The output networks are still
 separate, so the tuyeres lose their supply while the stoves change places.
 
-**A cold stove reads idle and does nothing.** An idle stove neither heats nor cools by design. It
-has no exhaust to charge from and no air to give heat to. That is not a fault.
+**A cold stove reads Idle and does nothing.** With no exhaust to charge from and no air to give
+heat to it has nothing to do, and that is not a fault. A charged stove is a different matter: it
+bleeds toward ambient whatever it is doing, so it cannot be banked. Charge one when it is about to
+blow.
 
 **Exhaust arrives at a tuyere.** The furnace counts that as a disruption and starts its extinguish
 clock. Keep the exhaust and air sides apart the whole way; a stove hands on whatever medium its
 air passthrough carries.
 
-**The coal fire.** Put it out before you switch a stove to blast. The owner's advice from July 2026
-is that a burning pile turns the stove's output into exhaust; in 0.9.8 the pile only changes the
-charging rates above, but the advice costs nothing and a stove is meant to blow after it is
+**The coal fire.** The in-game handbook warns that burning low grades of coal makes the stove give
+off exhaust from its own main output. The code in 0.9.8 does not do that: the pile only picks the
+charging rate above, and a stove hands on whatever medium arrives at its passthrough. Putting the
+fire out before a stove blows still costs nothing, and a stove is meant to blow after it is
 charged, not while it is.
 
 ## What changed, and when

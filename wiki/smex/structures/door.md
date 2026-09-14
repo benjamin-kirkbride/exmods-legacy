@@ -22,9 +22,9 @@ outline are for.
 
 ## Build order
 
-1. Clear the volume and stand where you want to work from. The Blast Furnace Door is the control
-   block and everything else is placed relative to it, so its facing fixes the whole furnace. It
-   cannot be turned afterwards.
+1. Clear the volume and stand where you want to work from. The door is the control block and
+   everything else is placed relative to it, so its facing fixes the whole furnace. It cannot be
+   turned afterwards.
 2. Place the door, then hold ctrl and shift and right-click it. That raises the build outline and
    prints the list of everything still missing, by name and count, in chat. Red cells hold the
    wrong block. The outline only shows while the structure is incomplete.
@@ -38,7 +38,8 @@ outline are for.
 6. Cap the shaft with the two gas outlets at the third level above the door, front and back, again
    with room outside each for pipe.
 7. Stack the bell hopper over the shaft and the reinforced hopper on top of it.
-8. The outline disappears and the door says "Blast Furnace structure is complete!" when it is done.
+8. The outline disappears and the door says `Blast Furnace structure is complete!` when it is
+   done.
 
 The tuyeres are on the front-and-back axis at the bottom and the gas outlets on the same axis at
 the top, so the air line and the flue line run along the same side of the building. The taps are on
@@ -51,8 +52,8 @@ The sequence matters more than anything else on this page. Air first, fire secon
 
 1. Stock the reinforced hopper: iron in the four iron slots, coke or charcoal in the two fuel
    slots, lime in the two flux slots.
-2. Let the bell hopper fill the shaft. The door reads "Burden loaded: 320 / 320" when there is
-   enough. Ctrl and right-click on either hopper stops and starts the dropping.
+2. Let the bell hopper fill the shaft. The door reads `Burden loaded: 320 / 320` when there is
+   enough. Ctrl and right-click on the Reinforced Hopper stops and starts the dropping.
 3. Start the blowers. Look at the door: it has to show a blast pressure at or over 1.50 atm before
    you light anything.
 4. Open the door, light the burden with a torch, close the door. Every pile has to catch; until
@@ -80,7 +81,7 @@ needed rather than left open.
 gives ten seconds and then goes out. This is the single most common failure with this build. The
 burden is not spoiled; start the blowers and light it again.
 
-**Reading the burden line as proof of air.** "Burden loaded: 40 / 320" counts the charge in the
+**Reading the burden line as proof of air.** `Burden loaded: 40 / 320` counts the charge in the
 shaft. The two blast lines under it are the air, and they only appear once something is burning.
 
 **A tap with nothing under it.** Metal does not back up and wait. It pours into whatever is below,

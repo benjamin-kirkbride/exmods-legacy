@@ -53,11 +53,17 @@ does not fill up behind your back. So does a frozen cell.
 
 Each metal has its own melting point, and three thresholds follow from it.
 
-| metal | liquid above | freezes below | chiselable below |
+| metal | shows as liquid above | cell sets solid below | chiselable below |
 |---|---|---|---|
 | iron | 1186 C | 1482 C | 445 C |
 | steel | 1202 C | 1502 C | 451 C |
 | slag | 576 C | 720 C | 216 C |
+
+The first column is 80 per cent of the melting point, and it governs what things look like and
+what you may carry: a cell above it reads Liquid and below it reads Cooling, and metal under it no
+longer spills out of a mold in a bag or a chest. It is not a flow limit. Metal between the first
+two columns is still running through the canals, so a canal full of iron at 1300 C is working
+normally.
 
 A cell with metal in it that falls under the melting point latches solid: it stops passing metal,
 drops off the run and shows "Solidified!". It cannot be chipped out until it falls under the
@@ -110,8 +116,8 @@ its metal as bits.
 
 **The metal stops after a few blocks.** Check the cells: the first one reading "Solidified!" is
 where the run froze, and everything past it has dropped off the network. A four-block stall was a
-real regression in August 2026, reported and fixed the same day, so a current install is not the
-one that had it.
+real regression in August 2026, fixed in 0.9.7 along with a doubling of canal capacity and
+throughput, so an install from 0.9.7 on is not the one that had it.
 
 **A tap will not open.** There is no canal start under its spout, or the block under the spout is
 a straight instead of a start.

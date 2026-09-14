@@ -63,7 +63,7 @@ reservoir fills. Freeze it and chip it out for fertilizer, mortar and paving:
 
 ## Hot blast
 
-Now double the output. Build two [[Cowper Stove Intake]] stoves, charge one on the furnace's
+Now triple the output. Build two [[Cowper Stove Intake]] stoves, charge one on the furnace's
 exhaust while the other blows preheated air into the tuyeres, and swap them over with valves. Build
 the overflow line to the stack before the first swap, or the swap puts the furnace out.
 [[Hot blast]] is the whole loop.

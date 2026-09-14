@@ -12,10 +12,11 @@ control block and the front of the building.
 | the back wall at the intake's level | the outlet that sends spent exhaust on |
 | the back wall one level up | the passthrough that takes air in from the blowers |
 | the middle column, the intake's level and the three above it | the four heat sinks |
-| the side wall at the intake's level | the iron hatch |
+| the side wall at the intake's level | the Iron hatch door |
 
-Heat enters low at the front and leaves high at the front. Air enters high at the back and leaves
-low at the back. Get those two pairs the wrong way round and the stove will charge and never blow.
+The table is the whole of the plumbing: the furnace's gas goes to the front pair, the blowers' air
+to the back pair, and each pair has its inlet and its outlet at different levels. Swap the levels
+of a pair and the stove will charge and never blow.
 
 ## Build order
 
@@ -28,9 +29,9 @@ low at the back. Get those two pairs the wrong way round and the stove will char
 4. Lay the floor and leave the cell directly under the intake empty.
 5. Stack the four heat sinks in the middle column, starting at the intake's own level. A stove
    built without them has to be taken apart again; they are the whole of the machine.
-6. Set the hatch in the side wall and the three pipe fittings in their cells: the hot-blast outlet
-   above the intake, the air passthrough high at the back, the spent-exhaust outlet low at the
-   back.
+6. Set the Iron hatch door in the side wall and the three pipe fittings in their cells: the
+   hot-blast outlet above the intake, the air passthrough high at the back, the spent-exhaust
+   outlet low at the back.
 7. Build the walls up and cap it. Any refractory tier is accepted and they can be mixed.
 
 ## The first charge
@@ -68,6 +69,6 @@ after the first failure.
 **Split output networks.** If each stove has its own pipe to its own tuyere, the blast temperature
 collapses on every swap. Merge the hot side so both tuyeres draw from the same pipes.
 
-**A stove that will not reheat.** Its air side still holds gas from the last cycle, and it cannot
-push into a side already at a higher pressure. Let the segment clear before switching it back to
-exhaust.
+**A stove that will not reheat.** Shutting the air valve leaves gas standing in the passthrough;
+the stove vents that itself on the next tick and charges from the one after. A stove that stays on
+"Cannot heat up" has an air valve still open.

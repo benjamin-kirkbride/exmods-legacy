@@ -31,7 +31,7 @@ second down the shaft while dropping is on. One batch costs 144 ore units, 8 car
 |---|---|---|
 | crushed iron ore | 12 | 12 |
 | iron nugget: limonite, hematite, magnetite | 12 | 12 |
-| roasted iron ore, from mods that roast it | 14 | 10, and the remainder banked |
+| roasted iron ore, from mods that roast it | 14 | 10, plus 4 ore units from the crushed or nugget feed |
 
 | fuel | carbon units each | pieces per batch |
 |---|---|---|
@@ -40,13 +40,16 @@ second down the shaft while dropping is on. One batch costs 144 ore units, 8 car
 
 Crushed ore and nuggets mix freely inside one batch, and so do coke and charcoal. The hopper
 spends the most prepared feed first: roasted ore, then crushed, then nuggets, and coke before
-charcoal. Anything the hopper over-spends on one batch is banked against the next, so a long run
-of mixed feed pays exactly the rates above.
+charcoal. A piece cannot be split, so whatever the last one over-spends is banked against the next
+batch and a long run of mixed feed pays exactly the rates above. Roasted ore is the case that
+shows it: ten pieces cover 140 of the 144 ore units a batch costs, and the last 4 units come off a
+crushed piece or a nugget, the rest of which is banked.
 
-Sixteen burden melt down to 102 units of molten iron and 17 units of slag. That is 8.5 units of
-iron per piece of crushed ore or per nugget, and 9.9 per roasted piece. Twenty vanilla nuggets
-smelt to one ingot, which makes a nugget worth 5 units on the bloomery route, so the furnace is
-worth 1.7 times a bloomery, or 2.0 fed roasted ore. A cast ingot is 100 units.
+Sixteen burden melt down to 102 units of molten iron and 17 units of slag. A batch costs 144 ore
+units, so one ore unit is worth 0.71 units of iron: 8.5 per piece of crushed ore or per nugget, and
+9.9 per roasted piece, which carries 14 units instead of 12. Twenty vanilla nuggets smelt to one
+ingot, which makes a nugget worth 5 units on the bloomery route, so the furnace is worth 1.7 times
+a bloomery, or 2.0 fed roasted ore. A cast ingot is 100 units.
 
 Burden is a coal pile item. It stacks to 128, can be laid back on the ground and picked up again,
 and burns as ordinary fuel at 600 C if you ever need it to. A pile lit outside a working furnace
@@ -94,8 +97,8 @@ mechanical power makes iron but never steel.
 
 ## Heat and melt rate
 
-The charge catches at 900 C and the hearth climbs from there. Hot blast lifts both the ceiling
-and the climb; see [[Hot blast]] for how the stoves make it.
+The charge catches at 900 C and the hearth climbs from there. Hot blast, which the cowper stoves
+make out of the furnace's own exhaust, lifts both the ceiling and the climb.
 
 | blast temperature | hearth ceiling | climb | melt rate at the ceiling |
 |---|---|---|---|
@@ -126,8 +129,8 @@ above it has feed.
 The hearth holds 4800 units of iron and 1200 of slag. When either fills, melting stalls until it
 is drained: the panel says "Reservoir full - tap it to resume melting." and nothing is lost.
 
-The furnace has two Molten Metal Taps. The lower one on one side drains iron, the upper one on
-the other side drains slag, each at 40 units per second. A tap only opens when a molten canal
+The furnace has two Molten Metal Tap blocks. The lower one on one side drains iron, the upper one
+on the other side drains slag, each at 40 units per second. A tap only opens when a molten canal
 start block sits below its spout, one block out from the face it points at; without one it
 refuses with "No canal start found below the tap!". Toggle a tap with an empty hand. Where the
 metal goes from there is [[Molten metal]].
@@ -141,16 +144,17 @@ hearth temperature and is pushed into the run at up to 2.0 atm.
 
 If both outlets are piped and the run refuses the gas, the furnace is choked: melting halts, the
 hearth falls back to its cold-blast ceiling, and the panel says "Exhaust network is full!
-Production halted." A choke is a stall, not a fire out. An outlet left bare is not a choke,
-because the gas has somewhere to go.
+Production halted." A choke is a stall, not a fire out. One outlet left bare is not a choke while
+the other is taking the gas; a furnace with neither outlet piped chokes as soon as the two bare
+outlets have filled, which takes a couple of seconds.
 
 ## Running a heat
 
 1. Build the furnace and check the door reports the structure complete. See
    [[Blast Furnace Door]].
 2. Stock the Reinforced Hopper with iron, fuel and lime. The Bell Hopper starts dropping on its
-   own; ctrl and right-click on either hopper stops and restarts it.
-3. Wait for the shaft to fill. The door reads "Burden loaded: 320 / 320" when there is enough to
+   own; ctrl and right-click on the Reinforced Hopper stops and restarts it.
+3. Wait for the shaft to fill. The door reads `Burden loaded: 320 / 320` when there is enough to
    fire, and the hopper stops on its own once the hearth is full.
 4. Start the blowers and confirm the tuyeres hold 1.5 atm or more before you reach for a torch.
 5. Light the burden through the open door and close the door. Every pile in the hearth has to be
@@ -170,7 +174,7 @@ fire out immediately. The line names the count-down, not the cause; read the bla
 gives 10 seconds and then goes out. The burden itself is not spoiled, so relight it once the
 blowers are actually holding pressure.
 
-**Reading the burden line as the air line.** "Burden loaded: 10 / 320" is the charge in the
+**Reading the burden line as the air line.** `Burden loaded: 10 / 320` is the charge in the
 shaft. The blast is the two lines below it, and they appear only once something is burning.
 
 **The fire goes out on a stove swap.** That is the no-blast disruption, and it is covered on
