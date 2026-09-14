@@ -1,5 +1,6 @@
 ---
 title: Molten Canal (X-Junction), cobblestone
+hints: [blockhelp-canal-clearsolidified]
 ---
 
 A four-way split in a canal run, holding up to 100 units. Like the T-junction it fills its first

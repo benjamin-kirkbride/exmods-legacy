@@ -105,7 +105,7 @@ metal!".
 
 A Molten Barrel holds 800 units and sits under a Molten Canal (Tap), which fills it at 20 units
 per second. A barrel takes metal even when its contents have already set, remelting them. It is
-bulk storage and a heat sink, not a dispenser: metal does not come back out of a barrel into the
+bulk storage and a heat store, not a dispenser: metal does not come back out of a barrel into the
 canals.
 
 To get the metal back, let it harden and chisel it out with a chisel and hammer, at the usual

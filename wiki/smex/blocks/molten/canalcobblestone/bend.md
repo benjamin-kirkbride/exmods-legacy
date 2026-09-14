@@ -1,5 +1,6 @@
 ---
 title: Molten Canal (Bend), cobblestone
+hints: [blockhelp-canal-clearsolidified]
 ---
 
 A 90-degree turn in a canal run, holding up to 100 units like any other run segment. It has no

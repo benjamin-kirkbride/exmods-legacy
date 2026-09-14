@@ -51,7 +51,7 @@
   "blockdesc-moltencanal-tjunction*": "A three-way molten canal junction.",
   "blockdesc-moltencanal-xjunction*": "A four-way molten canal junction.",
   "blockdesc-moltencanal-tap*": "Pours metal out of the far end of a canal.",
-  "blockdesc-moltencanal-moldpedestal*": "Fills a mold it from the canal network.",
+  "blockdesc-moltencanal-moldpedestal*": "Fills a mold from the canal network.",
   "blockdesc-moltenbarrel*": "Bulk storage for liquid metal or slag.",
 
   "blockdesc-convertercontrol*": "Used to operate the bessemer converter.",
@@ -144,7 +144,6 @@
   "blockhelp-barrel-chisel": "Chisel out hardened metal",
   "blockhelp-hopper-open": "Open hopper inventory",
   "blockhelp-hopper-toggle": "Toggle burden dropping",
-  "blockhelp-pressurevalve-cycle": "Cycle pressure threshold",
   "blockhelp-mulblock-struc-show": "Show multiblock structure",
 
   "bf-info-incomplete": "Structure is incomplete!",

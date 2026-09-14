@@ -1,6 +1,6 @@
 ---
 title: Molten Canal (Start), brick
-hints: [blockhelp-canalstart-pour]
+hints: [blockhelp-canalstart-pour, blockhelp-canal-clearsolidified]
 ---
 
 This is where a canal run begins: place one below a furnace tap's spout, one block out from the

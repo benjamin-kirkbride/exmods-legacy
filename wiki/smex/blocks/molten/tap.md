@@ -1,5 +1,5 @@
 ---
-hints: [blockhelp-canal-togglepour]
+hints: [blockhelp-canal-togglepour, blockhelp-canal-clearsolidified]
 ---
 
 A Molten Canal (Tap) is a canal cell with a drain on it: park a barrel or one of the two large

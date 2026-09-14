@@ -1,6 +1,6 @@
 ---
 title: Molten Canal (Mold Pedestal), brick
-hints: [blockhelp-pedestal-placemold, blockhelp-pedestal-removemold]
+hints: [blockhelp-pedestal-placemold, blockhelp-pedestal-removemold, blockhelp-canal-togglepour, blockhelp-canal-clearsolidified]
 ---
 
 A canal cell with a stand on top: sneak right-click with a mold in hand to set it down, sneak
