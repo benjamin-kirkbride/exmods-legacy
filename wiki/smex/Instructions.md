@@ -2,7 +2,7 @@
 
 The setups players most often got wrong, as numbered steps with the check that tells you a step
 worked. These need Pipes and Power Expanded for their blast, so read
-[the boiler, engine and pipe line](../../ppex/Instructions/#the-boiler-engine-and-pipe-line) first.
+[the boiler, engine and pipe line](/current/ppex/Getting-started/) first.
 
 ## The blast furnace build and its first tap
 
