@@ -42,6 +42,7 @@ $dotnet = 'dotnet'
 if ($missing.Count -gt 0) {
     Write-Host "Missing .NET runtime major(s) system-wide: $($missing -join ', ') - provisioning a local .dotnet..."
     & (Join-Path $PSScriptRoot 'provision-dotnet.ps1') -Version $Version
+    if ($LASTEXITCODE -ne 0) { throw "Provisioning .dotnet failed." }
     $dotnet = Join-Path $repoRoot ('.dotnet/dotnet' + ($(if ([System.OperatingSystem]::IsWindows()) { '.exe' } else { '' })))
 }
 Write-Host "Using dotnet host: $dotnet"

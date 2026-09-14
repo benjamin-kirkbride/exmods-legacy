@@ -4,7 +4,7 @@
 # -p:Legacy=true and that version's TFM. Each build auto-provisions its game version on demand.
 #
 #   run-tests.sh [latest|all|1.22|1.21|1.20]
-set -uo pipefail
+set -euo pipefail
 
 version="${1:-latest}"
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
