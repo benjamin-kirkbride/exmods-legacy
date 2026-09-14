@@ -29,9 +29,6 @@ The two `.exmod` commands are client-side and affect only what you see: the unit
 the look-at lines and the handbook prose, and changes nothing in the simulation. The `/exmod`
 commands are server-side and need the `controlserver` privilege.
 
-The in-game description of the recipe command still calls it `/exmod steam <level>`. The command
-that is actually registered is `/exmod recipes ppex <level>`.
-
 ## The files
 
 `ModConfig/ppex_values.json` holds the values below, and `/exmod config` is the same file edited

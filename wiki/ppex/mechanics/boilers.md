@@ -86,12 +86,12 @@ Three things do **not** blow a boiler up: a choked exhaust (it snuffs the fire i
 vessel (there is no upper water cutoff), and an unpiped steam outlet, which bleeds 16 L/s and is
 nowhere near enough to save an over-pressured vessel.
 
-## How players blew theirs up
+## How players lose a boiler
 
-**No route for the exhaust.** The commonest one. 16 L/s of exhaust against 8 L/s through an open
-pipe end means the fire snuffs, and players who then piped the exhaust into a run that was already
-carrying something else at pressure got the same result. Give the exhaust a chimney or a stack of
-its own.
+**No route for the exhaust.** The commonest one, and it kills the fire rather than the vessel.
+16 L/s of exhaust against 8 L/s through an open pipe end chokes the boiler and the fuel pile is
+snuffed 10 s later, and players who then piped the exhaust into a run that was already carrying
+something else at pressure got the same result. Give the exhaust a chimney or a stack of its own.
 
 **A pump straight into a boiling vessel.** Pressurised feedwater flashes to steam, the pressure
 climbs while the player watches the water level rise, and the 30 s timer starts. Put a

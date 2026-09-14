@@ -32,7 +32,7 @@ sits beside it and pushes into or draws out of the pipe that meets its port face
 Pressure is the stored volume divided by the run's capacity, and the capacity is 30 L per pipe. A
 ten-pipe run reads 1 atm at 300 L and 2 atm at 600 L; an empty run reads 0. The look-at line marks
 it `(g)`, a gauge reading, so steam temperature is taken one atmosphere higher: 100 C times the
-fourth root of the reading plus one, which is 119 C at 1 atm, 131 C at 2 atm, 157 C at 5 atm and
+fourth root of the reading plus one, which is 119 C at 1 atm, 132 C at 2 atm, 157 C at 5 atm and
 190 C at 12 atm.
 
 Water behaves differently. It cannot be packed past the run's capacity, so a water line reads its
@@ -65,9 +65,11 @@ steam will burst its own pipes. Keep a consumer or a pressure valve on it.
 ## Open ends
 
 Any connector left facing air leaks. Gas costs the run 8 L/s and water 10 L/s, and the rate is for
-the whole network, not per opening, so a second hole does not double it. The loss runs down to
-empty, so a run that leaks faster than its producer feeds it never holds any pressure at all, and
-that is the usual reason a line reads 0 atm while a boiler is plainly boiling.
+the whole network, not per opening, so a second hole does not double it. A leaking run is also
+capped at 1 atm however hard it is fed: a producer is held to that ceiling while any end is open,
+so a Watt Engine, which engages at 2 atm, never starts on a line with a hole in it. A run fed
+slower than it leaks runs down to empty instead, and that is the usual reason a line reads 0 atm
+while a boiler is plainly boiling.
 
 A chimney is the exception. Stand an ordinary chimney on the open top connector of a passthrough,
 a passthrough bend or an outlet and the network vents 16 L/s through it instead of leaking 8 L/s,

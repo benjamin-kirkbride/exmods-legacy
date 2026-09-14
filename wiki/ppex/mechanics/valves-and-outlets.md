@@ -13,10 +13,11 @@ that ends it at a machine or a chimney, and the condenser that turns its steam b
 
 ## The hand valve
 
-Piping (Valve) is a shut-off with no numbers on it. Right-click it with an empty hand to toggle it,
-and the model shows which way it stands. Open, it is an ordinary pipe node and the run flows through it. Closed, it
-severs the network at its own cell, and the two sides become separate networks with separate
-pressures.
+Piping (Valve) is a shut-off with no numbers on it. Right-click it with an empty hand to toggle it;
+the model's pose shows whether it is open or shut, and unlike the pressure valve it has no
+direction and no facing mark. Open, it is an ordinary pipe node and the run flows through it.
+Closed, it severs the network at its own cell, and the two sides become separate networks with
+separate pressures.
 
 Two things surprise players.
 

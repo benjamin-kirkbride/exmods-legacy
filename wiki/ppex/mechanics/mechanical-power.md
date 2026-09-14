@@ -66,8 +66,10 @@ speed, because the beam lifts the same column however fast it runs, and it loads
 
 The faces matter. The engine Fluid Pump draws from the line under it and delivers out of its left
 side. The Manual Fluid Pump draws through the face its crank support stands on and delivers out of
-the opposite one. The Mechanical Fluid Pump takes its axle at the near end, draws in under the far
-end, and delivers out of the far face above that.
+the opposite one. The Mechanical Fluid Pump couples its axle on the side of its near, low cell and
+draws in under the far, low one; its delivery leaves the high cell's inward face, back over the
+crook of the L, so the delivery main runs into the empty cell above the pump's middle one, not off
+the far end.
 
 ## The fluid intake
 
