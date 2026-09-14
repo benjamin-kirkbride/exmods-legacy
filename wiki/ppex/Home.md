@@ -25,10 +25,28 @@ The mechanics, in the order a plant is built:
 
 The two structures:
 
-- The Cornish boiler, the iron-age entry vessel.
-- The Lancashire boiler, the steel tier that carries the pressure a Cornish Engine wants.
+- The [[Cornish Boiler]], the iron-age entry vessel.
+- The [[Lancashire Boiler]], the steel tier that carries the pressure a Cornish Engine wants.
 
-Every block and item has a page; the sidebar lists them by system.
+The machines:
+
+- [[Watt Engine]], the low-pressure engine that runs on a lot of steam.
+- [[Cornish Engine]], the high-pressure engine with a throttle, which wrings more work from less.
+- [[Manual Fluid Pump]], a hand crank for filling a boiler before there is any steam.
+- [[Mechanical Fluid Pump]], an axle-driven pump for a shaft already turning.
+- [[Fluid Pump]], the sub-machine an engine drives to move water.
+- [[Mechanical Power Generator]], the sub-machine an engine drives to turn axles.
+
+The fittings:
+
+- [[Piping (Straight)]], [[Piping (Bend)]], [[Piping (T-Junction)]] and [[Piping (X-Junction)]],
+  the plain pipe a run is built from.
+- [[Piping (Valve)]], a hand-operated shut-off, and [[Piping (Pressure Valve)]], a directional
+  overflow.
+- [[Pipe Outlet]], which ends a run at a machine, and [[Pipe Passthrough (Straight)]] and
+  [[Pipe Passthrough (Bend)]], the same pipe cast into masonry.
+- [[Fluid Intake]], the only thing that makes water, and [[Steam Condenser]], which turns spent
+  steam back into it.
 
 ## Where to start
 

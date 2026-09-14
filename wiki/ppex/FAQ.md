@@ -29,8 +29,8 @@ flips it. A plain Piping (Valve) has no direction: open, the run flows through i
 severs the network at its own cell. Opening one merges the two sides into a single pool that
 settles at one pressure at once, which looks like the pressure has been dumped and is really just
 the same gas in more pipe. And a closed valve does not cap the far side: if nothing is built past
-it, that face is an open end for the run beyond and bleeds 8 L/s like any other hole. See Valves
-and outlets.
+it, that face is an open end for the run beyond and bleeds 8 L/s like any other hole. See
+[[Valves and outlets]].
 
 ## My boilers exploded
 
@@ -47,7 +47,7 @@ puts the fire out; it does not burst the vessel.
 There is a second case that is still open: boilers found at critical pressure immediately after a
 chunk reload, a relog or a server restart, with a relief valve fitted and the hatch open. No fix
 exists as of 2026-09-14, and the only mitigation players use is to vent the boiler and stop the
-run before a restart rather than trusting the valve to cover it. See Boilers.
+run before a restart rather than trusting the valve to cover it. See [[Boilers]].
 
 ## It just says missing 6x and does not tell me what
 

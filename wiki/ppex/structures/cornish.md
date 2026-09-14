@@ -1,8 +1,8 @@
 ---
-title: Cornish boiler
+title: Cornish Boiler
 ---
 
-The Cornish boiler is the entry vessel: one flue in an iron or steel shell, 800 L of water and
+The Cornish Boiler is the entry vessel: one flue in an iron or steel shell, 800 L of water and
 steam together, 32 L/s of steam out, and a choke pressure of 5 atm. It is a multiblock, not a
 block: a brick firebox with a hatch door, a plinth, a vessel raised in three stages from the block
 you place, and a pipe outlet for the exhaust, all inside a box 3 wide, 3 high and 8 long. This page
@@ -20,9 +20,9 @@ hold the structure incomplete with nothing obviously wrong.
 
 ## Orientation
 
-Place the boiler block standing where the firebox is to go. The vessel rises away from you and the
-firebox ends up behind it, on your side, with the hatch door at the far end of those two cells. Get
-this wrong and the whole thing has to come down: there is no rotate.
+Stand where the firebox is to be and place the block in front of you. The vessel rises away from
+you; the two cells you are standing in become the coal slot and the door, the door at the far one.
+Get this wrong and the whole thing has to come down: there is no rotate.
 
 Hold ctrl and shift and right-click the block at any point to outline what is missing. The
 projection shows the empty cells and the chat lists them by name and count, so "still needed: 6 x

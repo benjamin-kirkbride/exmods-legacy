@@ -1,10 +1,10 @@
 ---
-title: Lancashire boiler
+title: Lancashire Boiler
 ---
 
-The Lancashire boiler is the steel tier: twin flues, 1200 L of water and steam together, 48 L/s of
+The Lancashire Boiler is the steel tier: twin flues, 1200 L of water and steam together, 48 L/s of
 steam out, and a choke pressure of 12 atm, which is the pressure a Cornish Engine wants and a
-Cornish boiler cannot reach. It is built as the smaller vessel is, in a box 3 wide, 3 high and 10
+Cornish Boiler cannot reach. It is built as the smaller vessel is, in a box 3 wide, 3 high and 10
 long, and in steel wherever that one takes iron. This page is the build and the first firing; the
 operating numbers are on Boilers.
 
@@ -20,8 +20,9 @@ A snow layer over any cell reads as a block, not as air, and holds the structure
 
 ## Orientation
 
-Place the boiler block standing where the firebox is to go: the vessel rises away from you, the
-firebox ends up on your side, the hatch door closes the end. There is no rotate. Hold ctrl and
+Stand where the firebox is to be and place the block in front of you: the vessel rises away from
+you, the two cells you are standing in become the firebox, and the hatch door closes the end.
+There is no rotate. Hold ctrl and
 shift and right-click the block to outline the missing cells and list them in chat by name and
 count.
 

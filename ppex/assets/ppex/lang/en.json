@@ -53,7 +53,7 @@
   "brickname-refractorytier2": "Refractory Tier 2",
   "brickname-refractorytier3": "Refractory Tier 3",
   "blockdesc-pipe-straight*": "Carries gases or water.",
-  "blockdesc-pipe-bend*": "A 90° bend in a pipe run.",
+  "blockdesc-pipe-bend*": "A 90 degree bend in a pipe run.",
   "blockdesc-pipe-tjunction*": "A three-way pipe junction.",
   "blockdesc-pipe-xjunction*": "A four-way pipe junction.",
   "blockdesc-pipe-valve*": "Hand-operated shut-off.",
