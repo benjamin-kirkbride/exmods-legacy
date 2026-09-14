@@ -42,7 +42,8 @@ are fetched on demand into `.game/` and `.dotnet/` under this folder by `scripts
 nothing else is pointed at. Prefer the workspace's shared installs instead of a second download:
 
 ```sh
-export VINTAGE_STORY=$PWD/../.game/1.22   # from legacy/, or $PWD/.game/1.22 from the workspace root
+# From the workspace root (exmods/):
+export VINTAGE_STORY=$PWD/.game/1.22
 dotnet build legacy/Legacy.sln -clp:ErrorsOnly
 bash legacy/scripts/run-tests.sh latest    # or 1.21 / 1.20 / all
 ```

@@ -149,6 +149,12 @@ public sealed class PackageTask : FrostingTask<BuildContext> {
     //   Releases/<gameVersion>/<modid>_<modVersion>_<gameVersion>.zip (legacy)
     foreach (var target in BuildContext.GameTargets) {
       foreach (var project in context.Projects) {
+        // exlib 0.7.2's published zip is the one already on the mod database - this packager
+        // never ships a replacement for it, only ppex and smex (still built above, since both
+        // reference it, but not staged or zipped here).
+        if (project.Dir == "exlib")
+          continue;
+
         string stageDir = $"../Releases/{target.GameVersion}/{project.ModId}";
         context.EnsureDirectoryExists(stageDir);
 
