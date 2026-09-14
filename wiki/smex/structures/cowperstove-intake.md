@@ -1,3 +1,11 @@
+---
+title: Cowper stove
+---
+
+The [[Cowper Stove Intake]] starts this build and is the front of the finished stove, where the
+furnace's exhaust arrives. Stoves are built in pairs; the loop they run and the heat they buy
+are on [[Hot blast]].
+
 ## The shape of it
 
 A stove is a three by three brick tower, seven levels tall counting the floor, with four Heat Sinks

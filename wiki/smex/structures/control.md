@@ -1,3 +1,11 @@
+---
+title: Bessemer converter
+---
+
+The [[Bessemer Control]] starts this build and is the block you work from afterwards: filling,
+normal and pouring are all set on it. The blow itself, and what it needs running, is on
+[[Bessemer process]].
+
 ## The shape of it
 
 The converter is a line of four things in a row with its service canals down one side. Taking the

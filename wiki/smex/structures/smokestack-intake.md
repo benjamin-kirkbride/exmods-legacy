@@ -1,3 +1,10 @@
+---
+title: Smoke stack
+---
+
+The [[Smoke Stack Intake]] starts this build and is the only block of it you connect a pipe to.
+Why a furnace needs a stack, and where it sits in the gas network, is on [[Hot blast]].
+
 ## The shape of it
 
 The stack is a squat three by three base with a single-cell flue running up out of it, twelve

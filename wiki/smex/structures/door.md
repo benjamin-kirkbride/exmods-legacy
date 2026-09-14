@@ -1,3 +1,11 @@
+---
+title: Blast furnace
+---
+
+The [[Blast Furnace Door]] starts this build and is the block you work from afterwards: it
+carries the panel, and the charge is lit through it. What the furnace does with burden, blast
+and heat is on [[Ironmaking]].
+
 ## The shape of it
 
 The furnace is a hollow tower nine blocks tall and six by five on the ground, with three of those
