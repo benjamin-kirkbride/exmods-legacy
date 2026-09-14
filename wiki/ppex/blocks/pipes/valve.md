@@ -9,4 +9,4 @@ network at its own cell, splitting the two sides into separate pools at separate
 Opening a closed valve merges the two networks at once, and the merged run settles at their
 average, which reads like the pressure has been dumped when it has only spread over more pipe. A
 closed valve also does not cap the far side: if nothing is built past it, that face is an open end
-for whatever network sits on the other side and leaks 8 L/s like any other hole.
+for whatever network sits on the other side, and bleeds gas at 8 L/s, or water at 10.

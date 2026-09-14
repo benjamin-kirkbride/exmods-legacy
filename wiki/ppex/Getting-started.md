@@ -14,7 +14,7 @@ boiler, an engine and a few dozen pipes.
 |---|---|
 | [[Fluid Intake]] | the only thing that makes water |
 | [[Manual Fluid Pump]] | fills the boiler before there is any steam |
-| [[Cornish Boiler]] frame, then 22 iron or steel plates, 16 nails and strips, 8 rods and 44 fireclay bricks | the vessel, raised in three right-click stages |
+| [[Cornish Boiler (block)]] frame, then 22 iron or steel plates, 16 nails and strips, 8 rods and 44 fireclay bricks | the vessel, raised in three right-click stages |
 | [[Pipe Passthrough (Bend)]] and [[Pipe Passthrough (Straight)]] in fireclay, and a fireclay [[Pipe Outlet]] | the firebox walls carry the water line and the exhaust |
 | fireclay bricks and an iron hatch door | the firebox itself |
 | a chimney | to vent the firebox |

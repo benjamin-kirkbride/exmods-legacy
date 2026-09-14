@@ -1,3 +1,7 @@
+---
+hints: [blockhelp-mulblock-struc-show, blockhelp-boiler-lid, blockhelp-boiler-fill, blockhelp-boiler-drain]
+---
+
 The crafted block is the firebox end of the machine: stand where the firebox is to be and place it
 in front of you, and the vessel is raised from the cells beyond it. Ctrl and shift and right-click
 outlines the cells still missing; a plain right-click with a stage's materials in the hotbar raises

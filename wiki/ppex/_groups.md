@@ -1,7 +1,7 @@
 ---
 groups:
-  boiler: Boilers
-  engine: Engines
+  boiler: Boiler blocks
+  engine: Sub-machines
   pipes: Pipes
 order: [boiler, engine, pipes]
 ---
