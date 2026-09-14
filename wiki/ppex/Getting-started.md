@@ -50,12 +50,15 @@ this wrong and the fire snuffs itself ten seconds after you light it.
 ## 4. Steam, and the valve that saves the engine
 
 Pipe the boiler's top connector toward where the engine will stand. Put a
-[[Piping (Pressure Valve)]] on that run with its copper-trimmed side facing the boiler, set the gate
-to about 2.5 atm, and leave its output side open to the air or piped to a vent.
+[[Piping (T-Junction)]] in that run and hang a [[Piping (Pressure Valve)]] off the branch, with the
+valve's copper-trimmed side facing the run and its other side open to the air or piped to a vent.
+Set the gate to about 2.5 atm: right-click the valve with an empty hand to raise it in steps of
+0.25 atm, sneak and right-click to lower it.
 
 This is not optional. A Cornish boiler chokes at 5 atm and a [[Watt Engine]] starts wearing toward
-a burst above 4 atm, so an ungated line breaks the engine in a minute of running. Right-click the
-valve with an empty hand to raise the gate in steps of 0.25 atm, sneak and right-click to lower it.
+a burst above 4 atm, so an ungated line breaks the engine in a minute of running. Hang the valve off
+the run the engine is on, not in the line between the two: a pressure valve holds down the side its
+input face reads, and one set in-line feeds the far side until both sides match instead.
 
 ## 5. The engine
 

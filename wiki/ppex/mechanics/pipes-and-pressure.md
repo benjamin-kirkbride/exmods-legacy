@@ -20,7 +20,7 @@ sits beside it and pushes into or draws out of the pipe that meets its port face
 | fact | value |
 |---|---|
 | capacity per pipe | 30 L at 1 atm |
-| gas pressure | stored volume divided by capacity, in atm above atmospheric |
+| gas pressure | stored volume divided by capacity, read as gauge atm |
 | iron pipe burst pressure | 5 atm |
 | steel pipe burst pressure | 10 atm |
 | grace at burst pressure before a pipe lets go | 30 s |
@@ -29,10 +29,11 @@ sits beside it and pushes into or draws out of the pipe that meets its port face
 | gas drawn by a chimney on a passthrough or outlet | 16 L/s per chimney |
 | evaporation from a water run | 50 L per in-game day |
 
-Pressure is read against the atmosphere, which is why the look-at line ends in `(g)`: 0 atm is a
-pipe at rest, not a vacuum. A run of ten pipes holds 300 L at 0 atm and reads 1 atm once it holds
-600 L. Steam temperature follows its pressure, 100 C times the fourth root of the absolute
-pressure: 131 C at 2 atm, 157 C at 5 atm, 190 C at 12 atm.
+Pressure is the stored volume divided by the run's capacity, and the capacity is 30 L per pipe. A
+ten-pipe run reads 1 atm at 300 L and 2 atm at 600 L; an empty run reads 0. The look-at line marks
+it `(g)`, a gauge reading, so steam temperature is taken one atmosphere higher: 100 C times the
+fourth root of the reading plus one, which is 119 C at 1 atm, 131 C at 2 atm, 157 C at 5 atm and
+190 C at 12 atm.
 
 Water behaves differently. It cannot be packed past the run's capacity, so a water line reads its
 fill ratio while it is filling and jumps to the delivery head of the pump feeding it once it is

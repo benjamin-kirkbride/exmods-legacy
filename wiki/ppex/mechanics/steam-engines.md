@@ -35,8 +35,8 @@ pressure. That is what a pump lifts against and what a blower blows at.
 ## Matching an engine to a boiler
 
 A Cornish Boiler chokes at 5 atm. That is above the Watt's 4 atm wear point, so a Watt behind a
-Cornish boiler needs a Piping (Pressure Valve) gated around 2.5 to 3 atm with an overflow line, or
-it will break. It is also only just at the Cornish engine's low setting and below its normal and
+Cornish boiler needs a Piping (Pressure Valve) gated around 2.5 to 3 atm, hung off the run the
+engine sits on and venting to air or to an overflow, or it will break. It is also only just at the Cornish engine's low setting and below its normal and
 high settings, so a Cornish engine wants a Lancashire Boiler, which chokes at 12 atm.
 
 Steam supply is the other half of the match. A Cornish boiler makes 32 L/s, which is one Watt with

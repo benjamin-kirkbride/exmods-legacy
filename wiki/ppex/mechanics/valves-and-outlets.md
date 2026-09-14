@@ -13,8 +13,8 @@ that ends it at a machine or a chimney, and the condenser that turns its steam b
 
 ## The hand valve
 
-Piping (Valve) is a shut-off with no numbers on it. Right-click it with an empty hand to toggle it;
-the model shows the pose. Open, it is an ordinary pipe node and the run flows through it. Closed, it
+Piping (Valve) is a shut-off with no numbers on it. Right-click it with an empty hand to toggle it,
+and the model shows which way it stands. Open, it is an ordinary pipe node and the run flows through it. Closed, it
 severs the network at its own cell, and the two sides become separate networks with separate
 pressures.
 
@@ -47,16 +47,23 @@ copper-trimmed ring marks the input side, and a wrench flips the direction.
 
 It only flows downhill. Gas or water crosses only while the output side sits below the input
 pressure, so a pressure valve can never push a loop round past itself and is **not** a backflow
-preventer. Wiring an overflow into a line that is already at pressure does nothing at all.
+preventer. An overflow wired into a line that already sits at or above its source moves nothing.
 
 With nothing piped to its output face, the valve vents the overflow to the air at the ordinary leak
 rate, 8 L/s of gas or 10 L/s of water, with a plume to show it. That is the usual way to use one.
 
-Where it goes: between a strong boiler and a weaker engine, with the engine on the valve's input
-side, and an overflow line or open air on the output side. A Cornish Boiler at 5 atm in front of a
-Watt Engine that wears above 4 atm is the case that needs one, gated at 2.5 to 3 atm. The tutorial
-videos in circulation predate pressure entirely and the valve's interface has changed since, so set
-the gate from the look-at line rather than from a video.
+Where it goes: **not** in the line between a strong boiler and a weaker engine. A pressure valve
+is a network endpoint, so one set in-line splits the run in two and then feeds the engine's side
+until both sides match, which is the pressure it was supposed to prevent. Hang it off a junction on
+the run the engine is on, so that run is the valve's input side, and let the output side vent to
+air or to an overflow line. A Cornish Boiler at 5 atm in front of a Watt Engine that wears above
+4 atm is the case that needs one, gated at 2.5 to 3 atm.
+
+On water it does not throttle, it dumps: once the feed pressure tops the gate it moves the whole
+line into the output side, or sprays it out of an open face.
+
+The tutorial videos in circulation predate pressure entirely and the valve's interface has changed
+since, so set the gate from the look-at line rather than from a video.
 
 Players running Steelmaking Expanded use the same fitting on the furnace exhaust, gated well under
 the furnace's 0.8 atm choke; that setup is on the

@@ -41,9 +41,12 @@ automatically at up to 10 L/s, but only to half the vessel's capacity, which lea
 Condensate from an engine and water from a Steam Condenser are ordinary water and count the same.
 
 Two cautions. Pour one container at a time: pouring from a stack loses the contents of every
-container but one. And gate pumped feedwater. Water admitted at more than 1 atm flashes to extra
-steam as it enters a boiling vessel, one extra litre of steam per litre admitted per atm of feed
-pressure over 1 atm, which is a fast way to drive a healthy boiler into its danger band.
+container but one. And watch the pressure of a pumped feed. Water admitted above 1 atm flashes to
+extra steam as it enters a boiling vessel, one extra litre of steam per litre admitted per atm of
+feed pressure over 1 atm. A Manual Fluid Pump delivers at exactly 1 atm and flashes nothing, a
+Mechanical Fluid Pump at 1.5 atm flashes half a litre per litre, and an engine Fluid Pump delivers
+at three quarters of its engine's inlet pressure, so a Watt Engine on a 3 atm line pushes water in
+at 2.25 atm and adds 12.5 L/s of steam on top of the boiling while the intake runs.
 
 A bucket bails water back out while the lid is open, but only down to the level the boiler needs to
 run; the rest sits below the reach of a bucket.
@@ -91,8 +94,9 @@ carrying something else at pressure got the same result. Give the exhaust a chim
 its own.
 
 **A pump straight into a boiling vessel.** Pressurised feedwater flashes to steam, the pressure
-climbs while the player watches the water level rise, and the 30 s timer starts. Gate the feed with
-a Piping (Pressure Valve), or feed by hand while the boiler is boiling.
+climbs while the player watches the water level rise, and the 30 s timer starts. Put a
+Piping (Valve) in the feed line and shut it while the boiler is at pressure, or feed a boiling
+vessel from a low-head pump and keep the engine pump for filling a cold one.
 
 **Trusting the relief valve through a restart.** Boilers have been found at critical pressure
 immediately after a chunk reload, a relog or a server restart, with a relief valve fitted and the
