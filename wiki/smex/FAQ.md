@@ -5,103 +5,144 @@ pipes-and-power-only questions, see the [Pipes and Power Expanded FAQ](../../ppe
 
 ## It just says extinguishing
 
-The burden only lights and stays lit when air is already flowing into the tuyeres under pressure;
-lighting a burden with the blowers off is the single most common failure reported. The "10/10
-liters of blast" reading on the furnace door is the burden charge, not a live air supply, and
-reading it as proof the blast is connected has cost more than one player a run. The numbers the
-shipped mod uses: a tuyere draws about 20 L/s at melt rate 1.0, so two draw around 40 and one in
-overdrive around 80, and the furnace lights once the blast holds 1.5 atm or more. A mechanical-power
-blower reaches 2 atm, which is enough for the furnace but not for the Bessemer converter's 2.5. Keep
-an overflow line to the smoke stack valved at 0.5, because the furnace chokes at 0.8. The 1.5 atm
-threshold dates from 2026-08-13 (it was 2.5 before); a furnace built before that date needs its
-door broken and replaced to pick it up. See [Steelmaking: Blast Furnace](handbook/blastfurnace/) and
-[the blast furnace build and its first tap](Instructions#the-blast-furnace-build-and-its-first-tap).
+The burden only lights, and only stays lit, while air is already arriving at the tuyeres under
+pressure. Lighting with the blowers off is the most common failure reported with this mod, and it
+gives you ten seconds before the piles go out. The gate is 1.5 atm, and the door prints both the
+rate arriving and the pressure standing; a line moving plenty of air under the gate reads fine on
+the first line and puts the furnace out anyway. A boiler safety valve setting is a different
+quantity from the pressure at the tuyere.
+
+A lit furnace goes out for four reasons: burden robbed below 144, exhaust arriving at a tuyere, no
+blast at 1.5 atm, or the door left open. One of them gives 30 seconds of grace, or 10 for the door;
+two at once end it immediately. The whole model, with the air demand per tuyere and the blower
+figures, is on [[Blast furnace]]; the build and the lighting order are on [[Blast Furnace Door]].
+
+The 1.5 atm gate dates from 2026-08-13, when it was lowered from 2.5. A furnace built before that
+keeps the old figure until its door is broken and replaced.
 
 ## I do not quite understand how the cowper stoves are supposed to function
 
-The bottom intake and outlet carry furnace exhaust, the upper passthrough and outlet carry air, and
-each stove has two valves. Run one at a time: exhaust first to warm the heatsinks, then air, since
-both valves open at once is what "exhaust mixes with air" means. Leftover air in a segment blocks
-reheating, because the stove cannot push into a side already at higher pressure. Burning coal under
-the stove only speeds heating and turns the output into exhaust, so the fire must be out before
-switching to blast, and an idle stove neither heats nor cools by design. As of 2026-09-10 a player
-reported the stoves broken and skippable by running cold air straight into the furnace instead,
-against "you absolutely need two" from June; no owner statement confirms or denies that. See
-[the cowper stove](Instructions#the-cowper-stove).
+Four connections in two pairs. The intake block itself takes furnace exhaust in and the outlet
+directly above it gives hot blast out; at the back, the passthrough one level up takes air in from
+the blowers and the outlet below it sends spent exhaust on to the stack. One valve open at a time:
+exhaust first to charge the core, then air to blow it into the furnace. Both open is what "exhaust
+mixes with the air" means, and the stove will not charge in that state.
+
+Anthracite is not required. The coal pile under the intake only speeds charging, and the stove
+charges without one, just slowly. A cold idle stove is not broken either: it neither heats nor
+cools without gas flowing. Full detail, rates and the pair loop are on [[Hot blast]]; the build is
+on [[Cowper Stove Intake]].
 
 ## Is it compatible with Improved Metallurgy / IME / Expanded Matter?
 
-Improved Metallurgy implements the same mechanic a different way, so pick one mod, not both: running
-them together crashed a whole server through duplicate nugget-crushing patches, so "pick one" means
-they collide, not that they are merely redundant. Expanded Matter's crushed ores already work; a
-failure there means an out-of-date install. Interesting Mining and Extraction is unanswered; the
-community's own guess is that it would need its own crusher recipe and probably is not worth adding.
+Improved Metallurgy implements the same mechanic a different way, so pick one; running the two
+together crashed a whole server through duplicate nugget-crushing patches, which makes it a
+collision rather than a redundancy. Expanded Matter works, and its crushed ores are accepted as
+furnace feed in the code. Interesting Mining and Extraction has never been answered.
+
+The general rule is that crushing recipes are where ore mods collide. [[Compatibility]] lists what
+this mod patches, and one line per named mod with the date it was last true.
 
 ## How do I pick up molds with molten ingots without getting hurt, and why do they take 70 minutes to cool?
 
-Wear heavy leather or blacksmithing gloves; tongs do not work and were rejected by design, since the
-player holds a mold with both hands. A filled mold can be picked up, unlike vanilla, but landing in
-a non-active slot or swapping slots destroys the molten metal, so keep it in your active slot until
-it solidifies. Cooling rides on the item stack, not a fixed timer: about three minutes from a
-crucible pour against roughly seventy real minutes from a canal tap, so count your molds before
-tapping rather than after. Pulling a mold off its pedestal onto the ground cools it faster. Ceramic
-molds are planned to be replaced by sand and cast iron molds, so this answer is dated. See
-[Steelmaking: Molten Metal Casting](handbook/casting/) and
-[molds and casting](Instructions#molds-and-casting).
+Wear heavy leather gloves or a blacksmith's gloves. Tongs do not work and were rejected by design,
+since a mold is held with both hands. Metal over 200 C in a mold in your hand costs you a health
+point a second without them.
+
+A filled mold can be picked up, unlike vanilla, but liquid metal only rides in your active hand:
+another hotbar slot, a bag, a chest or a mold rack empties it at once. On the cooling, a mold under
+an open pour does not cool at all, because every unit that lands restamps the cast to the canal's
+temperature. It starts cooling when it is full, when the run empties, or when you shut the pour,
+and taking it off the pedestal takes it out of the pour. That is why a canal-fed cast was timed at
+about 70 real minutes in August 2026 against about 3 for a crucible pour. Count your molds before
+you tap. See [[Casting]].
 
 ## How do I know when the steel is done?
 
-The stone coffin makes blister steel and the crucible process is bolted onto the end of that route,
-not a replacement for it. The coal pile under the cementation furnace burns for eight in-game hours
-regardless of coal type and must be topped up. You tell it is done by looking at the coffin, and the
-door is safe to open at that point. The Bessemer step needs no new recipe logic to accept a new
-alloy; it would need converter, ingot, plate, toolhead and mold changes together. See
-[Steelmaking: Bessemer Converter](handbook/bessemer/) and
-[the Bessemer run](Instructions#the-bessemer-run).
+The converter's own panel says so: "Steel ready! Pour it out." Until then it counts "Refining..."
+in per cent, and the blow takes 10 minutes at the 2.5 atm gate, down to 2 minutes 30 at 6 atm.
+Then sprint and right-click the control, held for a second, to pour it into the output canal.
+
+The Bessemer route is not the stone coffin route. Blister steel from a coffin still works as it
+always did, and the coal pile under a cementation furnace still burns for eight in-game hours
+whatever coal it is. The converter is a different, parallel way to make steel, and it is covered on
+[[Bessemer process]].
 
 ## The molten will not travel more than four canals
 
-A real regression once stalled metal after four canal segments; it was fixed the same day it was
-reported, so check your version rather than assume it is still open. Molten metal does not
-back-flow: a tap with nothing under it solidifies rather than waiting, and a junction always fills
-its first non-full exit first. Canal start blocks accept a manual crucible pour as a valid target,
-and chiseling one out means chiseling solidified metal, which does not work on the canal's
-non-cube shapes.
+There is no distance limit in the code. A run reaches as far as you feed it, and what stops it is
+metal freezing in a cell: below its melting point a cell sets solid, drops off the network, and
+blocks everything past it. The four-block stall reported in August 2026 was a real regression and
+was fixed the same day, so check your version before assuming it is that.
+
+Metal also does not back up and wait: a tap with nothing under it pours into a start that fills and
+freezes, and a junction fills the first exit that is not already full. [[Molten metal]] has the flow
+rules, the capacities and the freezing thresholds.
 
 ## It extinguishes every time I switch the stoves
 
-Build the overflow line to the smoke stack before the first switch: the exhaust has nowhere else to
-go, and a valve set to 0.5 works because the furnace chokes at 0.8. Cycling a valve faster does not
-fix this; the fix is the overflow line. Merge the output network so both tuyeres share pipes, or
-temperature drops below 1500C on every switch. See
-[the cowper stove](Instructions#the-cowper-stove).
+The exhaust has nowhere to go for the moment a stove's exhaust valve is shut, so build the overflow
+branch to the Smoke Stack Intake before the first swap. A pressure-relief valve in that branch does
+it; a fresh valve gates at 1.0 atm, which is under the 2.0 atm the furnace pushes its exhaust to.
+The 0.5 atm setting the owner gave in June 2026 also works, and the reasoning behind it, that the
+furnace chokes at 0.8 atm, predates the 0.9.5 release that raised the furnace's exhaust ceiling.
+
+Cycling the valves faster does not help, and neither does a separate pipe run per stove: merge the
+hot side so both tuyeres keep drawing through the swap, or the blast temperature drops on every
+change. See [[Hot blast]].
 
 ## All the pressure drops the moment we start refining
 
-The Bessemer converter's input is not a network block, so a pipe must sit between the blower and the
-converter. The converter needs 2.5 atm and a mechanical-power blower cannot reach that; a
-steam-driven blower is required. Building pressure above 2.5 before starting is not a complete
-answer: a mid-blow sag to about 2.48 has been reported with no fix, so expect the run to need
-watching, not just a high starting number. See
-[the Bessemer run](Instructions#the-bessemer-run).
+The converter's gas intake is a port, not a pipe: a pipe has to sit in the cell in front of it,
+facing back at it. It needs 2.5 atm, which a Twin-Tub Blower cannot reach at all, so the blast has
+to come from a steam-driven Air Blower with enough steam behind it.
+
+Starting above 2.5 atm is not the whole answer. The converter's draw climbs with the blow rate, up
+to 48 L/s at 6 atm, and a sag to about 2.48 atm partway through a blow was reported in September
+2026 with no fix recorded. Build the supply for the rate you mean to run and watch the reading
+through the run. [[Bessemer process]] has the pressure table.
 
 ## How do I change the numbers this mod uses?
 
-`/exmod config` and `/exmod recipes` are Expanded Library's own commands, not this mod's; the mod id
-is the section name, so tuning smex is `/exmod config smex ...`. That command edits
-`ModConfig/smex_values.json` and applies live. `/exmod recipes smex <level>` only sets the recipe
-cost level, which applies on the next world reload; the per-recipe numbers themselves live in
-`ModConfig/smex_recipes.json` and are edited on disk, not through either command.
+`/exmod config` and `/exmod recipes` are Expanded Library's commands, not this mod's, and the mod id
+is the section name: `/exmod config smex <key> <value>`. That writes `ModConfig/smex_values.json`
+and applies live. `/exmod recipes smex <level>` only picks a cost profile, and it lands on the next
+world reload; the per-recipe numbers live in `ModConfig/smex_recipes.json` and are edited there.
+Every key and its default is listed on [[Commands and config]].
 
 ## The update broke my burden, and the hopper will not take crushed coke any more
 
-The hopper takes plain coke now, not crushed coke; the crushed-coke recipe was disabled for
-Expanded Matter compatibility, and a migration for burden built before that change is still owed.
-If your burden looks wrong after updating, that is the known gap, not a new bug.
+The hopper takes whole coke now, two per batch, or four charcoal. Crushed coke was retired in
+0.9.5: its crafting route is gone and it is hidden from creative and the handbook, though existing
+stacks are migrated as chunks load. If the furnace refuses your fuel after an update, that is the
+change, not a bug.
+
+More broadly, the 0.9.x updates changed a lot of block entities, and the migration system is not a
+guarantee. A block that looks wrong after an update has to be broken and replaced.
 
 ## What refractory does the blast furnace need?
 
-Tier 3 refractory brick was required through June 2026; the furnace has accepted any refractory
-tier since 2026-08-28. Build with whatever refractory you have on a current install; only an older
-build made before that date needs tier 3. Check: the furnace's multiblock overlay completes with
-the brick you used.
+Any tier, and they can be mixed. Tier 3 was the only accepted brick through June 2026 and any
+refractory has worked since late August 2026. There is one exception in the mod: the Bessemer
+Converter vessel's construction stages want tier-2 refractory brick specifically, and nothing else
+will do.
+
+## It renders for the player who built it, and the server restart eats the rest
+
+Two different things, with two different answers.
+
+The Reinforced Hopper losing or duplicating items unless they were shift-clicked in was a packet
+bug, found and fixed in June 2026. On a current install the hopper syncs its contents to everyone.
+
+The rest is open. Multiblocks that render as water for every player except the builder until a
+restart, pipes that implode on a restart with the machines off, and a pressure spike on login have
+all been reported and none has a recorded fix. They are one failure, not three: machine state is
+rebuilt when a chunk loads. Until that changes, stop the machines and drain what you can before a
+planned restart, rather than leaving a plant pressurised and full of metal.
+
+## Why will the multiblock not complete, and what is missing?
+
+Hold ctrl and shift and right-click the control block: that raises the build outline and prints
+every block still missing, by name and count, in chat. Red cells in the outline hold the wrong
+block. The outline only appears while the structure is incomplete, and it goes away by itself when
+it is done.

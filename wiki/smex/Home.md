@@ -1,30 +1,30 @@
 # Steelmaking Expanded (smex)
 
-Steelmaking Expanded adds an industrial-era iron and steel production chain on top of vanilla
-metalworking. Current version is 0.9.8. It needs Expanded Library 0.7.2 and Pipes and Power
-Expanded. It carries no guard against later exlib versions; the game's loader simply fails to load
-this mod at all once exlib 0.8 or later is installed, since its assembly reference no longer
-matches.
+Steelmaking Expanded adds an industrial iron and steel line on top of vanilla metalworking: a blast
+furnace that smelts ore into a reservoir of molten metal, the machinery that blows and preheats its
+air, a network of canals that plumbs the melt to molds, and a Bessemer converter that turns the
+iron into steel. This is version 0.9.8, and it needs Expanded Library 0.7.2 and
+[Pipes and Power Expanded](/current/ppex/Home/) 0.6.8. It carries no guard against later library
+versions: with exlib 0.8 or newer installed the game simply does not load this mod, because its
+assembly reference no longer matches.
 
-It adds a blast furnace, a tall multiblock of refractory brick fed by a hopper pair that combines
-iron ore, lime and fuel into burden, pooling molten iron and slag once fired above iron's melting
-point; hot blast machinery, cowper stoves that recycle furnace exhaust into blast air, a smoke
-stack, and two ways to pressurise the blast line, a steam-driven air blower or the axle-driven
-twin-tub blower; a molten canal network that plumbs liquid metal through rock-built canals,
-furnace taps, a pouring canal tap, mold pedestals and molten barrels for bulk storage; casting,
-including plate, quad-rod and double-ingot ceramic molds and the casting of large molds directly
-under a canal tap; the Bessemer converter, a 3x3x3 vessel of tier-2 refractory brick that blows
-molten iron into steel using mechanical power and a high-pressure blast line; and a slag chain
-that turns solidified slag into mortar ingredient or fertilizer and scrap iron bits back into
-crushed iron.
+The line has two halves. Iron comes out of the [[Blast furnace]], a tall refractory tower fed by a
+pair of hoppers that combine ore, fuel and lime into burden, blown through two tuyeres and tapped
+into a [[Molten metal]] network of canals, taps and barrels that carries the melt to a pedestal for
+[[Casting]]. [[Hot blast]] is the upgrade to that half: a pair of cowper stoves reclaim the heat
+from the furnace's own exhaust and hand it back to the air, which roughly triples the melt rate,
+with a smoke stack venting the surplus. Steel is the second half: the [[Bessemer process]] blows
+air through a bath of molten iron to burn the carbon out of it, and it is the most demanding
+machine here, wanting mechanical power and a blast pressure only a steam-driven blower reaches.
+Nothing is wasted at the end of it either, since [[Slag and its products]] turns the furnace's
+by-product into fertilizer, mortar and paving.
 
-The in-game handbook ships five articles - overview, blast furnace, hot blast, casting and
-Bessemer - with full build costs and operating procedures. Gameplay tunables live in
-`ModConfig/smex_values.json`, with recipe and construction costs in `ModConfig/smex_recipes.json`,
-both editable live with `/exmod config` and `/exmod recipes`.
-
-smex's successor is Steel Industry Expanded, a new mod built on exlib 0.8 and later rather than an
-update to this one; worlds do not carry over between the two.
-
-See the [FAQ](FAQ) for questions players actually asked, and
-[Instructions](Instructions) for the setups they most often got wrong.
+Every gameplay number in the mod is a config value you can read and change in place; see
+[[Commands and config]] for the keys, the defaults and the chat commands, and [[Compatibility]] for
+what this mod patches and which other mods it collides with. If you are starting from nothing, work
+through [Getting started](Getting-started) in order; if something is already broken, the
+[FAQ](FAQ) collects the questions players actually asked. The in-game handbook articles are still
+shipped and are grouped under Handbook in the sidebar, but the pages here are the current ones.
+Steelmaking Expanded itself is not being carried forward: its successor is Steel Industry Expanded,
+a new mod built on exlib 0.8 and later rather than an update to this one, and worlds do not carry
+over between the two.
