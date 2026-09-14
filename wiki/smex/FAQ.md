@@ -8,12 +8,13 @@ pipes-and-power-only questions, see the [Pipes and Power Expanded FAQ](../../ppe
 The burden only lights and stays lit when air is already flowing into the tuyeres under pressure;
 lighting a burden with the blowers off is the single most common failure reported. The "10/10
 liters of blast" reading on the furnace door is the burden charge, not a live air supply, and
-reading it as proof the blast is connected has cost more than one player a run. The working numbers
-are 2.5 atm at the blower side, an overflow line valved at 0.5 because the furnace chokes at 0.8,
-and an air budget of 12 L/s per tuyere against 16 L/s per blower, so two blowers or a throttled
-Cornish engine, since a mechanical-power blower alone tops out at 2 atm. The threshold itself was
-lowered to 1.5 atm on 2026-08-13; a furnace built before that date needs its door broken and
-replaced. See [Steelmaking: Blast Furnace](handbook/blastfurnace/) and
+reading it as proof the blast is connected has cost more than one player a run. The numbers the
+shipped mod uses: a tuyere draws about 20 L/s at melt rate 1.0, so two draw around 40 and one in
+overdrive around 80, and the furnace lights once the blast holds 1.5 atm or more. A mechanical-power
+blower reaches 2 atm, which is enough for the furnace but not for the Bessemer converter's 2.5. Keep
+an overflow line to the smoke stack valved at 0.5, because the furnace chokes at 0.8. The 1.5 atm
+threshold dates from 2026-08-13 (it was 2.5 before); a furnace built before that date needs its
+door broken and replaced to pick it up. See [Steelmaking: Blast Furnace](handbook/blastfurnace/) and
 [the blast furnace build and its first tap](Instructions#the-blast-furnace-build-and-its-first-tap).
 
 ## I do not quite understand how the cowper stoves are supposed to function
