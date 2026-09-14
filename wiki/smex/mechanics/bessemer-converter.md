@@ -14,6 +14,8 @@ leaves mild steel. It is the last stage of the line and the most demanding machi
 needs molten iron delivered by canal, mechanical power to tilt the vessel, and blast at 2.5 atm,
 which only a steam-driven Air Blower reaches.
 
+The build is on the Bessemer converter page.
+
 ## What it needs running
 
 | service | requirement |
