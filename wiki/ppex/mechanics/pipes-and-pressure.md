@@ -7,6 +7,7 @@ covers:
   - "ppex:pipe-xjunction-*"
   - "ppex:pipe-passthrough-*"
   - "ppex:pipe-passthroughbend-*"
+order: 1
 version: 0.6.8
 ---
 

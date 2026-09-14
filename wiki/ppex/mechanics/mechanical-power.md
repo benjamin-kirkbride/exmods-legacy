@@ -6,6 +6,7 @@ covers:
   - "ppex:manualfluidpump-*"
   - "ppex:mpfluidpump-*"
   - "ppex:pipe-fluidintake-*"
+order: 4
 version: 0.6.8
 ---
 
@@ -25,8 +26,8 @@ three settings, and the shaft settles where budget divided by load lands:
 - Four times the budget is where the generator runs out of torque altogether and the shaft stands
   still.
 
-Nothing is damaged by overloading it; an overloaded line simply crawls. The in-game handbook says a
-generator overstresses to a halt past roughly double its load, which is the labouring point, not
+Nothing is damaged by overloading it; an overloaded line simply crawls. The game's own handbook has
+a generator overstressing to a halt past roughly double its load, which is the labouring point, not
 the stall.
 
 Speed has a second ceiling: the shaft can never turn faster than the engine turns it. That is why
@@ -56,13 +57,13 @@ its look-at line says.
 | Mechanical Fluid Pump | 20 L/s per unit of axle speed | 1.5 atm | an axle |
 | Fluid Pump | 100 L/s per unit of engine power | engine inlet pressure times 0.75 | a steam engine |
 
-On an engine that means 30 L/s behind a Watt and 20, 40 or 80 L/s behind a Cornish. The handbook's
-figure of about 5 L/s is from before the 0.6.7 rebalance and is wrong by a factor of six or more.
-The mechanical pump's throughput is a straight proportion of axle speed with no threshold and no
-ceiling of its own, so a barely turning shaft moves a trickle; the handbook's 8 L/s, its floor at
-speed 0.5 and its full rate at 1.5 all predate the same rebalance. Its head never changes with
-speed, because the beam lifts the same column however fast it runs, and it loads the shaft with
-0.05 of its own friction plus 0.05 per atm of head.
+On an engine that means 30 L/s behind a Watt Engine and 20, 40 or 80 L/s behind a Cornish Engine.
+The game's own handbook gives about 5 L/s, from before the 0.6.7 rebalance and wrong by a factor of
+six or more. The Mechanical Fluid Pump's throughput is a straight proportion of axle speed with no
+threshold and no ceiling of its own, so a barely turning shaft moves a trickle; its handbook figure
+of 8 L/s, a floor at speed 0.5 and a full rate at 1.5 all predate the same rebalance. Its head
+never changes with speed, because the beam lifts the same column however fast it runs, and it loads
+the shaft with 0.05 of its own friction plus 0.05 per atm of head.
 
 The faces matter. The engine Fluid Pump draws from the line under it and delivers out of its left
 side. The Manual Fluid Pump draws through the face its crank support stands on and delivers out of

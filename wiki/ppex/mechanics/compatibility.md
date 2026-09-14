@@ -2,6 +2,7 @@
 title: Compatibility
 covers:
   - "ppex:*"
+order: 7
 version: 0.6.8
 ---
 

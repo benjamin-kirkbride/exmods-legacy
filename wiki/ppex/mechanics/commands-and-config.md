@@ -2,6 +2,7 @@
 title: Commands and config
 covers:
   - "ppex:*"
+order: 6
 version: 0.6.8
 ---
 
@@ -26,7 +27,7 @@ this mod is `ppex`.
 | `/exmod recipes ppex cheap` | sets it, applied on the next world reload |
 
 The two `.exmod` commands are client-side and affect only what you see: the unit switch converts
-the look-at lines and the handbook prose, and changes nothing in the simulation. The `/exmod`
+the look-at lines and the game's own handbook, and changes nothing in the simulation. The `/exmod`
 commands are server-side and need the `controlserver` privilege.
 
 ## The files

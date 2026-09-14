@@ -5,6 +5,7 @@ covers:
   - "ppex:pipe-pressurevalve-*"
   - "ppex:pipe-outlet-*"
   - "ppex:steamcondenser-*"
+order: 5
 version: 0.6.8
 ---
 
