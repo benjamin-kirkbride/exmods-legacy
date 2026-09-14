@@ -1,28 +1,25 @@
 # Pipes and Power Expanded (ppex)
 
-Pipes and Power Expanded adds pipe networks and modular steam power machinery. It is the
-infrastructure layer of the Expanded mod family and a hard dependency of Steelmaking Expanded.
-Current version is 0.6.8. It needs Expanded Library 0.7.2. It carries no guard against later exlib
-versions; the game's loader simply fails to load this mod at all once exlib 0.8 or later is
-installed, since its assembly reference no longer matches.
+Pipes and Power Expanded turns boiling water into mechanical power. It adds iron and steel pipe
+networks that carry a gas or water under pressure, two coal-fired boilers, two steam engines, the
+sub-machines an engine drives, and the pumps and fittings that tie them together. It is the
+infrastructure layer of the Expanded family and a hard dependency of Steelmaking Expanded, whose
+blast furnace and Bessemer converter run on blast air that only a steam-driven blower supplies.
+This is version 0.6.8 and it needs Expanded Library 0.7.2.
 
-It adds iron and steel pipe networks carrying a gas or water, with pressure limits, leaking open
-ends and a shared network temperature; fittings such as hand valves, directional pressure valves,
-brick passthroughs and outlets, fluid intakes and a steam condenser; the compact Cornish boiler
-and the heavy Lancashire boiler, both raised through right-click construction over a fire-brick
-firebox; the low-pressure Watt steam engine and the high-pressure Cornish steam engine, each
-driving one attached sub-machine (an MP generator for constant-power axle drive, a fluid pump for
-boiler feed, or the air blower from Steelmaking Expanded); and two pumps that need no engine, the
-hand-cranked manual fluid pump and the axle-driven mechanical fluid pump, both useful for filling
-a boiler whose fire is out.
+Four systems carry the mod. [[Pipes and pressure]] is the one everything else sits on: capacity,
+pressure, leaks, bursting and how to see a network. [[Boilers]] covers the Cornish and Lancashire
+vessels, their water and fire, and the thirty seconds that end in an explosion.
+[[Steam engines]] covers the Watt and the Cornish, their pressure bands, the throttle and repair,
+and what the power figures actually mean. [[Mechanical power and pumps]] covers the two
+sub-machines and the three ways to move water. Around them, [[Valves and outlets]] covers the
+fittings that shape a run, [[Commands and config]] lists every number the mod uses and how to
+change it in game, and [[Compatibility]] records what is known about other mods, with dates.
 
-The in-game handbook covers build costs, operating steps and failure modes for every piece of
-this machinery under its "Steam Power" articles. Gameplay tunables live in
-`ModConfig/ppex_values.json`, with recipe and construction costs in `ModConfig/ppex_recipes.json`,
-both editable live with `/exmod config` and `/exmod recipes`.
-
-ppex's successor is Iron Industry Expanded, a new mod built on exlib 0.8 and later rather than an
-update to this one; worlds do not carry over between the two.
-
-See the [FAQ](FAQ) for questions players actually asked, and
-[Instructions](Instructions) for the setups they most often got wrong.
+New here, start at [[Getting started with steam power]], which builds the smallest plant that feeds
+itself, in order. The [[FAQ]] answers the questions players actually asked, and points at the page
+that holds each one. The in-game handbook has its own articles under Steam Power; where they and
+these pages disagree, these pages are read from the code and the handbook is not. This mod's
+successor is Iron Industry Expanded, a new mod built on Expanded Library 0.8 rather than an update
+to this one, and worlds do not carry over between them. There is no guard against a newer library
+either: install Expanded Library 0.8 or later and the game simply stops loading this mod.
