@@ -118,9 +118,9 @@ Every key and its default is listed on [[Commands and config]].
 
 ## The update broke my burden, and the hopper will not take crushed coke any more
 
-The hopper takes whole coke now, two per batch, or four charcoal. Crushed coke was retired in
-0.9.5: its crafting route is gone and it is hidden from creative and the in-game handbook,
-though existing stacks are migrated as chunks load. If the furnace refuses your fuel after an update, that is the
+The hopper takes whole coke now, two per batch, or four charcoal. Crushed coke was retired in 0.9.5:
+its crafting route is gone and it is hidden from creative and the in-game handbook, though existing
+stacks are migrated as chunks load. If the furnace refuses your fuel after an update, that is the
 change, not a bug.
 
 More broadly, the 0.9.x updates changed a lot of block entities, and the migration system is not a
