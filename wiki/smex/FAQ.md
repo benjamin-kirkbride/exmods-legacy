@@ -19,7 +19,7 @@ air. Two players reported a furnace broken on that reading alone.
 A lit furnace goes out for four reasons: burden robbed below 144, exhaust arriving at a tuyere, no
 blast at 1.5 atm, or the door left open. One of them gives 30 seconds of grace, or 10 for the door;
 two at once end it immediately. The whole model, with the air demand per tuyere and the blower
-figures, is on [[Blast furnace]]; the build and the lighting order are on [[Blast Furnace Door]].
+figures, is on [[Ironmaking]]; the build and the lighting order are on [[Blast furnace]].
 
 The 1.5 atm gate dates from 2026-08-13, when it was lowered from 2.5. A furnace built before that
 keeps the old figure until its door is broken and replaced.
@@ -36,7 +36,7 @@ Anthracite is not required. The coal pile under the intake only speeds charging,
 charges without one, just slowly. A cold stove reading Idle is not broken either; it simply has
 nothing to do. A charged one is not storage, though: it bleeds toward ambient whatever it is doing,
 halving its margin over the air around it about every 19 minutes. Full detail, rates and the pair
-loop are on [[Hot blast]]; the build is on [[Cowper Stove Intake]].
+loop are on [[Hot blast]]; the build is on [[Cowper stove]].
 
 ## Is it compatible with Improved Metallurgy / IME / Expanded Matter?
 
@@ -119,8 +119,8 @@ Every key and its default is listed on [[Commands and config]].
 ## The update broke my burden, and the hopper will not take crushed coke any more
 
 The hopper takes whole coke now, two per batch, or four charcoal. Crushed coke was retired in
-0.9.5: its crafting route is gone and it is hidden from creative and the handbook, though existing
-stacks are migrated as chunks load. If the furnace refuses your fuel after an update, that is the
+0.9.5: its crafting route is gone and it is hidden from creative and the in-game handbook,
+though existing stacks are migrated as chunks load. If the furnace refuses your fuel after an update, that is the
 change, not a bug.
 
 More broadly, the 0.9.x updates changed a lot of block entities, and the migration system is not a

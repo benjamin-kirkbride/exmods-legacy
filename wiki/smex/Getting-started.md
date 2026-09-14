@@ -21,12 +21,12 @@ recipe. Work through the stages below and take each list as you come to it.
 Nothing goes into the furnace as ore. Set up the supply first: a pulverizer to crush iron ore, a
 coke oven for coke, and a source of lime. Charcoal works in place of coke at twice the pieces, so a
 charcoal pit will keep a furnace fed while the coke ovens catch up. The rates are on
-[[Blast furnace]].
+[[Ironmaking]].
 
 ## The hoppers and the furnace
 
-Build the furnace itself around its [[Blast Furnace Door]], with the Reinforced Hopper and the Bell
-Hopper stacked on top of the shaft. Stock the hopper and let the bell drip burden down until the
+Build the [[Blast furnace]] around its door, with the Reinforced Hopper and the Bell Hopper
+stacked on top of the shaft. Stock the hopper and let the bell drip burden down until the
 door reads 320 of 320. Do not light anything yet.
 
 ## Air
@@ -34,11 +34,11 @@ door reads 320 of 320. Do not light anything yet.
 The furnace cannot be lit without blast. Build a power source and a blower: either a steam engine
 from Pipes and Power Expanded driving an Air Blower, or a waterwheel through one large gear driving
 a Twin-Tub Blower. Pipe it to both Tuyeres and check the door shows 1.50 atm or more before the
-torch comes out. The air budget, and which blower reaches which pressure, are on [[Blast furnace]].
+torch comes out. The air budget, and which blower reaches which pressure, are on [[Ironmaking]].
 
 ## Exhaust
 
-Build the [[Smoke Stack Intake]] and pipe the furnace's two gas outlets to it before the first
+Build the [[Smoke stack]] and pipe the furnace's two gas outlets to it before the first
 light. A furnace with nowhere to put its flue gas chokes and stops melting. This is also the branch
 the stoves will later share, so leave room for a valve.
 
@@ -63,14 +63,14 @@ reservoir fills. Freeze it and chip it out for fertilizer, mortar and paving:
 
 ## Hot blast
 
-Now triple the output. Build two [[Cowper Stove Intake]] stoves, charge one on the furnace's
+Now triple the output. Build a pair of [[Cowper stove]] towers, charge one on the furnace's
 exhaust while the other blows preheated air into the tuyeres, and swap them over with valves. Build
 the overflow line to the stack before the first swap, or the swap puts the furnace out.
 [[Hot blast]] is the whole loop.
 
 ## Steel
 
-Last, and only on a line that already runs: the [[Bessemer Control]] and its vessel. It wants
+Last, and only on a line that already runs: the Bessemer converter and its vessel. It wants
 blast at 2.5 atm, which only a steam-driven blower makes, an axle for mechanical power, and a canal
 in and a canal out. [[Bessemer process]] has the pressures, the timings and how much scrap a blow
 can carry.
