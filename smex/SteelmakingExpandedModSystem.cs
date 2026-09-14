@@ -1,4 +1,3 @@
-using System;
 using ExpandedLib.Blocks.Networks;
 using ExpandedLib.Helpers;
 using ExpandedLib.Registries.Commands;
@@ -29,18 +28,6 @@ namespace SteelmakingExpanded;
 /// </summary>
 public class SteelmakingExpandedModSystem : ModSystem {
   private Harmony? _harmony;
-
-  // Runs before any method that binds to exlib's types is compiled, so the failure is this message
-  // rather than a missing type. A throw here stops the mod's later phases. Must reference nothing
-  // from exlib: the method is compiled on its own, and a body that names an exlib type fails before
-  // the check runs.
-  public override void StartPre(ICoreAPI api) {
-    string? version = api.ModLoader.GetMod("exlib")?.Info.Version;
-    if (version != null && ExlibCompatibility.IsTooNew(version))
-      throw new InvalidOperationException(
-        string.Format(ExlibCompatibility.Message, version)
-      );
-  }
 
   public override void Dispose() {
     ToolMoldPatches.ClearMeshCache();
