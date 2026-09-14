@@ -12,16 +12,14 @@ worked.
    ::schematic{code="ppex:boilercornish" views="plan,iso"}
    ::schematic{code="ppex:boilerlancashire" views="plan,iso"}
 
-2. Build the boiler over a fire-brick firebox, run a bend passthrough under the coalpile and a
-   straight passthrough under the hatch, and put the outlet on the far side with its pipe running
-   up. Check: the boiler completes and its multiblock overlay switches from framed to solid.
+2. Build the boiler on its fire-brick base, run a bend passthrough directly under the boiler itself
+   and a straight passthrough under each of the coalpile and the cokeoven door, and put the outlet
+   on the far side with its pipe running up. Check: the boiler completes and its multiblock overlay
+   switches from framed to solid.
 
 3. Connect an engine downstream of the boiler. An engine's input face is always at the back, because
    the machine always faces one way; there is no rotate option. Check: the engine accepts the pipe
    connection only on that face.
-
-   ::schematic{code="ppex:enginecornish" views="plan,iso"}
-   ::schematic{code="ppex:enginewatt" views="plan,iso"}
 
 4. Attach one sub-machine per engine: an MP generator for constant axle drive, a fluid pump for
    boiler feed, or an air blower. One engine drives exactly one sub-machine; a setup that needs both

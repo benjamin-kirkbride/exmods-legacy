@@ -1,7 +1,7 @@
 # Pipes and Power Expanded: frequently asked questions
 
 Questions that pipes and power alone answer. For questions that need Steelmaking Expanded too, see
-the [Steelmaking Expanded FAQ](../smex/FAQ.md).
+the [Steelmaking Expanded FAQ](../../smex/FAQ/).
 
 ## These steam engines are very weak, is it even worth the iron?
 
@@ -19,8 +19,10 @@ The pressure valve is directional: the copper-trimmed side is the input. Opening
 reconnects the two networks either side of it, and pressure equalizes across the join, which is why
 a run can read one flat pressure even with the tuyeres still drawing air; the valve does not block
 that flow in either direction. A closed valve is not sealed until it has been opened and closed once
-after placing, and a pipe run left with no valve at all keeps venting through the open end. See
-[Steam Power: Fittings](handbook/fittings/).
+after placing, and a valve's downstream port still counts as an open end until something is built
+onto it: a closed valve with nothing connected past it keeps venting through that open port exactly
+like any other open end, which is why a "closed" run can still be heard leaking until a pipe is
+placed after the valve. See [Steam Power: Fittings](handbook/fittings/).
 
 ## My boilers exploded
 
@@ -30,7 +32,7 @@ Opening the lid dumps pressure fast in an emergency. There is a second, unresolv
 found at critical pressure right after a chunk reload, relog or server restart, with a safety valve
 fitted and the hatch open. No fix for that case exists; the mitigation players actually use is to
 vent the boiler and stop the run before a restart, not to trust the safety valve to cover it. See
-[the boiler, engine and pipe line](Instructions.md#the-boiler-engine-and-pipe-line).
+[the boiler, engine and pipe line](Instructions#the-boiler-engine-and-pipe-line).
 
 ## It just says missing 6x and does not tell me what
 
@@ -38,7 +40,7 @@ A right-click-constructed multiblock will not place without room for its whole f
 boilers are 3x2x4, Lancashire boilers 3x2x6, and the placement overlay shows which cells are missing.
 A snow layer is not air and will silently block a cell of an otherwise complete structure. Not every
 third-party wrench works either: Electrical Progressives' Advanced Wrench fails to complete a boiler
-multiblock without any error. See [the boiler, engine and pipe line](Instructions.md#the-boiler-engine-and-pipe-line).
+multiblock without any error. See [the boiler, engine and pipe line](Instructions#the-boiler-engine-and-pipe-line).
 
 ## Is the mechanical power generator meant to sound like a ton of bells clicking?
 
@@ -72,11 +74,12 @@ looks complete only to its builder until a restart, pipes that implode on restar
 machines off, and a login pressure spike bursting pipes and boilers that have overflow valves
 fitted. None of these is fixed. There is nothing to do about it in the moment beyond what the boiler
 explosion question already says: vent and stop a pressurised run before a restart, rather than
-trusting it to survive one. See [the boiler, engine and pipe line](Instructions.md#the-boiler-engine-and-pipe-line).
+trusting it to survive one. See [the boiler, engine and pipe line](Instructions#the-boiler-engine-and-pipe-line).
 
 ## How do I change the numbers this mod uses?
 
 `/exmod config` and `/exmod recipes` are Expanded Library's own commands, not this mod's; the mod id
-is the section name, so tuning ppex is `/exmod config ppex ...` and its recipe costs are
-`/exmod recipes ppex ...`. Gameplay tunables live in `ModConfig/ppex_values.json` and construction
-costs in `ModConfig/ppex_recipes.json`, both editable live through those commands.
+is the section name, so tuning ppex is `/exmod config ppex ...`. That command edits
+`ModConfig/ppex_values.json` and applies live. `/exmod recipes ppex <level>` only sets the recipe
+cost level, which applies on the next world reload; the per-recipe numbers themselves live in
+`ModConfig/ppex_recipes.json` and are edited on disk, not through either command.

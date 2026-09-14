@@ -1,8 +1,10 @@
 # Steelmaking Expanded (smex)
 
 Steelmaking Expanded adds an industrial-era iron and steel production chain on top of vanilla
-metalworking. Current version is 0.9.9. It needs Expanded Library 0.7.2 and Pipes and Power
-Expanded, and refuses to start with exlib 0.8 or later installed.
+metalworking. Current version is 0.9.8. It needs Expanded Library 0.7.2 and Pipes and Power
+Expanded. It carries no guard against later exlib versions; the game's loader simply fails to load
+this mod at all once exlib 0.8 or later is installed, since its assembly reference no longer
+matches.
 
 It adds a blast furnace, a tall multiblock of refractory brick fed by a hopper pair that combines
 iron ore, lime and fuel into burden, pooling molten iron and slag once fired above iron's melting
@@ -24,5 +26,5 @@ both editable live with `/exmod config` and `/exmod recipes`.
 smex's successor is Steel Industry Expanded, a new mod built on exlib 0.8 and later rather than an
 update to this one; worlds do not carry over between the two.
 
-See the [FAQ](FAQ.md) for questions players actually asked, and
-[Instructions](Instructions.md) for the setups they most often got wrong.
+See the [FAQ](FAQ) for questions players actually asked, and
+[Instructions](Instructions) for the setups they most often got wrong.

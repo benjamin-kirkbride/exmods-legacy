@@ -2,7 +2,7 @@
 
 The setups players most often got wrong, as numbered steps with the check that tells you a step
 worked. These need Pipes and Power Expanded for their blast, so read
-[the boiler, engine and pipe line](../ppex/Instructions.md#the-boiler-engine-and-pipe-line) first.
+[the boiler, engine and pipe line](../../ppex/Instructions/#the-boiler-engine-and-pipe-line) first.
 
 ## The blast furnace build and its first tap
 
@@ -19,17 +19,20 @@ worked. These need Pipes and Power Expanded for their blast, so read
    single most common failure: the fire needs oxygen to spread through the charge. Check: the
    tuyeres show blast pressure moving before you light, not the burden charge shown on the door.
 
-4. Meet the air budget: 12 L/s per tuyere against 16 L/s per blower, so run two blowers or one
-   throttled Cornish engine; a mechanical-power blower alone tops out at 2 atm, which is not enough.
-   Check: blast pressure holds at or above 2.5 atm (1.5 atm on furnaces built after 2026-08-13) once
-   the burden is lit.
+4. Meet the air budget: a tuyere draws about 20 L/s at melt rate 1.0, so two tuyeres draw around 40
+   and one pushed into overdrive around 80; size your blowers or a throttled Cornish engine to that.
+   A mechanical-power blower reaches up to 2 atm, which is enough for the furnace's own blast
+   threshold, though not for the Bessemer converter's higher one. Check: blast pressure holds at or
+   above 1.5 atm once the burden is lit; that threshold was lowered mod-wide on 2026-08-13, and a
+   furnace built before that date needs its door broken and rebuilt to pick it up.
 
 5. Put a mold or a canal start block under each tap before you tap. Molten metal does not back-flow,
    so a tap with nothing under it solidifies, and a junction always fills its first non-full exit.
    Check: the mold or canal fills rather than a solidified plug appearing at the tap.
 
-6. Do not overfill the iron pool past 2400. Check: the furnace's iron pool readout stays under that
-   figure between taps.
+6. Let the furnace manage its own iron pool; you cannot overfill it. Once molten iron or slag hits
+   the furnace's own cap, the melt stalls and its status line reads a full reservoir, and tapping
+   either vessel resumes it. Check: a stalled melt clears once you tap.
 
 7. Know the timers: about 15 to 20 minutes of grace before melting starts, 10 seconds of grace on an
    interruption, 30 seconds on an insufficient air mix. If blast is lost mid-melt, the melt resumes
@@ -71,8 +74,6 @@ the furnace instead; this is unconfirmed by the owner. Try the stove line above 
    its own. Check: the converter shows a pressure reading rather than staying at zero once the pipe
    is connected.
 
-   ::schematic{code="smex:converterbessemer" views="plan,iso"}
-
 2. Drive the blast with a steam-driven blower, not a mechanical-power one: the converter needs 2.5
    atm and a mechanical-power blower tops out at 2 atm. Check: pressure at the converter reads 2.5
    atm or above before you start the blow.
@@ -92,8 +93,6 @@ the furnace instead; this is unconfirmed by the owner. Try the stove line above 
 
 1. Wear heavy leather or blacksmithing gloves before handling a filled mold; tongs do not work and
    were rejected by design. Check: no burn damage when you pick up a filled mold with gloves on.
-
-   ::schematic{code="smex:toolmold" views="plan,iso"}
 
 2. Keep a filled mold in your active hotbar slot until it solidifies. Unlike vanilla, a filled mold
    can be carried, but landing in a non-active slot or being swapped out destroys the molten metal.

@@ -1,7 +1,7 @@
 # Steelmaking Expanded: frequently asked questions
 
 Questions that need both Steelmaking Expanded and Pipes and Power Expanded to answer. For
-pipes-and-power-only questions, see the [Pipes and Power Expanded FAQ](../ppex/FAQ.md).
+pipes-and-power-only questions, see the [Pipes and Power Expanded FAQ](../../ppex/FAQ/).
 
 ## It just says extinguishing
 
@@ -14,7 +14,7 @@ and an air budget of 12 L/s per tuyere against 16 L/s per blower, so two blowers
 Cornish engine, since a mechanical-power blower alone tops out at 2 atm. The threshold itself was
 lowered to 1.5 atm on 2026-08-13; a furnace built before that date needs its door broken and
 replaced. See [Steelmaking: Blast Furnace](handbook/blastfurnace/) and
-[the blast furnace build and its first tap](Instructions.md#the-blast-furnace-build-and-its-first-tap).
+[the blast furnace build and its first tap](Instructions#the-blast-furnace-build-and-its-first-tap).
 
 ## I do not quite understand how the cowper stoves are supposed to function
 
@@ -26,7 +26,7 @@ the stove only speeds heating and turns the output into exhaust, so the fire mus
 switching to blast, and an idle stove neither heats nor cools by design. As of 2026-09-10 a player
 reported the stoves broken and skippable by running cold air straight into the furnace instead,
 against "you absolutely need two" from June; no owner statement confirms or denies that. See
-[the cowper stove](Instructions.md#the-cowper-stove).
+[the cowper stove](Instructions#the-cowper-stove).
 
 ## Is it compatible with Improved Metallurgy / IME / Expanded Matter?
 
@@ -46,7 +46,7 @@ crucible pour against roughly seventy real minutes from a canal tap, so count yo
 tapping rather than after. Pulling a mold off its pedestal onto the ground cools it faster. Ceramic
 molds are planned to be replaced by sand and cast iron molds, so this answer is dated. See
 [Steelmaking: Molten Metal Casting](handbook/casting/) and
-[molds and casting](Instructions.md#molds-and-casting).
+[molds and casting](Instructions#molds-and-casting).
 
 ## How do I know when the steel is done?
 
@@ -56,7 +56,7 @@ regardless of coal type and must be topped up. You tell it is done by looking at
 door is safe to open at that point. The Bessemer step needs no new recipe logic to accept a new
 alloy; it would need converter, ingot, plate, toolhead and mold changes together. See
 [Steelmaking: Bessemer Converter](handbook/bessemer/) and
-[the Bessemer run](Instructions.md#the-bessemer-run).
+[the Bessemer run](Instructions#the-bessemer-run).
 
 ## The molten will not travel more than four canals
 
@@ -73,7 +73,7 @@ Build the overflow line to the smoke stack before the first switch: the exhaust 
 go, and a valve set to 0.5 works because the furnace chokes at 0.8. Cycling a valve faster does not
 fix this; the fix is the overflow line. Merge the output network so both tuyeres share pipes, or
 temperature drops below 1500C on every switch. See
-[the cowper stove](Instructions.md#the-cowper-stove).
+[the cowper stove](Instructions#the-cowper-stove).
 
 ## All the pressure drops the moment we start refining
 
@@ -82,11 +82,25 @@ converter. The converter needs 2.5 atm and a mechanical-power blower cannot reac
 steam-driven blower is required. Building pressure above 2.5 before starting is not a complete
 answer: a mid-blow sag to about 2.48 has been reported with no fix, so expect the run to need
 watching, not just a high starting number. See
-[the Bessemer run](Instructions.md#the-bessemer-run).
+[the Bessemer run](Instructions#the-bessemer-run).
 
 ## How do I change the numbers this mod uses?
 
 `/exmod config` and `/exmod recipes` are Expanded Library's own commands, not this mod's; the mod id
-is the section name, so tuning smex is `/exmod config smex ...` and its recipe costs are
-`/exmod recipes smex ...`. Gameplay tunables live in `ModConfig/smex_values.json` and construction
-costs in `ModConfig/smex_recipes.json`, both editable live through those commands.
+is the section name, so tuning smex is `/exmod config smex ...`. That command edits
+`ModConfig/smex_values.json` and applies live. `/exmod recipes smex <level>` only sets the recipe
+cost level, which applies on the next world reload; the per-recipe numbers themselves live in
+`ModConfig/smex_recipes.json` and are edited on disk, not through either command.
+
+## The update broke my burden, and the hopper will not take crushed coke any more
+
+The hopper takes plain coke now, not crushed coke; the crushed-coke recipe was disabled for
+Expanded Matter compatibility, and a migration for burden built before that change is still owed.
+If your burden looks wrong after updating, that is the known gap, not a new bug.
+
+## What refractory does the blast furnace need?
+
+Tier 3 refractory brick was required through June 2026; the furnace has accepted any refractory
+tier since 2026-08-28. Build with whatever refractory you have on a current install; only an older
+build made before that date needs tier 3. Check: the furnace's multiblock overlay completes with
+the brick you used.

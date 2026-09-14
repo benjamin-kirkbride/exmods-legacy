@@ -2,8 +2,9 @@
 
 Pipes and Power Expanded adds pipe networks and modular steam power machinery. It is the
 infrastructure layer of the Expanded mod family and a hard dependency of Steelmaking Expanded.
-Current version is 0.6.9. It needs Expanded Library 0.7.2 and refuses to start with exlib 0.8 or
-later installed.
+Current version is 0.6.8. It needs Expanded Library 0.7.2. It carries no guard against later exlib
+versions; the game's loader simply fails to load this mod at all once exlib 0.8 or later is
+installed, since its assembly reference no longer matches.
 
 It adds iron and steel pipe networks carrying a gas or water, with pressure limits, leaking open
 ends and a shared network temperature; fittings such as hand valves, directional pressure valves,
@@ -23,5 +24,5 @@ both editable live with `/exmod config` and `/exmod recipes`.
 ppex's successor is Iron Industry Expanded, a new mod built on exlib 0.8 and later rather than an
 update to this one; worlds do not carry over between the two.
 
-See the [FAQ](FAQ.md) for questions players actually asked, and
-[Instructions](Instructions.md) for the setups they most often got wrong.
+See the [FAQ](FAQ) for questions players actually asked, and
+[Instructions](Instructions) for the setups they most often got wrong.
