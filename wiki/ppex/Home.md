@@ -23,7 +23,7 @@ The mechanics, in the order a plant is built:
 6. [[Commands and config]] - every number the mod uses and how to change it in game.
 7. [[Compatibility]] - what is known about running this beside other mods, with dates.
 
-The two builds:
+The two structures:
 
 - The Cornish boiler, the iron-age entry vessel.
 - The Lancashire boiler, the steel tier that carries the pressure a Cornish Engine wants.
