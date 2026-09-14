@@ -77,5 +77,5 @@ so and snuffs its own coal pile after 10 seconds.
 into the run, and 1200 L of vessel against a long pipe run takes time. An open end anywhere on the
 run bleeds 8 L/s and stops it for good.
 
-**It exploded.** See [[Boilers]]. At 12 atm the blast reaches 4 blocks and takes the pipes and
+**It exploded.** See Boilers. At 12 atm the blast reaches 4 blocks and takes the pipes and
 ports with it.

@@ -90,5 +90,5 @@ on these multiblocks. Use the vanilla one.
 **Steam but no pressure.** An open end somewhere on the steam run bleeds 8 L/s. Turn on the network
 highlight and walk the line.
 
-**It exploded.** See [[Boilers]]: a Cornish sitting at 5 atm, still firing, with the lid shut, for
+**It exploded.** See Boilers: a Cornish sitting at 5 atm, still firing, with the lid shut, for
 30 seconds is the one case that does it.
