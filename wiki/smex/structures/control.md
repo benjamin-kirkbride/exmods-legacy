@@ -20,9 +20,9 @@ Bessemer Control as the front, and counting cells away from it:
 | beside the vessel, one level up | the input Molten Canal (Tap) and the canal straight feeding it |
 | beside the vessel, two levels down | the output Molten Canal (Start) and the straight leading away |
 
-The structure filler cells in the materials list are not something you place. They are the rest of
-the volume the vessel occupies, reserved automatically when it goes up; all they need from you is
-to be empty first. Clear a box four wide, five deep and four tall before you start.
+The structure filler cells are not something you place. They are the rest of the volume the vessel
+occupies, reserved automatically when it goes up; all they need from you is to be empty first. Clear
+a box four wide, five deep and four tall before you start.
 
 ## Build order
 
