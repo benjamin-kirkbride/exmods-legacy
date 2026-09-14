@@ -12,16 +12,16 @@ boiler, an engine and a few dozen pipes.
 
 | what | why |
 |---|---|
-| Fluid Intake | the only thing that makes water |
-| Manual Fluid Pump | fills the boiler before there is any steam |
-| Cornish Boiler frame, then 22 iron or steel plates, 16 nails and strips, 8 rods and 44 fireclay bricks | the vessel, raised in three right-click stages |
-| Pipe Passthrough (Bend) and Pipe Passthrough (Straight) in fireclay, and a fireclay Pipe Outlet | the firebox walls carry the water line and the exhaust |
+| [[Fluid Intake]] | the only thing that makes water |
+| [[Manual Fluid Pump]] | fills the boiler before there is any steam |
+| [[Cornish Boiler]] frame, then 22 iron or steel plates, 16 nails and strips, 8 rods and 44 fireclay bricks | the vessel, raised in three right-click stages |
+| [[Pipe Passthrough (Bend)]] and [[Pipe Passthrough (Straight)]] in fireclay, and a fireclay [[Pipe Outlet]] | the firebox walls carry the water line and the exhaust |
 | fireclay bricks and an iron hatch door | the firebox itself |
 | a chimney | to vent the firebox |
-| Watt Engine frame, then 4 plates, 24 rods, 12 nails and strips and 36 fireclay bricks | the engine, raised the same way |
-| Piping (Pressure Valve) | keeps the boiler from breaking the engine |
-| Fluid Pump | the sub-machine that closes the water loop |
-| Piping (Straight), bends and junctions | two or three dozen covers a first plant |
+| [[Watt Engine]] frame, then 4 plates, 24 rods, 12 nails and strips and 36 fireclay bricks | the engine, raised the same way |
+| [[Piping (Pressure Valve)]] | keeps the boiler from breaking the engine |
+| [[Fluid Pump]] | the sub-machine that closes the water loop |
+| [[Piping (Straight)]], bends and junctions | two or three dozen covers a first plant |
 
 Iron pipe is fine for everything here. Steel only becomes necessary at the Lancashire Boiler.
 

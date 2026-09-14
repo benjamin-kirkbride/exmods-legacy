@@ -1,5 +1,5 @@
 ---
-title: Lancashire boiler
+title: Lancashire Boiler
 ---
 
 The Lancashire boiler is the steel tier: twin flues, 1200 L of water and steam together, 48 L/s of
@@ -20,8 +20,9 @@ A snow layer over any cell reads as a block, not as air, and holds the structure
 
 ## Orientation
 
-Place the boiler block standing where the firebox is to go: the vessel rises away from you, the
-firebox ends up on your side, the hatch door closes the end. There is no rotate. Hold ctrl and
+Stand where the firebox is to be and place the block in front of you: the vessel rises away from
+you, the two cells you are standing in become the firebox, and the hatch door closes the end.
+There is no rotate. Hold ctrl and
 shift and right-click the block to outline the missing cells and list them in chat by name and
 count.
 
