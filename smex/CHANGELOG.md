@@ -5,6 +5,10 @@ All notable changes to this mod are documented here. The format is based on
 [Semantic Versioning](https://semver.org/). For changes before this file existed,
 see the git history.
 
+## [0.9.9] - 2026-09-14
+
+Refuses to start beside exlib 0.8 or later with a message naming the fix; no other change.
+
 ## [0.9.8] - 2026-08-13
 
 Requires Expanded Library 0.7.2, which stops the blast furnace parts and the cowper heat sink losing

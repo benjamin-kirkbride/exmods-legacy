@@ -5,6 +5,10 @@ All notable changes to this mod are documented here. The format is based on
 [Semantic Versioning](https://semver.org/). For changes before this file existed,
 see the git history.
 
+## [0.6.9] - 2026-09-14
+
+Refuses to start beside exlib 0.8 or later with a message naming the fix; no other change.
+
 ## [0.6.8] - 2026-08-13
 
 No changes to this mod. It requires Expanded Library 0.7.2, which stops a pipe losing what it knows
