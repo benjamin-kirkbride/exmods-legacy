@@ -71,7 +71,7 @@ reported again on a later version, and confirmed fixed for good on 2026-06-22. I
 looks invalid, check your version against the changelog before assuming it is new. If it is the
 cost of a recipe you want to change rather than the recipe itself, see [[Commands and config]].
 
-## Would it work with <some other mod>?
+## Would it work with another mod?
 
 [[Compatibility]] has the table, dated, one line per mod anyone has reported. The short version:
 there is no electricity anywhere in these mods, so nothing interoperates with another mod's grid;
