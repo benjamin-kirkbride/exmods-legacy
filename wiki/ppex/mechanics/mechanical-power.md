@@ -26,8 +26,8 @@ three settings, and the shaft settles where budget divided by load lands:
 - Four times the budget is where the generator runs out of torque altogether and the shaft stands
   still.
 
-Nothing is damaged by overloading it; an overloaded line simply crawls. The game's own handbook has
-a generator overstressing to a halt past roughly double its load, which is the labouring point, not
+Nothing is damaged by overloading it; an overloaded line simply crawls. The game's own handbook says
+a generator overstresses to a halt past roughly double its load, which is the labouring point, not
 the stall.
 
 Speed has a second ceiling: the shaft can never turn faster than the engine turns it. That is why
