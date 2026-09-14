@@ -1,7 +1,13 @@
 ---
 title: Commands and config
 covers:
-  - "ppex:*"
+  - "ppex:boilercornish-*"
+  - "ppex:boilerlancashire-*"
+  - "ppex:engine*"
+  - "ppex:manualfluidpump-*"
+  - "ppex:mpfluidpump-*"
+  - "ppex:steamcondenser-*"
+  - "ppex:pipe-fluidintake-*"
 order: 6
 version: 0.6.8
 ---
