@@ -1,3 +1,7 @@
+---
+hints: [blockhelp-bessemer-spawn, blockhelp-bessemer-normal, blockhelp-bessemer-filling, blockhelp-bessemer-pouring]
+---
+
 The control is the head of the converter and the block every other part of it is measured from:
 filling, normal and pouring are set on it, and its panel names whatever is missing before it names
 the charge. Place it facing the way the machine should run, because the transmission below it and
