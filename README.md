@@ -29,7 +29,8 @@ No new features, no refactors, no format pass - this tree predates the family's 
 and stays excluded from it (`bash scripts/exmod.sh check` never walks `legacy/`; its own build
 and test run separately, see below). There is no maintenance release: ppex and smex carry no
 guard against a newer exlib, so the game's loader simply fails to load them at all once exlib
-0.8 or later replaces the 0.7.2 they need.
+0.8 or later replaces the 0.7.2 they need. exlib 0.8 itself logs one Error naming the clash and
+repeats it to every joining player.
 
 **iiex (Iron Industry Expanded) and siex (Steel Industry Expanded) are the successors** - new
 mods rather than updates to ppex/smex. Worlds do not carry over between the two lines.
