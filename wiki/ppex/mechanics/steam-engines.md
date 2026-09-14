@@ -36,12 +36,24 @@ pressure. That is what a pump lifts against and what a blower blows at.
 
 A Cornish Boiler chokes at 5 atm. That is above the Watt's 4 atm wear point, so a Watt behind a
 Cornish boiler needs a Piping (Pressure Valve) gated around 2.5 to 3 atm, hung off the run the
-engine sits on and venting to air or to an overflow, or it will break. It is also only just at the Cornish engine's low setting and below its normal and
-high settings, so a Cornish engine wants a Lancashire Boiler, which chokes at 12 atm.
+engine sits on and venting to air or to an overflow, or it will break. It is also only just at
+the Cornish engine's low setting and below its normal and high settings, so a Cornish engine wants
+a Lancashire Boiler, which chokes at 12 atm.
+
+A Lancashire needs a valve of its own, for the same reason. Every Cornish setting wears above
+8 atm and steel pipe bursts at 10 atm, both well under the boiler's 12 atm choke, so an ungated
+Lancashire line breaks a Cornish engine in 60 s exactly as an ungated Cornish boiler breaks a Watt.
+Hang a pressure valve off the engine's run there too, gated at 8 atm or under.
+
+A relief valve only holds a line the engine is drawing from. An engine with no sub-machine, or one
+whose pump has lost its intake, draws no steam while its over-pressure timer keeps running, and a
+valve venting 8 L/s cannot hold a run down against a Cornish boiler's 32 L/s on its own: the line
+climbs to the boiler's choke pressure and the engine bursts 60 s later. Shut the steam line or let
+the fire die before leaving an engine standing without a sub-machine.
 
 Steam supply is the other half of the match. A Cornish boiler makes 32 L/s, which is one Watt with
 nothing to spare, or two Cornish engines on normal. A Lancashire makes 48 L/s, which is three
-Cornish engines on normal or one on high with a Watt beside it.
+Cornish engines on normal, or one on high with a second on normal beside it.
 
 ## Throttle, breaking and repair
 
@@ -63,11 +75,12 @@ line there takes it, at no pressure of its own; an unplumbed face sprays it on t
 There is no kilowatt or horsepower figure anywhere in this mod, and the power numbers above are
 bare ratios. What they buy is shaft load: an engine's Mechanical Power Generator holds a load of
 twice the engine's power at full speed, so 0.6 for a Watt and 1.6 for a Cornish on high. A vanilla
-helve hammer resists about 0.175, which puts a Watt at about three hammers and a Cornish on high at
-about nine. A waterwheel out-pulls both. The in-game handbook still says two and six; those figures
-are from before the 0.6.6 rebalance that raised the load an engine holds per unit of power.
+helve hammer resists 0.125, which puts a Watt at about five hammers and a Cornish on high at about
+thirteen. The in-game handbook still says two and six; those figures predate the 0.6.6 rebalance,
+which raised the load an engine holds per unit of power so that an engine out-pulls a vanilla
+waterwheel rather than giving up where the wheel merely bogs down.
 
-So a steam engine is not a better waterwheel. What it is instead:
+Pulling power is not the reason to build steam, though. What it is instead:
 
 - Power where there is no river, underground or in a walled shop.
 - Power on demand, which starts and stops with the fire rather than the season.
