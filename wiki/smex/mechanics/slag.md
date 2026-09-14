@@ -24,7 +24,7 @@ drains it at 40 units per second into a canal start below its spout.
 
 Slag runs the canals like any other metal, with its own thresholds:
 
-| | slag |
+| threshold | slag |
 |---|---|
 | liquid above | 576 C |
 | freezes below | 720 C |

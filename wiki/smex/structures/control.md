@@ -1,5 +1,6 @@
 ---
 title: Bessemer converter
+version: 0.9.8
 ---
 
 The [[Bessemer Control]] starts this build and is the block you work from afterwards: filling,
@@ -45,9 +46,8 @@ a box four wide, five deep and four tall before you start.
 7. Connect the services: an axle to the transmission, a pipe in the cell in front of the gas
    intake, and a canal from a furnace tap into the input straight.
 
-The vessel leans to one side. That is deliberate and there is no mirrored variant; starting the
-build from the other side flips the whole block, so decide which way it should lean before you
-raise it (owner, 2026-07).
+The vessel leans to one side and there is no mirrored variant, so decide which way it should lean
+before you raise it.
 
 ## The first heat
 

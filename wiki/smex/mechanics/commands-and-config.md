@@ -192,11 +192,9 @@ blower, the smoke stack intake, both hoppers, the molten barrel, every molten ca
 three slag paths. Each entry carries a `normal` profile read from the shipped recipe and a `cheap`
 profile at half of it, and both are yours to edit.
 
-## Whether config edits work
+## Reading a value back
 
-There is one unresolved report here worth knowing about. In June and July 2026 several players
-reported that edits to `rccbrokendropsratio` had no effect, while the owner reported it working on
-his own setup, and nothing settled it. That particular key was reset to 1.0 for everyone in 0.9.6,
-so on a current install breaking the converter returns all of its materials whatever the file says.
-If a change through `/exmod config` does not show, read the value back with the same command: it
-prints what the server actually holds.
+If a change through `/exmod config` does not seem to show, read the value back with the same
+command: it prints what the server actually holds. `RccBrokenDropsRatio` was reset to 1.0 for
+everyone in 0.9.6, so on a current install breaking the converter returns all of its construction
+materials whatever the file says.

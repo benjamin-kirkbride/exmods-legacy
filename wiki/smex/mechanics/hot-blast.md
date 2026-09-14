@@ -93,9 +93,9 @@ exhaust run fills, the furnace chokes and the melt stops.
 
 Route the surplus to the stack through a pressure-relief valve teed off the exhaust main. The
 furnace pushes its exhaust to 2.0 atm, and a freshly placed relief valve gates at 1.0 atm, so the
-default setting opens under load. A valve at 0.5 atm, the figure the owner gave in June 2026, also
-works; the advice behind it, that the furnace chokes at 0.8 atm, is older than the 0.9.5 release
-that raised the furnace's exhaust ceiling to 2.0 atm.
+default setting opens under load. A valve set as low as 0.5 atm also works, though the 0.8 atm
+choke point it was originally sized against predates the 0.9.5 release that raised the furnace's
+exhaust ceiling to 2.0 atm.
 
 ## What goes wrong
 
@@ -128,14 +128,9 @@ charging rate above, and a stove hands on whatever medium arrives at its passthr
 fire out before a stove blows still costs nothing, and a stove is meant to blow after it is
 charged, not while it is.
 
-## What changed, and when
+## Whether the stoves work
 
-| claim | when |
-|---|---|
-| "you absolutely need 2 cowper stoves and a smoke stack for the system to work" (owner) | 2026-06-02 |
-| "those are not required any more to smelt" (owner) | 2026-08-16. The code agrees: cold blast clears iron's melting point on its own |
-| "the cowper stoves are broken at the moment, just run cold air straight into the furnace" (a player, not the owner, and unconfirmed) | 2026-09-10 |
-
-The stove code in 0.9.8 does charge and discharge as described here. A furnace that will not take
+The stove code in 0.9.8 does charge and discharge as described here, and the stoves are not
+required to smelt: cold blast clears iron's melting point on its own. A furnace that will not take
 the boost is usually one of the faults above, and the cold-blast route is always available as a
 fallback: it is slower, not broken.

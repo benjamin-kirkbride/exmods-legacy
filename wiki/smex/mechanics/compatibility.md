@@ -17,7 +17,7 @@ that is now old.
 | mod | version this needs | note |
 |---|---|---|
 | Expanded Library (exlib) | 0.7.2 | a hard dependency. This mod does not load at all against exlib 0.8 or later: the assembly reference no longer matches, and there is no guard, the loader simply skips it |
-| Pipes and Power Expanded (ppex) | 0.6.8 | a hard dependency. The furnace, the stoves and the converter all breathe through its pipes |
+| Pipes and Power Expanded (ppex) | 0.6.7 or later (0.6.8 is the current release) | a hard dependency. The furnace, the stoves and the converter all breathe through its pipes |
 
 Mismatched versions of these three is a real failure mode and not an obvious one: in August 2026 it
 was twice the actual cause of "blocks missing after the update" reports. Update them together.

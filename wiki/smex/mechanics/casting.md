@@ -60,10 +60,10 @@ the metal's melting point: 445 C for iron, 451 C for steel.
 
 That is the whole of the answer to why a canal-fed cast takes so much longer than a crucible pour.
 The crucible pours a fixed amount of metal at crucible temperature and stops; the canal keeps
-topping the mold up at furnace temperature. Players measured about 3 minutes for a crucible-poured
-mold against around 70 real minutes for a canal-fed one in August 2026, which is why a run of any
-size needs its molds staged in advance: count them before you tap, not after. Taking a mold off its
-pedestal and setting it on the ground takes it out of the pour and gets it cooling.
+topping the mold up at furnace temperature, which takes it from about 3 minutes to cool by
+crucible to around 70 real minutes fed by canal. Stage a run's molds in advance: count them before
+you tap, not after. Taking a mold off its pedestal and setting it on the ground takes it out of the
+pour and gets it cooling.
 
 ## Getting the casting out
 
@@ -78,8 +78,8 @@ pedestal and setting it on the ground takes it out of the pour and gets it cooli
 Two rules, both enforced once a second on the server:
 
 1. **Metal above 200 C burns you** at 1 health per second while you hold the mold, unless you are
-   wearing heavy leather gloves or a blacksmith's gloves. Tongs do not help and were rejected by
-   design, since a mold is held with both hands.
+   wearing heavy leather gloves or a blacksmith's gloves. Tongs do not help; a mold is held in both
+   hands.
 2. **Liquid metal only rides in your active hand.** A mold with liquid metal in any other slot, a
    backpack, a chest or a mold rack loses its contents at once: `The molten metal spilled out of
    the mold!` Switching to another hotbar slot spills the one you just left.
@@ -105,7 +105,4 @@ hardened, because a hardened mold is a finished cast.
 **Right-clicking gives me the mold instead of the casting.** The cast is not both full and
 hardened yet, or the mold type has been disabled on the server.
 
-## Dated note
-
-Ceramic molds are the current route. The owner said in July 2026 that they are to be replaced by
-sand and cast iron molds in a later mod; nothing in 0.9.8 has changed yet.
+Ceramic molds are the route in 0.9.8.

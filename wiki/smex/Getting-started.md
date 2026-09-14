@@ -7,10 +7,10 @@ a converter.
 ## Before anything
 
 Steelmaking Expanded 0.9.8 needs Expanded Library 0.7.2 and
-[Pipes and Power Expanded](/current/ppex/Home/) 0.6.8, and all three have to move together. It also
-needs you to be working iron already: the furnace is built from refractory brick, and the machines
-around it want plates, rods and nails. Read [[Compatibility]] first if you run other ore or
-metallurgy mods, because crushing recipes are where they collide.
+[Pipes and Power Expanded](/current/ppex/Home/) 0.6.7 or later, and all three have to move
+together. It also needs you to be working iron already: the furnace is built from refractory
+brick, and the machines around it want plates, rods and nails. Read [[Compatibility]] first if you
+run other ore or metallurgy mods, because crushing recipes are where they collide.
 
 There is no single shopping list for the whole mod, and there does not need to be one: every build
 page here carries a materials table computed from its own layout, and every block page carries its
@@ -51,9 +51,9 @@ freezes.
 
 ## Casting
 
-Put a Molten Canal (Mold Pedestal) on the end of a run, set a mold on it and open the pour. Wear
-gloves before you touch anything that has been filled. [[Casting]] has the mold sizes, the cooling
-rule and the two ways a filled mold is lost.
+Put a [[Molten Canal (Mold Pedestal), brick]] (or the cobblestone kind) on the end of a run, set a
+mold on it and open the pour. Wear gloves before you touch anything that has been filled.
+[[Casting]] has the mold sizes, the cooling rule and the two ways a filled mold is lost.
 
 ## Slag
 

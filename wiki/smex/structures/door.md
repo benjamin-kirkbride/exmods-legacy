@@ -1,5 +1,6 @@
 ---
 title: Blast furnace
+version: 0.9.8
 ---
 
 The [[Blast Furnace Door]] starts this build and is the block you work from afterwards: it

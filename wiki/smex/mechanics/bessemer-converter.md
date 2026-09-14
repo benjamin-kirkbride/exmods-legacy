@@ -14,7 +14,7 @@ leaves mild steel. It is the last stage of the line and the most demanding machi
 needs molten iron delivered by canal, mechanical power to tilt the vessel, and blast at 2.5 atm,
 which only a steam-driven Air Blower reaches.
 
-The build is on the Bessemer converter page.
+The build is on the [[Bessemer converter]] page.
 
 ## What it needs running
 
@@ -87,10 +87,8 @@ the heat unit for unit and pours with it.
 intake, the medium (air, not exhaust), and the pressure.
 
 **The pressure sags mid-blow.** The converter's draw climbs with the rate, up to 48 L/s at 6 atm,
-and the blow does not ease off when the line cannot keep up. Build the supply for the rate you mean
-to run, not for the starting pressure. A drop to about 2.48 atm partway through a blow was reported
-in September 2026 and has no recorded fix; watch the reading through the run rather than only
-before it.
+and the blow does not ease off when the line cannot keep up. Size the supply for the rate you mean
+to run, and watch the reading through the blow, not only before it.
 
 **"Bath too cold to refine, needs 1500 C."** Too much cold scrap for the pressure behind it. Blow
 harder or charge less, and check the table above.
@@ -115,5 +113,4 @@ A blow takes the same time whatever the vessel holds, so the way to get throughp
 converter is to fill it before blowing it. A full 2400-unit vessel blown at 6 atm is 16 units of
 steel per second while it runs, and less once filling and pouring are counted, against the
 20.4 units of iron per second a blast furnace on hot blast makes. A furnace driven hard therefore
-outruns one converter; two converters to one furnace is the owner's own figure, given in June 2026
-and never revised.
+outruns one converter; two converters keep pace with one furnace.

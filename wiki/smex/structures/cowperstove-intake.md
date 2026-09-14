@@ -1,5 +1,6 @@
 ---
 title: Cowper stove
+version: 0.9.8
 ---
 
 The [[Cowper Stove Intake]] starts this build and is the front of the finished stove, where the

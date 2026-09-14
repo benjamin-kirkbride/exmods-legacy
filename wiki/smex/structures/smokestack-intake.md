@@ -1,5 +1,6 @@
 ---
 title: Smoke stack
+version: 0.9.8
 ---
 
 The [[Smoke Stack Intake]] starts this build and is the only block of it you connect a pipe to.

@@ -1,9 +1,9 @@
-# Steelmaking Expanded: frequently asked questions
+# Frequently asked questions
 
 Questions that need both Steelmaking Expanded and Pipes and Power Expanded to answer. For
 pipes-and-power-only questions, see the [Pipes and Power Expanded FAQ](/current/ppex/FAQ/).
 
-## It just says extinguishing
+## Why does the door say Extinguishing?
 
 The burden only lights, and only stays lit, while air is already arriving at the tuyeres under
 pressure. Lighting with the blowers off is the most common failure reported with this mod, and it
@@ -24,7 +24,7 @@ figures, is on [[Ironmaking]]; the build and the lighting order are on [[Blast f
 The 1.5 atm gate dates from 2026-08-13, when it was lowered from 2.5. A furnace built before that
 keeps the old figure until its door is broken and replaced.
 
-## I do not quite understand how the cowper stoves are supposed to function
+## How do the cowper stoves work?
 
 Four connections in two pairs. The intake block itself takes furnace exhaust in and the outlet
 directly above it gives the preheated air out; at the back, the passthrough one level up takes air
@@ -73,7 +73,7 @@ always did, and the coal pile under a cementation furnace still burns for eight 
 whatever coal it is. The converter is a different, parallel way to make steel, and it is covered on
 [[Bessemer process]].
 
-## The molten will not travel more than four canals
+## Why will molten metal not travel more than four canals?
 
 There is no distance limit in the code. A run reaches as far as you feed it, and what stops it is
 metal freezing in a cell: below its melting point a cell sets solid, drops off the network, and
@@ -85,7 +85,7 @@ Metal also does not back up and wait: a tap with nothing under it pours into a s
 freezes, and a junction fills the first exit that is not already full. [[Molten metal]] has the flow
 rules, the capacities and the freezing thresholds.
 
-## It extinguishes every time I switch the stoves
+## Why does it extinguish every time I switch the stoves?
 
 The exhaust has nowhere to go for the moment a stove's exhaust valve is shut, so build the overflow
 branch to the Smoke Stack Intake before the first swap. A pressure-relief valve in that branch does
@@ -97,7 +97,7 @@ Cycling the valves faster does not help, and neither does a separate pipe run pe
 hot side so both tuyeres keep drawing through the swap, or the blast temperature drops on every
 change. See [[Hot blast]].
 
-## All the pressure drops the moment we start refining
+## Why does the pressure drop the moment we start refining?
 
 The converter's gas intake is a port, not a pipe: a pipe has to sit in the cell in front of it,
 facing back at it. It needs 2.5 atm, which a Twin-Tub Blower cannot reach at all, so the blast has
@@ -116,7 +116,7 @@ and applies live. `/exmod recipes smex <level>` only picks a cost profile, and i
 world reload; the per-recipe numbers live in `ModConfig/smex_recipes.json` and are edited there.
 Every key and its default is listed on [[Commands and config]].
 
-## The update broke my burden, and the hopper will not take crushed coke any more
+## Why did the update break my burden, and why will the hopper not take crushed coke any more?
 
 The hopper takes whole coke now, two per batch, or four charcoal. Crushed coke was retired in 0.9.5:
 its crafting route is gone and it is hidden from creative and the in-game handbook, though existing
@@ -133,7 +133,7 @@ refractory has worked since late August 2026. There is one exception in the mod:
 Converter vessel's construction stages want tier-2 refractory brick specifically, and nothing else
 will do.
 
-## It renders for the player who built it, and the server restart eats the rest
+## Why does it render only for the player who built it, and why does a server restart eat the rest?
 
 Two different things, with two different answers.
 
