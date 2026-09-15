@@ -77,11 +77,9 @@ cost of a recipe you want to change rather than the recipe itself, see Commands 
 
 ## Would it work with another mod?
 
-Compatibility has the table, dated, one line per mod anyone has reported. The short version: there
-is no electricity anywhere in these mods, so nothing interoperates with another mod's grid; VS
-Director freezes the game when an unbuilt boiler is placed; Electrical Progressives' Advanced
-Wrench will not finish a boiler multiblock; and a report nobody ever answered is not the same as a
-known incompatibility.
+Nothing in this mod adapts to or guards against another mod, and there is no electricity anywhere
+in the Expanded mods, so nothing interoperates with another mod's grid. The ore-mod adaptations
+belong to Steelmaking Expanded. Compatibility has what each mod needs and what it patches.
 
 ## It renders for the player who built it, and the server restart eats the rest
 

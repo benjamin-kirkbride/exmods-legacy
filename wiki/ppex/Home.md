@@ -21,7 +21,7 @@ The mechanics, in the order a plant is built:
 5. [[Valves and outlets]] - the fittings that cut a run, cap it, end it at a machine or condense
    it.
 6. [[Commands and config]] - every number the mod uses and how to change it in game.
-7. [[Compatibility]] - what is known about running this beside other mods, with dates.
+7. [[Compatibility]] - what this mod needs and what it patches.
 
 The two structures:
 

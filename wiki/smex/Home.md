@@ -29,7 +29,7 @@ The mechanics, in the order you meet them:
 5. [[Slag and its products]] - fertilizer, mortar and paving.
 6. [[Bessemer process]] - what a blow needs and what it yields.
 7. [[Commands and config]] - every number and the command that changes it.
-8. [[Compatibility]] - what this mod patches and what it collides with.
+8. [[Compatibility]] - what this mod needs, patches and adapts to.
 
 The builds:
 

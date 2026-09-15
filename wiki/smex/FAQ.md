@@ -40,13 +40,11 @@ loop are on [[Hot blast]]; the build is on [[Cowper stove]].
 
 ## Is it compatible with Improved Metallurgy / IME / Expanded Matter?
 
-Improved Metallurgy implements the same mechanic a different way, so pick one; running the two
-together crashed a whole server through duplicate nugget-crushing patches, which makes it a
-collision rather than a redundancy. Expanded Matter works, and its crushed ores are accepted as
-furnace feed in the code. Interesting Mining and Extraction has never been answered.
-
-The general rule is that crushing recipes are where ore mods collide. [[Compatibility]] lists what
-this mod patches, and one line per named mod with the date it was last true.
+Expanded Matter and IndustrialStory are the two ore mods the code adapts to: their crushed ores
+are accepted as furnace feed, and this mod stands back from vanilla nugget crushing while either
+is loaded. No other ore mod has an adaptation, and crushing recipes are where ore mods collide:
+two mods that both rewrite how a nugget crushes can produce a loop where iron makes more iron, so
+run one such mod at a time. [[Compatibility]] lists what this mod patches and adapts to.
 
 ## How do I pick up molds with molten ingots without getting hurt, and why do they take 70 minutes to cool?
 
