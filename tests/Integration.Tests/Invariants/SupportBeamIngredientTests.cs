@@ -8,17 +8,10 @@ namespace Integration.Tests;
 
 /// <summary>
 /// <c>game:supportbeam-*</c> also matches the game's metal beams,
-/// <c>supportbeam-tarnishedmetal-{metal}</c>. Every support beam a construction stage or the MP
-/// fluid pump and twin-tub blower frame recipes ask for is a wooden one: its <c>*</c> covers the
-/// <c>wood</c> group only.
+/// <c>supportbeam-tarnishedmetal-{metal}</c>. Every support beam a shipped grid recipe or
+/// construction stage asks for is a wooden one: its <c>*</c> covers the <c>wood</c> group only.
 /// </summary>
 public class SupportBeamIngredientTests {
-  private static readonly string[] Frames =
-  [
-    "ppex:mpfluidpump-north",
-    "smex:mpblower-north",
-  ];
-
   public static TheoryData<string> EveryRecipeAndBlocktype() {
     var data = new TheoryData<string>();
     foreach (string path in ShippedJsonAssetTests.AssetFiles())
@@ -35,17 +28,8 @@ public class SupportBeamIngredientTests {
     JToken root = JToken.Parse(
       File.ReadAllText(Path.Combine(ShippedJsonAssetTests.RepoRoot(), path))
     );
-    IEnumerable<JToken> scope = root is JArray a ? a : new[] { root };
-    if (path.Contains("/recipes/grid/"))
-      scope = scope.Where(r =>
-        Frames.Contains((string?)r.SelectToken("output.code"))
-      );
     var found = new List<string>();
-    foreach (
-      JObject ing in scope
-        .SelectMany(t => t.SelectTokens("$..*"))
-        .OfType<JObject>()
-    ) {
+    foreach (JObject ing in root.SelectTokens("$..*").OfType<JObject>()) {
       if ((string?)VariantCatalogue.Get(ing, "code") is not { } code)
         continue;
       if (!code.StartsWith("game:supportbeam-") || !code.Contains('*'))

@@ -14,7 +14,7 @@ see the git history.
   the pipe stage takes a straight pipe of the same metal as the plates and rods before it (iron or
   steel), which is what comes back. A pump built before this release breaks cleanly too, and gives
   its planks back as oak, since it never recorded which wood they were.
-- The Mechanical Fluid Pump Frame takes wooden support beams only.
+- The Mechanical Fluid Pump Frame and the Manual Fluid Pump take wooden support beams only.
 - **The Watt engine recipe did not cost its gears.** Both recipes listed two gears and left them out
   of the grid. The gears now go in the top-left slot, beside the hammer.
 - The Cornish boiler recipe listed a pipe its grid never used. The entry is gone; what the recipe
