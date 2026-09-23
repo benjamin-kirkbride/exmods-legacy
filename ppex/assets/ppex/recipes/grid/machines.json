@@ -102,11 +102,6 @@
         "code": "game:burnedbrick-fire",
         "quantity": 2
       },
-      "I": {
-        "type": "block",
-        "code": "ppex:pipe-straight-*",
-        "quantity": 1
-      },
       "N": {
         "type": "item",
         "code": "game:metalnailsandstrips-*",
@@ -206,7 +201,7 @@
   },
   {
     "name": "Watt Engine",
-    "ingredientPattern": "_H_,PRP,PIP",
+    "ingredientPattern": "GH_,PRP,PIP",
     "ingredients": {
       "P": {
         "type": "item",
@@ -441,7 +436,7 @@
   },
   {
     "name": "Watt Engine",
-    "ingredientPattern": "_H_,PRP,PIP",
+    "ingredientPattern": "GH_,PRP,PIP",
     "ingredients": {
       "P": {
         "type": "item",
