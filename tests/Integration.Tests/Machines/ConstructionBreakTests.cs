@@ -5,11 +5,14 @@ using ExpandedLib.Blocks.Construction;
 using ExpandedLib.Testing;
 using Newtonsoft.Json.Linq;
 using NSubstitute;
+using PipesAndPowerExpanded.BlockStructures.MpPump.BlockEntities;
+using SteelmakingExpanded.BlockStructures.BlastFurnace.BlockEntities;
 using Vintagestory.API.Common;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Util;
 using Xunit;
+using System;
 #if GAME_GE_1_22
 using Vintagestory.GameContent;
 #endif
@@ -52,6 +55,72 @@ public class ConstructionBreakTests {
 
     Assert.Equal(Tally(paid), Tally(rig.Drops));
   }
+
+  #endregion
+
+  #region Saved structures
+
+  private const string ShippedPump =
+    "tests/Integration.Tests/Machines/Shipped/mpfluidpump-0.6.8.json";
+  private const string ShippedBlower =
+    "tests/Integration.Tests/Machines/Shipped/mpblower-0.9.8.json";
+
+  public static TheoryData<string, string, int> SavedUnderTheShippedJson() {
+    var data = new TheoryData<string, string, int>();
+    foreach (
+      (string path, string shipped) in new[] {
+        (Pump, ShippedPump),
+        (Blower, ShippedBlower),
+      }
+    ) {
+      data.Add(path, shipped, 1);
+      data.Add(path, shipped, Stages(path).Count - 1);
+    }
+    return data;
+  }
+
+  [Theory]
+  [MemberData(nameof(SavedUnderTheShippedJson))]
+  public void A_structure_saved_without_a_wood_key_refunds_its_wood_as_oak(
+    string path,
+    string shipped,
+    int built
+  ) {
+    var old = new Rig(shipped, "pine");
+    var paid = new List<ItemStack>();
+    for (int stage = 1; stage <= built; stage++)
+      paid.AddRange(old.Pay(stage));
+
+    var rig = new Rig(path, "oak", Entity(path));
+    rig.Load(old.Save());
+    rig.Behavior.OnBlockBroken(null);
+
+    Assert.Equal(
+      Tally(paid).ToDictionary(p => p.Key.Replace("-pine", "-oak"), p => p.Value),
+      Tally(rig.Drops)
+    );
+  }
+
+  [Theory]
+  [InlineData(Pump)]
+  [InlineData(Blower)]
+  public void A_saved_structure_refunds_the_wood_it_recorded(string path) {
+    var built = new Rig(path, "pine");
+    var paid = new List<ItemStack>();
+    for (int stage = 1; stage < Stages(path).Count; stage++)
+      paid.AddRange(built.Pay(stage));
+
+    var rig = new Rig(path, "pine", Entity(path));
+    rig.Load(built.Save());
+    rig.Behavior.OnBlockBroken(null);
+
+    Assert.Equal(Tally(paid), Tally(rig.Drops));
+  }
+
+  private static Func<BlockEntity> Entity(string path) =>
+    path == Pump
+      ? () => new BlockEntityMpFluidPump()
+      : () => new BlockEntityMpBlower();
 
   #endregion
 
@@ -100,7 +169,8 @@ public class ConstructionBreakTests {
 
   /// <summary>
   /// One structure placed from <c>path</c> in a <see cref="TestWorld"/> whose registry holds the
-  /// oak and iron variants the two structures take, plus the metal support beam.
+  /// variants of one wood and iron the two structures take, plus the metal support beam. The block
+  /// entity is a bare host unless <c>makeEntity</c> supplies the production one.
   /// </summary>
   private sealed class Rig {
     private readonly TestWorld _world = new();
@@ -109,21 +179,26 @@ public class ConstructionBreakTests {
     private readonly IPlayer _player;
     private readonly JArray _stages;
     private int _nextBlockId = 100;
+    private readonly BlockEntity _entity;
 
     public ExRightClickConstructable Behavior { get; }
     public List<ItemStack> Drops => _world.Drops;
 
-    public Rig(string path) {
+    public Rig(
+      string path,
+      string wood = "oak",
+      Func<BlockEntity>? makeEntity = null
+    ) {
       JToken root = JToken.Parse(
         File.ReadAllText(Path.Combine(ShippedJsonAssetTests.RepoRoot(), path))
       );
       _stages = Stages(path);
 
-      Item("game:plank-oak", ("wood", "oak"));
+      Item("game:plank-" + wood, ("wood", wood));
       Item("game:rod-iron", ("metal", "iron"));
       Item("game:metalplate-iron", ("metal", "iron"));
       Item("game:metalnailsandstrips-iron", ("metal", "iron"));
-      Block("game:supportbeam-oak", ("wood", "oak"));
+      Block("game:supportbeam-" + wood, ("wood", wood));
       Block("game:supportbeam-tarnishedmetal-iron", ("metal", "iron"));
       Block("game:woodenaxle-ud", ("type", "ud"));
       Block(
@@ -143,10 +218,11 @@ public class ConstructionBreakTests {
       host.Shape = new CompositeShape {
         Base = new AssetLocation(host.Code.Domain, "shape"),
       };
-      var be = new HostEntity();
-      _world.Place(new BlockPos(0, 0, 0), host, be).Attach(be);
-      Behavior = new ExRightClickConstructable(be);
+      _entity = makeEntity?.Invoke() ?? new HostEntity();
+      _world.Place(new BlockPos(0, 0, 0), host, _entity).Attach(_entity);
+      Behavior = new ExRightClickConstructable(_entity);
       Behavior.Initialize(_world.Api, new JsonObject(Properties(root)));
+      _entity.Behaviors.Add(Behavior);
 
 #if GAME_GE_1_22
       _world
@@ -213,6 +289,17 @@ public class ConstructionBreakTests {
       foreach (ItemStack s in stacks)
         _hotbar.Add(new DummySlot(s.Clone()));
     }
+
+    /// <summary>The construction state as the block entity saves it.</summary>
+    public TreeAttribute Save() {
+      var tree = new TreeAttribute();
+      Behavior.ToTreeAttributes(tree);
+      return tree;
+    }
+
+    /// <summary>Loads <paramref name="tree"/> through the block entity, as a chunk load does.</summary>
+    public void Load(TreeAttribute tree) =>
+      _entity.FromTreeAttributes(tree, _world.World);
 
     /// <summary>One right click; true when it completed the next stage.</summary>
     public bool Interact() {

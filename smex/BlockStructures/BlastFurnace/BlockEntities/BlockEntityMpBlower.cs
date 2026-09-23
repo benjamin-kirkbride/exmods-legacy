@@ -326,8 +326,20 @@ public class BlockEntityMpBlower : BlockEntity, IRenderer {
     ITreeAttribute tree,
     IWorldAccessor worldForResolving
   ) {
+    FillMissingWood(tree);
     base.FromTreeAttributes(tree, worldForResolving);
     _lastSpeed = tree.GetFloat("blowerSpeed");
+  }
+
+  // The construction refund reads the "wood" wildcard unguarded. A structure whose save records
+  // none refunds its planks and beams as oak.
+  private static void FillMissingWood(ITreeAttribute tree) {
+    if (tree["wildcards"] is not TreeAttribute wildcards) {
+      wildcards = new TreeAttribute();
+      tree["wildcards"] = wildcards;
+    }
+    if (!wildcards.HasAttribute("wood"))
+      wildcards.SetString("wood", "oak");
   }
 
   public override void GetBlockInfo(IPlayer forPlayer, StringBuilder dsc) {
