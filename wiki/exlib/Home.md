@@ -13,7 +13,7 @@ command registration, versioned live-editable config, per-mod recipe-cost profil
 display preferences) the other two mods are written against.
 
 0.7.2 is the last version of exlib in this line. 0.8 and later serve Iron Industry Expanded and
-Steel Industry Expanded instead. ppex 0.6.8 and smex 0.9.8 carry no guard against later exlib
+Steel Industry Expanded instead. ppex 0.6.9 and smex 0.9.9 carry no guard against later exlib
 versions; the game's loader simply fails to load them at all once exlib 0.8 or later replaces
 0.7.2, so keep exlib 0.7.2 installed alongside them. exlib 0.8 itself logs one error naming the
 clash and repeats it to every joining player.

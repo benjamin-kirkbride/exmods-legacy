@@ -5,6 +5,18 @@ All notable changes to this mod are documented here. The format is based on
 [Semantic Versioning](https://semver.org/). For changes before this file existed,
 see the git history.
 
+## [0.9.9] - 2026-09-23
+
+Requires Pipes and Power Expanded 0.6.9, which fixes the same crash on its mechanical fluid pump.
+
+### Fixed
+
+- **Breaking a part-built twin-tub blower crashed the game.** Its support beam, plank and pipe
+  stages were refunded as codes the game could not resolve. The beams and planks now come back as
+  the wood they were, and the pipe stage takes a straight pipe of the same metal as the plates, rods
+  and nails before it (iron or steel), which is what comes back. The beam stage takes wooden support
+  beams only.
+
 ## [0.9.8] - 2026-08-13
 
 Requires Expanded Library 0.7.2, which stops the blast furnace parts and the cowper heat sink losing
