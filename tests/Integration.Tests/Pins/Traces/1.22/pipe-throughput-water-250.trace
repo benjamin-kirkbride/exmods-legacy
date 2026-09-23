@@ -1,0 +1,41 @@
+# pipe-throughput-water-250
+1 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Water temp=20.0
+1 drawn=250.00 flow=75.00
+2 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Water temp=20.0
+2 drawn=250.00 flow=127.50
+3 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Water temp=20.0
+3 drawn=250.00 flow=164.25
+4 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Water temp=20.0
+4 drawn=250.00 flow=189.98
+5 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Water temp=20.0
+5 drawn=250.00 flow=207.98
+6 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Water temp=20.0
+6 drawn=250.00 flow=220.59
+7 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Water temp=20.0
+7 drawn=250.00 flow=229.41
+8 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Water temp=20.0
+8 drawn=250.00 flow=235.59
+9 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Water temp=20.0
+9 drawn=250.00 flow=239.91
+10 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Water temp=20.0
+10 drawn=250.00 flow=242.94
+11 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Water temp=20.0
+11 drawn=250.00 flow=245.06
+12 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Water temp=20.0
+12 drawn=250.00 flow=246.54
+13 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Water temp=20.0
+13 drawn=250.00 flow=247.58
+14 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Water temp=20.0
+14 drawn=250.00 flow=248.30
+15 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Water temp=20.0
+15 drawn=250.00 flow=248.81
+16 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Water temp=20.0
+16 drawn=250.00 flow=249.17
+17 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Water temp=20.0
+17 drawn=250.00 flow=249.42
+18 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Water temp=20.0
+18 drawn=250.00 flow=249.59
+19 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Water temp=20.0
+19 drawn=250.00 flow=249.72
+20 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Water temp=20.0
+20 drawn=250.00 flow=249.80

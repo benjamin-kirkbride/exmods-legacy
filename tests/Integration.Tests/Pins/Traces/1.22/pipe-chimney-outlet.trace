@@ -1,0 +1,8 @@
+# pipe-chimney-outlet
+0 run 0,0,0 n=1 vol=60.00 p=2.000 medium=Exhaust temp=300.0
+1 run 0,0,0 n=1 vol=44.00 p=1.467 medium=Exhaust temp=300.0
+1 openings=0
+2 run 0,0,0 n=1 vol=28.00 p=0.933 medium=Exhaust temp=300.0
+2 openings=0
+3 run 0,0,0 n=1 vol=12.00 p=0.400 medium=Exhaust temp=300.0
+3 openings=0
