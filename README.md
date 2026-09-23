@@ -51,6 +51,12 @@ requested game version (auto-provisioning binaries and, if missing, the matching
 and run the projects in parallel; the build phase itself is serial, since the test projects share
 the mod projects and a concurrent build races on the same intermediate DLLs.
 
+A project whose build fails is reported `FAIL ... build failed` and its tests do not run, and a
+project whose run prints no test summary fails. A green run records each project's test count per
+game version in `.exmod/census/<branch>.json`; a later run that finds fewer tests fails, naming the
+version, the project and both counts, until `--accept-drop` (`-AcceptDrop` in PowerShell) records
+the lower count.
+
 ## Packaging a release
 
 `dotnet run --project dist/CakeBuild` publishes every mod for every supported game version
