@@ -1,0 +1,12 @@
+# pipe-chimney
+0 run 0,0,0 n=11 vol=300.00 p=0.909 medium=Exhaust temp=300.0
+1 run 0,0,0 n=11 vol=284.00 p=0.861 medium=Exhaust temp=300.0
+2 run 0,0,0 n=11 vol=268.00 p=0.812 medium=Exhaust temp=300.0
+3 run 0,0,0 n=11 vol=252.00 p=0.764 medium=Exhaust temp=300.0
+4 run 0,0,0 n=11 vol=236.00 p=0.715 medium=Exhaust temp=300.0
+5 run 0,0,0 n=11 vol=220.00 p=0.667 medium=Exhaust temp=300.0
+6 run 0,0,0 n=11 vol=204.00 p=0.618 medium=Exhaust temp=300.0
+7 run 0,0,0 n=11 vol=188.00 p=0.570 medium=Exhaust temp=300.0
+8 run 0,0,0 n=11 vol=172.00 p=0.521 medium=Exhaust temp=300.0
+9 run 0,0,0 n=11 vol=156.00 p=0.473 medium=Exhaust temp=300.0
+10 run 0,0,0 n=11 vol=140.00 p=0.424 medium=Exhaust temp=300.0

@@ -1,0 +1,181 @@
+# machine-boiler-watt
+1 run 0,10,-11 n=10 vol=437.45 p=1.458 medium=Steam temp=146.6
+1 boiler steam=294.55 drops=0
+1 engine constructed=1 broken=0 inlet=1.458 power=0.000 shaft=0.000
+2 run 0,10,-11 n=10 vol=454.76 p=1.516 medium=Steam temp=145.9
+2 boiler steam=309.24 drops=0
+2 engine constructed=1 broken=0 inlet=1.516 power=0.000 shaft=0.000
+3 run 0,10,-11 n=10 vol=471.94 p=1.573 medium=Steam temp=145.2
+3 boiler steam=324.06 drops=0
+3 engine constructed=1 broken=0 inlet=1.573 power=0.000 shaft=0.000
+4 run 0,10,-11 n=10 vol=488.98 p=1.630 medium=Steam temp=144.6
+4 boiler steam=339.02 drops=0
+4 engine constructed=1 broken=0 inlet=1.630 power=0.000 shaft=0.000
+5 run 0,10,-11 n=10 vol=505.88 p=1.686 medium=Steam temp=144.1
+5 boiler steam=354.12 drops=0
+5 engine constructed=1 broken=0 inlet=1.686 power=0.000 shaft=0.000
+6 run 0,10,-11 n=10 vol=522.66 p=1.742 medium=Steam temp=143.6
+6 boiler steam=369.34 drops=0
+6 engine constructed=1 broken=0 inlet=1.742 power=0.000 shaft=0.000
+7 run 0,10,-11 n=10 vol=539.30 p=1.798 medium=Steam temp=143.2
+7 boiler steam=384.70 drops=0
+7 engine constructed=1 broken=0 inlet=1.798 power=0.000 shaft=0.000
+8 run 0,10,-11 n=10 vol=555.81 p=1.853 medium=Steam temp=142.9
+8 boiler steam=400.19 drops=0
+8 engine constructed=1 broken=0 inlet=1.853 power=0.000 shaft=0.000
+9 run 0,10,-11 n=10 vol=572.20 p=1.907 medium=Steam temp=142.5
+9 boiler steam=415.80 drops=0
+9 engine constructed=1 broken=0 inlet=1.907 power=0.000 shaft=0.000
+10 run 0,10,-11 n=10 vol=588.46 p=1.962 medium=Steam temp=142.2
+10 boiler steam=431.54 drops=0
+10 engine constructed=1 broken=0 inlet=1.962 power=0.000 shaft=0.000
+11 run 0,10,-11 n=10 vol=574.60 p=1.915 medium=Steam temp=142.0
+11 boiler steam=447.40 drops=0
+11 engine constructed=1 broken=0 inlet=2.015 power=0.300 shaft=0.600
+12 run 0,10,-11 n=10 vol=573.44 p=1.911 medium=Steam temp=141.6
+12 boiler steam=450.56 drops=0
+12 engine constructed=1 broken=0 inlet=2.011 power=0.300 shaft=0.600
+13 run 0,10,-11 n=10 vol=572.28 p=1.908 medium=Steam temp=141.2
+13 boiler steam=453.72 drops=0
+13 engine constructed=1 broken=0 inlet=2.008 power=0.300 shaft=0.600
+14 run 0,10,-11 n=10 vol=571.14 p=1.904 medium=Steam temp=140.8
+14 boiler steam=456.86 drops=0
+14 engine constructed=1 broken=0 inlet=2.004 power=0.300 shaft=0.600
+15 run 0,10,-11 n=10 vol=570.00 p=1.900 medium=Steam temp=140.4
+15 boiler steam=460.00 drops=0
+15 engine constructed=1 broken=0 inlet=2.000 power=0.300 shaft=0.600
+16 run 0,10,-11 n=10 vol=598.87 p=1.996 medium=Steam temp=140.0
+16 boiler steam=463.13 drops=0
+16 engine constructed=1 broken=0 inlet=1.996 power=0.000 shaft=0.000
+17 run 0,10,-11 n=10 vol=584.61 p=1.949 medium=Steam temp=139.8
+17 boiler steam=479.39 drops=0
+17 engine constructed=1 broken=0 inlet=2.049 power=0.300 shaft=0.600
+18 run 0,10,-11 n=10 vol=583.43 p=1.945 medium=Steam temp=139.5
+18 boiler steam=482.57 drops=0
+18 engine constructed=1 broken=0 inlet=2.045 power=0.300 shaft=0.600
+19 run 0,10,-11 n=10 vol=582.27 p=1.941 medium=Steam temp=139.3
+19 boiler steam=485.73 drops=0
+19 engine constructed=1 broken=0 inlet=2.041 power=0.300 shaft=0.600
+20 run 0,10,-11 n=10 vol=581.11 p=1.937 medium=Steam temp=139.0
+20 boiler steam=488.89 drops=0
+20 engine constructed=1 broken=0 inlet=2.037 power=0.300 shaft=0.600
+21 run 0,10,-11 n=10 vol=579.96 p=1.933 medium=Steam temp=138.7
+21 boiler steam=492.04 drops=0
+21 engine constructed=1 broken=0 inlet=2.033 power=0.300 shaft=0.600
+22 run 0,10,-11 n=10 vol=578.82 p=1.929 medium=Steam temp=138.4
+22 boiler steam=495.18 drops=0
+22 engine constructed=1 broken=0 inlet=2.029 power=0.300 shaft=0.600
+23 run 0,10,-11 n=10 vol=577.69 p=1.926 medium=Steam temp=138.2
+23 boiler steam=498.31 drops=0
+23 engine constructed=1 broken=0 inlet=2.026 power=0.300 shaft=0.600
+24 run 0,10,-11 n=10 vol=576.57 p=1.922 medium=Steam temp=137.9
+24 boiler steam=501.43 drops=0
+24 engine constructed=1 broken=0 inlet=2.022 power=0.300 shaft=0.600
+25 run 0,10,-11 n=10 vol=575.45 p=1.918 medium=Steam temp=137.7
+25 boiler steam=504.55 drops=0
+25 engine constructed=1 broken=0 inlet=2.018 power=0.300 shaft=0.600
+26 run 0,10,-11 n=10 vol=574.35 p=1.914 medium=Steam temp=137.5
+26 boiler steam=507.65 drops=0
+26 engine constructed=1 broken=0 inlet=2.014 power=0.300 shaft=0.600
+27 run 0,10,-11 n=10 vol=573.25 p=1.911 medium=Steam temp=137.3
+27 boiler steam=510.75 drops=0
+27 engine constructed=1 broken=0 inlet=2.011 power=0.300 shaft=0.600
+28 run 0,10,-11 n=10 vol=572.16 p=1.907 medium=Steam temp=137.1
+28 boiler steam=513.84 drops=0
+28 engine constructed=1 broken=0 inlet=2.007 power=0.300 shaft=0.600
+29 run 0,10,-11 n=10 vol=571.08 p=1.904 medium=Steam temp=136.9
+29 boiler steam=516.92 drops=0
+29 engine constructed=1 broken=0 inlet=2.004 power=0.300 shaft=0.600
+30 run 0,10,-11 n=10 vol=570.00 p=1.900 medium=Steam temp=136.7
+30 boiler steam=520.00 drops=0
+30 engine constructed=1 broken=0 inlet=2.000 power=0.300 shaft=0.600
+31 run 0,10,-11 n=10 vol=598.93 p=1.996 medium=Steam temp=136.5
+31 boiler steam=523.07 drops=0
+31 engine constructed=1 broken=0 inlet=1.996 power=0.000 shaft=0.000
+32 run 0,10,-11 n=10 vol=583.83 p=1.946 medium=Steam temp=136.4
+32 boiler steam=540.17 drops=0
+32 engine constructed=1 broken=0 inlet=2.046 power=0.300 shaft=0.600
+33 run 0,10,-11 n=10 vol=582.72 p=1.942 medium=Steam temp=136.2
+33 boiler steam=543.28 drops=0
+33 engine constructed=1 broken=0 inlet=2.042 power=0.300 shaft=0.600
+34 run 0,10,-11 n=10 vol=581.62 p=1.939 medium=Steam temp=136.1
+34 boiler steam=546.38 drops=0
+34 engine constructed=1 broken=0 inlet=2.039 power=0.300 shaft=0.600
+35 run 0,10,-11 n=10 vol=580.53 p=1.935 medium=Steam temp=136.0
+35 boiler steam=549.47 drops=0
+35 engine constructed=1 broken=0 inlet=2.035 power=0.300 shaft=0.600
+36 run 0,10,-11 n=10 vol=579.44 p=1.931 medium=Steam temp=135.8
+36 boiler steam=552.56 drops=0
+36 engine constructed=1 broken=0 inlet=2.031 power=0.300 shaft=0.600
+37 run 0,10,-11 n=10 vol=578.36 p=1.928 medium=Steam temp=135.7
+37 boiler steam=555.64 drops=0
+37 engine constructed=1 broken=0 inlet=2.028 power=0.300 shaft=0.600
+38 run 0,10,-11 n=10 vol=577.29 p=1.924 medium=Steam temp=135.6
+38 boiler steam=558.71 drops=0
+38 engine constructed=1 broken=0 inlet=2.024 power=0.300 shaft=0.600
+39 run 0,10,-11 n=10 vol=576.23 p=1.921 medium=Steam temp=135.4
+39 boiler steam=561.77 drops=0
+39 engine constructed=1 broken=0 inlet=2.021 power=0.300 shaft=0.600
+40 run 0,10,-11 n=10 vol=575.17 p=1.917 medium=Steam temp=135.3
+40 boiler steam=564.83 drops=0
+40 engine constructed=1 broken=0 inlet=2.017 power=0.300 shaft=0.600
+41 run 0,10,-11 n=10 vol=574.12 p=1.914 medium=Steam temp=135.2
+41 boiler steam=567.88 drops=0
+41 engine constructed=1 broken=0 inlet=2.014 power=0.300 shaft=0.600
+42 run 0,10,-11 n=10 vol=573.08 p=1.910 medium=Steam temp=135.1
+42 boiler steam=570.92 drops=0
+42 engine constructed=1 broken=0 inlet=2.010 power=0.300 shaft=0.600
+43 run 0,10,-11 n=10 vol=572.05 p=1.907 medium=Steam temp=135.0
+43 boiler steam=573.95 drops=0
+43 engine constructed=1 broken=0 inlet=2.007 power=0.300 shaft=0.600
+44 run 0,10,-11 n=10 vol=571.02 p=1.903 medium=Steam temp=134.9
+44 boiler steam=576.98 drops=0
+44 engine constructed=1 broken=0 inlet=2.003 power=0.300 shaft=0.600
+45 run 0,10,-11 n=10 vol=570.00 p=1.900 medium=Steam temp=134.8
+45 boiler steam=580.00 drops=0
+45 engine constructed=1 broken=0 inlet=2.000 power=0.300 shaft=0.600
+46 run 0,10,-11 n=10 vol=598.99 p=1.997 medium=Steam temp=134.7
+46 boiler steam=583.01 drops=0
+46 engine constructed=1 broken=0 inlet=1.997 power=0.000 shaft=0.000
+47 run 0,10,-11 n=10 vol=583.13 p=1.944 medium=Steam temp=134.6
+47 boiler steam=600.87 drops=0
+47 engine constructed=1 broken=0 inlet=2.044 power=0.300 shaft=0.600
+48 run 0,10,-11 n=10 vol=582.08 p=1.940 medium=Steam temp=134.5
+48 boiler steam=603.92 drops=0
+48 engine constructed=1 broken=0 inlet=2.040 power=0.300 shaft=0.600
+49 run 0,10,-11 n=10 vol=581.04 p=1.937 medium=Steam temp=134.5
+49 boiler steam=606.96 drops=0
+49 engine constructed=1 broken=0 inlet=2.037 power=0.300 shaft=0.600
+50 run 0,10,-11 n=10 vol=580.00 p=1.933 medium=Steam temp=134.4
+50 boiler steam=610.00 drops=0
+50 engine constructed=1 broken=0 inlet=2.033 power=0.300 shaft=0.600
+51 run 0,10,-11 n=10 vol=578.97 p=1.930 medium=Steam temp=134.3
+51 boiler steam=613.03 drops=0
+51 engine constructed=1 broken=0 inlet=2.030 power=0.300 shaft=0.600
+52 run 0,10,-11 n=10 vol=577.95 p=1.926 medium=Steam temp=134.3
+52 boiler steam=616.05 drops=0
+52 engine constructed=1 broken=0 inlet=2.026 power=0.300 shaft=0.600
+53 run 0,10,-11 n=10 vol=576.93 p=1.923 medium=Steam temp=134.2
+53 boiler steam=619.07 drops=0
+53 engine constructed=1 broken=0 inlet=2.023 power=0.300 shaft=0.600
+54 run 0,10,-11 n=10 vol=575.92 p=1.920 medium=Steam temp=134.1
+54 boiler steam=622.08 drops=0
+54 engine constructed=1 broken=0 inlet=2.020 power=0.300 shaft=0.600
+55 run 0,10,-11 n=10 vol=574.92 p=1.916 medium=Steam temp=134.1
+55 boiler steam=625.08 drops=0
+55 engine constructed=1 broken=0 inlet=2.016 power=0.300 shaft=0.600
+56 run 0,10,-11 n=10 vol=573.92 p=1.913 medium=Steam temp=134.0
+56 boiler steam=628.08 drops=0
+56 engine constructed=1 broken=0 inlet=2.013 power=0.300 shaft=0.600
+57 run 0,10,-11 n=10 vol=572.93 p=1.910 medium=Steam temp=133.9
+57 boiler steam=631.07 drops=0
+57 engine constructed=1 broken=0 inlet=2.010 power=0.300 shaft=0.600
+58 run 0,10,-11 n=10 vol=571.95 p=1.906 medium=Steam temp=133.9
+58 boiler steam=634.05 drops=0
+58 engine constructed=1 broken=0 inlet=2.006 power=0.300 shaft=0.600
+59 run 0,10,-11 n=10 vol=570.97 p=1.903 medium=Steam temp=133.8
+59 boiler steam=637.03 drops=0
+59 engine constructed=1 broken=0 inlet=2.003 power=0.300 shaft=0.600
+60 run 0,10,-11 n=10 vol=570.00 p=1.900 medium=Steam temp=133.8
+60 boiler steam=640.00 drops=0
+60 engine constructed=1 broken=0 inlet=2.000 power=0.300 shaft=0.600

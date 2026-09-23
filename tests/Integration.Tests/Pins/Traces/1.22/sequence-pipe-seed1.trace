@@ -1,0 +1,326 @@
+# sequence-pipe-seed1
+1 op place bend-se 0,0,1
+1 run 0,0,1 n=1 empty
+2 op break 0,0,1
+3 op idle
+4 op idle
+5 op idle
+6 op place straight-ns 2,0,2
+6 run 2,0,2 n=1 empty
+7 op place cap 1,0,0
+7 run 2,0,2 n=1 empty
+8 op draw 63L 2,0,2
+8 run 2,0,2 n=1 empty
+9 op draw 143L 2,0,2
+9 run 2,0,2 n=1 empty
+10 op idle
+10 run 2,0,2 n=1 empty
+11 op place bend-nw 0,0,2
+11 run 0,0,2 n=1 empty
+11 run 2,0,2 n=1 empty
+12 op break 0,0,2
+12 run 2,0,2 n=1 empty
+13 op break 1,0,0
+13 run 2,0,2 n=1 empty
+14 op reload
+14 run 2,0,2 n=1 empty
+15 op idle
+15 run 2,0,2 n=1 empty
+16 op draw 142L 2,0,2
+16 run 2,0,2 n=1 empty
+17 op place bend-ws 3,0,3
+17 run 2,0,2 n=1 empty
+17 run 3,0,3 n=1 empty
+18 op idle
+18 run 2,0,2 n=1 empty
+18 run 3,0,3 n=1 empty
+19 op place bend-se 1,0,3
+19 run 1,0,3 n=1 empty
+19 run 2,0,2 n=1 empty
+19 run 3,0,3 n=1 empty
+20 op place bend-en 3,0,2
+20 run 1,0,3 n=1 empty
+20 run 2,0,2 n=1 empty
+20 run 3,0,2 n=1 empty
+20 run 3,0,3 n=1 empty
+21 op fill Exhaust 138L 114C 1atm 2,0,2
+21 run 1,0,3 n=1 empty
+21 run 2,0,2 n=1 vol=22.00 p=0.733 medium=Exhaust temp=109.0
+21 run 3,0,2 n=1 empty
+21 run 3,0,3 n=1 empty
+22 op fill Steam 75L 158C 2atm 3,0,2
+22 run 1,0,3 n=1 empty
+22 run 2,0,2 n=1 vol=14.00 p=0.467 medium=Exhaust temp=104.0
+22 run 3,0,2 n=1 vol=52.00 p=1.733 medium=Steam temp=153.0
+22 run 3,0,3 n=1 empty
+23 op place straight-ns 3,0,1
+23 run 1,0,3 n=1 empty
+23 run 2,0,2 n=1 vol=6.00 p=0.200 medium=Exhaust temp=99.0
+23 run 3,0,1 n=2 vol=44.00 p=0.733 medium=Steam temp=148.0
+23 run 3,0,3 n=1 empty
+24 op idle
+24 run 1,0,3 n=1 empty
+24 run 2,0,2 n=1 empty
+24 run 3,0,1 n=2 vol=36.00 p=0.600 medium=Steam temp=143.0
+24 run 3,0,3 n=1 empty
+25 op fill Steam 32L 62C 1atm 3,0,2
+25 run 1,0,3 n=1 empty
+25 run 2,0,2 n=1 empty
+25 run 3,0,1 n=2 vol=52.00 p=0.867 medium=Steam temp=105.6
+25 run 3,0,3 n=1 empty
+26 op place bend-nw 1,0,2
+26 run 1,0,2 n=1 empty
+26 run 1,0,3 n=1 empty
+26 run 2,0,2 n=1 empty
+26 run 3,0,1 n=2 vol=44.00 p=0.733 medium=Steam temp=100.6
+26 run 3,0,3 n=1 empty
+27 op idle
+27 run 1,0,2 n=1 empty
+27 run 1,0,3 n=1 empty
+27 run 2,0,2 n=1 empty
+27 run 3,0,1 n=2 vol=36.00 p=0.600 medium=Steam temp=95.6
+27 run 3,0,3 n=1 empty
+28 op idle
+28 run 1,0,2 n=1 empty
+28 run 1,0,3 n=1 empty
+28 run 2,0,2 n=1 empty
+28 run 3,0,1 n=2 vol=28.00 p=0.467 medium=Steam temp=90.6
+28 run 3,0,3 n=1 empty
+29 op break 1,0,3
+29 run 1,0,2 n=1 empty
+29 run 2,0,2 n=1 empty
+29 run 3,0,1 n=2 vol=20.00 p=0.333 medium=Steam temp=85.6
+29 run 3,0,3 n=1 empty
+30 op place bend-se 0,0,1
+30 run 0,0,1 n=1 empty
+30 run 1,0,2 n=1 empty
+30 run 2,0,2 n=1 empty
+30 run 3,0,1 n=2 vol=12.00 p=0.200 medium=Steam temp=80.6
+30 run 3,0,3 n=1 empty
+31 op idle
+31 run 0,0,1 n=1 empty
+31 run 1,0,2 n=1 empty
+31 run 2,0,2 n=1 empty
+31 run 3,0,1 n=2 vol=4.00 p=0.067 medium=Steam temp=75.6
+31 run 3,0,3 n=1 empty
+32 op fill Water 33L 118C 2atm 3,0,2
+32 run 0,0,1 n=1 empty
+32 run 1,0,2 n=1 empty
+32 run 2,0,2 n=1 empty
+32 run 3,0,1 n=2 empty
+32 run 3,0,3 n=1 empty
+33 op place bend-nw 1,0,1
+33 run 0,0,1 n=2 empty
+33 run 1,0,2 n=1 empty
+33 run 2,0,2 n=1 empty
+33 run 3,0,1 n=2 empty
+33 run 3,0,3 n=1 empty
+34 op fill Steam 127L 187C 4atm 1,0,2
+34 run 0,0,1 n=2 empty
+34 run 1,0,2 n=1 vol=112.00 p=3.733 medium=Steam temp=182.0
+34 run 2,0,2 n=1 empty
+34 run 3,0,1 n=2 empty
+34 run 3,0,3 n=1 empty
+35 op break 0,0,1
+35 run 1,0,1 n=1 empty
+35 run 1,0,2 n=1 vol=104.00 p=3.467 medium=Steam temp=177.0
+35 run 2,0,2 n=1 empty
+35 run 3,0,1 n=2 empty
+35 run 3,0,3 n=1 empty
+36 op place straight-we 2,0,3
+36 run 1,0,1 n=1 empty
+36 run 1,0,2 n=1 vol=96.00 p=3.200 medium=Steam temp=172.0
+36 run 2,0,2 n=1 empty
+36 run 2,0,3 n=2 empty
+36 run 3,0,1 n=2 empty
+37 op idle
+37 run 1,0,1 n=1 empty
+37 run 1,0,2 n=1 vol=88.00 p=2.933 medium=Steam temp=167.0
+37 run 2,0,2 n=1 empty
+37 run 2,0,3 n=2 empty
+37 run 3,0,1 n=2 empty
+38 op fill Steam 34L 94C 2atm 2,0,2
+38 run 1,0,1 n=1 empty
+38 run 1,0,2 n=1 vol=80.00 p=2.667 medium=Steam temp=162.0
+38 run 2,0,2 n=1 vol=26.00 p=0.867 medium=Steam temp=89.0
+38 run 2,0,3 n=2 empty
+38 run 3,0,1 n=2 empty
+39 op fill Air 23L 53C 2atm 2,0,3
+39 run 1,0,1 n=1 empty
+39 run 1,0,2 n=1 vol=72.00 p=2.400 medium=Steam temp=157.0
+39 run 2,0,2 n=1 vol=18.00 p=0.600 medium=Steam temp=84.0
+39 run 2,0,3 n=2 vol=15.00 p=0.250 medium=Air temp=48.0
+39 run 3,0,1 n=2 empty
+40 op fill Steam 36L 190C 4atm 3,0,2
+40 run 1,0,1 n=1 empty
+40 run 1,0,2 n=1 vol=64.00 p=2.133 medium=Steam temp=152.0
+40 run 2,0,2 n=1 vol=10.00 p=0.333 medium=Steam temp=79.0
+40 run 2,0,3 n=2 vol=7.00 p=0.117 medium=Air temp=43.0
+40 run 3,0,1 n=2 vol=28.00 p=0.467 medium=Steam temp=185.0
+41 op place bend-en 3,0,0
+41 run 1,0,1 n=1 empty
+41 run 1,0,2 n=1 vol=56.00 p=1.867 medium=Steam temp=147.0
+41 run 2,0,2 n=1 vol=2.00 p=0.067 medium=Steam temp=74.0
+41 run 2,0,3 n=2 vol=0.00 p=0.000 medium=Air temp=38.0
+41 run 3,0,0 n=1 empty
+41 run 3,0,1 n=2 vol=20.00 p=0.333 medium=Steam temp=180.0
+42 op idle
+42 run 1,0,1 n=1 empty
+42 run 1,0,2 n=1 vol=48.00 p=1.600 medium=Steam temp=142.0
+42 run 2,0,2 n=1 empty
+42 run 2,0,3 n=2 empty
+42 run 3,0,0 n=1 empty
+42 run 3,0,1 n=2 vol=12.00 p=0.200 medium=Steam temp=175.0
+43 op draw 112L 3,0,3
+43 run 1,0,1 n=1 empty
+43 run 1,0,2 n=1 vol=40.00 p=1.333 medium=Steam temp=137.0
+43 run 2,0,2 n=1 empty
+43 run 2,0,3 n=2 empty
+43 run 3,0,0 n=1 empty
+43 run 3,0,1 n=2 vol=4.00 p=0.067 medium=Steam temp=170.0
+44 op draw 13L 1,0,2
+44 run 1,0,1 n=1 empty
+44 run 1,0,2 n=1 vol=19.00 p=0.633 medium=Steam temp=132.0
+44 run 2,0,2 n=1 empty
+44 run 2,0,3 n=2 empty
+44 run 3,0,0 n=1 empty
+44 run 3,0,1 n=2 empty
+45 op place straight-ns 0,0,1
+45 run 0,0,1 n=1 empty
+45 run 1,0,1 n=1 empty
+45 run 1,0,2 n=1 vol=11.00 p=0.367 medium=Steam temp=127.0
+45 run 2,0,2 n=1 empty
+45 run 2,0,3 n=2 empty
+45 run 3,0,0 n=1 empty
+45 run 3,0,1 n=2 empty
+46 op place straight-ns 0,0,2
+46 run 0,0,1 n=2 empty
+46 run 1,0,1 n=1 empty
+46 run 1,0,2 n=1 vol=11.00 p=0.367 medium=Steam temp=127.0
+46 run 2,0,2 n=1 empty
+46 run 2,0,3 n=2 empty
+46 run 3,0,0 n=1 empty
+46 run 3,0,1 n=2 empty
+47 op idle
+47 run 0,0,1 n=2 empty
+47 run 1,0,1 n=1 empty
+47 run 1,0,2 n=1 vol=11.00 p=0.367 medium=Steam temp=127.0
+47 run 2,0,2 n=1 empty
+47 run 2,0,3 n=2 empty
+47 run 3,0,0 n=1 empty
+47 run 3,0,1 n=2 empty
+48 op fill Water 33L 189C 3atm 3,0,2
+48 run 0,0,1 n=2 empty
+48 run 1,0,1 n=1 empty
+48 run 1,0,2 n=1 vol=11.00 p=0.367 medium=Steam temp=127.0
+48 run 2,0,2 n=1 empty
+48 run 2,0,3 n=2 empty
+48 run 3,0,0 n=1 empty
+48 run 3,0,1 n=2 vol=23.00 p=0.550 medium=Water temp=189.0
+49 op idle
+49 run 0,0,1 n=2 empty
+49 run 1,0,1 n=1 empty
+49 run 1,0,2 n=1 vol=11.00 p=0.367 medium=Steam temp=127.0
+49 run 2,0,2 n=1 empty
+49 run 2,0,3 n=2 empty
+49 run 3,0,0 n=1 empty
+49 run 3,0,1 n=2 vol=13.00 p=0.383 medium=Water temp=189.0
+50 op place straight-we 0,0,3
+50 run 0,0,1 n=2 empty
+50 run 0,0,3 n=1 empty
+50 run 1,0,1 n=1 empty
+50 run 1,0,2 n=1 vol=11.00 p=0.367 medium=Steam temp=127.0
+50 run 2,0,2 n=1 empty
+50 run 2,0,3 n=2 empty
+50 run 3,0,0 n=1 empty
+50 run 3,0,1 n=2 vol=3.00 p=0.217 medium=Water temp=189.0
+51 op break 0,0,2
+51 run 0,0,1 n=1 empty
+51 run 0,0,3 n=1 empty
+51 run 1,0,1 n=1 empty
+51 run 1,0,2 n=1 vol=3.00 p=0.100 medium=Steam temp=122.0
+51 run 2,0,2 n=1 empty
+51 run 2,0,3 n=2 empty
+51 run 3,0,0 n=1 empty
+51 run 3,0,1 n=2 empty
+52 op place bend-en 2,0,0
+52 run 0,0,1 n=1 empty
+52 run 0,0,3 n=1 empty
+52 run 1,0,1 n=1 empty
+52 run 1,0,2 n=1 empty
+52 run 2,0,0 n=1 empty
+52 run 2,0,2 n=1 empty
+52 run 2,0,3 n=2 empty
+52 run 3,0,0 n=1 empty
+52 run 3,0,1 n=2 empty
+53 op place bend-se 0,0,0
+53 run 0,0,0 n=2 empty
+53 run 0,0,3 n=1 empty
+53 run 1,0,1 n=1 empty
+53 run 1,0,2 n=1 empty
+53 run 2,0,0 n=1 empty
+53 run 2,0,2 n=1 empty
+53 run 2,0,3 n=2 empty
+53 run 3,0,0 n=1 empty
+53 run 3,0,1 n=2 empty
+54 op place bend-en 0,0,2
+54 run 0,0,0 n=4 empty
+54 run 0,0,3 n=1 empty
+54 run 1,0,1 n=1 empty
+54 run 2,0,0 n=1 empty
+54 run 2,0,2 n=1 empty
+54 run 2,0,3 n=2 empty
+54 run 3,0,0 n=1 empty
+54 run 3,0,1 n=2 empty
+55 op draw 121L 0,0,2
+55 run 0,0,0 n=4 empty
+55 run 0,0,3 n=1 empty
+55 run 1,0,1 n=1 empty
+55 run 2,0,0 n=1 empty
+55 run 2,0,2 n=1 empty
+55 run 2,0,3 n=2 empty
+55 run 3,0,0 n=1 empty
+55 run 3,0,1 n=2 empty
+56 op draw 76L 1,0,1
+56 run 0,0,0 n=4 empty
+56 run 0,0,3 n=1 empty
+56 run 1,0,1 n=1 empty
+56 run 2,0,0 n=1 empty
+56 run 2,0,2 n=1 empty
+56 run 2,0,3 n=2 empty
+56 run 3,0,0 n=1 empty
+56 run 3,0,1 n=2 empty
+57 op fill Water 176L 31C 2atm 0,0,2
+57 run 0,0,0 n=4 vol=110.00 p=2.000 medium=Water temp=31.0
+57 run 0,0,3 n=1 empty
+57 run 1,0,1 n=1 empty
+57 run 2,0,0 n=1 empty
+57 run 2,0,2 n=1 empty
+57 run 2,0,3 n=2 empty
+57 run 3,0,0 n=1 empty
+57 run 3,0,1 n=2 empty
+58 op reload
+58 run 0,0,0 n=4 vol=100.00 p=0.917 medium=Water temp=31.0
+58 run 0,0,3 n=1 empty
+58 run 1,0,1 n=1 empty
+58 run 2,0,0 n=1 empty
+58 run 2,0,2 n=1 empty
+58 run 2,0,3 n=2 empty
+58 run 3,0,0 n=1 empty
+58 run 3,0,1 n=2 empty
+59 op break 1,0,1
+59 run 0,0,0 n=4 vol=90.00 p=0.833 medium=Water temp=31.0
+59 run 0,0,3 n=1 empty
+59 run 2,0,0 n=1 empty
+59 run 2,0,2 n=1 empty
+59 run 2,0,3 n=2 empty
+59 run 3,0,0 n=1 empty
+59 run 3,0,1 n=2 empty
+60 op idle
+60 run 0,0,0 n=4 vol=80.00 p=0.750 medium=Water temp=31.0
+60 run 0,0,3 n=1 empty
+60 run 2,0,0 n=1 empty
+60 run 2,0,2 n=1 empty
+60 run 2,0,3 n=2 empty
+60 run 3,0,0 n=1 empty
+60 run 3,0,1 n=2 empty

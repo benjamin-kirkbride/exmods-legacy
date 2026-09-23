@@ -1,0 +1,121 @@
+# machine-cowper-exhaust
+1 run 0,4,1 n=5 vol=24.00 p=0.160 medium=Exhaust temp=900.0
+1 cowper complete=1 core=21.1 drops=0
+2 run 0,4,1 n=5 vol=48.00 p=0.320 medium=Exhaust temp=900.0
+2 cowper complete=1 core=22.1 drops=0
+3 run 0,4,1 n=5 vol=72.00 p=0.480 medium=Exhaust temp=900.0
+3 cowper complete=1 core=23.2 drops=0
+4 run 0,4,1 n=5 vol=96.00 p=0.640 medium=Exhaust temp=900.0
+4 cowper complete=1 core=24.2 drops=0
+5 run 0,4,1 n=5 vol=120.00 p=0.800 medium=Exhaust temp=900.0
+5 cowper complete=1 core=25.3 drops=0
+6 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+6 cowper complete=1 core=26.3 drops=0
+7 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+7 cowper complete=1 core=27.3 drops=0
+8 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+8 cowper complete=1 core=28.4 drops=0
+9 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+9 cowper complete=1 core=29.4 drops=0
+10 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+10 cowper complete=1 core=30.5 drops=0
+11 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+11 cowper complete=1 core=31.5 drops=0
+12 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+12 cowper complete=1 core=32.5 drops=0
+13 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+13 cowper complete=1 core=33.6 drops=0
+14 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+14 cowper complete=1 core=34.6 drops=0
+15 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+15 cowper complete=1 core=35.6 drops=0
+16 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+16 cowper complete=1 core=36.7 drops=0
+17 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+17 cowper complete=1 core=37.7 drops=0
+18 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+18 cowper complete=1 core=38.7 drops=0
+19 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+19 cowper complete=1 core=39.7 drops=0
+20 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+20 cowper complete=1 core=40.8 drops=0
+21 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+21 cowper complete=1 core=41.8 drops=0
+22 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+22 cowper complete=1 core=42.8 drops=0
+23 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+23 cowper complete=1 core=43.8 drops=0
+24 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+24 cowper complete=1 core=44.8 drops=0
+25 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+25 cowper complete=1 core=45.8 drops=0
+26 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+26 cowper complete=1 core=46.8 drops=0
+27 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+27 cowper complete=1 core=47.8 drops=0
+28 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+28 cowper complete=1 core=48.8 drops=0
+29 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+29 cowper complete=1 core=49.8 drops=0
+30 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+30 cowper complete=1 core=50.8 drops=0
+31 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+31 cowper complete=1 core=51.8 drops=0
+32 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+32 cowper complete=1 core=52.8 drops=0
+33 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+33 cowper complete=1 core=53.8 drops=0
+34 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+34 cowper complete=1 core=54.8 drops=0
+35 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+35 cowper complete=1 core=55.8 drops=0
+36 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+36 cowper complete=1 core=56.8 drops=0
+37 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+37 cowper complete=1 core=57.8 drops=0
+38 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+38 cowper complete=1 core=58.8 drops=0
+39 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+39 cowper complete=1 core=59.8 drops=0
+40 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+40 cowper complete=1 core=60.8 drops=0
+41 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+41 cowper complete=1 core=61.7 drops=0
+42 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+42 cowper complete=1 core=62.7 drops=0
+43 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+43 cowper complete=1 core=63.7 drops=0
+44 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+44 cowper complete=1 core=64.7 drops=0
+45 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+45 cowper complete=1 core=65.7 drops=0
+46 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+46 cowper complete=1 core=66.6 drops=0
+47 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+47 cowper complete=1 core=67.6 drops=0
+48 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+48 cowper complete=1 core=68.6 drops=0
+49 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+49 cowper complete=1 core=69.5 drops=0
+50 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+50 cowper complete=1 core=70.5 drops=0
+51 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+51 cowper complete=1 core=71.5 drops=0
+52 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+52 cowper complete=1 core=72.4 drops=0
+53 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+53 cowper complete=1 core=73.4 drops=0
+54 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+54 cowper complete=1 core=74.4 drops=0
+55 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+55 cowper complete=1 core=75.3 drops=0
+56 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+56 cowper complete=1 core=76.3 drops=0
+57 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+57 cowper complete=1 core=77.2 drops=0
+58 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+58 cowper complete=1 core=78.2 drops=0
+59 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+59 cowper complete=1 core=79.1 drops=0
+60 run 0,4,1 n=5 vol=126.00 p=0.840 medium=Exhaust temp=900.0
+60 cowper complete=1 core=80.1 drops=0

@@ -1,0 +1,7 @@
+# pipe-charge-mixed
+0 run 0,0,0 n=10 vol=1500.00 p=5.000 medium=Steam temp=150.0
+1 run 0,0,0 n=10 vol=1500.00 p=5.000 medium=Steam temp=150.0
+2 run 0,0,0 n=10 vol=1500.00 p=5.000 medium=Steam temp=150.0
+3 run 0,0,0 n=10 vol=1500.00 p=5.000 medium=Steam temp=150.0
+4 run 0,0,0 n=10 vol=1500.00 p=5.000 medium=Steam temp=150.0
+5 run 0,0,0 n=10 vol=1500.00 p=5.000 medium=Steam temp=150.0

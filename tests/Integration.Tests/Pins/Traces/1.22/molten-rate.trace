@@ -1,0 +1,5 @@
+# molten-rate
+0 cell 0,0,0 metal=game:ingot-iron amount=200 temp=1700.0 solid=0
+0 cell 0,0,1 metal=- amount=0 temp=0.0 solid=0
+1 cell 0,0,0 metal=game:ingot-iron amount=100 temp=1698.3 solid=0
+1 cell 0,0,1 metal=game:ingot-iron amount=100 temp=1700.0 solid=0

@@ -1,0 +1,544 @@
+# sequence-canal-seed2
+1 op idle
+2 op idle
+3 op place straight-we 3,0,3
+3 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+4 op place bend-en 3,0,0
+4 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+4 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+5 op place start-s 0,0,0
+5 cell 0,0,0 metal=- amount=0 temp=0.0 solid=0
+5 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+5 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+6 op place bend-ws 0,0,1
+6 cell 0,0,0 metal=- amount=0 temp=0.0 solid=0
+6 cell 0,0,1 metal=- amount=0 temp=0.0 solid=0
+6 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+6 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+7 op pour game:ingot-copper 42 1259C took=42 0,0,1
+7 cell 0,0,0 metal=- amount=0 temp=0.0 solid=0
+7 cell 0,0,1 metal=game:ingot-copper amount=42 temp=1259.0 solid=0
+7 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+7 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+8 op place bend-se 0,0,2
+8 cell 0,0,0 metal=- amount=0 temp=0.0 solid=0
+8 cell 0,0,1 metal=game:ingot-copper amount=42 temp=1259.0 solid=0
+8 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+8 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+8 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+9 op place start-e 2,0,3
+9 cell 0,0,0 metal=- amount=0 temp=0.0 solid=0
+9 cell 0,0,1 metal=game:ingot-copper amount=42 temp=1259.0 solid=0
+9 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+9 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+9 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+9 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+10 op break 2,0,3
+10 cell 0,0,0 metal=- amount=0 temp=0.0 solid=0
+10 cell 0,0,1 metal=game:ingot-copper amount=42 temp=1259.0 solid=0
+10 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+10 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+10 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+11 op idle
+11 cell 0,0,0 metal=- amount=0 temp=0.0 solid=0
+11 cell 0,0,1 metal=game:ingot-copper amount=42 temp=1259.0 solid=0
+11 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+11 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+11 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+12 op place start-w 2,0,2
+12 cell 0,0,0 metal=- amount=0 temp=0.0 solid=0
+12 cell 0,0,1 metal=game:ingot-copper amount=42 temp=1259.0 solid=0
+12 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+12 cell 2,0,2 metal=- amount=0 temp=0.0 solid=0
+12 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+12 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+13 op idle
+13 cell 0,0,0 metal=- amount=0 temp=0.0 solid=0
+13 cell 0,0,1 metal=game:ingot-copper amount=42 temp=1259.0 solid=0
+13 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+13 cell 2,0,2 metal=- amount=0 temp=0.0 solid=0
+13 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+13 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+14 op place bend-se 0,0,3
+14 cell 0,0,0 metal=- amount=0 temp=0.0 solid=0
+14 cell 0,0,1 metal=game:ingot-copper amount=42 temp=1259.0 solid=0
+14 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+14 cell 0,0,3 metal=- amount=0 temp=0.0 solid=0
+14 cell 2,0,2 metal=- amount=0 temp=0.0 solid=0
+14 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+14 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+15 op reload
+15 cell 0,0,0 metal=- amount=0 temp=0.0 solid=0
+15 cell 0,0,1 metal=game:ingot-copper amount=42 temp=1259.0 solid=0
+15 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+15 cell 0,0,3 metal=- amount=0 temp=0.0 solid=0
+15 cell 2,0,2 metal=- amount=0 temp=0.0 solid=0
+15 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+15 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+16 op drain 71 got=0 3,0,0
+16 cell 0,0,0 metal=- amount=0 temp=0.0 solid=0
+16 cell 0,0,1 metal=game:ingot-copper amount=42 temp=1259.0 solid=0
+16 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+16 cell 0,0,3 metal=- amount=0 temp=0.0 solid=0
+16 cell 2,0,2 metal=- amount=0 temp=0.0 solid=0
+16 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+16 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+17 op place bend-nw 1,0,0
+17 cell 0,0,0 metal=- amount=0 temp=0.0 solid=0
+17 cell 0,0,1 metal=game:ingot-copper amount=42 temp=1259.0 solid=0
+17 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+17 cell 0,0,3 metal=- amount=0 temp=0.0 solid=0
+17 cell 1,0,0 metal=- amount=0 temp=0.0 solid=0
+17 cell 2,0,2 metal=- amount=0 temp=0.0 solid=0
+17 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+17 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+18 op place start-w 2,0,0
+18 cell 0,0,0 metal=- amount=0 temp=0.0 solid=0
+18 cell 0,0,1 metal=game:ingot-copper amount=42 temp=1259.0 solid=0
+18 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+18 cell 0,0,3 metal=- amount=0 temp=0.0 solid=0
+18 cell 1,0,0 metal=- amount=0 temp=0.0 solid=0
+18 cell 2,0,0 metal=- amount=0 temp=0.0 solid=0
+18 cell 2,0,2 metal=- amount=0 temp=0.0 solid=0
+18 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+18 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+19 op pour game:ingot-iron 57 1647C took=57 0,0,0
+19 cell 0,0,0 metal=game:ingot-iron amount=57 temp=1647.0 solid=0
+19 cell 0,0,1 metal=game:ingot-copper amount=42 temp=1259.0 solid=0
+19 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+19 cell 0,0,3 metal=- amount=0 temp=0.0 solid=0
+19 cell 1,0,0 metal=- amount=0 temp=0.0 solid=0
+19 cell 2,0,0 metal=- amount=0 temp=0.0 solid=0
+19 cell 2,0,2 metal=- amount=0 temp=0.0 solid=0
+19 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+19 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+20 op drain 16 got=0 2,0,0
+20 cell 0,0,0 metal=game:ingot-iron amount=57 temp=1647.0 solid=0
+20 cell 0,0,1 metal=game:ingot-copper amount=42 temp=1259.0 solid=0
+20 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+20 cell 0,0,3 metal=- amount=0 temp=0.0 solid=0
+20 cell 1,0,0 metal=- amount=0 temp=0.0 solid=0
+20 cell 2,0,0 metal=- amount=0 temp=0.0 solid=0
+20 cell 2,0,2 metal=- amount=0 temp=0.0 solid=0
+20 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+20 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+21 op idle
+21 cell 0,0,0 metal=game:ingot-iron amount=57 temp=1647.0 solid=0
+21 cell 0,0,1 metal=game:ingot-copper amount=42 temp=1259.0 solid=0
+21 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+21 cell 0,0,3 metal=- amount=0 temp=0.0 solid=0
+21 cell 1,0,0 metal=- amount=0 temp=0.0 solid=0
+21 cell 2,0,0 metal=- amount=0 temp=0.0 solid=0
+21 cell 2,0,2 metal=- amount=0 temp=0.0 solid=0
+21 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+21 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+22 op pour game:ingot-iron 70 1567C took=70 0,0,3
+22 cell 0,0,0 metal=game:ingot-iron amount=57 temp=1647.0 solid=0
+22 cell 0,0,1 metal=game:ingot-copper amount=42 temp=1259.0 solid=0
+22 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+22 cell 0,0,3 metal=game:ingot-iron amount=70 temp=1567.0 solid=0
+22 cell 1,0,0 metal=- amount=0 temp=0.0 solid=0
+22 cell 2,0,0 metal=- amount=0 temp=0.0 solid=0
+22 cell 2,0,2 metal=- amount=0 temp=0.0 solid=0
+22 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+22 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+23 op place start-e 2,0,3
+23 cell 0,0,0 metal=game:ingot-iron amount=57 temp=1647.0 solid=0
+23 cell 0,0,1 metal=game:ingot-copper amount=42 temp=1259.0 solid=0
+23 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+23 cell 0,0,3 metal=game:ingot-iron amount=70 temp=1567.0 solid=0
+23 cell 1,0,0 metal=- amount=0 temp=0.0 solid=0
+23 cell 2,0,0 metal=- amount=0 temp=0.0 solid=0
+23 cell 2,0,2 metal=- amount=0 temp=0.0 solid=0
+23 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+23 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+23 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+24 op place straight-ns 2,0,1
+24 cell 0,0,0 metal=game:ingot-iron amount=57 temp=1647.0 solid=0
+24 cell 0,0,1 metal=game:ingot-copper amount=42 temp=1259.0 solid=0
+24 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+24 cell 0,0,3 metal=game:ingot-iron amount=70 temp=1567.0 solid=0
+24 cell 1,0,0 metal=- amount=0 temp=0.0 solid=0
+24 cell 2,0,0 metal=- amount=0 temp=0.0 solid=0
+24 cell 2,0,1 metal=- amount=0 temp=0.0 solid=0
+24 cell 2,0,2 metal=- amount=0 temp=0.0 solid=0
+24 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+24 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+24 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+25 op break 3,0,3
+25 cell 0,0,0 metal=game:ingot-iron amount=57 temp=1647.0 solid=0
+25 cell 0,0,1 metal=game:ingot-copper amount=42 temp=1259.0 solid=0
+25 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+25 cell 0,0,3 metal=game:ingot-iron amount=70 temp=1567.0 solid=0
+25 cell 1,0,0 metal=- amount=0 temp=0.0 solid=0
+25 cell 2,0,0 metal=- amount=0 temp=0.0 solid=0
+25 cell 2,0,1 metal=- amount=0 temp=0.0 solid=0
+25 cell 2,0,2 metal=- amount=0 temp=0.0 solid=0
+25 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+25 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+26 op idle
+26 cell 0,0,0 metal=game:ingot-iron amount=57 temp=1647.0 solid=0
+26 cell 0,0,1 metal=game:ingot-copper amount=42 temp=1259.0 solid=0
+26 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+26 cell 0,0,3 metal=game:ingot-iron amount=70 temp=1567.0 solid=0
+26 cell 1,0,0 metal=- amount=0 temp=0.0 solid=0
+26 cell 2,0,0 metal=- amount=0 temp=0.0 solid=0
+26 cell 2,0,1 metal=- amount=0 temp=0.0 solid=0
+26 cell 2,0,2 metal=- amount=0 temp=0.0 solid=0
+26 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+26 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+27 op place bend-ws 3,0,1
+27 cell 0,0,0 metal=game:ingot-iron amount=57 temp=1647.0 solid=0
+27 cell 0,0,1 metal=game:ingot-copper amount=42 temp=1259.0 solid=0
+27 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+27 cell 0,0,3 metal=game:ingot-iron amount=70 temp=1567.0 solid=0
+27 cell 1,0,0 metal=- amount=0 temp=0.0 solid=0
+27 cell 2,0,0 metal=- amount=0 temp=0.0 solid=0
+27 cell 2,0,1 metal=- amount=0 temp=0.0 solid=0
+27 cell 2,0,2 metal=- amount=0 temp=0.0 solid=0
+27 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+27 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+27 cell 3,0,1 metal=- amount=0 temp=0.0 solid=0
+28 op idle
+28 cell 0,0,0 metal=game:ingot-iron amount=57 temp=1647.0 solid=0
+28 cell 0,0,1 metal=game:ingot-copper amount=42 temp=1259.0 solid=0
+28 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+28 cell 0,0,3 metal=game:ingot-iron amount=70 temp=1567.0 solid=0
+28 cell 1,0,0 metal=- amount=0 temp=0.0 solid=0
+28 cell 2,0,0 metal=- amount=0 temp=0.0 solid=0
+28 cell 2,0,1 metal=- amount=0 temp=0.0 solid=0
+28 cell 2,0,2 metal=- amount=0 temp=0.0 solid=0
+28 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+28 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+28 cell 3,0,1 metal=- amount=0 temp=0.0 solid=0
+29 op pour game:ingot-iron 123 1565C took=123 2,0,2
+29 cell 0,0,0 metal=game:ingot-iron amount=57 temp=1647.0 solid=0
+29 cell 0,0,1 metal=game:ingot-copper amount=42 temp=1259.0 solid=0
+29 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+29 cell 0,0,3 metal=game:ingot-iron amount=70 temp=1567.0 solid=0
+29 cell 1,0,0 metal=- amount=0 temp=0.0 solid=0
+29 cell 2,0,0 metal=- amount=0 temp=0.0 solid=0
+29 cell 2,0,1 metal=- amount=0 temp=0.0 solid=0
+29 cell 2,0,2 metal=game:ingot-iron amount=123 temp=1565.0 solid=0
+29 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+29 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+29 cell 3,0,1 metal=- amount=0 temp=0.0 solid=0
+30 op reload
+30 cell 0,0,0 metal=game:ingot-iron amount=57 temp=1647.0 solid=0
+30 cell 0,0,1 metal=game:ingot-copper amount=42 temp=1259.0 solid=0
+30 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+30 cell 0,0,3 metal=game:ingot-iron amount=70 temp=1567.0 solid=0
+30 cell 1,0,0 metal=- amount=0 temp=0.0 solid=0
+30 cell 2,0,0 metal=- amount=0 temp=0.0 solid=0
+30 cell 2,0,1 metal=- amount=0 temp=0.0 solid=0
+30 cell 2,0,2 metal=game:ingot-iron amount=123 temp=1565.0 solid=0
+30 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+30 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+30 cell 3,0,1 metal=- amount=0 temp=0.0 solid=0
+31 op break 0,0,3
+31 cell 0,0,0 metal=game:ingot-iron amount=57 temp=1647.0 solid=0
+31 cell 0,0,1 metal=game:ingot-copper amount=42 temp=1259.0 solid=0
+31 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+31 cell 1,0,0 metal=- amount=0 temp=0.0 solid=0
+31 cell 2,0,0 metal=- amount=0 temp=0.0 solid=0
+31 cell 2,0,1 metal=- amount=0 temp=0.0 solid=0
+31 cell 2,0,2 metal=game:ingot-iron amount=123 temp=1565.0 solid=0
+31 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+31 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+31 cell 3,0,1 metal=- amount=0 temp=0.0 solid=0
+32 op break 0,0,1
+32 cell 0,0,0 metal=game:ingot-iron amount=57 temp=1647.0 solid=0
+32 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+32 cell 1,0,0 metal=- amount=0 temp=0.0 solid=0
+32 cell 2,0,0 metal=- amount=0 temp=0.0 solid=0
+32 cell 2,0,1 metal=- amount=0 temp=0.0 solid=0
+32 cell 2,0,2 metal=game:ingot-iron amount=123 temp=1565.0 solid=0
+32 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+32 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+32 cell 3,0,1 metal=- amount=0 temp=0.0 solid=0
+33 op pour game:ingot-iron 52 1731C took=52 2,0,2
+33 cell 0,0,0 metal=game:ingot-iron amount=57 temp=1647.0 solid=0
+33 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+33 cell 1,0,0 metal=- amount=0 temp=0.0 solid=0
+33 cell 2,0,0 metal=- amount=0 temp=0.0 solid=0
+33 cell 2,0,1 metal=- amount=0 temp=0.0 solid=0
+33 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+33 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+33 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+33 cell 3,0,1 metal=- amount=0 temp=0.0 solid=0
+34 op place start-w 1,0,2
+34 cell 0,0,0 metal=game:ingot-iron amount=57 temp=1647.0 solid=0
+34 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+34 cell 1,0,0 metal=- amount=0 temp=0.0 solid=0
+34 cell 1,0,2 metal=- amount=0 temp=0.0 solid=0
+34 cell 2,0,0 metal=- amount=0 temp=0.0 solid=0
+34 cell 2,0,1 metal=- amount=0 temp=0.0 solid=0
+34 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+34 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+34 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+34 cell 3,0,1 metal=- amount=0 temp=0.0 solid=0
+35 op break 1,0,0
+35 cell 0,0,0 metal=game:ingot-iron amount=57 temp=1647.0 solid=0
+35 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+35 cell 1,0,2 metal=- amount=0 temp=0.0 solid=0
+35 cell 2,0,0 metal=- amount=0 temp=0.0 solid=0
+35 cell 2,0,1 metal=- amount=0 temp=0.0 solid=0
+35 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+35 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+35 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+35 cell 3,0,1 metal=- amount=0 temp=0.0 solid=0
+36 op drain 49 got=0 2,0,0
+36 cell 0,0,0 metal=game:ingot-iron amount=57 temp=1647.0 solid=0
+36 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+36 cell 1,0,2 metal=- amount=0 temp=0.0 solid=0
+36 cell 2,0,0 metal=- amount=0 temp=0.0 solid=0
+36 cell 2,0,1 metal=- amount=0 temp=0.0 solid=0
+36 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+36 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+36 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+36 cell 3,0,1 metal=- amount=0 temp=0.0 solid=0
+37 op place start-s 3,0,3
+37 cell 0,0,0 metal=game:ingot-iron amount=57 temp=1647.0 solid=0
+37 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+37 cell 1,0,2 metal=- amount=0 temp=0.0 solid=0
+37 cell 2,0,0 metal=- amount=0 temp=0.0 solid=0
+37 cell 2,0,1 metal=- amount=0 temp=0.0 solid=0
+37 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+37 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+37 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+37 cell 3,0,1 metal=- amount=0 temp=0.0 solid=0
+37 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+38 op pour game:ingot-copper 16 1197C took=16 0,0,2
+38 cell 0,0,0 metal=game:ingot-iron amount=57 temp=1647.0 solid=0
+38 cell 0,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+38 cell 1,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+38 cell 2,0,0 metal=- amount=0 temp=0.0 solid=0
+38 cell 2,0,1 metal=- amount=0 temp=0.0 solid=0
+38 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+38 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+38 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+38 cell 3,0,1 metal=- amount=0 temp=0.0 solid=0
+38 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+39 op break 3,0,1
+39 cell 0,0,0 metal=game:ingot-iron amount=57 temp=1647.0 solid=0
+39 cell 0,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+39 cell 1,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+39 cell 2,0,0 metal=- amount=0 temp=0.0 solid=0
+39 cell 2,0,1 metal=- amount=0 temp=0.0 solid=0
+39 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+39 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+39 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+39 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+40 op drain 49 got=49 0,0,0
+40 cell 0,0,0 metal=game:ingot-iron amount=8 temp=1647.0 solid=0
+40 cell 0,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+40 cell 1,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+40 cell 2,0,0 metal=- amount=0 temp=0.0 solid=0
+40 cell 2,0,1 metal=- amount=0 temp=0.0 solid=0
+40 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+40 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+40 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+40 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+41 op reload
+41 cell 0,0,0 metal=game:ingot-iron amount=8 temp=1647.0 solid=0
+41 cell 0,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+41 cell 1,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+41 cell 2,0,0 metal=- amount=0 temp=0.0 solid=0
+41 cell 2,0,1 metal=- amount=0 temp=0.0 solid=0
+41 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+41 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+41 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+41 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+42 op break 2,0,0
+42 cell 0,0,0 metal=game:ingot-iron amount=8 temp=1647.0 solid=0
+42 cell 0,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+42 cell 1,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+42 cell 2,0,1 metal=- amount=0 temp=0.0 solid=0
+42 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+42 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+42 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+42 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+43 op place start-s 2,0,0
+43 cell 0,0,0 metal=game:ingot-iron amount=8 temp=1647.0 solid=0
+43 cell 0,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+43 cell 1,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+43 cell 2,0,0 metal=- amount=0 temp=0.0 solid=0
+43 cell 2,0,1 metal=- amount=0 temp=0.0 solid=0
+43 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+43 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+43 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+43 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+44 op pour game:ingot-iron 112 1646C took=100 2,0,1
+44 cell 0,0,0 metal=game:ingot-iron amount=8 temp=1647.0 solid=0
+44 cell 0,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+44 cell 1,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+44 cell 2,0,0 metal=game:ingot-iron amount=50 temp=1646.0 solid=0
+44 cell 2,0,1 metal=game:ingot-iron amount=50 temp=1646.0 solid=0
+44 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+44 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+44 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+44 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+45 op break 3,0,0
+45 cell 0,0,0 metal=game:ingot-iron amount=8 temp=1647.0 solid=0
+45 cell 0,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+45 cell 1,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+45 cell 2,0,0 metal=game:ingot-iron amount=50 temp=1646.0 solid=0
+45 cell 2,0,1 metal=game:ingot-iron amount=50 temp=1646.0 solid=0
+45 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+45 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+45 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+46 op break 2,0,1
+46 cell 0,0,0 metal=game:ingot-iron amount=8 temp=1647.0 solid=0
+46 cell 0,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+46 cell 1,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+46 cell 2,0,0 metal=game:ingot-iron amount=50 temp=1646.0 solid=0
+46 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+46 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+46 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+47 op place bend-se 3,0,0
+47 cell 0,0,0 metal=game:ingot-iron amount=8 temp=1647.0 solid=0
+47 cell 0,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+47 cell 1,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+47 cell 2,0,0 metal=game:ingot-iron amount=50 temp=1646.0 solid=0
+47 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+47 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+47 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+47 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+48 op place straight-we 0,0,3
+48 cell 0,0,0 metal=game:ingot-iron amount=8 temp=1647.0 solid=0
+48 cell 0,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+48 cell 0,0,3 metal=- amount=0 temp=0.0 solid=0
+48 cell 1,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+48 cell 2,0,0 metal=game:ingot-iron amount=50 temp=1646.0 solid=0
+48 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+48 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+48 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+48 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+49 op idle
+49 cell 0,0,0 metal=game:ingot-iron amount=8 temp=1647.0 solid=0
+49 cell 0,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+49 cell 0,0,3 metal=- amount=0 temp=0.0 solid=0
+49 cell 1,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+49 cell 2,0,0 metal=game:ingot-iron amount=50 temp=1646.0 solid=0
+49 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+49 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+49 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+49 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+50 op idle
+50 cell 0,0,0 metal=game:ingot-iron amount=8 temp=1647.0 solid=0
+50 cell 0,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+50 cell 0,0,3 metal=- amount=0 temp=0.0 solid=0
+50 cell 1,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+50 cell 2,0,0 metal=game:ingot-iron amount=50 temp=1646.0 solid=0
+50 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+50 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+50 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+50 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+51 op place bend-ws 1,0,1
+51 cell 0,0,0 metal=game:ingot-iron amount=8 temp=1647.0 solid=0
+51 cell 0,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+51 cell 0,0,3 metal=- amount=0 temp=0.0 solid=0
+51 cell 1,0,1 metal=- amount=0 temp=0.0 solid=0
+51 cell 1,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+51 cell 2,0,0 metal=game:ingot-iron amount=50 temp=1646.0 solid=0
+51 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+51 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+51 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+51 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+52 op drain 86 got=0 2,0,3
+52 cell 0,0,0 metal=game:ingot-iron amount=8 temp=1647.0 solid=0
+52 cell 0,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+52 cell 0,0,3 metal=- amount=0 temp=0.0 solid=0
+52 cell 1,0,1 metal=- amount=0 temp=0.0 solid=0
+52 cell 1,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+52 cell 2,0,0 metal=game:ingot-iron amount=50 temp=1646.0 solid=0
+52 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+52 cell 2,0,3 metal=- amount=0 temp=0.0 solid=0
+52 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+52 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+53 op break 2,0,3
+53 cell 0,0,0 metal=game:ingot-iron amount=8 temp=1647.0 solid=0
+53 cell 0,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+53 cell 0,0,3 metal=- amount=0 temp=0.0 solid=0
+53 cell 1,0,1 metal=- amount=0 temp=0.0 solid=0
+53 cell 1,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+53 cell 2,0,0 metal=game:ingot-iron amount=50 temp=1646.0 solid=0
+53 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+53 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+53 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+54 op pour game:ingot-iron 60 1681C took=60 0,0,3
+54 cell 0,0,0 metal=game:ingot-iron amount=8 temp=1647.0 solid=0
+54 cell 0,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+54 cell 0,0,3 metal=game:ingot-iron amount=60 temp=1681.0 solid=0
+54 cell 1,0,1 metal=- amount=0 temp=0.0 solid=0
+54 cell 1,0,2 metal=game:ingot-copper amount=8 temp=1197.0 solid=0
+54 cell 2,0,0 metal=game:ingot-iron amount=50 temp=1646.0 solid=0
+54 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+54 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+54 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+55 op pour game:ingot-copper 136 1283C took=136 1,0,2
+55 cell 0,0,0 metal=game:ingot-iron amount=8 temp=1647.0 solid=0
+55 cell 0,0,2 metal=game:ingot-copper amount=100 temp=1271.7 solid=0
+55 cell 0,0,3 metal=game:ingot-iron amount=60 temp=1681.0 solid=0
+55 cell 1,0,1 metal=- amount=0 temp=0.0 solid=0
+55 cell 1,0,2 metal=game:ingot-copper amount=52 temp=1278.2 solid=0
+55 cell 2,0,0 metal=game:ingot-iron amount=50 temp=1646.0 solid=0
+55 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+55 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+55 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+56 op idle
+56 cell 0,0,0 metal=game:ingot-iron amount=8 temp=1647.0 solid=0
+56 cell 0,0,2 metal=game:ingot-copper amount=76 temp=1271.7 solid=0
+56 cell 0,0,3 metal=game:ingot-iron amount=60 temp=1681.0 solid=0
+56 cell 1,0,1 metal=- amount=0 temp=0.0 solid=0
+56 cell 1,0,2 metal=game:ingot-copper amount=76 temp=1276.2 solid=0
+56 cell 2,0,0 metal=game:ingot-iron amount=50 temp=1646.0 solid=0
+56 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+56 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+56 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+57 op idle
+57 cell 0,0,0 metal=game:ingot-iron amount=8 temp=1647.0 solid=0
+57 cell 0,0,2 metal=game:ingot-copper amount=76 temp=1271.7 solid=0
+57 cell 0,0,3 metal=game:ingot-iron amount=60 temp=1681.0 solid=0
+57 cell 1,0,1 metal=- amount=0 temp=0.0 solid=0
+57 cell 1,0,2 metal=game:ingot-copper amount=76 temp=1276.2 solid=0
+57 cell 2,0,0 metal=game:ingot-iron amount=50 temp=1646.0 solid=0
+57 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+57 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+57 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+58 op place start-n 1,0,0
+58 cell 0,0,0 metal=game:ingot-iron amount=8 temp=1647.0 solid=0
+58 cell 0,0,2 metal=game:ingot-copper amount=76 temp=1271.7 solid=0
+58 cell 0,0,3 metal=game:ingot-iron amount=60 temp=1681.0 solid=0
+58 cell 1,0,0 metal=- amount=0 temp=0.0 solid=0
+58 cell 1,0,1 metal=- amount=0 temp=0.0 solid=0
+58 cell 1,0,2 metal=game:ingot-copper amount=76 temp=1276.2 solid=0
+58 cell 2,0,0 metal=game:ingot-iron amount=50 temp=1646.0 solid=0
+58 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+58 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+58 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+59 op place bend-ws 3,0,2
+59 cell 0,0,0 metal=game:ingot-iron amount=8 temp=1647.0 solid=0
+59 cell 0,0,2 metal=game:ingot-copper amount=76 temp=1271.7 solid=0
+59 cell 0,0,3 metal=game:ingot-iron amount=60 temp=1681.0 solid=0
+59 cell 1,0,0 metal=- amount=0 temp=0.0 solid=0
+59 cell 1,0,1 metal=- amount=0 temp=0.0 solid=0
+59 cell 1,0,2 metal=game:ingot-copper amount=76 temp=1276.2 solid=0
+59 cell 2,0,0 metal=game:ingot-iron amount=50 temp=1646.0 solid=0
+59 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+59 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+59 cell 3,0,2 metal=- amount=0 temp=0.0 solid=0
+59 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0
+60 op place bend-ws 0,0,1
+60 cell 0,0,0 metal=game:ingot-iron amount=8 temp=1647.0 solid=0
+60 cell 0,0,1 metal=- amount=0 temp=0.0 solid=0
+60 cell 0,0,2 metal=game:ingot-copper amount=76 temp=1271.7 solid=0
+60 cell 0,0,3 metal=game:ingot-iron amount=60 temp=1681.0 solid=0
+60 cell 1,0,0 metal=- amount=0 temp=0.0 solid=0
+60 cell 1,0,1 metal=- amount=0 temp=0.0 solid=0
+60 cell 1,0,2 metal=game:ingot-copper amount=76 temp=1276.2 solid=0
+60 cell 2,0,0 metal=game:ingot-iron amount=50 temp=1646.0 solid=0
+60 cell 2,0,2 metal=game:ingot-iron amount=175 temp=1614.3 solid=0
+60 cell 3,0,0 metal=- amount=0 temp=0.0 solid=0
+60 cell 3,0,2 metal=- amount=0 temp=0.0 solid=0
+60 cell 3,0,3 metal=- amount=0 temp=0.0 solid=0

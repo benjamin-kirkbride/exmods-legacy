@@ -1,0 +1,41 @@
+# pipe-throughput-500
+1 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Steam temp=150.0
+1 drawn=500.00
+2 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Steam temp=150.0
+2 drawn=500.00
+3 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Steam temp=150.0
+3 drawn=500.00
+4 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Steam temp=150.0
+4 drawn=500.00
+5 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Steam temp=150.0
+5 drawn=500.00
+6 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Steam temp=150.0
+6 drawn=500.00
+7 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Steam temp=150.0
+7 drawn=500.00
+8 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Steam temp=150.0
+8 drawn=500.00
+9 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Steam temp=150.0
+9 drawn=500.00
+10 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Steam temp=150.0
+10 drawn=500.00
+11 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Steam temp=150.0
+11 drawn=500.00
+12 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Steam temp=150.0
+12 drawn=500.00
+13 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Steam temp=150.0
+13 drawn=500.00
+14 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Steam temp=150.0
+14 drawn=500.00
+15 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Steam temp=150.0
+15 drawn=500.00
+16 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Steam temp=150.0
+16 drawn=500.00
+17 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Steam temp=150.0
+17 drawn=500.00
+18 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Steam temp=150.0
+18 drawn=500.00
+19 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Steam temp=150.0
+19 drawn=500.00
+20 run 0,0,0 n=10 vol=0.00 p=0.000 medium=Steam temp=150.0
+20 drawn=500.00

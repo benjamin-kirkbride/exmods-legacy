@@ -1,0 +1,45 @@
+# molten-pedestal-fill
+0 cell 0,0,0 metal=- amount=0 temp=0.0 solid=0
+0 cell 0,0,1 metal=- amount=0 temp=0.0 solid=0
+0 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+0 cell 0,0,3 metal=- amount=0 temp=0.0 solid=0 mold=0
+1 cell 0,0,0 metal=game:ingot-iron amount=100 temp=1698.3 solid=0
+1 cell 0,0,1 metal=game:ingot-iron amount=100 temp=1700.0 solid=0
+1 cell 0,0,2 metal=- amount=0 temp=0.0 solid=0
+1 cell 0,0,3 metal=- amount=0 temp=0.0 solid=0 mold=0
+2 cell 0,0,0 metal=game:ingot-iron amount=100 temp=1697.5 solid=0
+2 cell 0,0,1 metal=game:ingot-iron amount=100 temp=1699.2 solid=0
+2 cell 0,0,2 metal=game:ingot-iron amount=100 temp=1700.0 solid=0
+2 cell 0,0,3 metal=- amount=0 temp=0.0 solid=0 mold=0
+3 cell 0,0,0 metal=game:ingot-iron amount=150 temp=1697.0 solid=0
+3 cell 0,0,1 metal=game:ingot-iron amount=100 temp=1698.9 solid=0
+3 cell 0,0,2 metal=game:ingot-iron amount=100 temp=1699.6 solid=0
+3 cell 0,0,3 metal=game:ingot-iron amount=50 temp=1700.0 solid=0 mold=0
+4 cell 0,0,0 metal=game:ingot-iron amount=150 temp=1696.1 solid=0
+4 cell 0,0,1 metal=game:ingot-iron amount=100 temp=1698.4 solid=0
+4 cell 0,0,2 metal=game:ingot-iron amount=100 temp=1699.3 solid=0
+4 cell 0,0,3 metal=game:ingot-iron amount=50 temp=1699.6 solid=0 mold=50
+5 cell 0,0,0 metal=game:ingot-iron amount=150 temp=1695.4 solid=0
+5 cell 0,0,1 metal=game:ingot-iron amount=100 temp=1697.7 solid=0
+5 cell 0,0,2 metal=game:ingot-iron amount=100 temp=1698.8 solid=0
+5 cell 0,0,3 metal=game:ingot-iron amount=50 temp=1699.3 solid=0 mold=100
+6 cell 0,0,0 metal=game:ingot-iron amount=200 temp=1694.8 solid=0
+6 cell 0,0,1 metal=game:ingot-iron amount=100 temp=1696.0 solid=0
+6 cell 0,0,2 metal=game:ingot-iron amount=100 temp=1697.1 solid=0
+6 cell 0,0,3 metal=game:ingot-iron amount=50 temp=1697.6 solid=0 mold=100
+7 cell 0,0,0 metal=game:ingot-iron amount=200 temp=1693.1 solid=0
+7 cell 0,0,1 metal=game:ingot-iron amount=100 temp=1694.3 solid=0
+7 cell 0,0,2 metal=game:ingot-iron amount=100 temp=1695.4 solid=0
+7 cell 0,0,3 metal=game:ingot-iron amount=50 temp=1695.9 solid=0 mold=100
+8 cell 0,0,0 metal=game:ingot-iron amount=200 temp=1691.4 solid=0
+8 cell 0,0,1 metal=game:ingot-iron amount=100 temp=1692.6 solid=0
+8 cell 0,0,2 metal=game:ingot-iron amount=100 temp=1693.7 solid=0
+8 cell 0,0,3 metal=game:ingot-iron amount=50 temp=1694.2 solid=0 mold=100
+9 cell 0,0,0 metal=game:ingot-iron amount=200 temp=1689.7 solid=0
+9 cell 0,0,1 metal=game:ingot-iron amount=100 temp=1690.9 solid=0
+9 cell 0,0,2 metal=game:ingot-iron amount=100 temp=1692.0 solid=0
+9 cell 0,0,3 metal=game:ingot-iron amount=50 temp=1692.5 solid=0 mold=100
+10 cell 0,0,0 metal=game:ingot-iron amount=200 temp=1688.1 solid=0
+10 cell 0,0,1 metal=game:ingot-iron amount=100 temp=1689.2 solid=0
+10 cell 0,0,2 metal=game:ingot-iron amount=100 temp=1690.3 solid=0
+10 cell 0,0,3 metal=game:ingot-iron amount=50 temp=1690.8 solid=0 mold=100
