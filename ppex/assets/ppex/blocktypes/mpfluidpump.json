@@ -27,7 +27,12 @@
           },
           {
             "requireStacks": [
-              { "type": "item", "code": "game:plank-*", "quantity": 4 },
+              {
+                "type": "item",
+                "code": "game:plank-*",
+                "storeWildCard": "wood",
+                "quantity": 4
+              },
               { "type": "block", "code": "game:woodenaxle-ud", "quantity": 1 },
               {
                 "type": "item",
@@ -65,7 +70,7 @@
             "requireStacks": [
               {
                 "type": "block",
-                "code": "ppex:pipe-straight-*",
+                "code": "ppex:pipe-straight-ns-{metal}",
                 "quantity": 2
               },
               {

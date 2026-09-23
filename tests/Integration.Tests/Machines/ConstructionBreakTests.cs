@@ -1,0 +1,275 @@
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using ExpandedLib.Blocks.Construction;
+using ExpandedLib.Testing;
+using Newtonsoft.Json.Linq;
+using NSubstitute;
+using Vintagestory.API.Common;
+using Vintagestory.API.Datastructures;
+using Vintagestory.API.MathTools;
+using Vintagestory.API.Util;
+using Xunit;
+#if GAME_GE_1_22
+using Vintagestory.GameContent;
+#endif
+
+namespace Integration.Tests;
+
+/// <summary>
+/// Builds the MP fluid pump and the twin-tub blower from their shipped JSON to each stage through
+/// the real <see cref="ExRightClickConstructable"/> (vanilla's <c>RightClickConstruction</c> on
+/// 1.22, exlib's port on 1.20 and 1.21), paying from a survival player's hotbar in oak and iron,
+/// then breaks the structure and compares the refund with what was paid.
+/// </summary>
+public class ConstructionBreakTests {
+  private const string Pump = "ppex/assets/ppex/blocktypes/mpfluidpump.json";
+  private const string Blower =
+    "smex/assets/smex/blocktypes/blastfurnace/mpblower.json";
+
+  public static TheoryData<string, int> EveryStage() {
+    var data = new TheoryData<string, int>();
+    foreach (string path in new[] { Pump, Blower })
+      for (int built = 0; built < Stages(path).Count; built++)
+        data.Add(path, built);
+    return data;
+  }
+
+  #region Break
+
+  [Theory]
+  [MemberData(nameof(EveryStage))]
+  public void A_structure_broken_at_any_stage_refunds_what_was_paid(
+    string path,
+    int built
+  ) {
+    var rig = new Rig(path);
+    var paid = new List<ItemStack>();
+    for (int stage = 1; stage <= built; stage++)
+      paid.AddRange(rig.Pay(stage));
+
+    rig.Behavior.OnBlockBroken(null);
+
+    Assert.Equal(Tally(paid), Tally(rig.Drops));
+  }
+
+  #endregion
+
+  #region Payment
+
+  [Theory]
+  [InlineData("supportbeam-oak", true)]
+  [InlineData("supportbeam-tarnishedmetal-iron", false)]
+  public void The_blower_beam_stage_takes_wooden_beams_only(
+    string beam,
+    bool accepted
+  ) {
+    var rig = new Rig(Blower);
+    Block block = rig.Block("game:" + beam);
+
+    var stacks = rig.Bill(1).ToList();
+    stacks[0] = new ItemStack(block, stacks[0].StackSize);
+    rig.Hotbar(stacks);
+
+    Assert.Equal(accepted, rig.Interact());
+  }
+
+  #endregion
+
+  private static Dictionary<string, int> Tally(
+    IEnumerable<ItemStack> stacks
+  ) =>
+    stacks
+      .GroupBy(s => s.Collectible.Code.ToString())
+      .OrderBy(g => g.Key)
+      .ToDictionary(g => g.Key, g => g.Sum(s => s.StackSize));
+
+  private static JArray Stages(string path) {
+    JToken root = JToken.Parse(
+      File.ReadAllText(Path.Combine(ShippedJsonAssetTests.RepoRoot(), path))
+    );
+    return (JArray)Properties(root)["stages"]!;
+  }
+
+  private static JObject Properties(JToken root) =>
+    (JObject)
+      root["entityBehaviors"]!
+        .First(b => (string?)b["name"] == "ExRightClickConstructable")[
+        "properties"
+      ]!;
+
+  /// <summary>
+  /// One structure placed from <c>path</c> in a <see cref="TestWorld"/> whose registry holds the
+  /// oak and iron variants the two structures take, plus the metal support beam.
+  /// </summary>
+  private sealed class Rig {
+    private readonly TestWorld _world = new();
+    private readonly List<CollectibleObject> _collectibles = [];
+    private readonly List<ItemSlot> _hotbar = [];
+    private readonly IPlayer _player;
+    private readonly JArray _stages;
+    private int _nextBlockId = 100;
+
+    public ExRightClickConstructable Behavior { get; }
+    public List<ItemStack> Drops => _world.Drops;
+
+    public Rig(string path) {
+      JToken root = JToken.Parse(
+        File.ReadAllText(Path.Combine(ShippedJsonAssetTests.RepoRoot(), path))
+      );
+      _stages = Stages(path);
+
+      Item("game:plank-oak", ("wood", "oak"));
+      Item("game:rod-iron", ("metal", "iron"));
+      Item("game:metalplate-iron", ("metal", "iron"));
+      Item("game:metalnailsandstrips-iron", ("metal", "iron"));
+      Block("game:supportbeam-oak", ("wood", "oak"));
+      Block("game:supportbeam-tarnishedmetal-iron", ("metal", "iron"));
+      Block("game:woodenaxle-ud", ("type", "ud"));
+      Block(
+        "ppex:pipe-straight-ns-iron",
+        ("type", "straight"),
+        ("orientation", "ns"),
+        ("material", "iron")
+      );
+      _world.World.Collectibles.Returns(_collectibles);
+
+      var host = TestBlocks.Configure(
+        new Block(),
+        (string)root["code"]! + "-north",
+        1,
+        ("side", "north")
+      );
+      host.Shape = new CompositeShape {
+        Base = new AssetLocation(host.Code.Domain, "shape"),
+      };
+      var be = new HostEntity();
+      _world.Place(new BlockPos(0, 0, 0), host, be).Attach(be);
+      Behavior = new ExRightClickConstructable(be);
+      Behavior.Initialize(_world.Api, new JsonObject(Properties(root)));
+
+#if GAME_GE_1_22
+      _world
+        .World.When(w =>
+          w.SpawnItemEntity(
+            Arg.Any<ItemStack>(),
+            Arg.Any<BlockPos>(),
+            Arg.Any<Vec3d>()
+          )
+        )
+        .Do(ci => _world.Drops.Add(ci.Arg<ItemStack>()));
+#endif
+
+      var hotbar = Substitute.For<IInventory>();
+      ((IEnumerable<ItemSlot>)hotbar)
+        .GetEnumerator()
+        .Returns(_ => _hotbar.GetEnumerator());
+      _player = Substitute.For<IPlayer>();
+      _player.InventoryManager.GetHotbarInventory().Returns(hotbar);
+      _player.WorldData.CurrentGameMode.Returns(EnumGameMode.Survival);
+      var entity = Substitute.For<EntityPlayer>();
+      entity.World = _world.World;
+      entity.WatchedAttributes.SetString("playerUID", "tester");
+      _player.Entity.Returns(entity);
+      _world.World.PlayerByUid(Arg.Any<string>()).Returns(_player);
+    }
+
+    /// <summary>
+    /// The stacks <paramref name="stage"/> costs, each ingredient paid with the one registered
+    /// collectible other than the metal beam its code matches once <c>{metal}</c> reads iron.
+    /// </summary>
+    public IEnumerable<ItemStack> Bill(int stage) {
+      foreach (JToken ing in _stages[stage]["requireStacks"]!) {
+        var code = new AssetLocation(
+          ((string)ing["code"]!).Replace("{metal}", "iron")
+        );
+        bool block = (string?)ing["type"] == "block";
+        CollectibleObject match = _collectibles.Single(c =>
+          (c is Block) == block
+          && c.Code.Domain == code.Domain
+          && WildcardUtil.Match(code.Path, c.Code.Path)
+          && !c.Code.Path.Contains("tarnishedmetal")
+        );
+        yield return match is Block b
+          ? new ItemStack(b, (int)ing["quantity"]!)
+          : new ItemStack((Item)match, (int)ing["quantity"]!);
+      }
+    }
+
+    /// <summary>Pays <paramref name="stage"/> in full from the hotbar and returns what it took.</summary>
+    public List<ItemStack> Pay(int stage) {
+      var bill = Bill(stage).ToList();
+      Hotbar(bill);
+      Assert.True(Interact(), $"stage {stage} was not accepted");
+      Assert.All(
+        _hotbar,
+        s => Assert.True(s.Empty, $"stage {stage} left {s.Itemstack}")
+      );
+      return bill.Select(s => s.Clone()).ToList();
+    }
+
+    public void Hotbar(IEnumerable<ItemStack> stacks) {
+      _hotbar.Clear();
+      foreach (ItemStack s in stacks)
+        _hotbar.Add(new DummySlot(s.Clone()));
+    }
+
+    /// <summary>One right click; true when it completed the next stage.</summary>
+    public bool Interact() {
+      int before = Completed;
+      var handling = EnumHandling.PassThrough;
+      Behavior.OnBlockInteractStart(
+        _world.World,
+        _player,
+        new BlockSelection { Position = new BlockPos(0, 0, 0) },
+        ref handling
+      );
+      return Completed == before + 1;
+    }
+
+    private int Completed =>
+      (int)
+        ReflectionHelpers.GetField(
+          ReflectionHelpers.GetField(Behavior, "rcc")!,
+          "CurrentCompletedStage"
+        )!;
+
+    public Block Block(string code, params (string, string)[] variants) {
+      var block = _collectibles
+        .OfType<Block>()
+        .FirstOrDefault(b => b.Code.ToString() == code);
+      if (block != null)
+        return block;
+      block = TestBlocks.Configure(
+        new Block(),
+        code,
+        _nextBlockId++,
+        variants
+      );
+      _world.Register(block);
+      Add(block);
+      return block;
+    }
+
+    private void Item(
+      string code,
+      params (string key, string value)[] variants
+    ) {
+      Item item = _world.RegisterItem(code);
+      foreach (var (key, value) in variants)
+        item.VariantStrict[key] = value;
+      item.Variant = new RelaxedReadOnlyDictionary<string, string>(
+        item.VariantStrict
+      );
+      Add(item);
+    }
+
+    // Stack comparison reads the collectible's api, which the game sets on load.
+    private void Add(CollectibleObject collectible) {
+      ReflectionHelpers.SetField(collectible, "api", _world.Api);
+      _collectibles.Add(collectible);
+    }
+  }
+
+  private sealed class HostEntity : BlockEntity { }
+}

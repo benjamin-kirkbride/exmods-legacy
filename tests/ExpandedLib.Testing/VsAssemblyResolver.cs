@@ -63,6 +63,12 @@ public static class VsAssemblyResolver {
     };
   }
 
+  /// <summary>
+  /// The game install this assembly's version runs against, resolved as <see cref="Register"/>
+  /// resolves it; its <c>assets</c> folder holds the game's own JSON. Null when no install is found.
+  /// </summary>
+  public static string? InstallPath => ResolveInstallPath();
+
   /// <summary>The install path for this TFM: the <see cref="InstallKey"/> environment variable if set
   /// (the override CI uses), otherwise the in-repo install at <c>.game/&lt;slug&gt;</c>, found by
   /// walking up from the test output directory to the repo root. Null when neither yields a path.</summary>
