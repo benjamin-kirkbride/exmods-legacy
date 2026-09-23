@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Integration.Tests.Saves;
 using Vintagestory.API.Config;
@@ -9,9 +10,10 @@ namespace Integration.Tests.Pins;
 
 /// <summary>
 /// The observables of one scene, one line per entity per tick, each number rounded to the precision
-/// its pin asserts. <see cref="Save"/> writes the text to
-/// <c>tests/Integration.Tests/Pins/Traces/{game version}</c>, where a replay of the same script on
-/// another build of the same game version is diffed against it.
+/// its pin asserts. <see cref="Save()"/> records the text under
+/// <c>tests/Integration.Tests/Pins/Traces/{game version}</c>: the committed <c>{Name}.trace</c> is the
+/// reference, and a run whose text differs leaves it alone and writes <c>{Name}.received.trace</c>
+/// beside it.
 /// </summary>
 internal sealed class Trace
 {
@@ -26,6 +28,8 @@ internal sealed class Trace
 
   /// <summary>Decimal places of a mechanical load, speed or power budget.</summary>
   public const int PowerDigits = 3;
+
+  private const string WriteVariable = "LEGACY_WRITE_TRACES";
 
   private readonly StringBuilder _text = new();
 
@@ -89,20 +93,50 @@ internal sealed class Trace
     );
 
   /// <summary>
-  /// Writes the trace to <see cref="Folder"/> as <c>{Name}.trace</c> and returns its text. An
-  /// unchanged file is left untouched; a changed one is replaced through a temporary file, so runs
-  /// on several game versions at once never leave a partial trace.
+  /// Records the trace in <see cref="Folder"/> and returns its text. The committed
+  /// <c>{Name}.trace</c> is written only when it is absent, or when <c>LEGACY_WRITE_TRACES</c> is
+  /// <c>1</c> or a comma-separated list naming the trace. Otherwise a text that differs from it is
+  /// written to <c>{Name}.received.trace</c>, and a text that matches it deletes that file. A
+  /// difference does not fail the caller.
   /// </summary>
-  public string Save()
+  public string Save() =>
+    Save(Folder, Writes(Environment.GetEnvironmentVariable(WriteVariable), Name));
+
+  /// <summary>
+  /// <see cref="Save()"/> into <paramref name="folder"/>, rewriting the committed trace when
+  /// <paramref name="write"/> is set. A file is replaced whole, through a temporary file.
+  /// </summary>
+  internal string Save(string folder, bool write)
   {
     string text = Text;
-    string path = Path.Combine(Folder, Name + ".trace");
+    string committed = Path.Combine(folder, Name + ".trace");
+    string received = Path.Combine(folder, Name + ".received.trace");
+    Directory.CreateDirectory(folder);
+    if (write || !File.Exists(committed))
+    {
+      Replace(committed, text);
+      File.Delete(received);
+    }
+    else if (File.ReadAllText(committed) == text)
+      File.Delete(received);
+    else
+      Replace(received, text);
+    return text;
+  }
+
+  /// <summary>
+  /// Whether a write variable's <paramref name="value"/> (<c>1</c>, or a comma-separated list of
+  /// trace names; null when unset) names the trace <paramref name="name"/>.
+  /// </summary>
+  internal static bool Writes(string? value, string name) =>
+    value == "1" || (value ?? "").Split(',').Any(n => n.Trim() == name);
+
+  private static void Replace(string path, string text)
+  {
     if (File.Exists(path) && File.ReadAllText(path) == text)
-      return text;
-    Directory.CreateDirectory(Folder);
+      return;
     string temp = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
     File.WriteAllText(temp, text);
     File.Move(temp, path, overwrite: true);
-    return text;
   }
 }

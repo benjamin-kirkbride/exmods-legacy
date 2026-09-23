@@ -26,7 +26,7 @@ public class FillerSaveGoldenTests {
     Verify(
       "exlib-structurefiller-plain",
       filler => { },
-      filler => {
+      (filler, _) => {
         Assert.False(filler.AllowAttach);
         Assert.Null(filler.PortFace);
         Assert.Null(filler.PortNetworkType);
@@ -39,7 +39,7 @@ public class FillerSaveGoldenTests {
     Verify(
       "exlib-structurefiller-attach",
       filler => filler.AllowAttach = true,
-      filler => {
+      (filler, _) => {
         Assert.True(filler.AllowAttach);
         Assert.Null(filler.PortFace);
         Assert.Null(filler.HostedBehaviors);
@@ -55,7 +55,7 @@ public class FillerSaveGoldenTests {
         filler.PortFace = "u";
         filler.PortNetworkType = "pipe";
       },
-      filler => {
+      (filler, _) => {
         Assert.True(filler.AllowAttach);
         Assert.Equal("u", filler.PortFace);
         Assert.Equal("pipe", filler.PortNetworkType);
@@ -77,10 +77,14 @@ public class FillerSaveGoldenTests {
           ),
         ];
       },
-      filler => {
+      (filler, world) => {
         Assert.True(filler.AllowAttach);
         FillerBehavior hosted = Assert.Single(filler.HostedBehaviors!);
         Assert.Equal("exlib.BEBehaviorMPFillerPort", hosted.Code);
+        Assert.Equal(
+          typeof(BEBehaviorMPFillerPort),
+          world.Api.ClassRegistry.GetBlockEntityBehaviorClass(hosted.Code)
+        );
         Assert.Equal(BlockFacing.EAST, hosted.ConnectorFace);
         Assert.Equal(0.05f, hosted.Properties!["resistance"].AsFloat(), 3);
       },
@@ -94,13 +98,14 @@ public class FillerSaveGoldenTests {
   /// <summary>
   /// A filler cell at <see cref="At"/> linked to <see cref="Principal"/>, shaped by
   /// <paramref name="prime"/>; the load must restore the link and whatever
-  /// <paramref name="check"/> asserts. A cell hosting a mechanical-power behaviour is loaded without
-  /// <c>Initialize</c>, which would join it to a live power network.
+  /// <paramref name="check"/> asserts on it in the world it was loaded into. A cell hosting a
+  /// mechanical-power behaviour is loaded without <c>Initialize</c>, which would join it to a live
+  /// power network, so its hosted behaviour is resolved by class code only in <paramref name="check"/>.
   /// </summary>
   private static void Verify(
     string name,
     System.Action<BlockEntityStructureFiller> prime,
-    System.Action<BlockEntityStructureFiller> check,
+    System.Action<BlockEntityStructureFiller, TestWorld> check,
     bool initialize = true
   ) =>
     SaveGoldens.Verify(
@@ -115,10 +120,10 @@ public class FillerSaveGoldenTests {
           prime(be);
           return be;
         },
-        Check = (be, _) => {
+        Check = (be, world) => {
           var filler = Assert.IsType<BlockEntityStructureFiller>(be);
           Assert.Equal(Principal, filler.Principal);
-          check(filler);
+          check(filler, world);
         },
       }
     );

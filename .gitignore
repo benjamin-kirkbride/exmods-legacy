@@ -76,3 +76,6 @@ _ReSharper*/
 
 # draw.io writes a .$-prefixed lock/backup beside the diagram it has open.
 .$*.drawio.bkp
+
+# Trace text a pin run recorded that differs from the committed trace beside it.
+*.received.trace
