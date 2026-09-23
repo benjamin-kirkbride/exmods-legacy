@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ExpandedLib.Testing;
+using Integration.Tests.Saves;
 using PipesAndPowerExpanded.BlockNetworkPipe;
 using PipesAndPowerExpanded.BlockNetworkPipe.BlockEntities;
 using PipesAndPowerExpanded.BlockNetworkPipe.Blocks;
@@ -17,7 +18,8 @@ namespace Integration.Tests.Pins;
 
 /// <summary>
 /// The grid a seeded sequence works on, and the reload it can draw: every block entity saved to
-/// bytes, loaded into a fresh world by its type, placed, then initialised in position order.
+/// bytes, created in a fresh world by its saved name, given its block's behaviours, loaded,
+/// placed, then initialised in position order.
 /// </summary>
 internal static class SequenceGrid {
   /// <summary>Cells per side of the square grid at y 0.</summary>
@@ -49,7 +51,10 @@ internal static class SequenceGrid {
       }
       var tree = new TreeAttribute();
       be.ToTreeAttributes(tree);
-      var copy = (BlockEntity)Activator.CreateInstance(be.GetType())!;
+      BlockEntity copy = SaveRegistry.Instance.CreateBlockEntity(
+        SaveRegistry.Instance.SavedKey(be.GetType())!
+      );
+      copy.CreateBehaviors(block, fresh.World);
       copy.FromTreeAttributes(
         TreeAttribute.CreateFromBytes(tree.ToBytes()),
         fresh.World

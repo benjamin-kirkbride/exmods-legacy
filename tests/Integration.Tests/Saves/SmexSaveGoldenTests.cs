@@ -663,7 +663,7 @@ public class SmexSaveGoldenTests {
     );
 
   [Fact]
-  public void A_converter_transmission_restores_its_power_behaviour() =>
+  public void A_converter_transmission_loads_as_itself() =>
     SaveGoldens.Verify(
       new SaveCase {
         Name = "smex-convertertransmission",

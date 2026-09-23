@@ -15,8 +15,7 @@ namespace Integration.Tests.Pins;
 /// reference, and a run whose text differs leaves it alone and writes <c>{Name}.received.trace</c>
 /// beside it.
 /// </summary>
-internal sealed class Trace
-{
+internal sealed class Trace {
   /// <summary>Decimal places of a volume in litres.</summary>
   public const int VolumeDigits = 2;
 
@@ -36,15 +35,13 @@ internal sealed class Trace
   /// <summary>The file name the trace is saved under, without its extension.</summary>
   public string Name { get; }
 
-  public Trace(string name)
-  {
+  public Trace(string name) {
     Name = name;
     _text.Append("# ").Append(name).Append('\n');
   }
 
   /// <summary>Appends one line: the tick, then <paramref name="fields"/> separated by spaces.</summary>
-  public Trace Line(int tick, params string[] fields)
-  {
+  public Trace Line(int tick, params string[] fields) {
     _text.Append(tick.ToString(CultureInfo.InvariantCulture));
     foreach (string field in fields)
       _text.Append(' ').Append(field);
@@ -69,8 +66,7 @@ internal sealed class Trace
   /// <paramref name="value"/> rounded to <paramref name="digits"/> places, invariant culture, with
   /// negative zero written as zero.
   /// </summary>
-  public static string Fixed(float value, int digits)
-  {
+  public static string Fixed(float value, int digits) {
     double rounded = Math.Round(
       (double)value,
       digits,
@@ -106,18 +102,15 @@ internal sealed class Trace
   /// <see cref="Save()"/> into <paramref name="folder"/>, rewriting the committed trace when
   /// <paramref name="write"/> is set. A file is replaced whole, through a temporary file.
   /// </summary>
-  internal string Save(string folder, bool write)
-  {
+  internal string Save(string folder, bool write) {
     string text = Text;
     string committed = Path.Combine(folder, Name + ".trace");
     string received = Path.Combine(folder, Name + ".received.trace");
     Directory.CreateDirectory(folder);
-    if (write || !File.Exists(committed))
-    {
+    if (write || !File.Exists(committed)) {
       Replace(committed, text);
       File.Delete(received);
-    }
-    else if (File.ReadAllText(committed) == text)
+    } else if (File.ReadAllText(committed) == text)
       File.Delete(received);
     else
       Replace(received, text);
@@ -131,8 +124,7 @@ internal sealed class Trace
   internal static bool Writes(string? value, string name) =>
     value == "1" || (value ?? "").Split(',').Any(n => n.Trim() == name);
 
-  private static void Replace(string path, string text)
-  {
+  private static void Replace(string path, string text) {
     if (File.Exists(path) && File.ReadAllText(path) == text)
       return;
     string temp = path + "." + Guid.NewGuid().ToString("N") + ".tmp";

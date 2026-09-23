@@ -360,7 +360,7 @@ public class PpexSaveGoldenTests {
     );
 
   [Fact]
-  public void An_engine_generator_restores_its_power_behaviour() =>
+  public void An_engine_generator_loads_as_itself() =>
     SaveGoldens.Verify(
       new SaveCase {
         Name = "ppex-enginempgenerator",
