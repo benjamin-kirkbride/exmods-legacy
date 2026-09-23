@@ -7,9 +7,8 @@ namespace Integration.Tests;
 
 /// <summary>
 /// Binds the published-facing docs to the three mods' own <c>modinfo.json</c>: 0.6.9/0.9.9 sat in
-/// three of these pages until the R1 audit found them by hand, because nothing walks
-/// <c>legacy/</c> (<c>bash scripts/exmod.sh check</c> does not) and nothing else read these
-/// version strings back.
+/// three of these pages until the R1 audit found them by hand, because no check read these pages
+/// and nothing else read these version strings back.
 /// </summary>
 public class VersionPinTests {
   // Which mods' current version each published page is expected to name. ppex's and smex's own

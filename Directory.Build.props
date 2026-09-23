@@ -103,7 +103,7 @@
     <_GamePathEnv>$([System.Environment]::GetEnvironmentVariable('$(GameInstallEnv)'))</_GamePathEnv>
     <GamePath Condition="'$(GamePath)' == ''">$(_GamePathEnv)</GamePath>
     <GamePath Condition="'$(GamePath)' == '' and '$(GameSlug)' != ''"
-      >$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\.game\$(GameSlug)'))</GamePath>
+      >$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory).game\$(GameSlug)'))</GamePath>
   </PropertyGroup>
 
   <!-- Version to auto-provision: the primary tracks the latest patch (pass the major.minor series so
@@ -143,18 +143,15 @@
       Importance="high"
       Text="Vintage Story $(_ProvisionVersion) not found - provisioning server binaries into .game\$(GameSlug) ..."
     />
-    <!-- -Dest pins the download to the same place $(GamePath) points at: the scripts' own default
-         (repo_root/.game/<slug>, repo_root being legacy/scripts' own parent, legacy/) is one folder
-         short of $(GamePath) when the workspace .game sits one level above legacy/ (see the priority
-         list above). Without -Dest the two disagree and _CheckGamePath fails even after a successful
-         provision. -->
+    <!-- -Dest is relative to the repository root and must name the folder $(GamePath) points at, or
+         _CheckGamePath fails even after a successful provision. -->
     <Exec
       Condition="$([MSBuild]::IsOSPlatform('Windows'))"
-      Command="pwsh -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildThisFileDirectory)scripts\provision-game.ps1&quot; -Version $(_ProvisionVersion) -Kind server -Dest &quot;..\.game\$(GameSlug)&quot;"
+      Command="pwsh -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildThisFileDirectory)scripts\provision-game.ps1&quot; -Version $(_ProvisionVersion) -Kind server -Dest &quot;.game\$(GameSlug)&quot;"
     />
     <Exec
       Condition="!$([MSBuild]::IsOSPlatform('Windows'))"
-      Command="bash &quot;$(MSBuildThisFileDirectory)scripts/provision-game.sh&quot; -Version $(_ProvisionVersion) -Kind server -Dest &quot;../.game/$(GameSlug)&quot;"
+      Command="bash &quot;$(MSBuildThisFileDirectory)scripts/provision-game.sh&quot; -Version $(_ProvisionVersion) -Kind server -Dest &quot;.game/$(GameSlug)&quot;"
     />
   </Target>
 

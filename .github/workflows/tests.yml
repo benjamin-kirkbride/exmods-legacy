@@ -1,0 +1,45 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      vs_version:
+        description: "Vintage Story version (full patch, or major.minor for the latest patch)"
+        required: false
+        default: "1.22"
+
+# Builds and tests exlib 0.7 / ppex 0.6 / smex 0.9 on the current game version only; the 1.21/1.20
+# lanes run locally (scripts/run-tests.sh all). The build and the headless test harness both read
+# the server assemblies from .game/<slug>, which the provision step fills from the freely
+# downloadable dedicated-server archive.
+env:
+  VS_VERSION: ${{ github.event.inputs.vs_version || '1.22.7' }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Cache Vintage Story install
+        uses: actions/cache@v4
+        with:
+          path: .game
+          key: vs-game-${{ env.VS_VERSION }}
+
+      - name: Provision Vintage Story (server assemblies)
+        run: bash scripts/provision-game.sh -Version "$VS_VERSION" -Kind server
+
+      - name: Run the tests
+        run: bash scripts/run-tests.sh latest

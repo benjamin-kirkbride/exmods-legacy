@@ -23,7 +23,7 @@ public static class Program {
 }
 
 /// <summary>One buildable mod project in the monorepo. Folder is the csproj's own directory name
-/// (e.g. "ExpandedLib"), Dir is where that folder lives under legacy/ (e.g. "exlib").</summary>
+/// (e.g. "ExpandedLib"), Dir is where that folder lives in the repository (e.g. "exlib").</summary>
 public record ModProject(string Folder, string Dir, string ModId, string Version);
 
 /// <summary>A supported game version to publish for: its TFM, the game version stamped into the
@@ -35,7 +35,7 @@ public record GameTarget(string Tfm, string GameVersion, bool IsCurrent);
 public class BuildContext : FrostingContext {
   // Build order matters: exlib first (the shared lib both mods reference), then ppex
   // (referenced by smex), then smex. Folder is the csproj's own directory name; Dir is where
-  // that folder lives under legacy/.
+  // that folder lives in the repository.
   public static readonly (string Folder, string Dir)[] ProjectFolders =
   [
     ("ExpandedLib", "exlib"),

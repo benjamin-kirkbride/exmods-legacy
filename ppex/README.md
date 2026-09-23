@@ -52,7 +52,7 @@ multiblock-structure, config, command and recipe-cost frameworks.
 ## Building
 
 Requires only the .NET SDK - provision the game binaries into the repo first (see the
-[root README](../../README.md#building)), then build:
+[root README](../README.md#building-and-testing)), then build:
 
 ```sh
 scripts/provision-game.sh -Version 1.22.0   # or scripts/provision-game.ps1 on Windows
