@@ -22,8 +22,8 @@ namespace Integration.Tests;
 /// <summary>
 /// Builds the MP fluid pump and the twin-tub blower from their shipped JSON to each stage through
 /// the real <see cref="ExRightClickConstructable"/> (vanilla's <c>RightClickConstruction</c> on
-/// 1.22, exlib's port on 1.20 and 1.21), paying from a survival player's hotbar in oak and iron,
-/// then breaks the structure and compares the refund with what was paid.
+/// 1.22, exlib's port on 1.20 and 1.21), paying from a survival player's hotbar or building as a
+/// creative player, then breaks the structure and compares the refund with what was paid.
 /// </summary>
 public class ConstructionBreakTests {
   private const string Pump = "ppex/assets/ppex/blocktypes/mpfluidpump.json";
@@ -104,23 +104,72 @@ public class ConstructionBreakTests {
   [Theory]
   [InlineData(Pump)]
   [InlineData(Blower)]
-  public void A_saved_structure_refunds_the_wood_it_recorded(string path) {
-    var built = new Rig(path, "pine");
+  public void A_saved_structure_refunds_the_wood_and_metal_it_recorded(
+    string path
+  ) {
+    var built = new Rig(path, "pine", metal: "steel");
     var paid = new List<ItemStack>();
     for (int stage = 1; stage < Stages(path).Count; stage++)
       paid.AddRange(built.Pay(stage));
 
-    var rig = new Rig(path, "pine", Entity(path));
+    var rig = new Rig(path, "pine", Entity(path), "steel");
     rig.Load(built.Save());
     rig.Behavior.OnBlockBroken(null);
 
     Assert.Equal(Tally(paid), Tally(rig.Drops));
   }
 
+  [Theory]
+  [InlineData(Pump)]
+  [InlineData(Blower)]
+  public void A_structure_loaded_without_wood_or_metal_records_oak_and_iron(
+    string path
+  ) {
+    var creative = new Rig(path);
+    creative.Creative();
+    Assert.True(creative.Interact());
+    Assert.Empty((TreeAttribute)creative.Save()["wildcards"]);
+
+    var rig = new Rig(path, "oak", Entity(path));
+    rig.Load(creative.Save());
+
+    var wildcards = (TreeAttribute)rig.Save()["wildcards"];
+    Assert.Equal("oak", wildcards.GetString("wood"));
+    Assert.Equal("iron", wildcards.GetString("metal"));
+  }
+
   private static Func<BlockEntity> Entity(string path) =>
     path == Pump
       ? () => new BlockEntityMpFluidPump()
       : () => new BlockEntityMpBlower();
+
+  #endregion
+
+  #region Creative builds
+
+  [Theory]
+  [InlineData(Pump, true)]
+  [InlineData(Pump, false)]
+  [InlineData(Blower, true)]
+  [InlineData(Blower, false)]
+  public void A_creative_build_broken_without_a_reload_refunds_oak_and_iron(
+    string path,
+    bool emptyHotbar
+  ) {
+    var rig = new Rig(path, "oak", Entity(path));
+    rig.Creative();
+    rig.Hotbar(emptyHotbar ? Array.Empty<ItemStack>() : rig.Bill(1));
+    var bill = new List<ItemStack>();
+    // exlib's 1.20 and 1.21 port refuses the pipe stage of an empty-hotbar build, whose {metal}
+    // was never recorded; 1.22 builds it.
+    for (int stage = 1; stage < Stages(path).Count && rig.Interact(); stage++)
+      bill.AddRange(rig.Bill(stage));
+    Assert.NotEmpty(bill);
+
+    rig.Break();
+
+    Assert.Equal(Tally(bill), Tally(rig.Drops));
+  }
 
   #endregion
 
@@ -169,15 +218,17 @@ public class ConstructionBreakTests {
 
   /// <summary>
   /// One structure placed from <c>path</c> in a <see cref="TestWorld"/> whose registry holds the
-  /// variants of one wood and iron the two structures take, plus the metal support beam. The block
-  /// entity is a bare host unless <c>makeEntity</c> supplies the production one.
+  /// variants of one wood and one metal the two structures take, plus the iron support beam. The
+  /// block entity is a bare host unless <c>makeEntity</c> supplies the production one.
   /// </summary>
   private sealed class Rig {
     private readonly TestWorld _world = new();
     private readonly List<CollectibleObject> _collectibles = [];
     private readonly List<ItemSlot> _hotbar = [];
     private readonly IPlayer _player;
+    private readonly EntityPlayer _agent;
     private readonly JArray _stages;
+    private readonly string _metal;
     private int _nextBlockId = 100;
     private readonly BlockEntity _entity;
 
@@ -187,25 +238,27 @@ public class ConstructionBreakTests {
     public Rig(
       string path,
       string wood = "oak",
-      Func<BlockEntity>? makeEntity = null
+      Func<BlockEntity>? makeEntity = null,
+      string metal = "iron"
     ) {
       JToken root = JToken.Parse(
         File.ReadAllText(Path.Combine(ShippedJsonAssetTests.RepoRoot(), path))
       );
       _stages = Stages(path);
+      _metal = metal;
 
       Item("game:plank-" + wood, ("wood", wood));
-      Item("game:rod-iron", ("metal", "iron"));
-      Item("game:metalplate-iron", ("metal", "iron"));
-      Item("game:metalnailsandstrips-iron", ("metal", "iron"));
+      Item("game:rod-" + metal, ("metal", metal));
+      Item("game:metalplate-" + metal, ("metal", metal));
+      Item("game:metalnailsandstrips-" + metal, ("metal", metal));
       Block("game:supportbeam-" + wood, ("wood", wood));
       Block("game:supportbeam-tarnishedmetal-iron", ("metal", "iron"));
       Block("game:woodenaxle-ud", ("type", "ud"));
       Block(
-        "ppex:pipe-straight-ns-iron",
+        "ppex:pipe-straight-ns-" + metal,
         ("type", "straight"),
         ("orientation", "ns"),
-        ("material", "iron")
+        ("material", metal)
       );
       _world.World.Collectibles.Returns(_collectibles);
 
@@ -243,21 +296,21 @@ public class ConstructionBreakTests {
       _player = Substitute.For<IPlayer>();
       _player.InventoryManager.GetHotbarInventory().Returns(hotbar);
       _player.WorldData.CurrentGameMode.Returns(EnumGameMode.Survival);
-      var entity = Substitute.For<EntityPlayer>();
-      entity.World = _world.World;
-      entity.WatchedAttributes.SetString("playerUID", "tester");
-      _player.Entity.Returns(entity);
+      _agent = Substitute.For<EntityPlayer>();
+      _agent.World = _world.World;
+      _agent.WatchedAttributes.SetString("playerUID", "tester");
+      _player.Entity.Returns(_agent);
       _world.World.PlayerByUid(Arg.Any<string>()).Returns(_player);
     }
 
     /// <summary>
     /// The stacks <paramref name="stage"/> costs, each ingredient paid with the one registered
-    /// collectible other than the metal beam its code matches once <c>{metal}</c> reads iron.
+    /// collectible other than the metal beam its code matches once <c>{metal}</c> is filled.
     /// </summary>
     public IEnumerable<ItemStack> Bill(int stage) {
       foreach (JToken ing in _stages[stage]["requireStacks"]!) {
         var code = new AssetLocation(
-          ((string)ing["code"]!).Replace("{metal}", "iron")
+          ((string)ing["code"]!).Replace("{metal}", _metal)
         );
         bool block = (string?)ing["type"] == "block";
         CollectibleObject match = _collectibles.Single(c =>
@@ -289,6 +342,15 @@ public class ConstructionBreakTests {
       foreach (ItemStack s in stacks)
         _hotbar.Add(new DummySlot(s.Clone()));
     }
+
+    /// <summary>Builds from here on as a creative player holding Ctrl, who pays nothing.</summary>
+    public void Creative() {
+      _player.WorldData.CurrentGameMode.Returns(EnumGameMode.Creative);
+      _agent.Controls.CtrlKey = true;
+    }
+
+    /// <summary>Breaks the structure through its block entity, as a survival player does.</summary>
+    public void Break() => _entity.OnBlockBroken(null);
 
     /// <summary>The construction state as the block entity saves it.</summary>
     public TreeAttribute Save() {
