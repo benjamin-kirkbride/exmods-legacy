@@ -74,6 +74,9 @@ _ReSharper*/
 # Release zips the Cake build publishes.
 /dist/Releases/
 
+# Per-branch test counts scripts/run-tests.* compare each run against.
+/.exmod/
+
 # draw.io writes a .$-prefixed lock/backup beside the diagram it has open.
 .$*.drawio.bkp
 

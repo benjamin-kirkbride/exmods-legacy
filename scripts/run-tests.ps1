@@ -6,7 +6,10 @@ param(
     [int]$Throttle = 0,
     # Collect coverage over the latest (primary) suite and run the coverage gate (mirrors CI). The
     # gate floors track the current build, so this always uses the latest version regardless of -Version.
-    [switch]$Coverage
+    [switch]$Coverage,
+    # Record a test count that fell below the census instead of failing on it, for tests removed on
+    # purpose.
+    [switch]$AcceptDrop
 )
 
 $ErrorActionPreference = 'Stop'
@@ -14,7 +17,9 @@ $ErrorActionPreference = 'Stop'
 # Runs the test suite per game version, each version's projects in parallel. The mods stay
 # single-target; legacy versions are tested by building the test projects with -p:Legacy=true and
 # selecting that version's TFM. Each project's build auto-provisions its game version on demand
-# (see Directory.Build.props), so a clean checkout just works.
+# (see Directory.Build.props), so a clean checkout just works. A green run records each project's
+# test count per version in .exmod/census/<branch>.json; a later run below a recorded count fails
+# unless -AcceptDrop records the lower count.
 
 $repoRoot = Resolve-Path (Join-Path $PSScriptRoot '..')
 
@@ -82,7 +87,8 @@ if ($Throttle -le 0) { $Throttle = $work.Count }
 
 # Build phase, serial: the test projects share the mod projects (exlib/ppex/smex), so building them
 # concurrently would race on the same intermediate DLLs (CS2012). Building here also auto-provisions
-# each version's game binaries once, up front. The test phase then runs in parallel with --no-build.
+# each version's game binaries once, up front. The test phase then runs in parallel with --no-build,
+# and only over the targets that built: a failed build leaves the previous DLLs in place.
 Write-Host "Building $($work.Count) test target(s) across version(s): $($wanted -join ', ')"
 $built = foreach ($item in $work) {
     $args = @('build', $item.Proj, '-f', $item.Tfm, '--nologo', '-v', 'q')
@@ -101,10 +107,19 @@ $results = $built | ForEach-Object -ThrottleLimit $Throttle -Parallel {
     $args = @('test', $item.Proj, '-f', $item.Tfm, '--no-build', '--nologo')
     if ($item.Legacy) { $args += '-p:Legacy=true' }
     $out = & $dotnet @args 2>&1
+    $ok = $LASTEXITCODE -eq 0
+    $line = "$($out | Select-String -Pattern 'Passed!|Failed!' | Select-Object -Last 1)"
+    $total = if ($line -match 'Total:\s*(\d+)') { [int]$Matches[1] } else { $null }
+    if ($null -eq $total) {
+        $ok = $false
+        $err = $out | Select-String -Pattern 'error' | Select-Object -Last 1
+        $line = if ($err) { "no test summary: $err" } else { 'no test summary' }
+    }
     [pscustomobject]@{
-        Name = "$($item.Version)/$($item.Project)"
-        Ok   = ($LASTEXITCODE -eq 0)
-        Line = ($out | Select-String -Pattern 'Passed!|Failed!|error' | Select-Object -Last 1)
+        Name  = "$($item.Version)/$($item.Project)"
+        Ok    = $ok
+        Line  = $line
+        Total = $total
     }
 }
 
@@ -115,6 +130,35 @@ foreach ($r in $results | Sort-Object Name) {
     Write-Host ("{0}  {1,-40} {2}" -f $tag, $r.Name, ($r.Line -replace '\s+', ' ').Trim())
 }
 
+# The census: the last green test count per version/project on this branch, a flat JSON object that
+# run-tests.sh reads and writes as well.
+$branch = & git -C $repoRoot rev-parse --abbrev-ref HEAD 2>$null
+if (-not $branch) { $branch = 'detached' }
+$census = Join-Path $repoRoot ".exmod/census/$($branch -replace '/', '-').json"
+$recorded = [ordered]@{}
+if (Test-Path $census) {
+    (Get-Content $census -Raw | ConvertFrom-Json).PSObject.Properties | ForEach-Object { $recorded[$_.Name] = [int]$_.Value }
+}
+$drops = @()
+foreach ($r in $results | Where-Object { $null -ne $_.Total } | Sort-Object Name) {
+    $was = $recorded[$r.Name]
+    $note = if ($null -eq $was) { 'new' }
+        elseif ($r.Total -ge $was) { "was $was" }
+        elseif ($AcceptDrop) { "was $was, drop accepted" }
+        else { $drops += $r.Name; "was $was, a drop" }
+    Write-Host ("census  {0,-40} {1} ({2})" -f $r.Name, $r.Total, $note)
+}
+
 $failed = @($results | Where-Object { -not $_.Ok })
-if ($failed) { throw "$($failed.Count) test run(s) failed: $($failed.Name -join ', ')" }
+if ($failed -or $drops) {
+    $reasons = @()
+    if ($failed) { $reasons += "$($failed.Count) test run(s) failed: $($failed.Name -join ', ')" }
+    if ($drops) { $reasons += "$($drops.Count) test count(s) fell below ${census}: $($drops -join ', '); -AcceptDrop records them" }
+    throw ($reasons -join '; ')
+}
+foreach ($r in $results) { $recorded[$r.Name] = $r.Total }
+$sorted = [ordered]@{}
+foreach ($k in $recorded.Keys | Sort-Object) { $sorted[$k] = $recorded[$k] }
+New-Item -ItemType Directory -Force -Path (Split-Path $census) | Out-Null
+$sorted | ConvertTo-Json | Set-Content -Path $census
 Write-Host "All $($results.Count) test run(s) passed."
