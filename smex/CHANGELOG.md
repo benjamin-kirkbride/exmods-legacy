@@ -15,7 +15,9 @@ Requires Pipes and Power Expanded 0.6.9, which fixes the same crash on its mecha
   stages were refunded as codes the game could not resolve. The beams and planks now come back as
   the wood they were, and the pipe stage takes a straight pipe of the same metal as the plates, rods
   and nails before it (iron or steel), which is what comes back. The beam stage takes wooden support
-  beams only.
+  beams only. A blower built before this release breaks cleanly too, and gives its beams and planks
+  back as oak, since it never recorded which wood they were.
+- The Twin-Tub Blower Frame takes wooden support beams only, as the blower itself does.
 
 ## [0.9.8] - 2026-08-13
 
