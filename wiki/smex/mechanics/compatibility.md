@@ -4,10 +4,10 @@ covers:
   - "smex:hopperreinforced"
   - "smex:burden"
 order: 8
-version: 0.9.8
+version: 0.9.9
 ---
 
-What this mod is built to run beside. Every line below is in the 0.9.8 code. A mod not named here
+What this mod is built to run beside. Every line below is in the 0.9.9 code. A mod not named here
 has no adaptation and no guard, which says nothing either way about whether the pair works.
 
 ## The other Expanded mods

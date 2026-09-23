@@ -12,13 +12,21 @@ see the git history.
 - **Breaking a part-built mechanical fluid pump crashed the game.** Its plank and pipe stages were
   refunded as codes the game could not resolve. The planks now come back as the wood they were, and
   the pipe stage takes a straight pipe of the same metal as the plates and rods before it (iron or
-  steel), which is what comes back. A pump built before this release breaks cleanly too, and gives
-  its planks back as oak, since it never recorded which wood they were.
-- The Mechanical Fluid Pump Frame and the Manual Fluid Pump take wooden support beams only.
+  steel). A pump records one wood and one metal: one paid in more than one of either gives its
+  wooden parts back in the last wood paid and its metal parts in the last metal paid. A pump built
+  before this release breaks cleanly too, and gives its planks back as oak, since it never recorded
+  which wood they were. A pump built in creative mode with Ctrl held records neither, and broken
+  in survival gives back oak and iron.
+- The Mechanical Fluid Pump and the Manual Fluid Pump recipes take wooden support beams only.
 - **The Watt engine recipe did not cost its gears.** Both recipes listed two gears and left them out
   of the grid. The gears now go in the top-left slot, beside the hammer.
 - The Cornish boiler recipe listed a pipe its grid never used. The entry is gone; what the recipe
   costs is unchanged.
+
+### Changed
+
+- The English description of the pipe bend (`blockdesc-pipe-bend*`) reads "A 90 degree bend in a
+  pipe run." without the degree sign.
 
 ## [0.6.8] - 2026-08-13
 

@@ -4,10 +4,10 @@ covers:
   - "ppex:boilercornish-*"
   - "ppex:boilerlancashire-*"
 order: 7
-version: 0.6.8
+version: 0.6.9
 ---
 
-What this mod is built to run beside. Every line below is in the 0.6.8 code. A mod not named here
+What this mod is built to run beside. Every line below is in the 0.6.9 code. A mod not named here
 has no adaptation and no guard, which says nothing either way about whether the pair works.
 
 ## What it needs
