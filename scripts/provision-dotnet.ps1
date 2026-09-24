@@ -3,12 +3,14 @@ param(
     [ValidateSet('latest', 'all', '1.22', '1.21', '1.20')]
     [string]$Version = 'latest',
     # Re-install even if a matching runtime is already present in .dotnet.
-    [switch]$Force
+    [switch]$Force,
+    # Print the .dotnet folder this script installs into and exit without installing anything.
+    [switch]$PrintRoot
 )
 
 $ErrorActionPreference = 'Stop'
 
-# Builds a SELF-CONTAINED .NET install under the repo's .dotnet folder so a fresh clone can run the
+# Builds a SELF-CONTAINED .NET install under a .dotnet folder so a fresh clone can run the
 # tests and launch the game without the modder hand-installing .NET 7/8/10. Each Vintage Story version
 # is a framework-dependent app pinned to one major (net10=1.22, net8=1.21, net7=1.20) that won't roll
 # forward across majors, and the legacy test hosts need those same majors' base runtimes.
@@ -17,10 +19,25 @@ $ErrorActionPreference = 'Stop'
 # when invoked through THIS install's own muxer (.dotnet/dotnet). Hence we install a full SDK here too,
 # and the test/launch entry points call .dotnet/dotnet when a needed runtime is missing system-wide.
 # Installs via Microsoft's official dotnet-install script (no admin - lands in .dotnet, not the machine).
+# The install used is the nearest .dotnet holding a dotnet muxer from the repository root upward; with
+# none, a fresh one goes beside the nearest exmod.workspace.json above the repository, else into the
+# repository root.
 
-$repoRoot = Resolve-Path (Join-Path $PSScriptRoot '..')
-$dotnetDir = Join-Path $repoRoot '.dotnet'
+$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $onWindows = [System.OperatingSystem]::IsWindows()
+
+function Find-DotnetDir {
+    $muxer = 'dotnet' + $(if ($onWindows) { '.exe' } else { '' })
+    for ($d = $repoRoot; $d; $d = Split-Path $d -Parent) {
+        if (Test-Path -LiteralPath (Join-Path $d ".dotnet/$muxer") -PathType Leaf) { return Join-Path $d '.dotnet' }
+    }
+    for ($d = Split-Path $repoRoot -Parent; $d; $d = Split-Path $d -Parent) {
+        if (Test-Path -LiteralPath (Join-Path $d 'exmod.workspace.json') -PathType Leaf) { return Join-Path $d '.dotnet' }
+    }
+    return Join-Path $repoRoot '.dotnet'
+}
+$dotnetDir = Find-DotnetDir
+if ($PrintRoot) { return $dotnetDir }
 
 # game version -> .NET release channel.
 $channels = [ordered]@{ '1.22' = '10.0'; '1.21' = '8.0'; '1.20' = '7.0' }
@@ -51,7 +68,7 @@ if (-not (Test-Path $installer)) {
 }
 # The SDK (also provides the current major's base runtime).
 if ($Force -or -not (Test-Sdk $sdkChannel.Split('.')[0])) {
-    Write-Host "Installing the .NET $sdkChannel SDK into .dotnet ..."
+    Write-Host "Installing the .NET $sdkChannel SDK into $dotnetDir ..."
     & $installer -Channel $sdkChannel -InstallDir $dotnetDir -NoPath
 }
 
@@ -70,4 +87,4 @@ foreach ($v in $wanted) {
     }
 }
 
-Write-Host "Self-contained .NET ready in .dotnet for version(s): $($wanted -join ', ')"
+Write-Host "Self-contained .NET ready in $dotnetDir for version(s): $($wanted -join ', ')"

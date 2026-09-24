@@ -44,10 +44,11 @@ $needed = @($wanted | ForEach-Object { $majors[$_] } | Select-Object -Unique)
 $sysRuntimes = try { (& dotnet --list-runtimes 2>$null) -join "`n" } catch { '' }
 $missing = @($needed | Where-Object { $sysRuntimes -notmatch "Microsoft\.NETCore\.App $([regex]::Escape($_))\." })
 $dotnet = 'dotnet'
+$provisionDotnet = Join-Path $PSScriptRoot 'provision-dotnet.ps1'
 if ($missing.Count -gt 0) {
     Write-Host "Missing .NET runtime major(s) system-wide: $($missing -join ', ') - provisioning a local .dotnet..."
-    & (Join-Path $PSScriptRoot 'provision-dotnet.ps1') -Version $Version
-    $dotnet = Join-Path $repoRoot ('.dotnet/dotnet' + ($(if ([System.OperatingSystem]::IsWindows()) { '.exe' } else { '' })))
+    & $provisionDotnet -Version $Version
+    $dotnet = Join-Path (& $provisionDotnet -PrintRoot) ('dotnet' + ($(if ([System.OperatingSystem]::IsWindows()) { '.exe' } else { '' })))
     if (-not (Test-Path $dotnet)) { throw "Provisioning .dotnet failed: $dotnet is missing." }
 }
 Write-Host "Using dotnet host: $dotnet"
@@ -55,7 +56,7 @@ Write-Host "Using dotnet host: $dotnet"
 # Coverage gate (mirrors .github/workflows/tests.yml): collect cobertura over the whole solution on the
 # current TFM and ratchet against scripts/coverage_gate.py. Needs the dotnet-coverage tool + Python.
 if ($Coverage) {
-    $toolsDir = Join-Path $repoRoot '.dotnet/tools'
+    $toolsDir = Join-Path (& $provisionDotnet -PrintRoot) 'tools'
     & $dotnet tool install dotnet-coverage --tool-path $toolsDir 2>$null | Out-Null  # no-op if present
     $dc = Join-Path $toolsDir ('dotnet-coverage' + ($(if ([System.OperatingSystem]::IsWindows()) { '.exe' } else { '' })))
     $cov = Join-Path $repoRoot 'coverage.xml'

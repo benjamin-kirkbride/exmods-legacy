@@ -44,11 +44,10 @@ dotnet_bin="dotnet"
 if [[ ${#missing[@]} -gt 0 ]]; then
   echo "Missing .NET runtime major(s) system-wide: ${missing[*]} - provisioning a local .dotnet..."
   "$script_dir/provision-dotnet.sh" "$version"
-  dotnet_bin="$repo_root/.dotnet/dotnet"
+  dotnet_bin="$("$script_dir/provision-dotnet.sh" --print-root)/dotnet"
 fi
 echo "Using dotnet host: $dotnet_bin"
 
-mkdir -p "$repo_root/.game/.cache"
 log_dir="$(mktemp -d)"
 trap 'rm -rf "$log_dir"' EXIT
 

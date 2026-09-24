@@ -5,13 +5,34 @@
 # forward across majors. The global `dotnet` muxer ignores DOTNET_ROOT, so the test/launch entry points
 # call .dotnet/dotnet when a needed runtime is missing system-wide. No Desktop runtime on Linux.
 #
-#   provision-dotnet.sh [latest|all|1.22|1.21|1.20]
+# The install used is the nearest .dotnet holding a dotnet muxer from the repository root upward;
+# with none, a fresh one goes beside the nearest exmod.workspace.json above the repository, else into
+# the repository root. --print-root prints that folder and exits without installing anything.
+#
+#   provision-dotnet.sh [latest|all|1.22|1.21|1.20|--print-root]
 set -uo pipefail
 
 version="${1:-latest}"
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(cd "$script_dir/.." && pwd)"
-dotnet_dir="$repo_root/.dotnet"
+
+find_dotnet_dir() {
+  local d="$repo_root"
+  while :; do
+    [[ -x "$d/.dotnet/dotnet" ]] && { echo "$d/.dotnet"; return; }
+    [[ "$d" == / ]] && break
+    d="$(dirname "$d")"
+  done
+  d="$(dirname "$repo_root")"
+  while :; do
+    [[ -f "$d/exmod.workspace.json" ]] && { echo "$d/.dotnet"; return; }
+    [[ "$d" == / ]] && break
+    d="$(dirname "$d")"
+  done
+  echo "$repo_root/.dotnet"
+}
+dotnet_dir="$(find_dotnet_dir)"
+[[ "$version" == --print-root ]] && { echo "$dotnet_dir"; exit 0; }
 
 declare -A channels=( [1.22]=10.0 [1.21]=8.0 [1.20]=7.0 )
 sdk_channel=10.0
@@ -19,7 +40,7 @@ case "$version" in
   latest) wanted=(1.22) ;;
   all)    wanted=(1.22 1.21 1.20) ;;
   1.22|1.21|1.20) wanted=("$version") ;;
-  *) echo "Usage: provision-dotnet.sh [latest|all|1.22|1.21|1.20]" >&2; exit 1 ;;
+  *) echo "Usage: provision-dotnet.sh [latest|all|1.22|1.21|1.20|--print-root]" >&2; exit 1 ;;
 esac
 
 framework_present() { local p="$dotnet_dir/shared/$1"; [[ -d "$p" ]] && compgen -G "$p/$2.*" > /dev/null; }
@@ -33,7 +54,7 @@ if [[ ! -f "$installer" ]]; then
 fi
 
 if ! sdk_present "${sdk_channel%%.*}"; then
-  echo "Installing the .NET $sdk_channel SDK into .dotnet ..."
+  echo "Installing the .NET $sdk_channel SDK into $dotnet_dir ..."
   "$installer" --channel "$sdk_channel" --install-dir "$dotnet_dir" --no-path
 fi
 
@@ -45,4 +66,4 @@ for v in "${wanted[@]}"; do
   fi
 done
 
-echo "Self-contained .NET ready in .dotnet for version(s): ${wanted[*]}"
+echo "Self-contained .NET ready in $dotnet_dir for version(s): ${wanted[*]}"
