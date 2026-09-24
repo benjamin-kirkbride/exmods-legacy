@@ -2,7 +2,8 @@ param(
     # Game version to fetch. A full patch (e.g. 1.22.3) is used as-is; a major.minor series (e.g.
     # 1.22) resolves to the newest stable patch of that series via the Vintage Story version API.
     [Parameter(Mandatory = $true)][string]$Version,
-    # Workspace-relative folder to install into. Defaults to .game/<major.minor> off the repo root.
+    # Folder to install into, absolute or relative to the repo root. Defaults to .game/<major.minor>
+    # off the repo root. Downloads are cached in .cache beside it.
     [string]$Dest,
     # Which distribution to fetch (see the comment block below). Default: server.
     [ValidateSet('server', 'client')][string]$Kind = 'server',
@@ -44,8 +45,8 @@ $Version = Resolve-Version $Version
 # slug = major.minor (1.22.3 -> 1.22); the per-version folder name shared with Directory.Build.props.
 $slug = ($Version -split '\.')[0..1] -join '.'
 if (-not $Dest) { $Dest = ".game/$slug" }
-$destFull = Join-Path $repoRoot $Dest
-$cacheDir = Join-Path $repoRoot '.game/.cache'
+$destFull = if ([System.IO.Path]::IsPathRooted($Dest)) { $Dest } else { Join-Path $repoRoot $Dest }
+$cacheDir = Join-Path (Split-Path $destFull -Parent) '.cache'
 
 # Serialize concurrent provisions of the same slug (e.g. parallel MSBuild nodes both auto-provisioning
 # on a fresh build). Held for this process's lifetime; the OS releases it when the process exits. An

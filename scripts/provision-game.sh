@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Linux/macOS counterpart of provision-game.ps1. Provisions a Vintage Story install into the repo
 # (no machine-wide install needed) by downloading the freely-available archive for this OS from the
-# public CDN, caching it under .game/.cache, and extracting into .game/<slug>. Idempotent.
+# public CDN, caching it in .cache beside the install folder, and extracting into .game/<slug>
+# (or -Dest: absolute, or relative to the repository root). Idempotent.
 #
 # OS-correct by construction: this script only ever fetches the linux-x64 archives, and its Windows
 # counterpart (provision-game.ps1) only ever fetches the win-x64 installer - so a Linux checkout
@@ -50,8 +51,11 @@ fi
 # slug = major.minor (1.22.3 -> 1.22); the per-version folder name shared with Directory.Build.props.
 slug="$(echo "$version" | cut -d. -f1-2)"
 [[ -n "$dest" ]] || dest=".game/$slug"
-dest_full="$repo_root/$dest"
-cache_dir="$repo_root/.game/.cache"
+case "$dest" in
+  /*) dest_full="$dest" ;;
+  *) dest_full="$repo_root/$dest" ;;
+esac
+cache_dir="$(dirname "$dest_full")/.cache"
 mkdir -p "$cache_dir"
 
 # Serialize concurrent provisions of the same slug (e.g. parallel MSBuild nodes both auto-provisioning

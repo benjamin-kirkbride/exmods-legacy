@@ -94,7 +94,11 @@
   <!-- $(GamePath) = the install for this TFM. Priority:
          1. An explicit env-var override (its name is in $(GameInstallEnv)) - used by CI and by anyone
             pointing the build at an external install.
-         2. Otherwise the in-repo install provisioned into .game/<slug> by scripts/provision-game.*
+         2. Otherwise the nearest .game/<slug> holding VintagestoryAPI.dll, from the repository root
+            upward.
+         3. Otherwise nothing is installed yet: .game/<slug> under the nearest directory above the
+            repository holding exmod.workspace.json, else under the repository root. _AutoProvisionGame
+            provisions into that folder.
        Both the env-var name and the slug come from the manifest above, so there are no per-version
        branches and no machine-specific .env file to maintain. -->
   <PropertyGroup Condition="'$(GameInstallEnv)' != ''">
@@ -102,8 +106,16 @@
          external install (leave alone) from the default in-repo .game/<slug> (safe to populate). -->
     <_GamePathEnv>$([System.Environment]::GetEnvironmentVariable('$(GameInstallEnv)'))</_GamePathEnv>
     <GamePath Condition="'$(GamePath)' == ''">$(_GamePathEnv)</GamePath>
+    <_GameAbove Condition="'$(GameSlug)' != ''"
+      >$([MSBuild]::GetDirectoryNameOfFileAbove('$(MSBuildThisFileDirectory)', '.game/$(GameSlug)/VintagestoryAPI.dll'))</_GameAbove>
+    <_ExmodWorkspaceRoot
+      >$([MSBuild]::GetDirectoryNameOfFileAbove('$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..'))', 'exmod.workspace.json'))</_ExmodWorkspaceRoot>
+    <GamePath Condition="'$(GamePath)' == '' and '$(_GameAbove)' != ''"
+      >$([System.IO.Path]::GetFullPath('$(_GameAbove)/.game/$(GameSlug)'))</GamePath>
+    <GamePath Condition="'$(GamePath)' == '' and '$(GameSlug)' != '' and '$(_ExmodWorkspaceRoot)' != ''"
+      >$([System.IO.Path]::GetFullPath('$(_ExmodWorkspaceRoot)/.game/$(GameSlug)'))</GamePath>
     <GamePath Condition="'$(GamePath)' == '' and '$(GameSlug)' != ''"
-      >$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory).game\$(GameSlug)'))</GamePath>
+      >$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory).game/$(GameSlug)'))</GamePath>
   </PropertyGroup>
 
   <!-- Version to auto-provision: the primary tracks the latest patch (pass the major.minor series so
@@ -132,7 +144,7 @@
     <NoWarn>$(NoWarn);CS8625</NoWarn>
   </PropertyGroup>
 
-  <!-- Auto-provision the server binaries into .game/<slug> when they're missing and no env override is
+  <!-- Auto-provision the server binaries into $(GamePath) when they're missing and no env override is
        set, so a fresh `dotnet build` / `dotnet test` works seamlessly with no manual step. The playable
        client is never fetched here - only the launch tasks pull it (provision-game ... -Kind client). -->
   <Target
@@ -141,18 +153,39 @@
   >
     <Message
       Importance="high"
-      Text="Vintage Story $(_ProvisionVersion) not found - provisioning server binaries into .game\$(GameSlug) ..."
+      Text="Vintage Story $(_ProvisionVersion) not found - provisioning server binaries into $(GamePath) ..."
     />
-    <!-- -Dest is relative to the repository root and must name the folder $(GamePath) points at, or
-         _CheckGamePath fails even after a successful provision. -->
+    <!-- -Dest must name the folder $(GamePath) points at, or _CheckGamePath fails even after a
+         successful provision. -->
     <Exec
       Condition="$([MSBuild]::IsOSPlatform('Windows'))"
-      Command="pwsh -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildThisFileDirectory)scripts\provision-game.ps1&quot; -Version $(_ProvisionVersion) -Kind server -Dest &quot;.game\$(GameSlug)&quot;"
+      Command="pwsh -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildThisFileDirectory)scripts\provision-game.ps1&quot; -Version $(_ProvisionVersion) -Kind server -Dest &quot;$(GamePath)&quot;"
     />
     <Exec
       Condition="!$([MSBuild]::IsOSPlatform('Windows'))"
-      Command="bash &quot;$(MSBuildThisFileDirectory)scripts/provision-game.sh&quot; -Version $(_ProvisionVersion) -Kind server -Dest &quot;.game/$(GameSlug)&quot;"
+      Command="bash &quot;$(MSBuildThisFileDirectory)scripts/provision-game.sh&quot; -Version $(_ProvisionVersion) -Kind server -Dest &quot;$(GamePath)&quot;"
     />
+  </Target>
+
+  <!-- Debug builds of the mods (not the test projects, whose fixtures resolve through
+       [CallerFilePath]) record their sources under /exmod/<repository folder>/, which a launch
+       configuration maps back with sourceFileMap. Set in a target because $(IsTestProject) and
+       $(Configuration) are not yet defined when this file is evaluated. -->
+  <PropertyGroup>
+    <_ExmodRepoRoot>$(MSBuildThisFileDirectory)</_ExmodRepoRoot>
+    <_ExmodRepoFolder
+      >$([System.IO.Path]::GetFileName($(MSBuildThisFileDirectory.TrimEnd('/').TrimEnd('\'))))</_ExmodRepoFolder>
+  </PropertyGroup>
+  <Target
+    Name="_ExmodPathMap"
+    BeforeTargets="CoreCompile"
+    Condition="'$(Configuration)' == 'Debug' and '$(IsTestProject)' != 'true'"
+  >
+    <PropertyGroup>
+      <PathMap Condition="'$(PathMap)' != ''"
+        >$(PathMap),$(_ExmodRepoRoot)=/exmod/$(_ExmodRepoFolder)/</PathMap>
+      <PathMap Condition="'$(PathMap)' == ''">$(_ExmodRepoRoot)=/exmod/$(_ExmodRepoFolder)/</PathMap>
+    </PropertyGroup>
   </Target>
 
   <!-- Fail clearly (instead of a cryptic CS1705 assembly-version mismatch) if, after the auto-provision

@@ -15,13 +15,10 @@
     <PackageReference Include="NuGet.Protocol" Version="7.3.1" />
   </ItemGroup>
 
-  <!-- Resolve the game install the same way the mod builds do: the VINTAGE_STORY env-var override if
-       set, else the in-repo install provisioned into .game/1.22 (see scripts/provision-game.*). -->
+  <!-- The 1.22 install, resolved by the repository's Directory.Build.props: the VINTAGE_STORY env-var
+       override if set, else the nearest .game/1.22 from the repository root upward. -->
   <PropertyGroup>
-    <CakeGamePath Condition="'$(VINTAGE_STORY)' != ''"
-      >$(VINTAGE_STORY)</CakeGamePath>
-    <CakeGamePath Condition="'$(CakeGamePath)' == ''"
-      >$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)../../.game/1.22'))</CakeGamePath>
+    <CakeGamePath>$(GamePath)</CakeGamePath>
   </PropertyGroup>
 
   <ItemGroup>
