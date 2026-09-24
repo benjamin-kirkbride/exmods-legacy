@@ -180,7 +180,7 @@
         "provision",
         "game",
         "-Version",
-        "1.21.0",
+        "1.21",
         "-Kind",
         "client"
       ],
@@ -195,7 +195,7 @@
           "provision",
           "game",
           "-Version",
-          "1.21.0",
+          "1.21",
           "-Kind",
           "client"
         ]
@@ -211,7 +211,7 @@
         "provision",
         "game",
         "-Version",
-        "1.20.0",
+        "1.20",
         "-Kind",
         "client"
       ],
@@ -226,63 +226,9 @@
           "provision",
           "game",
           "-Version",
-          "1.20.0",
+          "1.20",
           "-Kind",
           "client"
-        ]
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "provision-dotnet (1.21)",
-      "type": "process",
-      "command": "bash",
-      "args": [
-        "${workspaceFolder}/scripts/exmod.sh",
-        "provision",
-        "dotnet",
-        "-Version",
-        "1.21"
-      ],
-      "windows": {
-        "command": "pwsh",
-        "args": [
-          "-NoProfile",
-          "-ExecutionPolicy",
-          "Bypass",
-          "-File",
-          "${workspaceFolder}/scripts/exmod.ps1",
-          "provision",
-          "dotnet",
-          "-Version",
-          "1.21"
-        ]
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "provision-dotnet (1.20)",
-      "type": "process",
-      "command": "bash",
-      "args": [
-        "${workspaceFolder}/scripts/exmod.sh",
-        "provision",
-        "dotnet",
-        "-Version",
-        "1.20"
-      ],
-      "windows": {
-        "command": "pwsh",
-        "args": [
-          "-NoProfile",
-          "-ExecutionPolicy",
-          "Bypass",
-          "-File",
-          "${workspaceFolder}/scripts/exmod.ps1",
-          "provision",
-          "dotnet",
-          "-Version",
-          "1.20"
         ]
       },
       "problemMatcher": []
@@ -291,7 +237,6 @@
       "label": "launch-prep (1.21)",
       "dependsOrder": "sequence",
       "dependsOn": [
-        "provision-dotnet (1.21)",
         "provision-game (1.21)",
         "stage-mods (1.21)"
       ],
@@ -301,7 +246,6 @@
       "label": "launch-prep (1.20)",
       "dependsOrder": "sequence",
       "dependsOn": [
-        "provision-dotnet (1.20)",
         "provision-game (1.20)",
         "stage-mods (1.20)"
       ],

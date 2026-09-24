@@ -59,17 +59,13 @@ _ReSharper*/
 # Repo-specific
 #
 
-# Downloaded Vintage Story installs + cached archives. No trailing slash: in the workspace this is
-# a symlink to the shared install, not a directory, and a directory-only pattern does not match a
-# symlink.
+# Downloaded Vintage Story installs + cached archives, when the checkout is outside a workspace.
 /.game
 
-# Vintage Story data dir the game generates under the repo via --dataPath. No trailing slash: a
-# second checkout links it to the first one's, so both play the same worlds.
+# Game data an older launch configuration wrote here.
 /.gamedata
 
 # Self-contained .NET runtimes scripts/run-tests.* provisions when the system host lacks one.
-# Symlinked in the workspace - see /.game above.
 /.dotnet
 
 # Release zips the Cake build publishes.

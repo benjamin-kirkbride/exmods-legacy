@@ -63,9 +63,8 @@
         "${workspaceFolder}/bin/Mods-1.21"
       ],
       "cwd": "${workspaceFolder}",
-      "linux": { "env": { "DOTNET_ROOT": "${workspaceFolder}/.dotnet", "WAYLAND_DISPLAY": "none" } },
+      "linux": { "env": { "WAYLAND_DISPLAY": "none" } },
       "osx": {
-        "env": { "DOTNET_ROOT": "${workspaceFolder}/.dotnet" },
         "program": "${env:HOME}/Library/Application Support/exmod/game/1.21/Vintagestory.dll",
         "args": [
           "--tracelog",
@@ -110,9 +109,8 @@
         "${workspaceFolder}/bin/Mods-1.20"
       ],
       "cwd": "${workspaceFolder}",
-      "linux": { "env": { "DOTNET_ROOT": "${workspaceFolder}/.dotnet", "WAYLAND_DISPLAY": "none" } },
+      "linux": { "env": { "WAYLAND_DISPLAY": "none" } },
       "osx": {
-        "env": { "DOTNET_ROOT": "${workspaceFolder}/.dotnet" },
         "program": "${env:HOME}/Library/Application Support/exmod/game/1.20/Vintagestory.dll",
         "args": [
           "--tracelog",
