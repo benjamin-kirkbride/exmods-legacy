@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+# exmod launcher for a repository that consumes extools. Finds the tools checkout (EXTOOLS_HOME,
+# the workspace sibling ../extools, or a clone of the tag pinned in exmod.json under .extools/),
+# finds pwsh (bootstrapping it into a .dotnet/tools when the machine has none) and forwards every
+# argument to the dispatcher with this repository as the root. Not a second implementation of
+# anything: exmod.ps1 in the tools checkout holds the commands.
+set -euo pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+repo_root="$(cd "$script_dir/.." && pwd)"
+
+# The "tools" value of exmod.json, read with sed: this runs before any manifest reader exists.
+tools_pin() {
+  sed -nE 's/^[[:space:]]*"tools"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/p' "$repo_root/exmod.json" 2>/dev/null | head -n 1
+}
+
+# The extools checkout, first rung that holds exmod.ps1: EXTOOLS_HOME, the sibling ../extools,
+# then .extools/ cloned or moved to the pinned tag.
+resolve_extools() {
+  if [[ -n "${EXTOOLS_HOME:-}" && -f "$EXTOOLS_HOME/exmod.ps1" ]]; then
+    printf '%s' "$EXTOOLS_HOME"; return
+  fi
+  if [[ -f "$repo_root/../extools/exmod.ps1" ]]; then
+    (cd "$repo_root/../extools" && pwd); return
+  fi
+  local version
+  version="$(tools_pin)"
+  if [[ -z "$version" ]]; then
+    echo 'exmod: no extools checkout found (EXTOOLS_HOME, ../extools) and exmod.json pins no "tools" version' >&2
+    exit 1
+  fi
+  local dest="$repo_root/.extools" url="${EXTOOLS_URL:-https://github.com/ringavirda/modding-vsextools.git}" tag="v$version"
+  if [[ -f "$dest/exmod.ps1" ]]; then
+    local have
+    have="$(git -C "$dest" describe --tags --exact-match 2>/dev/null || true)"
+    if [[ "$have" != "$tag" ]]; then
+      echo "exmod: moving .extools from ${have:-an untagged commit} to $tag" >&2
+      checkout_pinned_tag "$dest" "$tag"
+    fi
+  else
+    echo "exmod: cloning extools $tag into .extools/" >&2
+    # The clone takes the default branch and leaves the tree empty: --branch naming an annotated
+    # tag makes git warn that the ref is not a commit, and the tag is checked out next anyway.
+    git clone --quiet --depth 1 --no-checkout "$url" "$dest"
+    checkout_pinned_tag "$dest" "$tag"
+  fi
+  printf '%s' "$dest"
+}
+
+# Fetches tag $2 into the checkout at $1, shallow, and leaves it checked out detached.
+checkout_pinned_tag() {
+  git -C "$1" fetch --quiet --depth 1 origin "refs/tags/$2:refs/tags/$2"
+  git -c advice.detachedHead=false -C "$1" checkout --quiet "$2"
+}
+
+# The nearest folder above the repository (never the repository itself) holding
+# exmod.workspace.json; empty when there is none.
+workspace_root() {
+  local dir="$repo_root"
+  while [[ "$dir" != / ]]; do
+    dir="$(dirname "$dir")"
+    if [[ -f "$dir/exmod.workspace.json" ]]; then printf '%s' "$dir"; return; fi
+  done
+}
+
+# pwsh: $PWSH, then PATH, then the repository's .dotnet/tools, then the workspace root's. Made on
+# first use in the workspace root's .dotnet/tools when a workspace is above, else the repository's.
+resolve_pwsh() {
+  if [[ -n "${PWSH:-}" ]]; then printf '%s' "$PWSH"; return; fi
+  if command -v pwsh >/dev/null 2>&1; then command -v pwsh; return; fi
+  if [[ -x "$repo_root/.dotnet/tools/pwsh" ]]; then printf '%s' "$repo_root/.dotnet/tools/pwsh"; return; fi
+  local workspace
+  workspace="$(workspace_root)"
+  if [[ -n "$workspace" && -x "$workspace/.dotnet/tools/pwsh" ]]; then
+    printf '%s' "$workspace/.dotnet/tools/pwsh"; return
+  fi
+  local tools_dir="${workspace:-$repo_root}/.dotnet/tools"
+  if command -v dotnet >/dev/null 2>&1; then
+    echo "exmod: pwsh not found - installing PowerShell into $tools_dir ..." >&2
+    dotnet tool install --tool-path "$tools_dir" PowerShell >/dev/null
+    printf '%s' "$tools_dir/pwsh"; return
+  fi
+  cat >&2 <<'MSG'
+exmod: neither pwsh nor dotnet is available. Install the .NET SDK (https://dot.net) and run this
+again, or install PowerShell 7 and put pwsh on PATH.
+MSG
+  exit 1
+}
+
+extools="$(resolve_extools)"
+pwsh_bin="$(resolve_pwsh)"
+exec "$pwsh_bin" -NoProfile -File "$extools/exmod.ps1" -RepoRoot "$repo_root" "$@"

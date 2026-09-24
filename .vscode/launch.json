@@ -5,17 +5,44 @@
       "name": "Steelmaking Expanded (latest)",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "launch-prep (smex)",
-      "program": "${workspaceFolder}/.game/1.22/Vintagestory.dll",
+      "preLaunchTask": "launch-prep (latest)",
+      "program": "${env:HOME}/.local/share/exmod/game/1.22/Vintagestory.dll",
       "args": [
         "--tracelog",
         "--dataPath",
-        "${workspaceFolder}/.gamedata",
+        "${env:HOME}/.local/share/exmod/data/default",
+        "--logPath",
+        "${env:HOME}/.local/share/exmod/data/default/Logs/${workspaceFolderBasename}",
         "--addModPath",
         "${workspaceFolder}/bin/Mods"
       ],
       "cwd": "${workspaceFolder}",
-      "env": { "DOTNET_ROOT": "${workspaceFolder}/.dotnet" },
+      "linux": { "env": { "WAYLAND_DISPLAY": "none" } },
+      "osx": {
+        "program": "${env:HOME}/Library/Application Support/exmod/game/1.22/Vintagestory.dll",
+        "args": [
+          "--tracelog",
+          "--dataPath",
+          "${env:HOME}/Library/Application Support/exmod/data/default",
+          "--logPath",
+          "${env:HOME}/Library/Application Support/exmod/data/default/Logs/${workspaceFolderBasename}",
+          "--addModPath",
+          "${workspaceFolder}/bin/Mods"
+        ]
+      },
+      "windows": {
+        "program": "${env:LOCALAPPDATA}/exmod/game/1.22/Vintagestory.exe",
+        "args": [
+          "--tracelog",
+          "--dataPath",
+          "${env:LOCALAPPDATA}/exmod/data/default",
+          "--logPath",
+          "${env:LOCALAPPDATA}/exmod/data/default/Logs/${workspaceFolderBasename}",
+          "--addModPath",
+          "${workspaceFolder}/bin/Mods"
+        ]
+      },
+      "sourceFileMap": { "/exmod/${workspaceFolderBasename}/": "${workspaceFolder}/" },
       "stopAtEntry": false,
       "console": "internalConsole",
       "requireExactSource": false
@@ -24,17 +51,44 @@
       "name": "Steelmaking Expanded (1.21)",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "launch-prep (smex 1.21)",
-      "program": "${workspaceFolder}/.game/1.21/Vintagestory.dll",
+      "preLaunchTask": "launch-prep (1.21)",
+      "program": "${env:HOME}/.local/share/exmod/game/1.21/Vintagestory.dll",
       "args": [
         "--tracelog",
         "--dataPath",
-        "${workspaceFolder}/.gamedata",
+        "${env:HOME}/.local/share/exmod/data/default",
+        "--logPath",
+        "${env:HOME}/.local/share/exmod/data/default/Logs/${workspaceFolderBasename}",
         "--addModPath",
         "${workspaceFolder}/bin/Mods-1.21"
       ],
       "cwd": "${workspaceFolder}",
-      "env": { "DOTNET_ROOT": "${workspaceFolder}/.dotnet" },
+      "linux": { "env": { "WAYLAND_DISPLAY": "none" } },
+      "osx": {
+        "program": "${env:HOME}/Library/Application Support/exmod/game/1.21/Vintagestory.dll",
+        "args": [
+          "--tracelog",
+          "--dataPath",
+          "${env:HOME}/Library/Application Support/exmod/data/default",
+          "--logPath",
+          "${env:HOME}/Library/Application Support/exmod/data/default/Logs/${workspaceFolderBasename}",
+          "--addModPath",
+          "${workspaceFolder}/bin/Mods-1.21"
+        ]
+      },
+      "windows": {
+        "program": "${env:LOCALAPPDATA}/exmod/game/1.21/Vintagestory.exe",
+        "args": [
+          "--tracelog",
+          "--dataPath",
+          "${env:LOCALAPPDATA}/exmod/data/default",
+          "--logPath",
+          "${env:LOCALAPPDATA}/exmod/data/default/Logs/${workspaceFolderBasename}",
+          "--addModPath",
+          "${workspaceFolder}/bin/Mods-1.21"
+        ]
+      },
+      "sourceFileMap": { "/exmod/${workspaceFolderBasename}/": "${workspaceFolder}/" },
       "stopAtEntry": false,
       "console": "internalConsole",
       "requireExactSource": false
@@ -43,17 +97,44 @@
       "name": "Steelmaking Expanded (1.20)",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "launch-prep (smex 1.20)",
-      "program": "${workspaceFolder}/.game/1.20/Vintagestory.dll",
+      "preLaunchTask": "launch-prep (1.20)",
+      "program": "${env:HOME}/.local/share/exmod/game/1.20/Vintagestory.dll",
       "args": [
         "--tracelog",
         "--dataPath",
-        "${workspaceFolder}/.gamedata",
+        "${env:HOME}/.local/share/exmod/data/default",
+        "--logPath",
+        "${env:HOME}/.local/share/exmod/data/default/Logs/${workspaceFolderBasename}",
         "--addModPath",
         "${workspaceFolder}/bin/Mods-1.20"
       ],
       "cwd": "${workspaceFolder}",
-      "env": { "DOTNET_ROOT": "${workspaceFolder}/.dotnet" },
+      "linux": { "env": { "WAYLAND_DISPLAY": "none" } },
+      "osx": {
+        "program": "${env:HOME}/Library/Application Support/exmod/game/1.20/Vintagestory.dll",
+        "args": [
+          "--tracelog",
+          "--dataPath",
+          "${env:HOME}/Library/Application Support/exmod/data/default",
+          "--logPath",
+          "${env:HOME}/Library/Application Support/exmod/data/default/Logs/${workspaceFolderBasename}",
+          "--addModPath",
+          "${workspaceFolder}/bin/Mods-1.20"
+        ]
+      },
+      "windows": {
+        "program": "${env:LOCALAPPDATA}/exmod/game/1.20/Vintagestory.exe",
+        "args": [
+          "--tracelog",
+          "--dataPath",
+          "${env:LOCALAPPDATA}/exmod/data/default",
+          "--logPath",
+          "${env:LOCALAPPDATA}/exmod/data/default/Logs/${workspaceFolderBasename}",
+          "--addModPath",
+          "${workspaceFolder}/bin/Mods-1.20"
+        ]
+      },
+      "sourceFileMap": { "/exmod/${workspaceFolderBasename}/": "${workspaceFolder}/" },
       "stopAtEntry": false,
       "console": "internalConsole",
       "requireExactSource": false

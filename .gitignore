@@ -75,5 +75,8 @@ _ReSharper*/
 # Release zips the Cake build publishes.
 /dist/Releases/
 
+# extools, cloned by scripts/exmod.sh or scripts/exmod.ps1 when no sibling checkout is found.
+/.extools/
+
 # draw.io writes a .$-prefixed lock/backup beside the diagram it has open.
 .$*.drawio.bkp
