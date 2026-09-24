@@ -35,11 +35,11 @@ mods rather than updates to ppex/smex. Worlds do not carry over between the two 
 ## Building and testing
 
 Prerequisites: Git, a .NET 10 SDK (`global.json` pins it), and PowerShell 7+ or bash. Game
-binaries and .NET runtimes are fetched on demand into `.game/` and `.dotnet/` at the repository
-root by `scripts/provision-*`. In the modding-vsex workspace both are symlinks to the shared
-installs one level up (`ln -s ../.game .game`, `ln -s ../.dotnet .dotnet`), so nothing is
-downloaded twice; the `VINTAGE_STORY`, `VINTAGE_STORY_121` and `VINTAGE_STORY_120` environment
-variables point the build at any other install instead.
+binaries and .NET runtimes are found in the nearest `.game/<version>` and `.dotnet/` from the
+repository upward. When none exists, the build and `scripts/run-tests.*` fetch them on demand into
+the workspace root when an `exmod.workspace.json` is above the repository, else into the repository
+root, so checkouts in one workspace share one download. The `VINTAGE_STORY`, `VINTAGE_STORY_121` and
+`VINTAGE_STORY_120` environment variables point the build at any other install instead.
 
 ```sh
 dotnet build Legacy.sln -clp:ErrorsOnly

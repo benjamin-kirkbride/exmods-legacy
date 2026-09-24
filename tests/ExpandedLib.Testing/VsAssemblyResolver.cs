@@ -19,9 +19,10 @@ namespace ExpandedLib.Testing;
 /// (<c>1.22</c> / <c>1.21</c> / …) into the assembly as
 /// <c>[AssemblyMetadata("GameInstallEnv")]</c> / <c>[AssemblyMetadata("GameSlug")]</c> from the
 /// version manifest in <c>src/Directory.Build.props</c>, so adding a game version needs no change
-/// here. The path is resolved exactly as the build resolves <c>$(GamePath)</c>: the env-var override
-/// if set, otherwise the in-repo install provisioned into <c>.game/&lt;slug&gt;</c> (found by walking
-/// up from the test output directory to the repo root).
+/// here. The path is the env-var override if set, otherwise the nearest provisioned
+/// <c>.game/&lt;slug&gt;</c> from the test output directory upward. The build installs into the
+/// repository's <c>.game/&lt;slug&gt;</c>, or the workspace root's when <c>exmod.workspace.json</c> is
+/// above the repository, and both lie on that walk.
 /// </summary>
 public static class VsAssemblyResolver {
   private static readonly object Gate = new();
@@ -64,8 +65,9 @@ public static class VsAssemblyResolver {
   }
 
   /// <summary>The install path for this TFM: the <see cref="InstallKey"/> environment variable if set
-  /// (the override CI uses), otherwise the in-repo install at <c>.game/&lt;slug&gt;</c>, found by
-  /// walking up from the test output directory to the repo root. Null when neither yields a path.</summary>
+  /// (the override CI uses), otherwise the nearest <c>.game/&lt;slug&gt;</c> holding
+  /// VintagestoryAPI.dll from the test output directory up to the filesystem root. Null when neither
+  /// yields a path.</summary>
   private static string? ResolveInstallPath() {
     if (!string.IsNullOrEmpty(InstallKey)) {
       string? fromEnv = Environment.GetEnvironmentVariable(InstallKey);

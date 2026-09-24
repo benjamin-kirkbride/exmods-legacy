@@ -15,8 +15,9 @@ every public type and signature.
   `IServerWorldAccessor` / `IBlockAccessor` / `ICoreServerAPI`.
 - `Scene` + `SceneDiagram` - a fluent builder and an ASCII-layout parser, so multi-network setups
   read like diagrams.
-- `VsAssemblyResolver` - resolves the game DLLs at runtime from your install or the in-repo
-  `.game/<slug>` folder.
+- `VsAssemblyResolver` - resolves the game DLLs at runtime from your install or the nearest
+  `.game/<slug>` folder from the test output upward (the repository's, else the workspace root's
+  when `exmod.workspace.json` is above).
 - `TestLang` - a minimal `Lang` so production code can call `Lang.Get()`.
 - Test doubles (`StubNetwork`, `TestNetworkBlock`, `CapturingNode`, `SeverableNode`) for exercising
   the graph without real gameplay state.
