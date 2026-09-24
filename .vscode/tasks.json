@@ -231,7 +231,6 @@
       "label": "launch-prep (smex)",
       "dependsOrder": "sequence",
       "dependsOn": [
-        "provision-dotnet (latest)",
         "provision-game (1.22)",
         "build-smex",
         "stage-mods (exlib, ppex, smex)"
@@ -401,7 +400,6 @@
       "label": "launch-prep (smex 1.21)",
       "dependsOrder": "sequence",
       "dependsOn": [
-        "provision-dotnet (1.21)",
         "provision-game (1.21)",
         "build-smex (1.21)",
         "stage-mods 1.21 (exlib, ppex, smex)"
@@ -412,7 +410,6 @@
       "label": "launch-prep (smex 1.20)",
       "dependsOrder": "sequence",
       "dependsOn": [
-        "provision-dotnet (1.20)",
         "provision-game (1.20)",
         "build-smex (1.20)",
         "stage-mods 1.20 (exlib, ppex, smex)"
