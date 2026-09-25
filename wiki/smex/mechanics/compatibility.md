@@ -4,10 +4,10 @@ covers:
   - "smex:hopperreinforced"
   - "smex:burden"
 order: 8
-version: 0.9.8
+version: 0.9.9
 ---
 
-What this mod is built to run beside. Every line below is in the 0.9.8 code. A mod not named here
+What this mod is built to run beside. Every line below is in the 0.9.9 code. A mod not named here
 has no adaptation and no guard, which says nothing either way about whether the pair works.
 
 ## The other Expanded mods
@@ -15,7 +15,7 @@ has no adaptation and no guard, which says nothing either way about whether the 
 | mod | version this needs | note |
 |---|---|---|
 | Expanded Library (exlib) | 0.7.2 | a hard dependency. exlib 0.8 and later refuse the pair: the library logs one error and sends every joining player the line `exlib <version> does not work with Steelmaking Expanded and Pipes and Power Expanded: keep exlib 0.7.2 with them, or replace them with Iron Industry Expanded.` |
-| Pipes and Power Expanded (ppex) | 0.6.7 or later (0.6.8 is the current release) | a hard dependency. The furnace, the stoves and the converter all breathe through its pipes |
+| Pipes and Power Expanded (ppex) | 0.6.9 or later | a hard dependency. The furnace, the stoves and the converter all breathe through its pipes |
 | game | 1.20, 1.21 and 1.22 | a separate build per game version; download the one that matches rather than editing `modinfo.json` |
 
 Update the three mods together. Versions that have drifted apart are the usual cause of blocks

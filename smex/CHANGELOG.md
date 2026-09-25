@@ -5,6 +5,30 @@ All notable changes to this mod are documented here. The format is based on
 [Semantic Versioning](https://semver.org/). For changes before this file existed,
 see the git history.
 
+## [0.9.9] - 2026-09-23
+
+Requires Pipes and Power Expanded 0.6.9, which fixes the same crash on its mechanical fluid pump.
+
+### Fixed
+
+- **Breaking a part-built twin-tub blower crashed the game.** Its support beam, plank and pipe
+  stages were refunded as codes the game could not resolve. The beams and planks now come back as
+  the wood they were, and the pipe stage takes a straight pipe of the same metal as the plates, rods
+  and nails before it (iron or steel). A blower records one wood and one metal: one paid in more
+  than one of either gives its wooden parts back in the last wood paid and its metal parts in the
+  last metal paid. A blower built before this release breaks cleanly too, and gives its beams and
+  planks back as oak, since it never recorded which wood they were. A blower built in creative mode
+  with Ctrl held records neither, and broken in survival gives back oak and iron.
+- The Twin-Tub Blower recipe and the blower's beam stage take wooden support beams only.
+
+### Changed
+
+- The English description of the canal mold pedestals (`blockdesc-moltencanal-moldpedestal*`)
+  reads "Fills a mold from the canal network." in place of "Fills a mold it from the canal
+  network."
+- The unused `blockhelp-pressurevalve-cycle` text is removed from the English, Russian and
+  Ukrainian lang files.
+
 ## [0.9.8] - 2026-08-13
 
 Requires Expanded Library 0.7.2, which stops the blast furnace parts and the cowper heat sink losing

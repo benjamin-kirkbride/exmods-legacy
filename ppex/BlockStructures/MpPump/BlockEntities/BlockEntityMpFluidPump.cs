@@ -370,9 +370,30 @@ public class BlockEntityMpFluidPump : BlockEntity, IRenderer {
     ITreeAttribute tree,
     IWorldAccessor worldForResolving
   ) {
+    FillMissingWildcards(tree);
     base.FromTreeAttributes(tree, worldForResolving);
     _lastSpeed = tree.GetFloat("pumpSpeed");
     _drawingWater = tree.GetBool("drawingWater");
+  }
+
+  public override void OnBlockBroken(IPlayer? byPlayer = null) {
+    var rcc = GetBehavior<ExRightClickConstructable>();
+    var tree = new TreeAttribute();
+    rcc.ToTreeAttributes(tree);
+    FillMissingWildcards(tree);
+    rcc.FromTreeAttributes(tree, Api.World);
+    base.OnBlockBroken(byPlayer);
+  }
+
+  // The construction refund reads the "wood" and "metal" wildcards unguarded, and a save or a
+  // creative Ctrl build can lack either. A missing one refunds the planks as oak or the metal
+  // parts as iron; a recorded one is kept.
+  private static void FillMissingWildcards(ITreeAttribute tree) {
+    ITreeAttribute wildcards = tree.GetOrAddTreeAttribute("wildcards");
+    if (!wildcards.HasAttribute("wood"))
+      wildcards.SetString("wood", "oak");
+    if (!wildcards.HasAttribute("metal"))
+      wildcards.SetString("metal", "iron");
   }
 
   public override void GetBlockInfo(IPlayer forPlayer, StringBuilder dsc) {

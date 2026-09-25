@@ -150,7 +150,7 @@ public class ShippedJsonAssetTests {
 
   // Every JSON under a mod's assets folder, repo-relative and with forward slashes so the theory
   // labels read the same on any platform. Build outputs (bin/obj) are copies and are skipped.
-  private static IEnumerable<string> AssetFiles() {
+  internal static IEnumerable<string> AssetFiles() {
     string root = RepoRoot();
     foreach (string modDir in new[] { "exlib", "ppex", "smex" })
       foreach (
@@ -169,7 +169,7 @@ public class ShippedJsonAssetTests {
       }
   }
 
-  private static string RepoRoot() {
+  internal static string RepoRoot() {
     DirectoryInfo? dir = new(AppContext.BaseDirectory);
     while (
       dir != null

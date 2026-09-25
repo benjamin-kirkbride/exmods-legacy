@@ -1,6 +1,6 @@
 # Mod database listing notes
 
-There is no maintenance release: ppex stays at 0.6.8 and smex at 0.9.8. Neither carries a guard
+The current releases are ppex 0.6.9 and smex 0.9.9. Neither carries a guard
 against later exlib versions; the game's loader fails to load ppex and smex at all once exlib 0.8
 is installed, since their assembly reference no longer matches, so no code of theirs ever gets the
 chance to run. A listing description can be edited without a release, so all three pages get one.

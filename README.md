@@ -8,8 +8,8 @@ repository or the family's (iiex, siex) central package management and version m
 | Path             | modid   | Version | What it is                                                      |
 | ---------------- | ------- | ------- | ---------------------------------------------------------------- |
 | `exlib/`         | `exlib` | 0.7.2   | Shared framework: block networks, multiblock structures, registries, save migrations. |
-| `ppex/`          | `ppex`  | 0.6.8   | Pipe networks (gas + water), boilers, steam engines and their sub-machines. |
-| `smex/`          | `smex`  | 0.9.8   | Blast furnace, cowper stoves, molten-metal canals and casting, Bessemer converter. |
+| `ppex/`          | `ppex`  | 0.6.9   | Pipe networks (gas + water), boilers, steam engines and their sub-machines. |
+| `smex/`          | `smex`  | 0.9.9   | Blast furnace, cowper stoves, molten-metal canals and casting, Bessemer converter. |
 | `generators/`    | -       | -       | Roslyn source generators the mods use at compile time (config accessors, block-attribute bakers). |
 | `tests/`         | -       | -       | Headless xUnit test projects: per-mod unit tests + cross-mod integration. |
 | `dist/CakeBuild/`| -       | -       | Cake build project that publishes per-game-version release zips into `dist/Releases/`. |
@@ -24,7 +24,7 @@ three mods separately; the network manager identity lives in `exlib` only.
 ## What never happens here
 
 No new features, no refactors, no format pass - this tree predates the family's CSharpier gate
-and is not formatted by it. There is no maintenance release: ppex and smex carry no
+and is not formatted by it. ppex and smex carry no
 guard against a newer exlib, so the game's loader simply fails to load them at all once exlib
 0.8 or later replaces the 0.7.2 they need. exlib 0.8 itself logs one Error naming the clash and
 repeats it to every joining player.

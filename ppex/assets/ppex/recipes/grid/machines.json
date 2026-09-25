@@ -102,11 +102,6 @@
         "code": "game:burnedbrick-fire",
         "quantity": 2
       },
-      "I": {
-        "type": "block",
-        "code": "ppex:pipe-straight-*",
-        "quantity": 1
-      },
       "N": {
         "type": "item",
         "code": "game:metalnailsandstrips-*",
@@ -206,7 +201,7 @@
   },
   {
     "name": "Watt Engine",
-    "ingredientPattern": "_H_,PRP,PIP",
+    "ingredientPattern": "GH_,PRP,PIP",
     "ingredients": {
       "P": {
         "type": "item",
@@ -335,6 +330,18 @@
       "B": {
         "type": "block",
         "code": "game:supportbeam-*",
+        "skipVariants": [
+          "tarnishedmetal-bismuthbronze",
+          "tarnishedmetal-blackbronze",
+          "tarnishedmetal-blistersteel",
+          "tarnishedmetal-brass",
+          "tarnishedmetal-copper",
+          "tarnishedmetal-iron",
+          "tarnishedmetal-lead",
+          "tarnishedmetal-rust",
+          "tarnishedmetal-rusty-iron",
+          "tarnishedmetal-steel"
+        ],
         "quantity": 4
       },
       "H": {
@@ -441,7 +448,7 @@
   },
   {
     "name": "Watt Engine",
-    "ingredientPattern": "_H_,PRP,PIP",
+    "ingredientPattern": "GH_,PRP,PIP",
     "ingredients": {
       "P": {
         "type": "item",
@@ -570,6 +577,18 @@
       "B": {
         "type": "block",
         "code": "game:supportbeam-*",
+        "skipVariants": [
+          "tarnishedmetal-bismuthbronze",
+          "tarnishedmetal-blackbronze",
+          "tarnishedmetal-blistersteel",
+          "tarnishedmetal-brass",
+          "tarnishedmetal-copper",
+          "tarnishedmetal-iron",
+          "tarnishedmetal-lead",
+          "tarnishedmetal-rust",
+          "tarnishedmetal-rusty-iron",
+          "tarnishedmetal-steel"
+        ],
         "quantity": 4
       },
       "H": {
@@ -644,6 +663,18 @@
       "B": {
         "type": "block",
         "code": "game:supportbeam-*",
+        "skipVariants": [
+          "tarnishedmetal-bismuthbronze",
+          "tarnishedmetal-blackbronze",
+          "tarnishedmetal-blistersteel",
+          "tarnishedmetal-brass",
+          "tarnishedmetal-copper",
+          "tarnishedmetal-iron",
+          "tarnishedmetal-lead",
+          "tarnishedmetal-rust",
+          "tarnishedmetal-rusty-iron",
+          "tarnishedmetal-steel"
+        ],
         "quantity": 1
       },
       "H": {

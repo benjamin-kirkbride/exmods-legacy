@@ -11,6 +11,18 @@
       "B": {
         "type": "block",
         "code": "game:supportbeam-*",
+        "skipVariants": [
+          "tarnishedmetal-bismuthbronze",
+          "tarnishedmetal-blackbronze",
+          "tarnishedmetal-blistersteel",
+          "tarnishedmetal-brass",
+          "tarnishedmetal-copper",
+          "tarnishedmetal-iron",
+          "tarnishedmetal-lead",
+          "tarnishedmetal-rust",
+          "tarnishedmetal-rusty-iron",
+          "tarnishedmetal-steel"
+        ],
         "quantity": 2
       },
       "H": {

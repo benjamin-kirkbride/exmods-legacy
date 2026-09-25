@@ -29,19 +29,6 @@
               {
                 "type": "block",
                 "code": "game:supportbeam-*",
-                "skipVariants": [
-                  "tarnishedmetal-bismuthbronze",
-                  "tarnishedmetal-blackbronze",
-                  "tarnishedmetal-blistersteel",
-                  "tarnishedmetal-brass",
-                  "tarnishedmetal-copper",
-                  "tarnishedmetal-iron",
-                  "tarnishedmetal-lead",
-                  "tarnishedmetal-rust",
-                  "tarnishedmetal-rusty-iron",
-                  "tarnishedmetal-steel"
-                ],
-                "storeWildCard": "wood",
                 "quantity": 4
               },
               {
@@ -57,12 +44,7 @@
           },
           {
             "requireStacks": [
-              {
-                "type": "item",
-                "code": "game:plank-*",
-                "storeWildCard": "wood",
-                "quantity": 4
-              },
+              { "type": "item", "code": "game:plank-*", "quantity": 4 },
               { "type": "block", "code": "game:woodenaxle-ud", "quantity": 1 },
               {
                 "type": "item",
@@ -85,12 +67,7 @@
                 "storeWildCard": "metal",
                 "quantity": 4
               },
-              {
-                "type": "item",
-                "code": "game:plank-*",
-                "storeWildCard": "wood",
-                "quantity": 4
-              },
+              { "type": "item", "code": "game:plank-*", "quantity": 4 },
               {
                 "type": "item",
                 "code": "game:metalnailsandstrips-*",
@@ -106,7 +83,7 @@
             "requireStacks": [
               {
                 "type": "block",
-                "code": "ppex:pipe-straight-ns-{metal}",
+                "code": "ppex:pipe-straight-*",
                 "quantity": 2
               },
               {

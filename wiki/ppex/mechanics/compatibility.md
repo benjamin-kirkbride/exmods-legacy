@@ -4,10 +4,10 @@ covers:
   - "ppex:boilercornish-*"
   - "ppex:boilerlancashire-*"
 order: 7
-version: 0.6.8
+version: 0.6.9
 ---
 
-What this mod is built to run beside. Every line below is in the 0.6.8 code. A mod not named here
+What this mod is built to run beside. Every line below is in the 0.6.9 code. A mod not named here
 has no adaptation and no guard, which says nothing either way about whether the pair works.
 
 ## What it needs
@@ -15,7 +15,7 @@ has no adaptation and no guard, which says nothing either way about whether the 
 | requirement | value |
 |---|---|
 | Expanded Library | 0.7.2 |
-| Steelmaking Expanded, if you run it | 0.9.8 |
+| Steelmaking Expanded, if you run it | 0.9.9 |
 | game | separate builds for 1.20, 1.21 and 1.22 |
 
 Run the three Expanded mods as one set. Versions that have drifted apart are the usual cause of
