@@ -168,29 +168,6 @@
     />
   </Target>
 
-  <!-- Debug builds of the mods (not the test projects, whose fixtures resolve through
-       [CallerFilePath]) record their sources under /exmod/<repository folder>/, which a launch
-       configuration maps back with sourceFileMap. Set in a target because $(IsTestProject) and
-       $(Configuration) are not yet defined when this file is evaluated. -->
-  <PropertyGroup>
-    <_ExmodRepoRoot>$(MSBuildThisFileDirectory)</_ExmodRepoRoot>
-    <_ExmodRepoFolder
-      >$([System.IO.Path]::GetFileName($(MSBuildThisFileDirectory.TrimEnd('/').TrimEnd('\'))))</_ExmodRepoFolder>
-    <!-- One PathMap entry; ',' and '=' are doubled because the compiler splits on them. -->
-    <_ExmodPathMapEntry
-      >$(_ExmodRepoRoot.Replace(',', ',,').Replace('=', '=='))=/exmod/$(_ExmodRepoFolder.Replace(',', ',,').Replace('=', '=='))/</_ExmodPathMapEntry>
-  </PropertyGroup>
-  <Target
-    Name="_ExmodPathMap"
-    BeforeTargets="CoreCompile"
-    Condition="'$(Configuration)' == 'Debug' and '$(IsTestProject)' != 'true'"
-  >
-    <PropertyGroup>
-      <PathMap Condition="'$(PathMap)' != ''">$(PathMap),$(_ExmodPathMapEntry)</PathMap>
-      <PathMap Condition="'$(PathMap)' == ''">$(_ExmodPathMapEntry)</PathMap>
-    </PropertyGroup>
-  </Target>
-
   <!-- Fail clearly (instead of a cryptic CS1705 assembly-version mismatch) if, after the auto-provision
        attempt, the binaries still aren't there (e.g. offline, or an env override pointing nowhere). -->
   <Target
