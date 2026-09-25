@@ -6,6 +6,7 @@
       "dependsOrder": "sequence",
       "dependsOn": [
         "provision-game (1.22)",
+        "provision-vsdbg",
         "stage-mods (latest)"
       ],
       "problemMatcher": []
@@ -135,6 +136,29 @@
       "problemMatcher": []
     },
     {
+      "label": "provision-vsdbg",
+      "type": "process",
+      "command": "bash",
+      "args": [
+        "${workspaceFolder}/scripts/exmod.sh",
+        "provision",
+        "vsdbg"
+      ],
+      "windows": {
+        "command": "pwsh",
+        "args": [
+          "-NoProfile",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "${workspaceFolder}/scripts/exmod.ps1",
+          "provision",
+          "vsdbg"
+        ]
+      },
+      "problemMatcher": []
+    },
+    {
       "label": "provision-game (1.22)",
       "type": "process",
       "command": "bash",
@@ -238,6 +262,7 @@
       "dependsOrder": "sequence",
       "dependsOn": [
         "provision-game (1.21)",
+        "provision-vsdbg",
         "stage-mods (1.21)"
       ],
       "problemMatcher": []
@@ -247,6 +272,7 @@
       "dependsOrder": "sequence",
       "dependsOn": [
         "provision-game (1.20)",
+        "provision-vsdbg",
         "stage-mods (1.20)"
       ],
       "problemMatcher": []

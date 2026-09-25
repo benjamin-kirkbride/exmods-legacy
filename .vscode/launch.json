@@ -17,7 +17,16 @@
         "${workspaceFolder}/bin/Mods"
       ],
       "cwd": "${workspaceFolder}",
-      "linux": { "env": { "WAYLAND_DISPLAY": "none" } },
+      "linux": {
+        "env": { "WAYLAND_DISPLAY": "none" },
+        "pipeTransport": {
+          "pipeCwd": "${workspaceFolder}",
+          "pipeProgram": "bash",
+          "pipeArgs": ["${workspaceFolder}/scripts/exmod.sh", "debug-adapter"],
+          "debuggerPath": "vsdbg",
+          "quoteArgs": false
+        }
+      },
       "osx": {
         "program": "${env:HOME}/Library/Application Support/exmod/game/1.22/Vintagestory.dll",
         "args": [
@@ -42,7 +51,6 @@
           "${workspaceFolder}/bin/Mods"
         ]
       },
-      "sourceFileMap": { "/exmod/${workspaceFolderBasename}/": "${workspaceFolder}/" },
       "stopAtEntry": false,
       "console": "internalConsole",
       "requireExactSource": false
@@ -63,7 +71,16 @@
         "${workspaceFolder}/bin/Mods-1.21"
       ],
       "cwd": "${workspaceFolder}",
-      "linux": { "env": { "WAYLAND_DISPLAY": "none" } },
+      "linux": {
+        "env": { "WAYLAND_DISPLAY": "none" },
+        "pipeTransport": {
+          "pipeCwd": "${workspaceFolder}",
+          "pipeProgram": "bash",
+          "pipeArgs": ["${workspaceFolder}/scripts/exmod.sh", "debug-adapter"],
+          "debuggerPath": "vsdbg",
+          "quoteArgs": false
+        }
+      },
       "osx": {
         "program": "${env:HOME}/Library/Application Support/exmod/game/1.21/Vintagestory.dll",
         "args": [
@@ -88,7 +105,6 @@
           "${workspaceFolder}/bin/Mods-1.21"
         ]
       },
-      "sourceFileMap": { "/exmod/${workspaceFolderBasename}/": "${workspaceFolder}/" },
       "stopAtEntry": false,
       "console": "internalConsole",
       "requireExactSource": false
@@ -109,7 +125,16 @@
         "${workspaceFolder}/bin/Mods-1.20"
       ],
       "cwd": "${workspaceFolder}",
-      "linux": { "env": { "WAYLAND_DISPLAY": "none" } },
+      "linux": {
+        "env": { "WAYLAND_DISPLAY": "none" },
+        "pipeTransport": {
+          "pipeCwd": "${workspaceFolder}",
+          "pipeProgram": "bash",
+          "pipeArgs": ["${workspaceFolder}/scripts/exmod.sh", "debug-adapter"],
+          "debuggerPath": "vsdbg",
+          "quoteArgs": false
+        }
+      },
       "osx": {
         "program": "${env:HOME}/Library/Application Support/exmod/game/1.20/Vintagestory.dll",
         "args": [
@@ -134,7 +159,6 @@
           "${workspaceFolder}/bin/Mods-1.20"
         ]
       },
-      "sourceFileMap": { "/exmod/${workspaceFolderBasename}/": "${workspaceFolder}/" },
       "stopAtEntry": false,
       "console": "internalConsole",
       "requireExactSource": false
