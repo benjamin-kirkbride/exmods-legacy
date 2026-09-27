@@ -8,38 +8,71 @@ on:
   workflow_dispatch:
     inputs:
       vs_version:
-        description: "Vintage Story version (full patch, or major.minor for the latest patch)"
+        description: "Vintage Story version for the 1.22 lane (full patch, or major.minor for the latest patch)"
         required: false
         default: "1.22"
 
-# Builds and tests exlib 0.7 / ppex 0.6 / smex 0.9 on the current game version only; the 1.21/1.20
-# lanes run locally (scripts/run-tests.sh all). The build and the headless test harness both read
-# the server assemblies from .game/<slug>, which the provision step fills from the freely
-# downloadable dedicated-server archive.
+# Builds and tests exlib 0.7 / ppex 0.6 / smex 0.9 on each supported game series, one job per series:
+# 1.22 on its latest patch, 1.21 and 1.20 on the .0 floor Directory.Build.props pins. The build and
+# the headless test harness both read the server assemblies from .game/<slug>, which the provision
+# step fills from the freely downloadable dedicated-server archive.
 env:
   VS_VERSION: ${{ github.event.inputs.vs_version || '1.22.7' }}
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    name: ${{ matrix.series }}
+    strategy:
+      fail-fast: false
+      # An empty game takes VS_VERSION.
+      matrix:
+        include:
+          - series: "1.22"
+            game: ""
+          - series: "1.21"
+            game: "1.21.0"
+          - series: "1.20"
+            game: "1.20.0"
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # The SDK from global.json builds every target; the 1.21 and 1.20 test hosts run on their own
+      # runtimes.
       - name: Set up .NET
         uses: actions/setup-dotnet@v4
         with:
           global-json-file: global.json
+          dotnet-version: |
+            7.0.x
+            8.0.x
 
       - name: Cache Vintage Story install
         uses: actions/cache@v4
         with:
           path: .game
-          key: vs-game-${{ env.VS_VERSION }}
+          key: vs-game-${{ matrix.game || env.VS_VERSION }}
 
       - name: Provision Vintage Story (server assemblies)
-        run: bash scripts/provision-game.sh -Version "$VS_VERSION" -Kind server
+        run: bash scripts/provision-game.sh -Version "${{ matrix.game || env.VS_VERSION }}" -Kind server
+
+      # The last green test count per project, which the test step compares against and rewrites
+      # when it passes; one cache per branch and series, the newest run's copy restored.
+      - name: Restore .exmod/census/
+        uses: actions/cache/restore@v4
+        with:
+          path: .exmod/census/
+          key: census-${{ github.head_ref || github.ref_name }}-${{ matrix.series }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: census-${{ github.head_ref || github.ref_name }}-${{ matrix.series }}-
 
       - name: Run the tests
-        run: bash scripts/run-tests.sh latest
+        run: bash scripts/run-tests.sh ${{ matrix.series }}
+
+      - name: Save .exmod/census/
+        if: hashFiles('.exmod/census/*.json') != ''
+        uses: actions/cache/save@v4
+        with:
+          path: .exmod/census/
+          key: census-${{ github.head_ref || github.ref_name }}-${{ matrix.series }}-${{ github.run_id }}-${{ github.run_attempt }}
