@@ -5,10 +5,14 @@ namespace PipesAndPowerExpanded.BlockNetworkPipe.Blocks;
 
 /// <summary>
 /// The base ppex pipe block: a self-orienting node of Industry's "pipe" network with ppex's
-/// burst ratings and no throughput cap.
+/// burst ratings, no throughput cap, and a joint that couples only to other ppex pipes.
 /// </summary>
 [BlockRegister]
 public partial class BlockPipe : ExpandedLib.Industry.Pipes.BlockPipe {
+  /// <summary>The joint family every ppex pipe presents; no Industry tier registers it, so ppex
+  /// and Industry pipes never share a run.</summary>
+  public const string PpexJoint = "ppex";
+
   /// <summary>
   /// Pipe metal from the <c>material</c> variant (iron/steel). Blocks without the
   /// variant (brick passthrough/outlet) read as iron.
@@ -36,6 +40,9 @@ public partial class BlockPipe : ExpandedLib.Industry.Pipes.BlockPipe {
 
   /// <summary>Unlimited: a ppex run passes whatever its producers push.</summary>
   public override float MaxThroughput => float.MaxValue;
+
+  /// <summary>Always <see cref="PpexJoint"/>.</summary>
+  public override string JointFamily => PpexJoint;
 
   public override Dictionary<string, string[]> AllowedOrientations { get; } =
     new()
