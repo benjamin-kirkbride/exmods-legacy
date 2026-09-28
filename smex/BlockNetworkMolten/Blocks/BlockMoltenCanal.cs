@@ -23,6 +23,11 @@ namespace SteelmakingExpanded.BlockNetworkMolten.Blocks;
 public partial class BlockMoltenCanal : BlockNetworkNode {
   public override string NetworkType => "molten";
 
+  /// <summary>A canal joins only smex's own molten nodes (canal, start, tap, pedestal); another mod's
+  /// "molten" node beside it stays on a network of its own.</summary>
+  public override bool AcceptsNeighbour(Block neighbour) =>
+    neighbour is BlockMoltenCanal;
+
   public override Dictionary<string, string[]> AllowedOrientations { get; } =
     new()
     {
