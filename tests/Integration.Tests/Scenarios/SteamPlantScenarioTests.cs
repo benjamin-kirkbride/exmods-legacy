@@ -1,3 +1,4 @@
+using ExpandedLib;
 using ExpandedLib.Testing;
 using PipesAndPowerExpanded.BlockNetworkPipe;
 using PipesAndPowerExpanded.BlockNetworkPipe.BlockEntities;
@@ -195,7 +196,7 @@ public class SteamPlantScenarioTests {
     // inside five ticks and the exact rate cannot be read here - the blower scenario pins the
     // formula instead. What this does pin is that the pump fills the main at all: at a third of its
     // calibrated rate it delivers only ~25 L in the same five ticks and this goes red.
-    Assert.Equal(PpexValues.LitresPerPipe, output(), 2);
+    Assert.Equal(ExlibValues.LitresPerPipe, output(), 2);
   }
 
   /// <summary>

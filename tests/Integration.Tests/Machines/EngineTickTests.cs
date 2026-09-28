@@ -1,4 +1,5 @@
-using ExpandedLib.Blocks.Machines;
+using ExpandedLib.Helpers;
+using ExpandedLib.Machines;
 using ExpandedLib.Testing;
 using PipesAndPowerExpanded.BlockNetworkPipe;
 using PipesAndPowerExpanded.BlockStructures.Engine.BlockEntities;

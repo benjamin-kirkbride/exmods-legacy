@@ -44,12 +44,19 @@
   <ItemGroup>
     <!-- The harness fakes the big VS interfaces (IBlockAccessor, IServerWorldAccessor) by
          wiring an NSubstitute proxy to a stateful in-memory store. -->
-    <PackageReference Include="NSubstitute" Version="5.3.0" />
+    <PackageReference Include="NSubstitute" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\exlib\ExpandedLib.csproj">
+  <ItemGroup Condition="'$(ExlibRoot)' != ''">
+    <ProjectReference Include="$(ExlibRoot)src\ExpandedLib\ExpandedLib.csproj">
       <Private>false</Private>
     </ProjectReference>
+    <ProjectReference Include="$(ExlibRoot)src\ExpandedLib.Industry\ExpandedLib.Industry.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup Condition="'$(ExlibRoot)' == ''">
+    <PackageReference Include="ExpandedLib" ExcludeAssets="runtime" />
+    <PackageReference Include="ExpandedLib.Industry" ExcludeAssets="runtime" />
   </ItemGroup>
 </Project>

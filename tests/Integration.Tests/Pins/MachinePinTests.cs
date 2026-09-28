@@ -1,6 +1,8 @@
 using System.IO;
 using System.Linq;
-using ExpandedLib.Blocks.Structures;
+using ExpandedLib;
+using ExpandedLib.Industry.MechanicalPower;
+using ExpandedLib.Structures;
 using ExpandedLib.Testing;
 using Integration.Tests.Saves;
 using Newtonsoft.Json.Linq;
@@ -254,7 +256,7 @@ public class MachinePinTests {
     float[] atm = [0f, 1.5f, 2f];
     for (int t = 0; t < atm.Length; t++) {
       float want =
-        atm[t] * PpexValues.LitresPerPipe - (net.State?.Volume ?? 0f);
+        atm[t] * ExlibValues.LitresPerPipe - (net.State?.Volume ?? 0f);
       if (want > 0f)
         net.TryProduceGas(
           want,

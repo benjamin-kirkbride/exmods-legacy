@@ -1,4 +1,4 @@
-using ExpandedLib.Blocks.Networks;
+using ExpandedLib.Networks;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
 
@@ -29,6 +29,8 @@ public sealed class CapturingNode : BlockEntity, INetworkNode {
 
   public void OnOpenConnectorsChanged(BlockFacing[] openFaces) =>
     LastOpenFaces = openFaces;
+
+  public void OnLeak(BlockFacing[] leakingFaces, bool isLiquid, float intensity) { }
 
   public void OnNetworkUpdate(object? state) {
     LastState = state;

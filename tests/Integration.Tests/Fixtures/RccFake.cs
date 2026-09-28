@@ -1,4 +1,4 @@
-using ExpandedLib.Blocks.Construction;
+using ExpandedLib.Blocks;
 using ExpandedLib.Testing;
 using Vintagestory.API.Common;
 using Vintagestory.GameContent;

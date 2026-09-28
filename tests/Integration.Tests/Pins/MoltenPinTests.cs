@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using ExpandedLib.Blocks.Networks;
+using ExpandedLib.Networks;
 using SteelmakingExpanded;
 using SteelmakingExpanded.BlockNetworkMolten.Blocks;
 using Xunit;

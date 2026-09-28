@@ -484,7 +484,7 @@ public class PpexSaveGoldenTests {
   private static BlockEntity Node(
     TestWorld world,
     Block block,
-    ExpandedLib.Blocks.Networks.BlockEntityNetworkNode be,
+    ExpandedLib.Networks.BlockEntityNetworkNode be,
     string orientation,
     bool open = false
   ) {

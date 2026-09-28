@@ -1,3 +1,4 @@
+using ExpandedLib;
 using ExpandedLib.Testing;
 using PipesAndPowerExpanded.BlockNetworkPipe;
 using PipesAndPowerExpanded.BlockStructures.Engine;
@@ -66,7 +67,7 @@ public class SteamSupplyScenarioTests {
 
     // Brim-full of water: the line refuses more, but a closed loop always reads this way.
     net.TryProduceLiquid(
-      PpexValues.LitresPerPipe * 4f,
+      ExlibValues.LitresPerPipe * 4f,
       90f,
       0f,
       scene.World.Accessor

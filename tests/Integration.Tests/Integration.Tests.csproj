@@ -33,19 +33,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
-    <PackageReference Include="xunit" Version="2.9.2" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
-    <PackageReference Include="NSubstitute" Version="5.3.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="NSubstitute" />
   </ItemGroup>
 
   <ItemGroup>
     <!-- Scenario tests span all three mods + the harness, and reuse the ppex pipe builders
          (PipeTestWorld) from the ppex unit-test project. -->
-    <ProjectReference Include="..\..\exlib\ExpandedLib.csproj" />
     <ProjectReference Include="..\..\ppex\PipesAndPowerExpanded.csproj" />
     <ProjectReference Include="..\..\smex\SteelmakingExpanded.csproj" />
     <ProjectReference Include="..\ExpandedLib.Testing\ExpandedLib.Testing.csproj" />
     <ProjectReference Include="..\PipesAndPowerExpanded.Tests\PipesAndPowerExpanded.Tests.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(ExlibRoot)' != ''">
+    <ProjectReference Include="$(ExlibRoot)src\ExpandedLib\ExpandedLib.csproj" />
+    <ProjectReference Include="$(ExlibRoot)src\ExpandedLib.Industry\ExpandedLib.Industry.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(ExlibRoot)' == ''">
+    <PackageReference Include="ExpandedLib" />
+    <PackageReference Include="ExpandedLib.Industry" />
   </ItemGroup>
 </Project>

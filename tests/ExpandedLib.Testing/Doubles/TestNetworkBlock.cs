@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using ExpandedLib.Blocks.Networks;
+using ExpandedLib.Networks;
 
 namespace ExpandedLib.Testing.Doubles;
 

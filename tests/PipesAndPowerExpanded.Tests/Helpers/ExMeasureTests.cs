@@ -1,4 +1,4 @@
-using PipesAndPowerExpanded.Helpers;
+using ExpandedLib.Helpers;
 using Xunit;
 
 namespace PipesAndPowerExpanded.Tests;

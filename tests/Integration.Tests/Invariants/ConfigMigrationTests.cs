@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.Json;
-using ExpandedLib.Registries.Config;
+using ExpandedLib.Config;
 using Xunit;
 
 namespace Integration.Tests;

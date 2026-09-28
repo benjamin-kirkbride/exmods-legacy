@@ -1,4 +1,5 @@
-using ExpandedLib.Blocks.Structures;
+using ExpandedLib.Industry.MechanicalPower;
+using ExpandedLib.Structures;
 using ExpandedLib.Testing;
 using Newtonsoft.Json.Linq;
 using Vintagestory.API.Common;

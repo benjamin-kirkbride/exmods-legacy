@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ExpandedLib.Blocks.Construction;
+using ExpandedLib.Blocks;
 using ExpandedLib.Testing;
 using Newtonsoft.Json.Linq;
 using NSubstitute;

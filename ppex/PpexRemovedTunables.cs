@@ -51,7 +51,9 @@ public static class PpexRemovedTunables {
         "[ppex] Config value {0} = {1} is not read from ppex's config; the pipe network reads "
           + "{0} from the exlib section of {2}.",
         key,
-        value.ToString(Newtonsoft.Json.Formatting.None),
+        value is JValue v
+          ? Convert.ToString(v.Value, CultureInfo.InvariantCulture)
+          : value.ToString(),
         PpexValues.ConfigFileName
       );
     }

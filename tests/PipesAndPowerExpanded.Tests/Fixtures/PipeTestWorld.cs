@@ -1,5 +1,5 @@
 using System.Runtime.CompilerServices;
-using ExpandedLib.Blocks.Networks;
+using ExpandedLib.Networks;
 using ExpandedLib.Testing;
 using PipesAndPowerExpanded.BlockNetworkPipe;
 using PipesAndPowerExpanded.BlockNetworkPipe.Blocks;
