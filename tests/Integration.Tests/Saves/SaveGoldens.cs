@@ -146,7 +146,8 @@ internal static class SaveGoldens {
     );
   }
 
-  private static SaveGolden Read(string name) {
+  /// <summary>The committed golden <paramref name="name"/>. Fails when the file is missing.</summary>
+  public static SaveGolden Read(string name) {
     string path = Path.Combine(Folder, name + ".json");
     Assert.True(
       File.Exists(path),
