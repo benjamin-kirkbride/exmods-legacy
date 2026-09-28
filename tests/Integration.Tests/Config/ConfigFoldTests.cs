@@ -143,9 +143,6 @@ public sealed class ConfigFoldTests : IDisposable {
     Assert.Null(_dir.Section("ex_values.json", "ppex")["LitresPerPipe"]);
   }
 
-#if GAME_GE_1_21
-  // Start applies ppex's Harmony patches; 1.20's Harmony cannot load its native helper on a host
-  // that refuses an executable stack.
   [Fact]
   public void Starting_ppex_reports_a_LitresPerPipe_tuned_in_the_flat_file_it_folds() {
     _dir.Write(
@@ -168,7 +165,6 @@ public sealed class ConfigFoldTests : IDisposable {
     Assert.Single(notes, n => n.Contains("LitresPerPipe"));
     Assert.True(_dir.Exists("ppex_values.json.migrated"));
   }
-#endif
 
   [Fact]
   public void The_values_configs_of_ppex_and_smex_are_managed_from_ex_values() {

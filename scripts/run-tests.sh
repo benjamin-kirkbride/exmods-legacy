@@ -22,6 +22,11 @@ script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(cd "$script_dir/.." && pwd)"
 
 declare -A tfms=( [1.22]=net10.0 [1.21]=net8.0 [1.20]=net7.0 )
+
+# glibc 2.41 and later refuse to load a shared object that needs an executable stack; MonoMod's
+# native helper for the .NET 7 lane (game 1.20) is one, so every Harmony patch there fails without
+# this tunable. Harmless on older glibc and on the other lanes.
+if [[ "$(uname -s)" == Linux ]]; then export GLIBC_TUNABLES=glibc.rtld.execstack=2; fi
 projects=(PipesAndPowerExpanded.Tests SteelmakingExpanded.Tests Integration.Tests)
 
 case "$version" in
