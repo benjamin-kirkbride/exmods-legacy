@@ -129,18 +129,22 @@ public class PipePinTests {
     var line = PipeLine.Of(Length, capStart: openEnds < 2, capEnd: false);
     var trace = new Trace($"pipe-leak-gas-{openEnds}");
     line.Net.TryProduceGas(200f, 150f, "Steam", line.Scene.World.Accessor);
+    float volumeAfterOne = 0f;
+    float tempAfterOne = 0f;
 
     line.Record(trace, 0);
     for (int t = 1; t <= 10; t++) {
       line.Step();
       line.Record(trace, t);
       if (t == 1) {
-        Assert.Equal(192f, line.Net.State!.Volume, Trace.VolumeDigits);
-        Assert.Equal(145f, line.Net.State.Temperature, Trace.TemperatureDigits);
+        volumeAfterOne = line.Net.State!.Volume;
+        tempAfterOne = line.Net.State.Temperature;
       }
     }
     trace.Save();
 
+    Assert.Equal(192f, volumeAfterOne, Trace.VolumeDigits);
+    Assert.Equal(145f, tempAfterOne, Trace.TemperatureDigits);
     Assert.Equal(120f, line.Net.State!.Volume, Trace.VolumeDigits);
     Assert.Equal(100f, line.Net.State.Temperature, Trace.TemperatureDigits);
   }
@@ -150,16 +154,18 @@ public class PipePinTests {
     var line = PipeLine.Of(Length, capEnd: false);
     var trace = new Trace("pipe-leak-water");
     line.Net.TryProduceLiquid(200f, 20f, 1f, line.Scene.World.Accessor);
+    float afterOne = 0f;
 
     line.Record(trace, 0);
     for (int t = 1; t <= 10; t++) {
       line.Step();
       line.Record(trace, t);
       if (t == 1)
-        Assert.Equal(190f, line.Net.State!.Volume, Trace.VolumeDigits);
+        afterOne = line.Net.State!.Volume;
     }
     trace.Save();
 
+    Assert.Equal(190f, afterOne, Trace.VolumeDigits);
     Assert.Equal(100f, line.Net.State!.Volume, Trace.VolumeDigits);
   }
 
@@ -172,16 +178,18 @@ public class PipePinTests {
     var line = PipeLine.Of(Length, chimney: true);
     var trace = new Trace("pipe-chimney");
     line.Net.TryProduceGas(300f, 300f, "Exhaust", line.Scene.World.Accessor);
+    float afterOne = 0f;
 
     line.Record(trace, 0);
     for (int t = 1; t <= 10; t++) {
       line.Step();
       line.Record(trace, t);
       if (t == 1)
-        Assert.Equal(284f, line.Net.State!.Volume, Trace.VolumeDigits);
+        afterOne = line.Net.State!.Volume;
     }
     trace.Save();
 
+    Assert.Equal(284f, afterOne, Trace.VolumeDigits);
     Assert.Equal(140f, line.Net.State!.Volume, Trace.VolumeDigits);
   }
 

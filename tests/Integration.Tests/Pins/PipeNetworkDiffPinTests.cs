@@ -71,6 +71,7 @@ public class PipeNetworkDiffPinTests {
       maxOutputPressure: 2f
     );
     var trace = new Trace("pipe-chimney-outlet");
+    float afterOne = 0f;
 
     PipeTrace.Runs(trace, 0, scene.World, [pos]);
     for (int t = 1; t <= 3; t++) {
@@ -78,10 +79,11 @@ public class PipeNetworkDiffPinTests {
       PipeTrace.Runs(trace, t, scene.World, [pos]);
       trace.Line(t, "openings=" + net.State!.OpeningsCount);
       if (t == 1)
-        Assert.Equal(44f, net.State.Volume, Trace.VolumeDigits);
+        afterOne = net.State.Volume;
     }
     trace.Save();
 
+    Assert.Equal(44f, afterOne, Trace.VolumeDigits);
     Assert.Equal(12f, net.State!.Volume, Trace.VolumeDigits);
     Assert.Equal(0, net.State.OpeningsCount);
   }
