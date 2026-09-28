@@ -3,7 +3,6 @@ using System.Linq;
 using System.Text;
 using ExpandedLib.Helpers;
 using ExpandedLib.Industry.Helpers;
-using ExpandedLib.Industry.MechanicalPower;
 using ExpandedLib.Registries;
 using SteelmakingExpanded.BlockNetworkMolten.Blocks;
 using SteelmakingExpanded.Molds;

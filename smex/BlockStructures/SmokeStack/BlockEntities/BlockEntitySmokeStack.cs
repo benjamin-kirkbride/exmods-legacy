@@ -1,7 +1,6 @@
 using System.Text;
 using System.Text.Json;
 using ExpandedLib.Networks;
-using ExpandedLib.Industry.MechanicalPower;
 using ExpandedLib.Structures;
 using ExpandedLib.Helpers;
 using ExpandedLib.Industry.Helpers;

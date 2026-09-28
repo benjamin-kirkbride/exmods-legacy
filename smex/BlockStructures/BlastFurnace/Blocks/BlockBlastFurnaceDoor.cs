@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using ExpandedLib.Helpers;
-using ExpandedLib.Industry.Helpers;
 using ExpandedLib.Industry.MechanicalPower;
 using ExpandedLib.Registries;
 using SteelmakingExpanded.BlockStructures.BlastFurnace.BlockEntities;

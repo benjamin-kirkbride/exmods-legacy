@@ -1,7 +1,6 @@
 using System;
 using ExpandedLib.Helpers;
 using ExpandedLib.Industry.Helpers;
-using ExpandedLib.Industry.MechanicalPower;
 using ExpandedLib.Registries;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;

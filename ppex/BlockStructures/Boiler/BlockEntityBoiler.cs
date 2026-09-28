@@ -4,7 +4,6 @@ using ExpandedLib.Blocks;
 using ExpandedLib.Helpers;
 using ExpandedLib.Machines;
 using ExpandedLib.Networks;
-using ExpandedLib.Industry.MechanicalPower;
 using ExpandedLib.Structures;
 using ExpandedLib.Industry.Helpers;
 using PipesAndPowerExpanded.BlockNetworkPipe;

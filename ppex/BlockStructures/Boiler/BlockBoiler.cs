@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using ExpandedLib.Networks;
-using ExpandedLib.Industry.MechanicalPower;
 using ExpandedLib.Structures;
 using ExpandedLib.Helpers;
-using ExpandedLib.Industry.Helpers;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Datastructures;

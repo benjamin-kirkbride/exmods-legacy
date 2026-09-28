@@ -2,7 +2,6 @@ using System;
 using System.Text;
 using ExpandedLib.Helpers;
 using ExpandedLib.Machines;
-using ExpandedLib.Networks;
 using ExpandedLib.Industry.Helpers;
 using ExpandedLib.Industry.MechanicalPower;
 using PipesAndPowerExpanded.BlockNetworkPipe;

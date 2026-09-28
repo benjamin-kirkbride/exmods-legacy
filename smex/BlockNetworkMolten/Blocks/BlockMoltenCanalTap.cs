@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using ExpandedLib.Industry.MechanicalPower;
 using ExpandedLib.Structures;
 using ExpandedLib.Helpers;
 using ExpandedLib.Industry.Helpers;

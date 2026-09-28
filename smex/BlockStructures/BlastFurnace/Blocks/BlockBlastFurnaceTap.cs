@@ -1,7 +1,6 @@
 using System.Linq;
 using ExpandedLib.Helpers;
 using ExpandedLib.Industry.Helpers;
-using ExpandedLib.Industry.MechanicalPower;
 using ExpandedLib.Registries;
 using SteelmakingExpanded.BlockNetworkMolten.Blocks;
 using SteelmakingExpanded.BlockStructures.BlastFurnace.BlockEntities;

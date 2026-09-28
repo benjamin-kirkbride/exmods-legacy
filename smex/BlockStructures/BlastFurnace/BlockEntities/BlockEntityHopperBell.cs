@@ -2,7 +2,6 @@ using System;
 using System.Text;
 using ExpandedLib.Helpers;
 using ExpandedLib.Industry.Helpers;
-using ExpandedLib.Industry.MechanicalPower;
 using ExpandedLib.Registries;
 using SteelmakingExpanded.Compat;
 using Vintagestory.API.Common;

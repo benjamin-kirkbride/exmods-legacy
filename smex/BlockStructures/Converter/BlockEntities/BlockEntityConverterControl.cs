@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using ExpandedLib.Helpers;
 using ExpandedLib.Machines;
-using ExpandedLib.Networks;
 using ExpandedLib.Industry.MechanicalPower;
 using ExpandedLib.Structures;
 using ExpandedLib.Industry.Helpers;

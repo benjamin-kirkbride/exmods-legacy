@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using ExpandedLib.Networks;
-using ExpandedLib.Industry.MechanicalPower;
 using ExpandedLib.Structures;
 using ExpandedLib.Helpers;
 using ExpandedLib.Industry.Helpers;

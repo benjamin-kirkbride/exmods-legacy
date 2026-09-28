@@ -1,4 +1,3 @@
-using ExpandedLib.Industry.MechanicalPower;
 using ExpandedLib.Structures;
 using ExpandedLib.Registries;
 

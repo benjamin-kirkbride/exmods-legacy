@@ -4,7 +4,6 @@ using System.Linq;
 using ExpandedLib.Blocks;
 using ExpandedLib.Helpers;
 using ExpandedLib.Machines;
-using ExpandedLib.Networks;
 using ExpandedLib.Industry.Helpers;
 using ExpandedLib.Industry.MechanicalPower;
 using PipesAndPowerExpanded.BlockNetworkPipe;
