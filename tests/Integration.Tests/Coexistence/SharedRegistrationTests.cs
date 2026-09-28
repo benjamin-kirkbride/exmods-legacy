@@ -20,7 +20,7 @@ namespace Integration.Tests.Coexistence;
 /// register is saved under its primary key; both assemblies declare their bare keys published; and
 /// neither mod's source registers a network type. The claimant is a generated assembly with an
 /// unmarked <c>BlockEntity{ShortId}</c> stand-in for every published type ppex and smex keep, as
-/// iiex and siex claim thirty of those keys.
+/// iiex and siex claim the bare keys of 28 of them.
 /// </summary>
 public class SharedRegistrationTests {
   private static readonly Lazy<Assembly> Claimant = new(BuildClaimant);
