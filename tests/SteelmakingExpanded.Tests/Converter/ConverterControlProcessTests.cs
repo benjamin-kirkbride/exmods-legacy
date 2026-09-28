@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Reflection;
 using ExpandedLib.Testing;
 using SteelmakingExpanded.BlockNetworkMolten;
 using SteelmakingExpanded.BlockNetworkMolten.BlockEntities;
@@ -231,11 +232,14 @@ public class ConverterControlProcessTests {
   /// </summary>
   [Fact]
   public void The_blow_reaches_full_rate_at_the_same_pressure_the_bath_heat_does() {
-    var world = NewWorld();
-    var be = Control(world);
-
     float Speed(float atm) =>
-      (float)ReflectionHelpers.Invoke(be, "ConversionSpeed", atm)!;
+      (float)
+        typeof(BlockEntityConverterControl)
+          .GetMethod(
+            "ConversionSpeed",
+            BindingFlags.NonPublic | BindingFlags.Static
+          )!
+          .Invoke(null, [atm])!;
 
     Assert.Equal(SmexValues.BessemerSpeedMin, Speed(2.5f), 3);
     Assert.Equal(SmexValues.BessemerSpeedMax, Speed(6.0f), 3);

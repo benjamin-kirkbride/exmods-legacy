@@ -44,16 +44,17 @@
          (PipeTestWorld) from the ppex unit-test project. -->
     <ProjectReference Include="..\..\ppex\PipesAndPowerExpanded.csproj" />
     <ProjectReference Include="..\..\smex\SteelmakingExpanded.csproj" />
-    <ProjectReference Include="..\ExpandedLib.Testing\ExpandedLib.Testing.csproj" />
     <ProjectReference Include="..\PipesAndPowerExpanded.Tests\PipesAndPowerExpanded.Tests.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(ExlibRoot)' != ''">
     <ProjectReference Include="$(ExlibRoot)src\ExpandedLib\ExpandedLib.csproj" />
     <ProjectReference Include="$(ExlibRoot)src\ExpandedLib.Industry\ExpandedLib.Industry.csproj" />
+    <ProjectReference Include="$(ExlibRoot)src\ExpandedLib.Testing\ExpandedLib.Testing.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(ExlibRoot)' == ''">
     <PackageReference Include="ExpandedLib" />
     <PackageReference Include="ExpandedLib.Industry" />
+    <PackageReference Include="ExpandedLib.Testing" />
   </ItemGroup>
 </Project>

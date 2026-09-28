@@ -277,18 +277,6 @@ public class ConstructionBreakTests {
       Behavior.Initialize(_world.Api, new JsonObject(Properties(root)));
       _entity.Behaviors.Add(Behavior);
 
-#if GAME_GE_1_22
-      _world
-        .World.When(w =>
-          w.SpawnItemEntity(
-            Arg.Any<ItemStack>(),
-            Arg.Any<BlockPos>(),
-            Arg.Any<Vec3d>()
-          )
-        )
-        .Do(ci => _world.Drops.Add(ci.Arg<ItemStack>()));
-#endif
-
       var hotbar = Substitute.For<IInventory>();
       ((IEnumerable<ItemSlot>)hotbar)
         .GetEnumerator()
