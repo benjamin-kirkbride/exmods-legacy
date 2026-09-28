@@ -95,13 +95,6 @@ public class TraceReplayTests {
   /// <summary>Industry's passive gas cooling, 2 deg C/s toward 20 deg C, which ppex never ran.</summary>
   private const string Cooling = "cooling";
 
-  /// <summary>
-  /// The blower scene throws in its first second: the blower re-issues its port spec from its blow
-  /// tick, and the port behaviour's mechanical power initialisation throws a
-  /// <see cref="NullReferenceException"/>.
-  /// </summary>
-  private const string BlowerPort = "blower-port";
-
   private static readonly PipePinTests Pipe = new();
   private static readonly PipeNetworkDiffPinTests Diff = new();
   private static readonly MachinePinTests Machine = new();
@@ -203,7 +196,7 @@ public class TraceReplayTests {
       { "pipe-chimney-outlet", Expected, Cooling, 1, "temp" },
       { "machine-cowper-exhaust", Expected, Cooling, 1, "core,temp" },
       { "machine-boiler-watt", Expected, Cooling, 1, "temp" },
-      { "machine-blower-load", Finding, BlowerPort, 1, "lines" },
+      { "machine-blower-load", Same, "", 0, "" },
       { "molten-rate", Same, "", 0, "" },
       { "molten-reach-10", Same, "", 0, "" },
       { "molten-minimum-canal", Same, "", 0, "" },

@@ -19,6 +19,7 @@ using SteelmakingExpanded.BlockStructures.CowperStove.BlockEntities;
 using Vintagestory.API.Common;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
+using Vintagestory.GameContent.Mechanics;
 using Xunit;
 using BoilerState = PipesAndPowerExpanded.BlockStructures.Boiler.BlockEntityBoiler.BoilerState;
 
@@ -313,21 +314,24 @@ public class MachinePinTests {
     );
 
   /// <summary>
-  /// A constructed south-facing twin-tub blower from the shipped def: its footprint frame is the
-  /// def's own, so the port declared on the east face couples east. The port cell holds a filler
-  /// hosting the declared port behaviour, not initialised, since that would join it to a live power
-  /// network. The outlet cell holds a filler marked as a pipe port on the outlet face, as placement
-  /// marks it, and the blast main is one sealed pipe past it. Returns the scene, the blower, its
-  /// port and the main's cell.
+  /// A constructed south-facing twin-tub blower from the shipped def, on a world running the
+  /// mechanical-power system: its footprint frame is the def's own, so the port declared on the east
+  /// face couples east. The port cell holds a filler initialised with the port behaviour the def
+  /// declares for it. The outlet cell holds a filler marked as a pipe port on the outlet face, as
+  /// placement marks it, and the blast main is one sealed pipe past it. Returns the scene, the
+  /// blower, its port and the main's cell.
   /// </summary>
   private static (
     Scene scene,
     BlockEntityMpBlower blower,
-    BEBehaviorMPFillerPort port,
+    BEBehaviorMpBlowerPort port,
     BlockPos main
   ) Blower() {
     var scene = new Scene().Network("pipe", s => new PipeNetwork(s));
     SaveRegistry.Instance.Wire(scene.World);
+    var power = new MechanicalPowerMod();
+    scene.World.Mods.Register(power);
+    power.Start(scene.World.Api);
 
     var block = TestBlocks.Configure(
       new BlockMpBlower(),
@@ -345,7 +349,6 @@ public class MachinePinTests {
     FillerCell cell = StructureFillers
       .FootprintCells(block, BlowerAt, block.StructureAngle)
       .Single(c => c.Behaviors != null);
-    FillerBehavior hosted = Assert.Single(cell.Behaviors!);
     var fillerBe = new BlockEntityStructureFiller {
       Principal = BlowerAt.Copy(),
       AllowAttach = cell.AllowAttach,
@@ -360,7 +363,6 @@ public class MachinePinTests {
       ),
       fillerBe
     );
-    scene.World.Attach(fillerBe);
     scene.World.Place(
       block.BlastOutletWorldPos(BlowerAt),
       scene.World.GetBlock(cell.Pos),
@@ -371,9 +373,8 @@ public class MachinePinTests {
         PortNetworkType = "pipe",
       }
     );
-    var port = new BEBehaviorMPFillerPort(fillerBe);
-    port.ConfigureFromFiller(BlowerAt, hosted.ConnectorFace, hosted.Properties);
-    fillerBe.Behaviors.Add(port);
+    scene.World.Initialize(fillerBe);
+    var port = fillerBe.GetBehavior<BEBehaviorMpBlowerPort>()!;
 
     var blower = new BlockEntityMpBlower();
     SaveFixtures.Stand(scene.World, BlowerAt, block, blower);
