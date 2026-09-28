@@ -1,11 +1,11 @@
 using System;
 using ExpandedLib.Industry.MechanicalPower;
+using ExpandedLib.Industry.Molten;
 using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Structures;
 using ExpandedLib.Testing;
 using Newtonsoft.Json.Linq;
 using PipesAndPowerExpanded.BlockNetworkPipe.Blocks;
-using SteelmakingExpanded.BlockNetworkMolten;
 using SteelmakingExpanded.BlockNetworkMolten.BlockEntities;
 using SteelmakingExpanded.BlockNetworkMolten.Blocks;
 using SteelmakingExpanded.BlockStructures.BlastFurnace;

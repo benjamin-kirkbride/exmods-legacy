@@ -1,5 +1,5 @@
+using ExpandedLib.Industry.Molten;
 using ExpandedLib.Testing;
-using SteelmakingExpanded.BlockNetworkMolten;
 using SteelmakingExpanded.BlockNetworkMolten.BlockEntities;
 using Vintagestory.API.Common;
 using Vintagestory.API.Datastructures;

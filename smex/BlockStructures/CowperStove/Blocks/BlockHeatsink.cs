@@ -1,7 +1,7 @@
 using ExpandedLib.Helpers;
 using ExpandedLib.Industry.MechanicalPower;
+using ExpandedLib.Industry.Molten;
 using ExpandedLib.Registries;
-using SteelmakingExpanded.BlockNetworkMolten;
 using SteelmakingExpanded.BlockStructures.CowperStove.BlockEntities;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;

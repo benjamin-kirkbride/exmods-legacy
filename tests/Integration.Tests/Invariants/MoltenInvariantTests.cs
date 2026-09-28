@@ -1,7 +1,7 @@
 using System;
+using ExpandedLib.Industry.Molten;
 using ExpandedLib.Testing;
 using NSubstitute;
-using SteelmakingExpanded.BlockNetworkMolten;
 using SteelmakingExpanded.BlockNetworkMolten.BlockEntities;
 using SteelmakingExpanded.BlockNetworkMolten.Blocks;
 using Vintagestory.API.Common;

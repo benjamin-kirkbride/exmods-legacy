@@ -1,5 +1,6 @@
 using System.Text;
 using ExpandedLib.Helpers;
+using ExpandedLib.Industry.Molten;
 using ExpandedLib.Registries;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
@@ -33,7 +34,7 @@ public class BlockEntityHeatSink : BlockEntity {
 
   // The shared incandescence scale (canals, barrels, heat sink all glow alike).
   private static byte GetLightLevel(float temp) =>
-    BlockNetworkMolten.MoltenMetal.GlowLevel(temp);
+    MoltenMetal.GlowLevel(temp);
 
   public override void ToTreeAttributes(ITreeAttribute tree) {
     base.ToTreeAttributes(tree);

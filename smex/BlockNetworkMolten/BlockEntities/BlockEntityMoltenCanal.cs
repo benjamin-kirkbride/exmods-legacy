@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ExpandedLib.Helpers;
+using ExpandedLib.Industry.Molten;
 using ExpandedLib.Networks;
 using ExpandedLib.Registries;
 using SteelmakingExpanded.BlockNetworkMolten.Blocks;
@@ -21,7 +22,10 @@ namespace SteelmakingExpanded.BlockNetworkMolten.BlockEntities;
 /// metal drops below the melting point, blocking flow until chiselled or broken.
 /// </summary>
 [BlockEntityRegister]
-public class BlockEntityMoltenCanal : BlockEntityNetworkNode, IChiselableMolten {
+public class BlockEntityMoltenCanal
+  : BlockEntityNetworkNode,
+    IChiselableMolten,
+    IMoltenCell {
   #region Network
   public override string NetworkType {
     get => "molten";
@@ -65,6 +69,35 @@ public class BlockEntityMoltenCanal : BlockEntityNetworkNode, IChiselableMolten 
   /// (see <see cref="ClearSolidified"/>) or break it to restore flow.
   /// </summary>
   public override bool IsConnectionBroken() => Sealed || Solidified;
+
+  /// <summary>smex's flow rules, read live from <see cref="SmexValues"/>: up to
+  /// <see cref="SmexValues.MoltenFlowRate"/> units per connection per tick, no gap under
+  /// <see cref="SmexValues.MoltenMinFlowAmount"/> units, metal conveyed away from the start, and no
+  /// exchange through the up and down faces.</summary>
+  MoltenFlowRules? IMoltenCell.FlowRules =>
+    new(
+      SmexValues.MoltenFlowRate,
+      SmexValues.MoltenMinFlowAmount,
+      Conveys: true,
+      HorizontalOnly: true
+    );
+
+  bool IMoltenCell.IsFlowSource => this is BlockEntityMoltenCanalStart;
+
+  bool IMoltenCell.AcceptsSubMinimumFlow =>
+    this is BlockEntityMoltenCanalMoldPedestal or BlockEntityMoltenCanalTap;
+
+  int IMoltenCell.PushMetalRaw(
+    int amount,
+    string metalType,
+    float temperature,
+    IWorldAccessor world
+  ) => PushMetalRaw(amount, metalType, temperature, world);
+
+  void IMoltenCell.EnsureMetalStack(IWorldAccessor world) =>
+    EnsureMetalStack(world);
+
+  void IMoltenCell.UpdateThermal(IWorldAccessor world) => UpdateThermal(world);
 
   /// <summary>Whether this cell currently holds liquid (not solidified) metal.</summary>
   public bool HasMoltenMetal => !Solidified && CellAmount > 0f;
@@ -365,7 +398,7 @@ public class BlockEntityMoltenCanal : BlockEntityNetworkNode, IChiselableMolten 
     if (!Solidified || CellAmount <= 0f || CellMetalType.Length == 0)
       return null;
 
-    return MoltenChisel.BuildRecovery(
+    return MoltenRecovery.BuildRecovery(
       world,
       new AssetLocation(CellMetalType),
       _cellTemperature,

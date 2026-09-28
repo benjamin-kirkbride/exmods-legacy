@@ -1,7 +1,7 @@
 using System.Linq;
+using ExpandedLib.Industry.Molten;
 using ExpandedLib.Testing;
 using NSubstitute;
-using SteelmakingExpanded.BlockNetworkMolten;
 using SteelmakingExpanded.BlockNetworkMolten.BlockEntities;
 using SteelmakingExpanded.BlockStructures.Converter.BlockEntities;
 using SteelmakingExpanded.BlockStructures.Converter.Blocks;

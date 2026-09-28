@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ExpandedLib.Helpers;
+using ExpandedLib.Industry.Molten;
 using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Machines;
 using ExpandedLib.Industry.MechanicalPower;
@@ -1012,10 +1013,10 @@ public class BlockEntityConverterControl : BlockEntityMultiblockMachine {
   /// <summary>
   /// Builds the metal-bit recovery stack for <paramref name="units"/> of the current charge (5 units
   /// per bit), carrying the charge temperature; falls back to slag for a non-metal charge. Shared with
-  /// the canal/barrel chisel drops via <see cref="MoltenChisel.BuildRecovery"/>.
+  /// the canal/barrel chisel drops via <see cref="MoltenRecovery.BuildRecovery"/>.
   /// </summary>
   private ItemStack? BuildRecoveryDrops(int units) =>
-    MoltenChisel.BuildRecovery(
+    MoltenRecovery.BuildRecovery(
       Api.World,
       _content!.Collectible.Code,
       MoltenMetal.GetTemperature(Api.World, _content),

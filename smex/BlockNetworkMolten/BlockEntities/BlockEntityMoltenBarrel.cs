@@ -4,6 +4,7 @@ using System.Text;
 using ExpandedLib.Helpers;
 using ExpandedLib.Industry.Helpers;
 using ExpandedLib.Industry.MechanicalPower;
+using ExpandedLib.Industry.Molten;
 using ExpandedLib.Registries;
 using SteelmakingExpanded.BlockNetworkMolten.Blocks;
 using Vintagestory.API.Client;
@@ -261,7 +262,7 @@ public class BlockEntityMoltenBarrel
     )
       return null;
 
-    ItemStack? recovered = MoltenChisel.BuildRecovery(
+    ItemStack? recovered = MoltenRecovery.BuildRecovery(
       Api.World,
       MetalContent.Collectible.Code,
       Temperature,
@@ -334,7 +335,7 @@ public class BlockEntityMoltenBarrel
 
     // The block is going away regardless, so a metal with no bit item of its own falls back to slag
     // rather than dropping nothing.
-    ItemStack? drop = MoltenChisel.BuildRecovery(
+    ItemStack? drop = MoltenRecovery.BuildRecovery(
       Api.World,
       MetalContent.Collectible.Code,
       Temperature,

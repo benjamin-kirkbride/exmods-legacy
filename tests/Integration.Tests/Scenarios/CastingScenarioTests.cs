@@ -1,5 +1,5 @@
+using ExpandedLib.Industry.Molten;
 using ExpandedLib.Testing;
-using SteelmakingExpanded.BlockNetworkMolten;
 using Vintagestory.API.MathTools;
 using Xunit;
 

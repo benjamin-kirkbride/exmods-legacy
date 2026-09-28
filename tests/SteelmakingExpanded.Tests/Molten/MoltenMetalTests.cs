@@ -1,4 +1,4 @@
-using SteelmakingExpanded.BlockNetworkMolten;
+using ExpandedLib.Industry.Molten;
 using Xunit;
 
 namespace SteelmakingExpanded.Tests;

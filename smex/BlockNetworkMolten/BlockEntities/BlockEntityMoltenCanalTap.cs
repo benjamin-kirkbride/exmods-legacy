@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using ExpandedLib.Helpers;
 using ExpandedLib.Industry.Helpers;
+using ExpandedLib.Industry.Molten;
 using ExpandedLib.Registries;
 using SteelmakingExpanded.BlockNetworkMolten.Blocks;
 using Vintagestory.API.Client;

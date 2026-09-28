@@ -1,9 +1,9 @@
+using ExpandedLib.Industry.Molten;
 using ExpandedLib.Networks;
 using ExpandedLib.Helpers;
 using ExpandedLib.Industry.MechanicalPower;
 using ExpandedLib.Registries;
 using HarmonyLib;
-using SteelmakingExpanded.BlockNetworkMolten;
 using SteelmakingExpanded.BlockNetworkMolten.Blocks;
 using SteelmakingExpanded.Compat;
 using SteelmakingExpanded.Molds;

@@ -1,8 +1,8 @@
+using ExpandedLib.Industry.Molten;
 using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Testing;
 using PipesAndPowerExpanded.BlockNetworkPipe.BlockEntities;
 using PipesAndPowerExpanded.Tests;
-using SteelmakingExpanded.BlockNetworkMolten;
 using SteelmakingExpanded.BlockNetworkMolten.BlockEntities;
 using SteelmakingExpanded.BlockStructures.Converter.BlockEntities;
 using SteelmakingExpanded.BlockStructures.Converter.Blocks;

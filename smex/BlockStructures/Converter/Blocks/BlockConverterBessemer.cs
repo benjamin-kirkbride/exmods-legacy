@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
+using ExpandedLib.Industry.Molten;
 using ExpandedLib.Structures;
 using ExpandedLib.Helpers;
 using ExpandedLib.Industry.Helpers;
 using ExpandedLib.Registries;
-using SteelmakingExpanded.BlockNetworkMolten;
 using SteelmakingExpanded.BlockStructures.Converter.BlockEntities;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;

@@ -8,7 +8,7 @@ namespace SteelmakingExpanded.Tests;
 /// <summary>
 /// The shared metal-bit recovery builder behind every chisel/break drop (canal cells, the molten
 /// barrel, the bessemer charge). Pins the unit-per-bit ratio, the temperature carry, and the slag
-/// fallback so the holders stay in lockstep through <see cref="MoltenChisel.BuildRecovery"/>.
+/// fallback so the holders stay in lockstep through <see cref="MoltenRecovery.BuildRecovery"/>.
 /// </summary>
 public class MoltenChiselTests {
   private const string Iron = "game:ingot-iron";
@@ -32,7 +32,7 @@ public class MoltenChiselTests {
   ) {
     var world = NewWorld();
 
-    ItemStack? drop = MoltenChisel.BuildRecovery(
+    ItemStack? drop = MoltenRecovery.BuildRecovery(
       world.World,
       new AssetLocation(Iron),
       900f,
@@ -49,7 +49,7 @@ public class MoltenChiselTests {
   public void BuildRecovery_carries_the_metal_temperature() {
     var world = NewWorld();
 
-    ItemStack drop = MoltenChisel.BuildRecovery(
+    ItemStack drop = MoltenRecovery.BuildRecovery(
       world.World,
       new AssetLocation(Iron),
       850f,
@@ -64,7 +64,7 @@ public class MoltenChiselTests {
     var world = NewWorld(); // no metalbit-gold registered
 
     Assert.Null(
-      MoltenChisel.BuildRecovery(
+      MoltenRecovery.BuildRecovery(
         world.World,
         new AssetLocation("game:ingot-gold"),
         900f,
@@ -77,7 +77,7 @@ public class MoltenChiselTests {
   public void BuildRecovery_falls_back_to_slag_when_requested() {
     var world = NewWorld();
 
-    ItemStack? drop = MoltenChisel.BuildRecovery(
+    ItemStack? drop = MoltenRecovery.BuildRecovery(
       world.World,
       new AssetLocation("game:ingot-gold"),
       900f,
