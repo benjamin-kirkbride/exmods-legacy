@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ExpandedLib.Config;
+using ExpandedLib.Networks;
+using ExpandedLib.Testing;
 using Integration.Tests.Saves;
 using Newtonsoft.Json.Linq;
 using NSubstitute;
@@ -139,6 +141,29 @@ public sealed class ConfigFoldTests : IDisposable {
     PpexValues.Load(api);
     Assert.DoesNotContain(second, n => n.Contains("LitresPerPipe"));
     Assert.Null(_dir.Section("ex_values.json", "ppex")["LitresPerPipe"]);
+  }
+
+  [Fact]
+  public void Starting_ppex_reports_a_LitresPerPipe_tuned_in_the_flat_file_it_folds() {
+    _dir.Write(
+      "ppex_values.json",
+      new JObject { ["ConfigVersion"] = "0.6.8", ["LitresPerPipe"] = 45.0 }
+    );
+    var notes = new List<string>();
+    ICoreAPI api = ServerApi(notes);
+    api.ModLoader.GetModSystem<BlockNetworkModSystem>(Arg.Any<bool>())
+      .Returns(new BlockNetworkModSystem());
+    var system = new PipesAndPowerExpandedModSystem();
+    ReflectionHelpers.SetProperty(system, nameof(ModSystem.Mod), api.ModLoader.GetMod("ppex"));
+
+    try {
+      system.Start(api);
+    } finally {
+      system.Dispose();
+    }
+
+    Assert.Single(notes, n => n.Contains("LitresPerPipe"));
+    Assert.True(_dir.Exists("ppex_values.json.migrated"));
   }
 
   [Fact]
