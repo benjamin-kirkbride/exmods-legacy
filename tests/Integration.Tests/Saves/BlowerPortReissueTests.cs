@@ -23,7 +23,7 @@ namespace Integration.Tests.Saves;
 /// A twin-tub blower saved by smex 0.9.8, loaded with its port cell in the game's order on a world
 /// running the mechanical-power system. The saved port cell hosts exlib's generic port on its east
 /// face, coupling through to the west; the blower re-issues its own port spec on its first server
-/// tick.
+/// tick, finished or not.
 /// </summary>
 public class BlowerPortReissueTests {
   private const string Def =
@@ -83,6 +83,26 @@ public class BlowerPortReissueTests {
     Assert.False(Couples(fillerBlock, world, portCell, BlockFacing.WEST));
   }
 
+  [Fact]
+  public void A_saved_part_built_blower_reissues_its_port_and_does_not_couple_the_west_face() {
+    var (world, blower, portCell) = Load(completedStage: 3);
+    Assert.False(blower.IsConstructed);
+
+    world.FireBlockEntityTicks();
+
+    var filler = (BlockEntityStructureFiller)world.GetBlockEntity(portCell)!;
+    Assert.Equal(
+      "smex.BEBehaviorMpBlowerPort",
+      Assert.Single(filler.HostedBehaviors!).Code
+    );
+    var port = Assert.IsType<BEBehaviorMpBlowerPort>(
+      filler.GetBehavior<BEBehaviorMPBase>()
+    );
+    var fillerBlock = (BlockStructureFiller)world.GetBlock(portCell);
+    Assert.True(Couples(fillerBlock, world, portCell, port.PortFacing));
+    Assert.False(Couples(fillerBlock, world, portCell, BlockFacing.WEST));
+  }
+
   private static bool Couples(
     BlockStructureFiller filler,
     TestWorld world,
@@ -99,14 +119,15 @@ public class BlowerPortReissueTests {
   /// <see cref="MechanicalPowerMod"/>, holding the blower golden <c>smex-mpblower-blowing</c> and
   /// the port-cell golden <c>exlib-structurefiller-mpport</c> moved onto the blower's port cell and
   /// linked to it. Both are created by their saved keys, given their behaviours and fed their trees
-  /// before either is initialised, the port cell first. Returns the world, the blower and its port
-  /// cell.
+  /// before either is initialised, the port cell first. A <paramref name="completedStage"/> replaces
+  /// the golden's last completed construction stage (4, the finished blower). Returns the world, the
+  /// blower and its port cell.
   /// </summary>
   private static (
     TestWorld world,
     BlockEntityMpBlower blower,
     BlockPos portCell
-  ) Load() {
+  ) Load(int? completedStage = null) {
     TestWorld world = SaveRegistry.Instance.Wire(new TestWorld());
     world.RegisterNetwork("pipe", s => new PipeNetwork(s));
     var power = new MechanicalPowerMod();
@@ -133,6 +154,8 @@ public class BlowerPortReissueTests {
 
     SaveGolden blowerGolden = SaveGoldens.Read("smex-mpblower-blowing");
     ITreeAttribute blowerTree = Tree(blowerGolden);
+    if (completedStage is int stage)
+      blowerTree.SetInt("currentStage", stage);
     var at = new BlockPos(
       blowerTree.GetInt("posx"),
       blowerTree.GetInt("posy"),

@@ -92,6 +92,8 @@ public class BlockEntityMpBlower : BlockEntity, IRenderer {
   /// sampled speed changed, so an idle blower costs no sync traffic.
   /// </summary>
   private void OnBlowTick(float dt) {
+    // Reading the port re-issues a spec saved by an older release, on an unfinished frame too.
+    _ = Port;
     if (!IsConstructed)
       return;
 
