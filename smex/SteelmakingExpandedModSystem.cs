@@ -19,10 +19,10 @@ namespace SteelmakingExpanded;
 /// <summary>
 /// Main mod system for Steelmaking Expanded. Auto-registers every block, block-entity, item
 /// and behavior class via <see cref="EntityRegistry"/>; adds the mod's creative tab; wires up
-/// global player-side effects (molten-mold burns and spills); registers the molten network
-/// type; applies the Harmony patches that extend the vanilla tool mold / mold rack / coal
-/// pile; and patches a few vanilla collectibles (coke crushing). The pipe network and all
-/// pipe/steam-power content now live in the Pipes and Power Expanded mod (ppex).
+/// global player-side effects (molten-mold burns and spills); applies the Harmony patches that
+/// extend the vanilla tool mold / mold rack / coal pile; and patches a few vanilla collectibles
+/// (coke crushing). The canals run on the "molten" network exlib Industry registers; pipe and
+/// steam-power content lives in Pipes and Power Expanded (ppex).
 /// </summary>
 public class SteelmakingExpandedModSystem : ModSystem {
   private Harmony? _harmony;
