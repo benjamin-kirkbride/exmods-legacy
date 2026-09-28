@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using ExpandedLib.Testing;
+using Legacy.Tests;
 
 namespace SteelmakingExpanded.Tests;
 
@@ -12,5 +13,6 @@ internal static class ModuleInit {
   internal static void Init() {
     VsAssemblyResolver.Register();
     TestLang.Init();
+    LegacyReleasedHistory.Register();
   }
 }

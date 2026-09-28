@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using ExpandedLib.Networks;
 using ExpandedLib.Testing;
+using Legacy.Tests;
 using PipesAndPowerExpanded.BlockNetworkPipe;
 using PipesAndPowerExpanded.BlockNetworkPipe.Blocks;
 using Vintagestory.API.Common;
@@ -13,6 +14,7 @@ internal static class ModuleInit {
   internal static void Init() {
     VsAssemblyResolver.Register();
     TestLang.Init();
+    LegacyReleasedHistory.Register();
   }
 }
 

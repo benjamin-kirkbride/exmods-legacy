@@ -33,4 +33,11 @@
       CopyToOutputDirectory="PreserveNewest"
     />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile
+      Include="$(MSBuildThisFileDirectory)LegacyReleasedHistory.cs"
+      Link="LegacyReleasedHistory.cs"
+    />
+  </ItemGroup>
 </Project>
