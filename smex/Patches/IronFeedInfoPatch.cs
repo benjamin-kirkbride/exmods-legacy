@@ -15,10 +15,19 @@ namespace SteelmakingExpanded.Patches;
 /// Hooked on the collectible rather than declared on the items, because the accepted feed includes
 /// crushed ores contributed by other mods (see <see cref="IronOreCompat"/>) that no asset patch of
 /// ours can reach. Vanilla's nugget item overrides this method but calls the base implementation,
-/// so nuggets are covered too.
+/// so nuggets are covered too. On 1.20, where <see cref="Item"/> does not override the method, the
+/// patch sits on <see cref="CollectibleObject"/>'s, which blocks share; no block code is an iron
+/// feed.
 /// </para>
 /// </summary>
+#if GAME_GE_1_21
 [HarmonyPatch(typeof(Item), nameof(Item.GetHeldItemInfo))]
+#else
+[HarmonyPatch(
+  typeof(CollectibleObject),
+  nameof(CollectibleObject.GetHeldItemInfo)
+)]
+#endif
 public static class IronFeedInfoPatch {
   [HarmonyPostfix]
   public static void AppendFurnaceYield(ItemSlot inSlot, StringBuilder dsc) {
