@@ -5,14 +5,18 @@ using ExpandedLib.Registries;
 namespace SteelmakingExpanded;
 
 /// <summary>
-/// The steelmaking recipe cost catalogue, written to <c>ModConfig/smex_recipes.json</c> alongside the
-/// main <c>smex_values.json</c>. Same shape and behaviour as ppex's catalogue: each entry names a grid recipe
+/// The steelmaking recipe cost catalogue, written to the <c>smex</c> section of
+/// <c>ModConfig/ex_recipes.json</c>, beside the tunables in <c>ex_values.json</c>. Same shape and behaviour as ppex's catalogue: each entry names a grid recipe
 /// (by output) or RCC construction (by block) to manage; the <c>normal</c> level is auto-filled from
 /// the recipes as authored, and the <c>cheap</c> level is scale-filled from it (then editable). The
 /// active level is chosen by <c>/exmod steel &lt;level&gt;</c> (stored in
 /// <see cref="SmexConfig.RecipeLevel"/>) and applied on the next world reload.
 /// </summary>
-[ExConfigRegister("smex_recipes.json", "smex")]
+[ExConfigRegister(
+  "ex_recipes.json",
+  "smex",
+  LegacyFileNames = new string[] { "smex_recipes.json" }
+)]
 public class SmexRecipeConfig : IExVersionedConfig {
   public string? ConfigVersion { get; set; }
 

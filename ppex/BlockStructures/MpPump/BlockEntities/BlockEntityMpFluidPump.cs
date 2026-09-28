@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using ExpandedLib;
 using ExpandedLib.Blocks;
 using ExpandedLib.Helpers;
 using ExpandedLib.Machines;
@@ -229,7 +230,7 @@ public class BlockEntityMpFluidPump : BlockEntity, IRenderer {
   private static float OutputFreeCapacity(PipeNetwork? net) =>
     net == null
       ? 0f
-      : net.Nodes.Count * PpexValues.LitresPerPipe - (net.State?.Volume ?? 0f);
+      : net.Nodes.Count * ExlibValues.LitresPerPipe - (net.State?.Volume ?? 0f);
 
   /// <summary>Updates the synced water-drawing flag, syncing to clients only on change.</summary>
   private void SetDrawing(bool drawing) {

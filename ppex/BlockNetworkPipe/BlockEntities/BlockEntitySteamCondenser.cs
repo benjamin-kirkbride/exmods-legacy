@@ -1,4 +1,5 @@
 using System;
+using ExpandedLib;
 using ExpandedLib.Helpers;
 using ExpandedLib.Machines;
 using ExpandedLib.Networks;
@@ -113,7 +114,7 @@ public class BlockEntitySteamCondenser : BlockEntity {
       float ventGas = steamNet!.TryConsumeGas(
         Math.Min(
           PpexValues.CondenserSteamPerSecond * dt,
-          PpexValues.GasLeakRate
+          ExlibValues.GasLeakRate
         ),
         ba
       );
@@ -151,7 +152,7 @@ public class BlockEntitySteamCondenser : BlockEntity {
     if (outNet == null) {
       float drained =
         inNet != null
-          ? inNet.TryConsumeLiquid(PpexValues.LiquidLeakRate * dt, ba)
+          ? inNet.TryConsumeLiquid(ExlibValues.LiquidLeakRate * dt, ba)
           : 0f;
       if (drained + condensed <= 0f)
         return false;
@@ -163,7 +164,7 @@ public class BlockEntitySteamCondenser : BlockEntity {
     // Reserve outlet space for the condensate first, then move as much through-flow as fits.
     float outFree = Math.Max(
       0f,
-      outNet.Nodes.Count * PpexValues.LitresPerPipe - LiquidVolumeOf(outNet)
+      outNet.Nodes.Count * ExlibValues.LitresPerPipe - LiquidVolumeOf(outNet)
     );
     float condIn = Math.Min(condensed, outFree);
     float passSpace = outFree - condIn;

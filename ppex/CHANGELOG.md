@@ -5,6 +5,23 @@ All notable changes to this mod are documented here. The format is based on
 [Semantic Versioning](https://semver.org/). For changes before this file existed,
 see the git history.
 
+## [Unreleased]
+
+### Changed
+
+- The config moves into the shared files: the tunables into the `ppex` section of
+  `ModConfig/ex_values.json`, the recipe costs into the `ppex` section of `ModConfig/ex_recipes.json`.
+  On first load `ppex_values.json` (or the older `ppex.json`) and `ppex_recipes.json` are folded in
+  with their values kept and renamed to `.migrated`. Back up first: an older ppex does not read the
+  new files.
+
+### Removed
+
+- The pipe tunables `LitresPerPipe`, `GasLeakRate`, `LiquidLeakRate`, `EvaporationLitresPerDay` and
+  `PipeOverpressureSeconds`. The pipe network reads them from the `exlib` section of
+  `ModConfig/ex_values.json`, with the same defaults. A value tuned in the old file is logged once at
+  load, naming the key.
+
 ## [0.6.9] - 2026-09-23
 
 ### Fixed

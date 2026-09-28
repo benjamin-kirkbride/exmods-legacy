@@ -5,18 +5,18 @@ namespace PipesAndPowerExpanded;
 
 /// <summary>
 /// JSON-serializable gameplay tunables for Pipes and Power Expanded. Loaded from (and written
-/// to) <c>ModConfig/ppex_values.json</c>; the property defaults below apply when the file is missing
-/// or a key is absent (and any NaN/infinite/negative value is reset to its default on load). Accessed
-/// through <see cref="PpexValues"/>, not directly.
+/// to) the <c>ppex</c> section of <c>ModConfig/ex_values.json</c>; the property defaults below apply
+/// when the section is missing or a key is absent (and any NaN/infinite/negative value is reset to
+/// its default on load). Accessed through <see cref="PpexValues"/>, not directly.
 /// <para>
 /// All gas/liquid volumes are in <b>litres</b> (matching vanilla liquid containers). Pressure is
 /// a dimensionless ratio (volume / capacity), expressed in atm.
 /// </para>
 /// </summary>
 [ExConfigRegister(
-  "ppex_values.json",
+  "ex_values.json",
   "ppex",
-  LegacyFileNames = new string[] { "ppex.json" },
+  LegacyFileNames = new string[] { "ppex_values.json", "ppex.json" },
   Manageable = true
 )]
 public class PpexConfig : IExVersionedConfig {
@@ -67,11 +67,9 @@ public class PpexConfig : IExVersionedConfig {
   ];
 
   #region Pipes
-  /// <summary>Litres a single pipe holds at 1 atm (both the gas and water pools).</summary>
-  [ExConfigRange(1, 1_000_000)] // pipe capacity divides pressure - must stay positive
-  public float LitresPerPipe { get; set; } = 30f;
-
-  /// <summary>Per-material pipe burst pressure (atm) - the weakest pipe limits a run.</summary>
+  /// <summary>Per-material pipe burst pressure (atm) - the weakest pipe limits a run. A pipe's
+  /// capacity, leak rates, evaporation and overpressure grace are exlib's (the <c>exlib</c> section
+  /// of <c>ex_values.json</c>).</summary>
   public float IronPipeBurstPressure { get; set; } = 5.0f;
   public float SteelPipeBurstPressure { get; set; } = 10.0f;
 
@@ -81,20 +79,6 @@ public class PpexConfig : IExVersionedConfig {
   /// <summary>Gas (L/s) a vanilla chimney draws from the network when capping the top
   /// connector of a passthrough / passthrough-bend / outlet block.</summary>
   public float ChimneyGasDrawRate { get; set; } = 16.0f;
-
-  /// <summary>Gas (L/s) bled per open-ended pipe connector (leak) - only the volume above
-  /// the network's 1 atm capacity is vented, so a leaking run can never build pressure.</summary>
-  public float GasLeakRate { get; set; } = 8.0f;
-
-  /// <summary>Seconds a pipe run may sit at its weakest pipe's burst pressure (nowhere to
-  /// vent) before a pipe lets go - mirrors the boiler over-pressure grace.</summary>
-  public float PipeOverpressureSeconds { get; set; } = 30f;
-
-  /// <summary>Liquid (L/s) drained from the network per open-ended pipe connector (leak).</summary>
-  public float LiquidLeakRate { get; set; } = 10.0f;
-
-  /// <summary>Water (L) lost to natural evaporation per in-game day (boiler pool and pipe water pool). 100 L over 2 days = 50 L/day.</summary>
-  public float EvaporationLitresPerDay { get; set; } = 50f;
   #endregion
 
   #region Steam
@@ -366,7 +350,7 @@ public class PpexConfig : IExVersionedConfig {
   #region Recipe balance
   /// <summary>Active steam-machine recipe cost level - <c>"normal"</c> or <c>"cheap"</c>. Toggled
   /// in-game by <c>/exmod steam &lt;level&gt;</c>; the per-recipe numbers live in the separate
-  /// <c>ppex_recipes.json</c> catalogue. Applied on the next world reload.</summary>
+  /// <c>ppex</c> section of <c>ex_recipes.json</c>. Applied on the next world reload.</summary>
   public string RecipeLevel { get; set; } = "normal";
   #endregion
 }

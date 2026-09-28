@@ -32,8 +32,8 @@ steel production chain on top of vanilla metalworking. Requires
 
 The in-game **handbook** ships five articles (overview, blast furnace, hot blast,
 casting, Bessemer) with full build costs and operating procedures. Gameplay tunables
-live in `ModConfig/smex_values.json` (see `SmexConfig.cs`), with recipe and
-construction costs in `ModConfig/smex_recipes.json`.
+live in the `smex` section of `ModConfig/ex_values.json` (see `SmexConfig.cs`),
+with recipe and construction costs in the `smex` section of `ModConfig/ex_recipes.json`.
 
 ## Code layout
 

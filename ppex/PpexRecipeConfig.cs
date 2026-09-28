@@ -5,15 +5,19 @@ using ExpandedLib.Registries;
 namespace PipesAndPowerExpanded;
 
 /// <summary>
-/// The steam-machine recipe cost catalogue, written to <c>ModConfig/ppex_recipes.json</c> alongside
-/// the main <c>ppex_values.json</c>. Each entry names a grid recipe (by output) or RCC construction (by
+/// The steam-machine recipe cost catalogue, written to the <c>ppex</c> section of
+/// <c>ModConfig/ex_recipes.json</c>, beside the tunables in <c>ex_values.json</c>. Each entry names a grid recipe (by output) or RCC construction (by
 /// block) to manage and its ingredient totals per cost level. The <c>normal</c> level is auto-filled
 /// from the recipes as authored on first run, and any level a recipe doesn't pin is filled by scaling
 /// <c>normal</c> (so the whole "cheap" tier appears as explicit, editable numbers). Players/admins can
 /// then set any specific number. The active level is chosen by <c>/exmod steam &lt;level&gt;</c>
 /// (stored in <see cref="PpexConfig.RecipeLevel"/>) and applied on the next world reload.
 /// </summary>
-[ExConfigRegister("ppex_recipes.json", "ppex")]
+[ExConfigRegister(
+  "ex_recipes.json",
+  "ppex",
+  LegacyFileNames = new string[] { "ppex_recipes.json" }
+)]
 public class PpexRecipeConfig : IExVersionedConfig {
   public string? ConfigVersion { get; set; }
 

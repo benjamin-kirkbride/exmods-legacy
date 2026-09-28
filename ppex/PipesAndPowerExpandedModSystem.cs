@@ -20,14 +20,16 @@ public class PipesAndPowerExpandedModSystem : ModSystem {
   private Harmony? _harmony;
 
   public override void Start(ICoreAPI api) {
-    // Load gameplay tunables from ModConfig/ppex_values.json (writes defaults on first run).
+    // Load gameplay tunables from the ppex section of ModConfig/ex_values.json (writes defaults
+    // on first run), after reporting the tuned pipe values that section does not carry.
+    PpexRemovedTunables.Report(api);
     PpexValues.Load(api);
     // Drive the exlib RCC salvage ratio for the engines/boilers from the (live) config.
     ExpandedLib.Blocks.ExRccSettings.RegisterBrokenDropsRatio(
       Mod.Info.ModID,
       () => PpexValues.RccBrokenDropsRatio
     );
-    // The steam-machine recipe cost catalogue (ppex_recipes.json).
+    // The steam-machine recipe cost catalogue (the ppex section of ex_recipes.json).
     PpexRecipeValues.Load(api);
     // Register this mod's recipe-cost profile so exlib's shared apply pass and the generic
     // /exmod recipes ppex <level> command can drive it (see ExRecipeProfiles).

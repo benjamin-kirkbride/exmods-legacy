@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ExpandedLib;
 using ExpandedLib.Networks;
 using ExpandedLib.Helpers;
 using ExpandedLib.Industry.Helpers;
@@ -22,7 +23,7 @@ public class PipeNetworkState {
   /// <summary>Content currently held by the network, in litres (gas or water).</summary>
   public float Volume { get; set; }
 
-  /// <summary>Maximum the network can hold at 1 atm (<see cref="PpexValues.LitresPerPipe"/> per pipe node).</summary>
+  /// <summary>Maximum the network can hold at 1 atm (<see cref="ExlibValues.LitresPerPipe"/> per pipe node).</summary>
   public float MaxVolume { get; set; }
 
   /// <summary>Temperature (°C) of the content, injected by the producing source.</summary>
@@ -182,7 +183,7 @@ public class PipeNetwork : BlockNetwork {
       && !PipeNetworkState.MediaCompatible(State.MediumType, gasType)
     )
       return false;
-    State.MaxVolume = Nodes.Count * PpexValues.LitresPerPipe;
+    State.MaxVolume = Nodes.Count * ExlibValues.LitresPerPipe;
 
     // The run can't be charged past the weakest pipe's burst rating, and a leaking run vents
     // anything over 1 atm - so clamp the producer's choke by both. bypassLeakCap lifts the
@@ -315,7 +316,7 @@ public class PipeNetwork : BlockNetwork {
       && !PipeNetworkState.MediaCompatible(State.MediumType, "Water")
     )
       return false;
-    State.MaxVolume = Nodes.Count * PpexValues.LitresPerPipe;
+    State.MaxVolume = Nodes.Count * ExlibValues.LitresPerPipe;
     // Record the pump's commanded pressure; it's realised as the run's pressure only once the
     // line is brim-full (below that the pressure tracks the fill ratio).
     State.FeedPressure = setPressure;
@@ -415,13 +416,13 @@ public class PipeNetwork : BlockNetwork {
 
     if (otherPipe.State == null) {
       if (State != null)
-        State.MaxVolume = Nodes.Count * PpexValues.LitresPerPipe;
+        State.MaxVolume = Nodes.Count * ExlibValues.LitresPerPipe;
       return;
     }
 
     if (State == null) {
       State = otherPipe.State;
-      State.MaxVolume = Nodes.Count * PpexValues.LitresPerPipe;
+      State.MaxVolume = Nodes.Count * ExlibValues.LitresPerPipe;
       State.Volume = Math.Min(
         State.Volume,
         PoolVolumeCeiling(State.IsLiquid, State.MaxVolume, world)
@@ -429,7 +430,7 @@ public class PipeNetwork : BlockNetwork {
       return;
     }
 
-    State.MaxVolume = Nodes.Count * PpexValues.LitresPerPipe;
+    State.MaxVolume = Nodes.Count * ExlibValues.LitresPerPipe;
 
     // Incompatible media (gas joined to water) can't blend - the larger run wins, the
     // smaller's content is discarded.
@@ -441,7 +442,7 @@ public class PipeNetwork : BlockNetwork {
     ) {
       if (otherPipe.State.Volume > State.Volume)
         State = otherPipe.State;
-      State.MaxVolume = Nodes.Count * PpexValues.LitresPerPipe;
+      State.MaxVolume = Nodes.Count * ExlibValues.LitresPerPipe;
       State.Volume = Math.Min(
         State.Volume,
         PoolVolumeCeiling(State.IsLiquid, State.MaxVolume, world)
@@ -510,7 +511,7 @@ public class PipeNetwork : BlockNetwork {
     }
 
     int origCount = Math.Max(1, original.Nodes.Count);
-    float maxVolume = Nodes.Count * PpexValues.LitresPerPipe;
+    float maxVolume = Nodes.Count * ExlibValues.LitresPerPipe;
     bool liquid = origPipe.State.IsLiquid;
     // Each fragment keeps its proportional share of the volume, which preserves the run's
     // pressure (a gas fragment may carry over-pressure, so cap at the burst ceiling, not 1 atm).
@@ -571,7 +572,7 @@ public class PipeNetwork : BlockNetwork {
     bool changed = false;
     bool liquid = State.IsLiquid;
 
-    State.MaxVolume = Nodes.Count * PpexValues.LitresPerPipe;
+    State.MaxVolume = Nodes.Count * ExlibValues.LitresPerPipe;
     // Gas pressure is the volume ratio; a liquid's is the fill ratio until brim-full, then the
     // pump-set feed pressure.
     float newPressure = liquid
@@ -595,10 +596,10 @@ public class PipeNetwork : BlockNetwork {
     // rate (NOT the opening count): gas wisps ramp over 1→8 L/s, water spray over 1→5 L/s.
     float gasLeakRate = Math.Min(
       Math.Max(0f, State.Volume - State.MaxVolume),
-      PpexValues.GasLeakRate
+      ExlibValues.GasLeakRate
     );
     float gasLeakFrac = Math.Clamp(
-      (gasLeakRate - 1f) / (PpexValues.GasLeakRate - 1f),
+      (gasLeakRate - 1f) / (ExlibValues.GasLeakRate - 1f),
       0f,
       4f
     );
@@ -717,12 +718,12 @@ public class PipeNetwork : BlockNetwork {
     // count, so bulk venting needs a chimney/stack); a water leak drains at a fixed rate.
     if (totalLeaks > 0 && State.Volume > 0f) {
       if (liquid) {
-        float lost = Math.Min(State.Volume, PpexValues.LiquidLeakRate * dt);
+        float lost = Math.Min(State.Volume, ExlibValues.LiquidLeakRate * dt);
         State.Volume -= lost;
         if (State.Volume <= 0f)
           State.Pressure = 0f;
       } else {
-        float lost = Math.Min(State.Volume, PpexValues.GasLeakRate);
+        float lost = Math.Min(State.Volume, ExlibValues.GasLeakRate);
         State.Volume -= lost;
         if (State.Temperature > 20f)
           State.Temperature = Math.Max(20f, State.Temperature - 5.0f);
@@ -736,7 +737,7 @@ public class PipeNetwork : BlockNetwork {
     if (nowDays >= 0) {
       if (liquid && _lastEvapDays >= 0 && State.Volume > 0f) {
         float evap = (float)(
-          PpexValues.EvaporationLitresPerDay * (nowDays - _lastEvapDays)
+          ExlibValues.EvaporationLitresPerDay * (nowDays - _lastEvapDays)
         );
         if (evap > 0f) {
           State.Volume = Math.Max(0f, State.Volume - evap);
@@ -791,7 +792,7 @@ public class PipeNetwork : BlockNetwork {
 
       if (overPressure) {
         _overpressureSeconds += dt;
-        if (_overpressureSeconds >= PpexValues.PipeOverpressureSeconds) {
+        if (_overpressureSeconds >= ExlibValues.PipeOverpressureSeconds) {
           pressureFailure = true;
           _overpressureSeconds = 0f;
         }

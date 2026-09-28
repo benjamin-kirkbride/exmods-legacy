@@ -1,4 +1,5 @@
 using System;
+using ExpandedLib;
 using ExpandedLib.Blocks;
 using ExpandedLib.Helpers;
 using ExpandedLib.Machines;
@@ -506,7 +507,7 @@ public abstract class BlockEntityBoiler : BlockEntityMultiblockMachine {
     var st = steamNet.State;
     float netVolume = st?.Volume ?? 0f;
     float netMaxVolume =
-      st?.MaxVolume ?? steamNet.Nodes.Count * PpexValues.LitresPerPipe;
+      st?.MaxVolume ?? steamNet.Nodes.Count * ExlibValues.LitresPerPipe;
     if (netMaxVolume <= 0f)
       return false;
 
@@ -592,7 +593,7 @@ public abstract class BlockEntityBoiler : BlockEntityMultiblockMachine {
       return;
     if (_lastEvapDays >= 0 && _waterVolume > 0f) {
       float evap = (float)(
-        PpexValues.EvaporationLitresPerDay * (nowDays - _lastEvapDays)
+        ExlibValues.EvaporationLitresPerDay * (nowDays - _lastEvapDays)
       );
       if (evap > 0f)
         _waterVolume = Math.Max(0f, _waterVolume - evap);

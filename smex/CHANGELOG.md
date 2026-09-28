@@ -5,6 +5,16 @@ All notable changes to this mod are documented here. The format is based on
 [Semantic Versioning](https://semver.org/). For changes before this file existed,
 see the git history.
 
+## [Unreleased]
+
+### Changed
+
+- The config moves into the shared files: the tunables into the `smex` section of
+  `ModConfig/ex_values.json`, the recipe costs into the `smex` section of `ModConfig/ex_recipes.json`.
+  On first load `smex_values.json` (or the older `smex.json`) and `smex_recipes.json` are folded in
+  with their values kept and renamed to `.migrated`. Back up first: an older smex does not read the
+  new files.
+
 ## [0.9.9] - 2026-09-23
 
 Requires Pipes and Power Expanded 0.6.9, which fixes the same crash on its mechanical fluid pump.

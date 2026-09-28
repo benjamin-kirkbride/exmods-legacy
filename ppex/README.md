@@ -31,8 +31,9 @@ a hard dependency of [Steelmaking Expanded](../SteelmakingExpanded/README.md).
   devices over a fluid intake, and both fill a boiler whose fire is out.
 
 In-game **handbook articles** (`Steam Power: …`) cover build costs, operating steps and
-failure modes; all gameplay numbers live in `ModConfig/ppex_values.json` (see `PpexConfig.cs`),
-with recipe and construction costs in `ModConfig/ppex_recipes.json`.
+failure modes; all gameplay numbers live in the `ppex` section of `ModConfig/ex_values.json` (see
+`PpexConfig.cs`), with recipe and construction costs in the `ppex` section of
+`ModConfig/ex_recipes.json`.
 
 ## Code layout
 

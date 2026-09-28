@@ -1,4 +1,5 @@
 using System.Text;
+using ExpandedLib;
 using ExpandedLib.Helpers;
 using ExpandedLib.Industry.Helpers;
 using ExpandedLib.Industry.MechanicalPower;
@@ -156,7 +157,7 @@ public class BlockEntityCowperStove : BlockEntityMultiblockMachine {
 
     string newStatus = Lang.Get("smex:cowperstove-status-idle");
 
-    if (isReceivingExhaust && passthroughVol > PpexValues.LitresPerPipe) {
+    if (isReceivingExhaust && passthroughVol > ExlibValues.LitresPerPipe) {
       // Air and exhaust both present. Closing the air valve cuts its supply but leaves the gas
       // already in the passthrough stranded there - and a pressurised run holds well over one pipe's
       // worth - which used to latch the stove in "mixing" forever and refuse to charge. Vent that
