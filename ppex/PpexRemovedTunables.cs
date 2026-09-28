@@ -11,10 +11,10 @@ using Vintagestory.API.Config;
 namespace PipesAndPowerExpanded;
 
 /// <summary>
-/// Pipe tunables that published ppex configs hold and <see cref="PpexConfig"/> does not. The pipe
+/// Pipe tunables a ppex config file can hold that <see cref="PpexConfig"/> does not carry. The pipe
 /// network and the machines read exlib's copies, in the <c>exlib</c> section of
-/// <c>ModConfig/ex_values.json</c>, which iiex shares, so a value tuned in ppex's config is not
-/// carried over.
+/// <c>ModConfig/ex_values.json</c>, which iiex shares, so a value tuned in ppex's config has no
+/// effect.
 /// </summary>
 public static class PpexRemovedTunables {
   /// <summary>Each removed key with the default it had in ppex, which equals exlib's default.</summary>
