@@ -1,7 +1,6 @@
-using ExpandedLib.Industry.Molten;
-using ExpandedLib.Networks;
 using ExpandedLib.Helpers;
 using ExpandedLib.Industry.MechanicalPower;
+using ExpandedLib.Industry.Molten;
 using ExpandedLib.Registries;
 using HarmonyLib;
 using SteelmakingExpanded.BlockNetworkMolten.Blocks;
@@ -197,13 +196,6 @@ public class SteelmakingExpandedModSystem : ModSystem {
     // Auto-register every [BlockRegister]/[ItemRegister]/[BlockEntityRegister]/etc. block / item / behavior
     // declared in this assembly.
     EntityRegistry.RegisterAll(api, Mod, GetType().Assembly);
-
-    // The molten-metal network. The unified "pipe" network is registered by ppex.
-    var netManager = api.ModLoader.GetModSystem<BlockNetworkModSystem>();
-    netManager.RegisterNetworkType(
-      "molten",
-      () => new MoltenNetwork(netManager)
-    );
   }
 
   #endregion
