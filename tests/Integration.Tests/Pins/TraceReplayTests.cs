@@ -139,7 +139,7 @@ public class TraceReplayTests {
     ["pipe-chimney"] = () =>
       Pipe.A_chimney_over_a_passthrough_draws_sixteen_litres_a_second(),
     ["pipe-standing-steam"] = () =>
-      Pipe.Steam_standing_a_minute_in_a_ten_pipe_run_keeps_its_temperature(),
+      Pipe.Steam_standing_a_minute_in_a_ten_pipe_run_cools_to_30(),
     ["pipe-throughput-water-250"] = () =>
       Diff.Two_hundred_fifty_litres_of_water_a_second_cross_a_ten_pipe_run(),
     ["pipe-chimney-outlet"] = () =>

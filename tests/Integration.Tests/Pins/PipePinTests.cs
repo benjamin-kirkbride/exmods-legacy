@@ -5,7 +5,7 @@ namespace Integration.Tests.Pins;
 
 /// <summary>
 /// The pipe network's limits on the published ppex, as exact numbers: burst ratings, capacity,
-/// throughput, leaks, chimney draw, the burst timer and the temperature of standing steam. Each
+/// throughput, leaks, chimney draw, the burst timer and the cooling of standing steam. Each
 /// scene also records its trace.
 /// </summary>
 public class PipePinTests {
@@ -120,6 +120,11 @@ public class PipePinTests {
 
   #region Leaks
 
+  /// <summary>
+  /// Steam at 150 C leaks 8 L a second from one or two open ends. The run also takes Industry's
+  /// passive gas cooling, 2 C a second toward 20 C, on top of what the leak loses: 143 C after the
+  /// first second and 80 C after ten.
+  /// </summary>
   [Theory]
   [InlineData(1)]
   [InlineData(2)]
@@ -144,9 +149,9 @@ public class PipePinTests {
     trace.Save();
 
     Assert.Equal(192f, volumeAfterOne, Trace.VolumeDigits);
-    Assert.Equal(145f, tempAfterOne, Trace.TemperatureDigits);
+    Assert.Equal(143f, tempAfterOne, Trace.TemperatureDigits);
     Assert.Equal(120f, line.Net.State!.Volume, Trace.VolumeDigits);
-    Assert.Equal(100f, line.Net.State.Temperature, Trace.TemperatureDigits);
+    Assert.Equal(80f, line.Net.State.Temperature, Trace.TemperatureDigits);
   }
 
   [Fact]
@@ -197,8 +202,12 @@ public class PipePinTests {
 
   #region Standing steam
 
+  /// <summary>
+  /// 300 L of steam at 150 C standing a minute in a sealed ten-pipe run keeps its volume and takes
+  /// Industry's passive gas cooling, 2 C a second toward 20 C: 30 C after the minute.
+  /// </summary>
   [Fact]
-  public void Steam_standing_a_minute_in_a_ten_pipe_run_keeps_its_temperature() {
+  public void Steam_standing_a_minute_in_a_ten_pipe_run_cools_to_30() {
     var line = PipeLine.Of(Length);
     var trace = new Trace("pipe-standing-steam");
     line.Net.TryProduceGas(300f, 150f, "Steam", line.Scene.World.Accessor);
@@ -210,7 +219,7 @@ public class PipePinTests {
     }
     trace.Save();
 
-    Assert.Equal(150f, line.Net.State!.Temperature, Trace.TemperatureDigits);
+    Assert.Equal(30f, line.Net.State!.Temperature, Trace.TemperatureDigits);
     Assert.Equal(300f, line.Net.State.Volume, Trace.VolumeDigits);
   }
 

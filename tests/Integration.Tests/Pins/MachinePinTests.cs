@@ -33,6 +33,11 @@ namespace Integration.Tests.Pins;
 public class MachinePinTests {
   #region Cowper stove
 
+  /// <summary>
+  /// Exhaust fed at 900 C through five pipes heats a complete cowper core from 21.1 C after the
+  /// first second to 79.45 C after a minute. The exhaust standing in the run takes Industry's passive
+  /// gas cooling, 2 C a second toward 20 C, so the stove heats from gas below 900 C.
+  /// </summary>
   [Fact]
   public void Exhaust_at_900_through_five_pipes_heats_a_cowper_core_to_80_in_a_minute() {
     var scene = new Scene().Network("pipe", s => new PipeNetwork(s));
@@ -79,7 +84,7 @@ public class MachinePinTests {
     trace.Save();
 
     Assert.Equal(21.1f, afterOne, Trace.TemperatureDigits);
-    Assert.Equal(80.1f, Core(stove), Trace.TemperatureDigits);
+    Assert.Equal(79.45f, Core(stove), 2);
   }
 
   private static float Core(BlockEntityCowperStove stove) =>
