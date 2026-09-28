@@ -7,7 +7,6 @@ using ExpandedLib.Industry.MechanicalPower;
 using ExpandedLib.Structures;
 using ExpandedLib.Industry.Helpers;
 using PipesAndPowerExpanded.BlockNetworkPipe;
-using PipesAndPowerExpanded.Helpers;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
@@ -27,7 +26,7 @@ namespace PipesAndPowerExpanded.BlockStructures.Boiler;
 /// completeness, projection and tick scheduling live in the multiblock base. Per-variant
 /// stats are supplied through the virtual hooks below.
 /// </summary>
-public abstract class BlockEntityBoiler : BlockEntityMultiblockStructure {
+public abstract class BlockEntityBoiler : BlockEntityMultiblockMachine {
   private BEBehaviorAnimatable? _animatable;
   private ExRightClickConstructable? _rcc;
   private bool _animatorReady;
@@ -324,7 +323,7 @@ public abstract class BlockEntityBoiler : BlockEntityMultiblockStructure {
 
     PipeNetwork? exhaustNet =
       BoilerBlock != null
-        ? NetworkAt<PipeNetwork>(BoilerBlock.ExhaustOutletWorldPos(Pos))
+        ? this.NetworkAt<PipeNetwork>(BoilerBlock.ExhaustOutletWorldPos(Pos))
         : null;
     bool draughtBlocked =
       (exhaustNet?.State?.Pressure ?? 0f)
@@ -342,7 +341,7 @@ public abstract class BlockEntityBoiler : BlockEntityMultiblockStructure {
       _choked = false;
     }
 
-    PipeNetwork? waterNet = ConnectedNetwork<PipeNetwork>(BlockFacing.DOWN);
+    PipeNetwork? waterNet = this.ConnectedNetwork<PipeNetwork>(BlockFacing.DOWN);
     if (waterNet != null && _waterVolume < MaxWaterIntakeFill) {
       float feedPressure = waterNet.State?.Pressure ?? 0f;
       // Cap the draw at the intake rate so a piped supply trickles in (≤10 L/s) instead of
@@ -498,7 +497,7 @@ public abstract class BlockEntityBoiler : BlockEntityMultiblockStructure {
       return leaked > 0f;
     }
 
-    PipeNetwork? steamNet = NetworkAt<PipeNetwork>(pipePos);
+    PipeNetwork? steamNet = this.NetworkAt<PipeNetwork>(pipePos);
     if (steamNet == null)
       return false;
 

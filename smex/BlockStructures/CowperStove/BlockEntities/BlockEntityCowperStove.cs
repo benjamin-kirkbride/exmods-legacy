@@ -1,13 +1,15 @@
 using System.Text;
-using ExpandedLib.Networks;
-using ExpandedLib.Industry.MechanicalPower;
-using ExpandedLib.Structures;
 using ExpandedLib.Helpers;
 using ExpandedLib.Industry.Helpers;
+using ExpandedLib.Industry.MechanicalPower;
+using ExpandedLib.Machines;
+using ExpandedLib.Networks;
 using ExpandedLib.Registries;
+using ExpandedLib.Structures;
 using PipesAndPowerExpanded;
 using PipesAndPowerExpanded.BlockNetworkPipe;
 using PipesAndPowerExpanded.BlockNetworkPipe.BlockEntities;
+using PipesAndPowerExpanded.Helpers;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.API.Datastructures;
@@ -23,7 +25,7 @@ namespace SteelmakingExpanded.BlockStructures.CowperStove.BlockEntities;
 /// boosts the blast furnace.
 /// </summary>
 [BlockEntityRegister]
-public class BlockEntityCowperStove : BlockEntityMultiblockStructure {
+public class BlockEntityCowperStove : BlockEntityMultiblockMachine {
   private BlockFacing _connectorFace = BlockFacing.SOUTH;
   private float _internalTemperature = 20f;
   private string _lastStatus = Lang.Get("smex:cowperstove-status-idle");
@@ -104,7 +106,7 @@ public class BlockEntityCowperStove : BlockEntityMultiblockStructure {
     var consumedExhaustVol = 0f;
     float inputExhaustTemp = _ambientTemperature;
     bool isReceivingExhaust = false;
-    if (ConnectedNetwork<PipeNetwork>(_connectorFace) is { } exhaustNet) {
+    if (this.ConnectedNetwork<PipeNetwork>(_connectorFace) is { } exhaustNet) {
       inputExhaustTemp = exhaustNet.State?.Temperature ?? _ambientTemperature;
       consumedExhaustVol = exhaustNet.TryConsumeGas(
         _intakeVolume,

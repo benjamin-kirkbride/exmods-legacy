@@ -30,7 +30,7 @@ namespace SteelmakingExpanded.BlockStructures.Converter.BlockEntities;
 /// resolving their structure-local offsets through <see cref="GetGlobalPos"/>.
 /// </summary>
 [BlockEntityRegister]
-public class BlockEntityConverterControl : BlockEntityMultiblockStructure {
+public class BlockEntityConverterControl : BlockEntityMultiblockMachine {
   #region Structure-local peripheral offsets
   private static readonly (int x, int y, int z) TransmissionLocal = (0, -1, 0);
   private static readonly (int x, int y, int z) ConverterLocal = (0, 0, 2);

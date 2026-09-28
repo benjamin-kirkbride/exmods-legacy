@@ -402,7 +402,7 @@ public abstract class BlockEngine
     }
 
     be.Repair();
-    ExSounds.PlayAt(world, be.Pos, ExSounds.MePostHit, byPlayer);
+    ExSounds.PlayAt(world, be.Pos, ExSounds.HeavyMetalHit, byPlayer);
     player?.SendMessage(
       GlobalConstants.CurrentChatGroup,
       Lang.Get("ppex:engine-repaired"),

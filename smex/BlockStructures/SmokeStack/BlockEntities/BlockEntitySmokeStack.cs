@@ -7,7 +7,6 @@ using ExpandedLib.Helpers;
 using ExpandedLib.Industry.Helpers;
 using ExpandedLib.Registries;
 using PipesAndPowerExpanded.BlockNetworkPipe;
-using PipesAndPowerExpanded.Helpers;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.API.Datastructures;
@@ -22,7 +21,7 @@ namespace SteelmakingExpanded.BlockStructures.SmokeStack.BlockEntities;
 /// </summary>
 [BlockEntityRegister]
 public class BlockEntitySmokeStack
-  : BlockEntityMultiblockStructure,
+  : BlockEntityMultiblockMachine,
     INetworkNode,
     IPipeNode {
   private float _lastConsumedAmount;
@@ -34,7 +33,7 @@ public class BlockEntitySmokeStack
     _system = api.ModLoader.GetModSystem<BlockNetworkModSystem>();
 
     // Register this position in the gas graph. BlockEntityNetworkNode would do this automatically,
-    // but this class inherits from BlockEntityMultiblockStructure, so do it explicitly.
+    // but this class inherits from BlockEntityMultiblockMachine, so do it explicitly.
     if (api.Side == EnumAppSide.Server && _system.GetNetworkAt(Pos) == null)
       _system.AddNode(api.World.BlockAccessor, Pos, "pipe");
   }
@@ -63,6 +62,10 @@ public class BlockEntitySmokeStack
 
   /// <inheritdoc/>
   public void OnOpenConnectorsChanged(BlockFacing[] openFaces) { }
+
+  /// <summary>Does nothing: the stack vents what it draws through <see cref="TryConsume"/>, so an
+  /// open face on its run shows no leak here.</summary>
+  public void OnLeak(BlockFacing[] leakingFaces, bool isLiquid, float intensity) { }
 
   /// <summary>No-op: the stack reads the network API directly and caches no local state.</summary>
   public void OnNetworkUpdate(object? state) { }

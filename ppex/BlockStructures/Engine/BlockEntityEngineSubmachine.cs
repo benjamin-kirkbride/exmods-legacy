@@ -6,7 +6,6 @@ using ExpandedLib.Networks;
 using ExpandedLib.Industry.Helpers;
 using ExpandedLib.Industry.MechanicalPower;
 using PipesAndPowerExpanded.BlockNetworkPipe;
-using PipesAndPowerExpanded.Helpers;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;

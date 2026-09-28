@@ -74,11 +74,6 @@ public class PipesAndPowerExpandedModSystem : ModSystem {
   #region Creative category
   public override void StartClientSide(ICoreClientAPI api) {
     ExCreativeTabs.EnsureTab(Mod.Info.ModID);
-
-    // Registers ppex's display preferences (the metric/imperial unit system) into the library's
-    // shared store, then build their .exmod sub-commands. exlib loads/persists/applies the values.
-    PreferenceRegistry.RegisterAll(api, Mod, GetType().Assembly);
-    CommandRegistry.RegisterAll(api, Mod, GetType().Assembly);
     // The recipe cost level is applied centrally by exlib (ExRecipeProfiles) on both sides.
   }
   #endregion

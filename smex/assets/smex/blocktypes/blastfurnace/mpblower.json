@@ -142,9 +142,9 @@
         "allowAttach": true,
         "behaviors": [
           {
-            "code": "exlib.BEBehaviorMPFillerPort",
+            "code": "smex.BEBehaviorMpBlowerPort",
             "face": "east",
-            "properties": { "resistance": 0.05 }
+            "properties": { "resistance": 0.05, "through": false }
           }
         ]
       },

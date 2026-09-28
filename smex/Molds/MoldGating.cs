@@ -3,6 +3,7 @@ using ExpandedLib.Helpers;
 using ExpandedLib.Industry.Helpers;
 using ExpandedLib.Industry.MechanicalPower;
 using Vintagestory.API.Common;
+using Vintagestory.GameContent;
 
 namespace SteelmakingExpanded.Molds;
 
@@ -82,7 +83,7 @@ public static class MoldGating {
       if (IsEnabled(key))
         continue;
 
-      int removed = ExContentGate.RemoveClayformingRecipes(
+      int removed = RemoveClayformingRecipes(
         api,
         code => code.Domain == "smex" && code.Path.Contains("raw-" + toolType)
       );
@@ -101,4 +102,13 @@ public static class MoldGating {
       );
     }
   }
+
+  /// <summary>Removes every clay-forming recipe whose output code matches
+  /// <paramref name="outputMatch"/>; returns the count removed.</summary>
+  private static int RemoveClayformingRecipes(
+    ICoreAPI api,
+    System.Func<AssetLocation, bool> outputMatch
+  ) =>
+    api.GetClayformingRecipes()
+      .RemoveAll(r => r.Output?.Code is { } c && outputMatch(c));
 }

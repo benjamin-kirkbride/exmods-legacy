@@ -1,12 +1,13 @@
 using System;
 using ExpandedLib.Helpers;
-using ExpandedLib.Machines;
-using ExpandedLib.Networks;
 using ExpandedLib.Industry.Helpers;
 using ExpandedLib.Industry.MechanicalPower;
+using ExpandedLib.Machines;
+using ExpandedLib.Networks;
 using ExpandedLib.Registries;
 using PipesAndPowerExpanded.BlockNetworkPipe;
 using PipesAndPowerExpanded.BlockNetworkPipe.BlockEntities;
+using PipesAndPowerExpanded.Helpers;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Datastructures;

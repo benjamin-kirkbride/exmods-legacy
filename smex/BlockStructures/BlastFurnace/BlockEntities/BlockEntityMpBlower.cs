@@ -115,7 +115,7 @@ public class BlockEntityMpBlower : BlockEntity, IRenderer {
   /// stopping, and <see cref="SmexValues.MpBlowerMaxPressure"/> is only the seal's own limit.
   /// </summary>
   private void UpdateShaftLoad() =>
-    Port?.SetLoad(ShaftLoadAt(BlastNetwork()?.State?.Pressure ?? 0f));
+    (Port as BEBehaviorMpBlowerPort)?.SetLoad(ShaftLoadAt(BlastNetwork()?.State?.Pressure ?? 0f));
 
   /// <summary>
   /// Shaft load at <paramref name="pressure"/> atm of back-pressure. Public so the balance can be
@@ -195,13 +195,49 @@ public class BlockEntityMpBlower : BlockEntity, IRenderer {
       : null;
   }
 
-  /// <summary>The mechanical-power port hosted on the footprint cell, or null when it is absent.</summary>
-  private BEBehaviorMPFillerPort? Port =>
-    BlowerBlock is { } block
-      ? Api
-        ?.World?.BlockAccessor?.GetBlockEntity(block.MpPortWorldPos(Pos))
-        ?.GetBehavior<BEBehaviorMPFillerPort>()
-      : null;
+  /// <summary>
+  /// The mechanical-power port hosted on the footprint cell, or null while that cell is absent or
+  /// unloaded. On the server, a port cell of this blower that hosts no
+  /// <see cref="BEBehaviorMpBlowerPort"/> (one saved by an older release) is first re-issued its
+  /// spec from the block's current <c>fillerOffsets</c>.
+  /// </summary>
+  private BEBehaviorMPFillerPort? Port {
+    get {
+      if (
+        BlowerBlock is not { } block
+        || Api?.World?.BlockAccessor?.GetBlockEntity(block.MpPortWorldPos(Pos))
+          is not BlockEntityStructureFiller filler
+      )
+        return null;
+      if (
+        Api.Side == EnumAppSide.Server
+        && filler.GetBehavior<BEBehaviorMpBlowerPort>() == null
+        && Pos.Equals(filler.Principal)
+      )
+        ReissuePortSpec(block, filler);
+      return filler.GetBehavior<BEBehaviorMPFillerPort>();
+    }
+  }
+
+  /// <summary>Replaces the hosted behaviours of <paramref name="filler"/> with the ones the block's
+  /// footprint declares for that cell; the replaced behaviours are removed from their networks.</summary>
+  private void ReissuePortSpec(
+    BlockMpBlower block,
+    BlockEntityStructureFiller filler
+  ) {
+    foreach (
+      FillerCell cell in StructureFillers.FootprintCells(
+        block,
+        Pos,
+        block.StructureAngle
+      )
+    ) {
+      if (cell.Pos.Equals(filler.Pos)) {
+        filler.SetHostedBehaviors(cell.Behaviors);
+        return;
+      }
+    }
+  }
 
   /// <summary>The driving axle's speed, or 0 when no axle is coupled to the port cell.</summary>
   private float PortSpeed() => Port is { IsTurning: true } p ? p.Speed : 0f;

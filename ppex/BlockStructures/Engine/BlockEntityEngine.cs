@@ -9,7 +9,6 @@ using ExpandedLib.Industry.Helpers;
 using ExpandedLib.Industry.MechanicalPower;
 using PipesAndPowerExpanded.BlockNetworkPipe;
 using PipesAndPowerExpanded.BlockStructures.Engine.BlockEntities;
-using PipesAndPowerExpanded.Helpers;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
@@ -284,7 +283,7 @@ public abstract class BlockEntityEngine : BlockEntityProductionMachine {
       return;
     }
 
-    var inlet = ConnectedNetwork<PipeNetwork>(EngineBlock.SteamInletFace);
+    var inlet = this.ConnectedNetwork<PipeNetwork>(EngineBlock.SteamInletFace);
     float pressure =
       inlet?.State?.MediumType == "Steam" ? inlet.State.Pressure : 0f;
     InletPressure = pressure;
@@ -340,7 +339,7 @@ public abstract class BlockEntityEngine : BlockEntityProductionMachine {
   /// pressure - only the pump pressurises water); anything it cannot hold backs up and is lost.
   /// </summary>
   private void OutputCondensate(float amount, IBlockAccessor ba) {
-    var outNet = ConnectedNetwork<PipeNetwork>(EngineBlock!.WaterOutletFace);
+    var outNet = this.ConnectedNetwork<PipeNetwork>(EngineBlock!.WaterOutletFace);
     if (OutletSpills(outNet)) {
       SpawnWaterSpill();
       return;

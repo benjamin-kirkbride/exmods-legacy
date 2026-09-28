@@ -24,7 +24,7 @@ namespace SteelmakingExpanded.BlockStructures.BlastFurnace.BlockEntities;
 /// through the gas outlets, accumulates molten iron and slag, and feeds the taps.
 /// </summary>
 [BlockEntityRegister]
-public class BlockEntityBlastFurnace : BlockEntityMultiblockStructure {
+public class BlockEntityBlastFurnace : BlockEntityMultiblockMachine {
   /// <summary>Whether the exhaust network is full, stalling production.</summary>
   public bool IsChoked { get; private set; }
 

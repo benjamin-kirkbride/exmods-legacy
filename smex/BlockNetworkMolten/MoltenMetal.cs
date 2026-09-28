@@ -1,4 +1,4 @@
-using PipesAndPowerExpanded.Helpers;
+using ExpandedLib.Helpers;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.API.Datastructures;

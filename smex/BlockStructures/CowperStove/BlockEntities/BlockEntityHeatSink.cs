@@ -1,6 +1,6 @@
 using System.Text;
+using ExpandedLib.Helpers;
 using ExpandedLib.Registries;
-using PipesAndPowerExpanded.Helpers;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
