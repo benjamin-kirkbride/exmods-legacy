@@ -7,7 +7,6 @@ repository or the family's (iiex, siex) central package management and version m
 
 | Path             | modid   | Version | What it is                                                      |
 | ---------------- | ------- | ------- | ---------------------------------------------------------------- |
-| `exlib/`         | `exlib` | 0.7.2   | Shared framework: block networks, multiblock structures, registries, save migrations. |
 | `ppex/`          | `ppex`  | 0.6.9   | Pipe networks (gas + water), boilers, steam engines and their sub-machines. |
 | `smex/`          | `smex`  | 0.9.9   | Blast furnace, cowper stoves, molten-metal canals and casting, Bessemer converter. |
 | `generators/`    | -       | -       | Roslyn source generators the mods use at compile time (config accessors, block-attribute bakers). |

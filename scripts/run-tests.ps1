@@ -25,7 +25,7 @@ $repoRoot = Resolve-Path (Join-Path $PSScriptRoot '..')
 
 # version -> game TFM. net10 (1.22) is the current/primary; the rest are legacy (need -p:Legacy=true).
 $tfms = [ordered]@{ '1.22' = 'net10.0'; '1.21' = 'net8.0'; '1.20' = 'net7.0' }
-$projects = @('ExpandedLib.Tests', 'PipesAndPowerExpanded.Tests', 'SteelmakingExpanded.Tests', 'Integration.Tests')
+$projects = @('PipesAndPowerExpanded.Tests', 'SteelmakingExpanded.Tests', 'Integration.Tests')
 
 $wanted = switch ($Version) {
     'latest' { @('1.22') }

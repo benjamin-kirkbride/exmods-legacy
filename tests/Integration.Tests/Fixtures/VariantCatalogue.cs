@@ -10,8 +10,8 @@ using Xunit;
 namespace Integration.Tests;
 
 /// <summary>
-/// Every block and item code registered by the game version under test and the three published
-/// mods, expanded from their JSON definitions: the game's own under the install's <c>assets</c>
+/// Every block and item code registered by the game version under test and by ppex and smex,
+/// expanded from their JSON definitions: the game's own under the install's <c>assets</c>
 /// folder, the mods' from the repository. Variant groups load their states and
 /// <c>loadFromProperties</c> lists; a definition's <c>allowedVariants</c> and <c>skipVariants</c>
 /// apply. Loaded once per test run.
@@ -39,7 +39,7 @@ internal sealed class VariantCatalogue {
       Path.Combine(assets, "survival"),
       Path.Combine(assets, "creative"),
     ];
-    foreach (string mod in new[] { "exlib", "ppex", "smex" })
+    foreach (string mod in new[] { "ppex", "smex" })
       _roots[mod] = [Path.Combine(repo, mod, "assets", mod)];
 
     foreach ((string domain, string[] dirs) in _roots)

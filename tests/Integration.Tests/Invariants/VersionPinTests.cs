@@ -6,9 +6,10 @@ using Xunit;
 namespace Integration.Tests;
 
 /// <summary>
-/// Binds the published-facing docs to the three mods' own <c>modinfo.json</c>: 0.6.9/0.9.9 sat in
-/// three of these pages until the R1 audit found them by hand, because no check read these pages
-/// and nothing else read these version strings back.
+/// Binds the published-facing docs to ppex's and smex's own <c>modinfo.json</c> and to the exlib
+/// version ppex's modinfo depends on: 0.6.9/0.9.9 sat in three of these pages until the R1 audit
+/// found them by hand, because no check read these pages and nothing else read these version
+/// strings back.
 /// </summary>
 public class VersionPinTests {
   // Which mods' current version each published page is expected to name. ppex's and smex's own
@@ -22,12 +23,18 @@ public class VersionPinTests {
     (Path.Combine("docs", "moddb-notes.md"), ["exlib", "ppex", "smex"]),
   ];
 
+  // "exlib" stands for the exlib version ppex's modinfo depends on; exlib is not in this tree.
   private static string Version(string modDir) {
+    bool exlib = modDir == "exlib";
     string text = File.ReadAllText(
-      Path.Combine(RepoRoot(), modDir, "modinfo.json")
+      Path.Combine(RepoRoot(), exlib ? "ppex" : modDir, "modinfo.json")
     );
-    Match m = Regex.Match(text, @"""version""\s*:\s*""([^""]+)""");
-    Assert.True(m.Success, $"{modDir}/modinfo.json names no \"version\".");
+    string key = exlib ? "exlib" : "version";
+    Match m = Regex.Match(text, $@"""{key}""\s*:\s*""([^""]+)""");
+    Assert.True(
+      m.Success,
+      $"{(exlib ? "ppex" : modDir)}/modinfo.json names no \"{key}\"."
+    );
     return m.Groups[1].Value;
   }
 
@@ -49,7 +56,7 @@ public class VersionPinTests {
     string text = File.ReadAllText(Path.Combine(RepoRoot(), page));
     Assert.True(
       text.Contains(version, StringComparison.Ordinal),
-      $"{page} does not name {modDir}'s current version ({version}, from {modDir}/modinfo.json)."
+      $"{page} does not name {modDir}'s current version ({version})."
     );
   }
 

@@ -9,7 +9,7 @@ using Xunit;
 namespace Integration.Tests;
 
 /// <summary>
-/// Parses every JSON asset the three mods ship. The game loads these at runtime and reports a
+/// Parses every JSON asset ppex and smex ship. The game loads these at runtime and reports a
 /// syntax error only to the server log, then carries on with the file's whole contents missing -
 /// so a corrupt recipe file silently removes every recipe in it while the build and the entire
 /// test suite stay green. That is exactly what happened to
@@ -152,7 +152,7 @@ public class ShippedJsonAssetTests {
   // labels read the same on any platform. Build outputs (bin/obj) are copies and are skipped.
   internal static IEnumerable<string> AssetFiles() {
     string root = RepoRoot();
-    foreach (string modDir in new[] { "exlib", "ppex", "smex" })
+    foreach (string modDir in new[] { "ppex", "smex" })
       foreach (
         string file in Directory.EnumerateFiles(
           Path.Combine(root, modDir),

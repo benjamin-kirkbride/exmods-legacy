@@ -3,8 +3,8 @@
   "solution": "Legacy.sln",
   "series": ["1.22", "1.21", "1.20"],
   "mods": {
-    "exlib": { "path": "exlib" },
     "ppex": { "path": "ppex" },
     "smex": { "path": "smex" }
-  }
+  },
+  "depends": { "exlib": { "github": "ringavirda/modding-vsexlib" } }
 }

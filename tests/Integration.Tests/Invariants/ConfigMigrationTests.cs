@@ -21,7 +21,6 @@ public class ConfigMigrationTests {
   /// <summary>Assembly name to the mod's folder at the repository root (the folder does not
   /// match the assembly name).</summary>
   private static readonly Dictionary<string, string> ModDirs = new() {
-    ["ExpandedLib"] = "exlib",
     ["PipesAndPowerExpanded"] = "ppex",
     ["SteelmakingExpanded"] = "smex",
   };

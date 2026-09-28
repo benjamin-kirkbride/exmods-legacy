@@ -22,7 +22,7 @@ script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(cd "$script_dir/.." && pwd)"
 
 declare -A tfms=( [1.22]=net10.0 [1.21]=net8.0 [1.20]=net7.0 )
-projects=(ExpandedLib.Tests PipesAndPowerExpanded.Tests SteelmakingExpanded.Tests Integration.Tests)
+projects=(PipesAndPowerExpanded.Tests SteelmakingExpanded.Tests Integration.Tests)
 
 case "$version" in
   latest) wanted=(1.22) ;;

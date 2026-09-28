@@ -212,7 +212,7 @@ public class LoopingAnimationTests {
 
   private static IEnumerable<string> ShapeFiles() {
     string root = RepoRoot();
-    foreach (string modDir in new[] { "exlib", "ppex", "smex" })
+    foreach (string modDir in new[] { "ppex", "smex" })
       foreach (
         string file in Directory.EnumerateFiles(
           Path.Combine(root, modDir),
