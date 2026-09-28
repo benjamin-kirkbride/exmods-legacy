@@ -242,8 +242,6 @@
   "metalstate-hardened": "hardened",
   "metalstate-soft": "soft",
   "metalstate-cooling": "cooling",
-  "metalstate-cold": "cold",
-  "metal-unknown": "unknown",
 
   "moltenbarrel-info-empty": "Empty (0/{0} units)",
   "moltenbarrel-info-units": "{0}/{1} units",

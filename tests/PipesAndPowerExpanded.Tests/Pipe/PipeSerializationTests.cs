@@ -87,8 +87,8 @@ public class PipeSerializationTests {
   /// carrying a furnace's whole blast reported Empty, which is exactly when the figure matters.
   /// </summary>
   // Lang.Get returns the key itself headless, so these assert on WHICH line the pipe emits.
-  private const string FlowLine = "ppex:pipe-info-flow";
-  private const string EmptyLine = "ppex:pipe-info-empty";
+  private const string FlowLine = "exlib:pipe-info-flow";
+  private const string EmptyLine = "exlib:pipe-info-empty";
 
   [Fact]
   public void A_pipe_carrying_gas_reports_its_throughput_even_with_nothing_standing_in_it() {

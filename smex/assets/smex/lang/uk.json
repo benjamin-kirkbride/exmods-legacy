@@ -242,8 +242,6 @@
   "metalstate-hardened": "затверділий",
   "metalstate-soft": "м'який",
   "metalstate-cooling": "охолоджується",
-  "metalstate-cold": "холодний",
-  "metal-unknown": "невідомо",
 
   "moltenbarrel-info-empty": "Порожньо (0/{0} одиниць)",
   "moltenbarrel-info-units": "{0}/{1} одиниць",

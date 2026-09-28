@@ -43,7 +43,7 @@ public class MoltenMetalTests {
   [Fact]
   public void FormatTemperature_reads_cold_below_room_temperature() {
     // Below 21 C it prints the "cold" label (here the echoed lang key), not a number.
-    Assert.Equal("smex:metalstate-cold", MoltenMetal.FormatTemperature(15f));
+    Assert.Equal("exlib:metalstate-cold", MoltenMetal.FormatTemperature(15f));
   }
 
   [Fact]
