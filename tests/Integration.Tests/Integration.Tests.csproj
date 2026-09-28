@@ -30,6 +30,11 @@
       <HintPath>$(GamePath)/Lib/Newtonsoft.Json.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <!-- PatchTableTests applies ppex's and smex's patches through HarmonyLib directly. -->
+    <Reference Include="0Harmony">
+      <HintPath>$(GamePath)/Lib/0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
