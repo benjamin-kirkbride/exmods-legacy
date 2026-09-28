@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using ExpandedLib;
+using ExpandedLib.Industry;
 using ExpandedLib.Registries;
 using ExpandedLib.Testing;
 using NSubstitute;
@@ -15,9 +16,10 @@ namespace Integration.Tests.Saves;
 
 /// <summary>
 /// The game's own class registry (<c>Vintagestory.Common.ClassRegistry</c> from VintagestoryLib),
-/// filled by running exlib's, ppex's and smex's <see cref="EntityRegistry.RegisterAll"/> in load
-/// order against a recording API, plus the vanilla classes the ppex and smex blocktypes name
-/// (<c>Animatable</c>, <c>Door</c>, <c>TemperatureSensitive</c> and the <c>ToolMold</c> entity).
+/// filled by running exlib's (its Industry module's assembly, then its own), ppex's and smex's
+/// <see cref="EntityRegistry.RegisterAll"/> in load order against a recording API, plus the vanilla
+/// classes the ppex and smex blocktypes name (<c>Animatable</c>, <c>Door</c>,
+/// <c>TemperatureSensitive</c> and the <c>ToolMold</c> entity).
 /// A block entity is saved under the last name registered for its type, and loaded by
 /// <see cref="CreateBlockEntity"/> on that name, both through the real registry.
 /// </summary>
@@ -51,6 +53,7 @@ internal sealed class SaveRegistry {
   public IReadOnlyList<Registration> Registrations => _registrations;
 
   private SaveRegistry() {
+    Register("exlib", typeof(IndustryModule).Assembly);
     Register("exlib", typeof(ExpandedLibModSystem).Assembly);
     Register("ppex", typeof(PipesAndPowerExpandedModSystem).Assembly);
     Register("smex", typeof(SteelmakingExpandedModSystem).Assembly);
