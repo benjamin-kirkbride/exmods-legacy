@@ -53,6 +53,7 @@
     {
       "name": "ExRightClickConstructable",
       "properties": {
+        "gatesProduction": false,
         "stages": [
           {
             "addElements": ["Root/GearShaft"]

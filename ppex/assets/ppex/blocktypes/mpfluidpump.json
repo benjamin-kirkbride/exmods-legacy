@@ -21,6 +21,7 @@
     {
       "name": "ExRightClickConstructable",
       "properties": {
+        "gatesProduction": false,
         "stages": [
           {
             "addElements": ["Root/Base", "Root/BaseExtension"]
