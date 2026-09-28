@@ -192,6 +192,28 @@ public class ConstructionBreakTests {
     Assert.Equal(accepted, rig.Interact());
   }
 
+  // Fails when the stage admits its stored wood in two variants: with OnAttemptConstruct cleared on
+  // 1.22, or the mixed-variant check removed from exlib's 1.20 and 1.21 port, it takes both woods.
+  [Fact]
+  public void The_blower_beam_stage_refuses_beams_of_two_woods() {
+    var rig = new Rig(Blower);
+    var stacks = rig.Bill(1).ToList();
+    Block pine = rig.Block("game:supportbeam-pine", ("wood", "pine"));
+    stacks[0].StackSize = 2;
+    stacks.Insert(1, new ItemStack(pine, 2));
+    rig.Hotbar(stacks);
+
+    Assert.False(rig.Interact());
+    Assert.Equal(
+      new Dictionary<string, int> {
+        ["game:metalnailsandstrips-iron"] = 2,
+        ["game:supportbeam-oak"] = 2,
+        ["game:supportbeam-pine"] = 2,
+      },
+      Tally(rig.Held)
+    );
+  }
+
   #endregion
 
   private static Dictionary<string, int> Tally(
@@ -324,6 +346,10 @@ public class ConstructionBreakTests {
       );
       return bill.Select(s => s.Clone()).ToList();
     }
+
+    /// <summary>The stacks left in the hotbar.</summary>
+    public IEnumerable<ItemStack> Held =>
+      _hotbar.Where(s => !s.Empty).Select(s => s.Itemstack);
 
     public void Hotbar(IEnumerable<ItemStack> stacks) {
       _hotbar.Clear();
