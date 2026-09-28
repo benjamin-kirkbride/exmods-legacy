@@ -435,7 +435,7 @@ public class MpBlowerTests {
 
     Assert.Equal(Origin.UpCopy(), port.Pos);
     FillerBehavior hosted = Assert.Single(port.Behaviors!);
-    Assert.Equal("exlib.BEBehaviorMPFillerPort", hosted.Code);
+    Assert.Equal("smex.BEBehaviorMpBlowerPort", hosted.Code);
     // Authored east in the def; the structure rotation turns it west for a north blower.
     Assert.Equal(BlockFacing.WEST, hosted.ConnectorFace);
   }
