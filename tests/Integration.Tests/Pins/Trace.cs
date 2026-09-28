@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -30,6 +31,9 @@ internal sealed class Trace {
 
   private const string WriteVariable = "LEGACY_WRITE_TRACES";
 
+  [ThreadStatic]
+  private static List<Trace>? _recording;
+
   private readonly StringBuilder _text = new();
 
   /// <summary>The file name the trace is saved under, without its extension.</summary>
@@ -38,6 +42,28 @@ internal sealed class Trace {
   public Trace(string name) {
     Name = name;
     _text.Append("# ").Append(name).Append('\n');
+    _recording?.Add(this);
+  }
+
+  /// <summary>
+  /// Runs <paramref name="scene"/> on this thread and returns every trace it constructed, in order,
+  /// with the exception that ended it, or null when it ran to its end. A scene that throws keeps the
+  /// lines it recorded before the throw. The traces the scene saves are saved as usual.
+  /// </summary>
+  public static (IReadOnlyList<Trace> Traces, Exception? Error) Record(
+    Action scene
+  ) {
+    List<Trace>? outer = _recording;
+    var traces = new List<Trace>();
+    _recording = traces;
+    try {
+      scene();
+      return (traces, null);
+    } catch (Exception e) {
+      return (traces, e);
+    } finally {
+      _recording = outer;
+    }
   }
 
   /// <summary>Appends one line: the tick, then <paramref name="fields"/> separated by spaces.</summary>
