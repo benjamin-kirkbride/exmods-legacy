@@ -17,7 +17,8 @@ namespace Integration.Tests.Saves;
 /// <summary>
 /// The game's own class registry (<c>Vintagestory.Common.ClassRegistry</c> from VintagestoryLib),
 /// filled by running exlib's (its Industry module's assembly, then its own), ppex's and smex's
-/// <see cref="EntityRegistry.RegisterAll"/> in load order against a recording API, plus the vanilla
+/// <see cref="EntityRegistry.RegisterAll"/> in load order against a recording API, then ppex's pipe
+/// aliases (<see cref="PipesAndPowerExpandedModSystem.AliasPipeEntities"/>), plus the vanilla
 /// classes the ppex and smex blocktypes name (<c>Animatable</c>, <c>Door</c>,
 /// <c>TemperatureSensitive</c> and the <c>ToolMold</c> entity).
 /// A block entity is saved under the last name registered for its type, and loaded by
@@ -55,7 +56,11 @@ internal sealed class SaveRegistry {
   private SaveRegistry() {
     Register("exlib", typeof(IndustryModule).Assembly);
     Register("exlib", typeof(ExpandedLibModSystem).Assembly);
-    Register("ppex", typeof(PipesAndPowerExpandedModSystem).Assembly);
+    Register(
+      "ppex",
+      typeof(PipesAndPowerExpandedModSystem).Assembly,
+      PipesAndPowerExpandedModSystem.AliasPipeEntities
+    );
     Register("smex", typeof(SteelmakingExpandedModSystem).Assembly);
 
     Call("RegisterBlockEntityBehaviorClass", "Animatable", typeof(BEBehaviorAnimatable));
@@ -97,7 +102,13 @@ internal sealed class SaveRegistry {
     return world;
   }
 
-  private void Register(string modId, Assembly assembly) {
+  /// <summary>Registers <paramref name="assembly"/>'s classes as its mod's <c>Start</c> does, then runs
+  /// <paramref name="start"/>, the rest of that <c>Start</c>'s block entity registrations.</summary>
+  private void Register(
+    string modId,
+    Assembly assembly,
+    Action<ICoreAPI>? start = null
+  ) {
     var api = Substitute.For<ICoreAPI>();
     api.When(a =>
         a.RegisterBlockEntityClass(Arg.Any<string>(), Arg.Any<Type>())
@@ -122,6 +133,7 @@ internal sealed class SaveRegistry {
     var mod = Substitute.For<Mod>();
     typeof(Mod).GetProperty("Info")!.SetValue(mod, new ModInfo { ModID = modId });
     EntityRegistry.RegisterAll(api, mod, assembly);
+    start?.Invoke(api);
   }
 
   private object? Call(string method, params object[] args) =>

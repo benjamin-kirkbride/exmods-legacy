@@ -1,4 +1,5 @@
 using ExpandedLib.Helpers;
+using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Industry.MechanicalPower;
 using ExpandedLib.Registries;
 using HarmonyLib;
@@ -52,6 +53,30 @@ public class PipesAndPowerExpandedModSystem : ModSystem {
     // mod (a hard dependency); exlib points StructureFillers at exlib:structurefiller and
     // registers its own classes. This registers only ppex's own content.
     EntityRegistry.RegisterAll(api, Mod, GetType().Assembly);
+    AliasPipeEntities(api);
+  }
+
+  /// <summary>
+  /// Registers the class names ppex's own pipe block entities had - <c>ppex.BlockEntityPipe</c>,
+  /// <c>ppex.Pipe</c>, <c>ppex.BlockEntityPipePassthrough</c> and <c>ppex.PipePassthrough</c> - as
+  /// load-only aliases of Industry's <see cref="BlockEntityPipe"/> and
+  /// <see cref="BlockEntityPipePassthrough"/>, so the blocktypes' <c>entityClass</c> strings and saves
+  /// naming them resolve while the game saves those entities under Industry's primary keys.
+  /// </summary>
+  /// <param name="api">The api whose class registry receives the aliases.</param>
+  public static void AliasPipeEntities(ICoreAPI api) {
+    EntityRegistry.AliasBlockEntity(api, "ppex.BlockEntityPipe", typeof(BlockEntityPipe));
+    EntityRegistry.AliasBlockEntity(api, "ppex.Pipe", typeof(BlockEntityPipe));
+    EntityRegistry.AliasBlockEntity(
+      api,
+      "ppex.BlockEntityPipePassthrough",
+      typeof(BlockEntityPipePassthrough)
+    );
+    EntityRegistry.AliasBlockEntity(
+      api,
+      "ppex.PipePassthrough",
+      typeof(BlockEntityPipePassthrough)
+    );
   }
 
   public override void Dispose() {
