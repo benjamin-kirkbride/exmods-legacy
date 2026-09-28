@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using ExpandedLib.Testing;
 using PipesAndPowerExpanded;
 using SteelmakingExpanded;
@@ -37,6 +38,23 @@ internal static class LoadedLine {
 
   /// <summary>The two mod ids, in load order.</summary>
   public static readonly string[] Mods = ["ppex", "smex"];
+
+  /// <summary>The loaded blocks of ppex and smex in <see cref="World"/>.</summary>
+  public static IEnumerable<Block> Blocks =>
+    World.World.Blocks.Where(b => b?.Code != null && Mods.Contains(b.Code.Domain));
+
+  /// <summary><paramref name="block"/>'s code without its variant states, e.g.
+  /// <c>smex:smokestack</c> for <c>smex:smokestack-intake-north</c> when both states are
+  /// variants.</summary>
+  /// <remarks>Each state is taken off the end of the code in reverse order of its group; a state
+  /// that is not a suffix leaves the rest in place.</remarks>
+  public static string Blocktype(Block block) {
+    string path = block.Code.Path;
+    foreach (string state in block.Variant.Values.Reverse())
+      if (path.EndsWith("-" + state, StringComparison.Ordinal))
+        path = path[..^(state.Length + 1)];
+    return block.Code.Domain + ":" + path;
+  }
 
   private static TestWorld Load(params string[] mods) {
     var world = new TestWorld();
