@@ -477,12 +477,12 @@ public class BlockEntityConverterControl : BlockEntityMultiblockMachine {
 
   #region Temperature handling
 
-  // Re-stamps the live charge's cooldown rate from the (live) config every tick, so an admin changing
-  // BessemerCooldownCoefficient (or the base MoltenCooldownSpeed) via /exmod config speeds up or slows
-  // down the metal already in the vessel - not just metal added on a later fill. Rebases the cooldown
-  // baseline to the current temperature (see MoltenMetal.SyncCooldownSpeed) so the new rate applies from
-  // this tick forward even when the charge has been sitting idle (its timestamp would otherwise be stale,
-  // and rewriting the rate alone would retro-apply it across that whole idle span).
+  // Called every tick: brings the charge's cooldown rate to the live config, so a change of
+  // BessemerCooldownCoefficient (or the base MoltenCooldownSpeed) through /exmod config reaches the
+  // metal already in the vessel. While the stamped rate equals the configured one the charge is left
+  // alone and the game cools it from its last update; when the rate changes, the temperature is
+  // rebased to its current value and the new rate applies from this tick (see
+  // MoltenMetal.SyncCooldownSpeed).
   private void SyncContentCooldown() {
     if (_content != null)
       MoltenMetal.SyncCooldownSpeed(Api.World, _content, ContentCooldownSpeed);
