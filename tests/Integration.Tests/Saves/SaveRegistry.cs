@@ -20,7 +20,9 @@ namespace Integration.Tests.Saves;
 /// <see cref="EntityRegistry.RegisterAll"/> in load order against a recording API, then ppex's pipe
 /// aliases (<see cref="PipesAndPowerExpandedModSystem.AliasPipeEntities"/>), plus the vanilla
 /// classes the ppex and smex blocktypes name (<c>Animatable</c>, <c>Door</c>,
-/// <c>TemperatureSensitive</c> and the <c>ToolMold</c> entity).
+/// <c>TemperatureSensitive</c> and the <c>ToolMold</c> entity). Every mod's recording API answers
+/// the same <see cref="ICoreAPI.ClassRegistry"/>, as one side of a running game does, so a bare key
+/// two mods claim is settled as in game.
 /// A block entity is saved under the last name registered for its type, and loaded by
 /// <see cref="CreateBlockEntity"/> on that name, both through the real registry.
 /// </summary>
@@ -32,7 +34,9 @@ internal sealed class SaveRegistry {
     Type Type
   );
 
-  private static readonly Lazy<SaveRegistry> Shared = new(() => new());
+  private static readonly Lazy<SaveRegistry> Shared = new(() =>
+    new(null, false)
+  );
 
   /// <summary>The registry filled once per test process.</summary>
   public static SaveRegistry Instance => Shared.Value;
@@ -49,19 +53,26 @@ internal sealed class SaveRegistry {
 
   private readonly object _registry = Activator.CreateInstance(RegistryType)!;
   private readonly List<Registration> _registrations = [];
+  private readonly IClassRegistryAPI _classRegistry =
+    Substitute.For<IClassRegistryAPI>();
 
-  /// <summary>Every block-entity class registration exlib, ppex and smex make, in call order.</summary>
+  /// <summary>Every block-entity class registration exlib, ppex, smex and a <see cref="Beside"/>
+  /// claimant make, in call order.</summary>
   public IReadOnlyList<Registration> Registrations => _registrations;
 
-  private SaveRegistry() {
+  private SaveRegistry(Assembly? claimant, bool claimantFirst) {
     Register("exlib", typeof(IndustryModule).Assembly);
     Register("exlib", typeof(ExpandedLibModSystem).Assembly);
+    if (claimant != null && claimantFirst)
+      Register(ClaimantModId, claimant);
     Register(
       "ppex",
       typeof(PipesAndPowerExpandedModSystem).Assembly,
       PipesAndPowerExpandedModSystem.AliasPipeEntities
     );
     Register("smex", typeof(SteelmakingExpandedModSystem).Assembly);
+    if (claimant != null && !claimantFirst)
+      Register(ClaimantModId, claimant);
 
     Call("RegisterBlockEntityBehaviorClass", "Animatable", typeof(BEBehaviorAnimatable));
     Call("RegisterBlockEntityBehaviorClass", "Door", typeof(BEBehaviorDoor));
@@ -72,6 +83,17 @@ internal sealed class SaveRegistry {
     );
     Call("RegisterBlockEntityType", "ToolMold", typeof(BlockEntityToolMold));
   }
+
+  /// <summary>The mod id <see cref="Beside"/> registers its claimant under.</summary>
+  public const string ClaimantModId = "claimant";
+
+  /// <summary>
+  /// A new registry filled as <see cref="Instance"/> is, with <paramref name="claimant"/>'s block
+  /// entities registered as another mod's: after exlib and before ppex when
+  /// <paramref name="first"/>, else after smex.
+  /// </summary>
+  public static SaveRegistry Beside(Assembly claimant, bool first) =>
+    new(claimant, first);
 
   /// <summary>
   /// The name a chunk saves <paramref name="type"/> under: the registry's type-to-name map, which
@@ -110,6 +132,7 @@ internal sealed class SaveRegistry {
     Action<ICoreAPI>? start = null
   ) {
     var api = Substitute.For<ICoreAPI>();
+    api.ClassRegistry.Returns(_classRegistry);
     api.When(a =>
         a.RegisterBlockEntityClass(Arg.Any<string>(), Arg.Any<Type>())
       )

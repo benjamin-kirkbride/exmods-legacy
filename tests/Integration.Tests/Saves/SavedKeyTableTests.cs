@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,24 +7,13 @@ using Xunit;
 namespace Integration.Tests.Saves;
 
 /// <summary>
-/// The class names old worlds hold their block entities under. A chunk saves each entity under the
-/// last name registered for its type, so the table records that name beside all four names the
-/// registry passed, for every block-entity type exlib, ppex and smex register. It is written to
-/// <c>tests/goldens/saved-keys.json</c> by <c>LEGACY_WRITE_SAVE_GOLDENS</c> (<c>1</c> or
-/// <c>saved-keys</c>) and compared against it on every run.
+/// The published line's saved-key table (<see cref="PublishedSaveKeys"/>) against the registry the
+/// ported mods fill: every published type is still registered, as itself or as its replacement, and
+/// every published saved name has a save golden that loads it. The block-entity types exlib, ppex and
+/// smex register now are saved under their primary keys, each loading its own type.
 /// </summary>
 public class SavedKeyTableTests {
-  private const string Name = "saved-keys";
-
-  private sealed record SavedKeyRow(string Key, string Type, string[] Names);
-
-  private static readonly JsonSerializerOptions Json = new() {
-    WriteIndented = true,
-    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-  };
-
-  private static string TablePath =>
-    Path.Combine(SaveGoldens.RepoRoot(), "tests", "goldens", Name + ".json");
+  private sealed record SavedKeyRow(string Key, string Type, string[] ModIds);
 
   private static List<SavedKeyRow> Table() {
     var registry = SaveRegistry.Instance;
@@ -34,7 +22,7 @@ public class SavedKeyTableTests {
       .Select(g => new SavedKeyRow(
         registry.SavedKey(g.Key)!,
         g.Key.FullName!,
-        g.Select(r => r.Name).ToArray()
+        g.Select(r => r.ModId).Distinct().ToArray()
       ))
       .ToList();
   }
@@ -42,42 +30,22 @@ public class SavedKeyTableTests {
   #region Table
 
   [Fact]
-  public void The_table_matches_the_committed_golden() {
-    List<SavedKeyRow> table = Table();
-    string text = JsonSerializer.Serialize(table, Json) + "\n";
-    string write =
-      Environment.GetEnvironmentVariable("LEGACY_WRITE_SAVE_GOLDENS") ?? "";
-    if (write == "1" || write.Split(',').Any(n => n.Trim() == Name)) {
-      Directory.CreateDirectory(Path.GetDirectoryName(TablePath)!);
-      File.WriteAllText(TablePath, text);
-    }
+  public void Every_published_type_is_registered_as_itself_or_its_replacement() {
+    List<string> published = PublishedSaveKeys
+      .Rows()
+      .Select(r => PublishedSaveKeys.LoadsAs(r.Type))
+      .Order()
+      .ToList();
+    List<string> registered = Table()
+      .Where(r =>
+        r.ModIds.Any(m => m is "ppex" or "smex")
+        || r.Type == "ExpandedLib.Structures.BlockEntityStructureFiller"
+      )
+      .Select(r => r.Type)
+      .Order()
+      .ToList();
 
-    Assert.True(File.Exists(TablePath), $"no {Name}.json golden");
-    Assert.Equal(File.ReadAllText(TablePath), text);
-  }
-
-  [Fact]
-  public void Every_ppex_smex_and_filler_type_has_one_row() {
-    List<SavedKeyRow> table = Table();
-
-    Assert.Equal(15, table.Count(r => r.Type.StartsWith("PipesAndPowerExpanded.")));
-    Assert.Equal(20, table.Count(r => r.Type.StartsWith("SteelmakingExpanded.")));
-    Assert.Equal(
-      "ExpandedLib.Blocks.Structures.BlockEntityStructureFiller",
-      Assert.Single(table, r => r.Type.StartsWith("ExpandedLib.")).Type
-    );
-  }
-
-  [Fact]
-  public void Every_saved_key_is_the_lowercase_short_id_registered_last() {
-    foreach (SavedKeyRow row in Table()) {
-      string shortId = row.Type[(row.Type.LastIndexOf('.') + 1)..][
-        "BlockEntity".Length..
-      ];
-      Assert.Equal(shortId.ToLowerInvariant(), row.Key);
-      Assert.Equal(row.Key, row.Names[^1]);
-      Assert.Equal(4, row.Names.Length);
-    }
+    Assert.Equal(published, registered);
   }
 
   [Fact]
@@ -90,7 +58,7 @@ public class SavedKeyTableTests {
   }
 
   [Fact]
-  public void Every_saved_key_has_a_save_golden() {
+  public void Every_published_saved_key_has_a_save_golden() {
     var golden = Directory
       .GetFiles(SaveGoldens.Folder, "*.json")
       .Select(f =>
@@ -100,7 +68,7 @@ public class SavedKeyTableTests {
           .GetString()
       )
       .ToHashSet();
-    foreach (SavedKeyRow row in Table())
+    foreach (PublishedSaveKeys.Row row in PublishedSaveKeys.Rows())
       Assert.Contains(row.Key, golden);
   }
 
