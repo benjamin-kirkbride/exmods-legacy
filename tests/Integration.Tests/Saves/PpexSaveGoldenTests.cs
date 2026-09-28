@@ -1,7 +1,7 @@
 using System;
+using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Testing;
 using PipesAndPowerExpanded;
-using PipesAndPowerExpanded.BlockNetworkPipe;
 using PipesAndPowerExpanded.BlockNetworkPipe.BlockEntities;
 using PipesAndPowerExpanded.BlockNetworkPipe.Blocks;
 using PipesAndPowerExpanded.BlockStructures.Boiler;
@@ -15,9 +15,12 @@ using PipesAndPowerExpanded.BlockStructures.ManualPump.Blocks;
 using PipesAndPowerExpanded.BlockStructures.MpPump.BlockEntities;
 using PipesAndPowerExpanded.BlockStructures.MpPump.Blocks;
 using Vintagestory.API.Common;
+using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 using Xunit;
 using BoilerState = PipesAndPowerExpanded.BlockStructures.Boiler.BlockEntityBoiler.BoilerState;
+using BlockPipe = PipesAndPowerExpanded.BlockNetworkPipe.Blocks.BlockPipe;
+using BlockPipePassthrough = PipesAndPowerExpanded.BlockNetworkPipe.Blocks.BlockPipePassthrough;
 
 namespace Integration.Tests.Saves;
 
@@ -183,6 +186,50 @@ public class PpexSaveGoldenTests {
       check: (be, _) =>
         Assert.Equal(3.5f, ((BlockEntityPressureValve)be).GatePressure, 3)
     );
+
+  /// <summary>
+  /// Each published pipe and passthrough golden, loaded in the game's order, comes back as Industry's
+  /// block entity on a ppex block, on the "pipe" network, and its network restores the saved volume,
+  /// pressure and medium. Red when Industry's pipe entity stops reading the saved pressure.
+  /// </summary>
+  [Theory]
+  [InlineData("ppex-pipe-straight-steam", "straight", "ns", "iron")]
+  [InlineData("ppex-pipe-straight-water", "straight", "we", "steel")]
+  [InlineData("ppex-pipe-bend-steam", "bend", "de", "iron")]
+  [InlineData("ppex-pipe-tjunction-air", "tjunction", "deu", "iron")]
+  [InlineData("ppex-pipe-xjunction-steam", "xjunction", "nsud", "steel")]
+  [InlineData("ppex-pipe-passthrough-exhaust", "passthrough", "ns", null)]
+  [InlineData("ppex-pipe-passthroughbend-exhaust", "passthroughbend", "de", null)]
+  public void A_published_pipe_loads_on_Industrys_pipe_entity_with_its_pool(
+    string name,
+    string type,
+    string orientation,
+    string? material
+  ) {
+    SaveGolden golden = SaveGoldens.Read(name);
+    Block block =
+      material == null
+        ? Brick(new BlockPipePassthrough(), golden.BlockCode, type, orientation)
+        : Pipe(new BlockPipe(), golden.BlockCode, type, orientation, material);
+    TestWorld world = SaveRegistry.Instance.Wire(new TestWorld());
+    Sealed(world);
+    var saved = TreeAttribute.CreateFromBytes(
+      Convert.FromBase64String(golden.TreeBase64)
+    );
+
+    BlockEntity be = SaveGoldens.Load(golden, world, block);
+
+    Assert.Equal(
+      material == null ? typeof(BlockEntityPipePassthrough) : typeof(BlockEntityPipe),
+      be.GetType()
+    );
+    Assert.Equal("pipe", saved.GetString("networkType"));
+    Assert.Equal(saved.GetString("networkType"), ((BlockEntityPipe)be).NetworkType);
+    PipeNetworkState state = ((PipeNetwork)world.NetworkAt(At)!).State!;
+    Assert.Equal(saved.GetFloat("vol"), state.Volume, 3);
+    Assert.Equal(saved.GetFloat("pressure"), state.Pressure, 3);
+    Assert.Equal(saved.GetString("medium"), state.MediumType);
+  }
 
   [Fact]
   public void A_fluid_intake_restores_its_water_flag_but_not_the_pool() =>

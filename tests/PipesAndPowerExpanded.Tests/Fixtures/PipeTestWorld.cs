@@ -1,11 +1,12 @@
 using System.Runtime.CompilerServices;
+using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Networks;
 using ExpandedLib.Testing;
 using Legacy.Tests;
-using PipesAndPowerExpanded.BlockNetworkPipe;
 using PipesAndPowerExpanded.BlockNetworkPipe.Blocks;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
+using BlockPipe = PipesAndPowerExpanded.BlockNetworkPipe.Blocks.BlockPipe;
 
 namespace PipesAndPowerExpanded.Tests;
 

@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Structures;
 using ExpandedLib.Helpers;
 using ExpandedLib.Industry.Helpers;
 using ExpandedLib.Registries;
-using PipesAndPowerExpanded.BlockNetworkPipe;
 using PipesAndPowerExpanded.BlockNetworkPipe.BlockEntities;
 using PipesAndPowerExpanded.Helpers;
 using SteelmakingExpanded.Patches;

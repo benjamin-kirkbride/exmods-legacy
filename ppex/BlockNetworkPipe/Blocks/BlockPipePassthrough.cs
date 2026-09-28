@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Registries;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
@@ -11,7 +12,10 @@ namespace PipesAndPowerExpanded.BlockNetworkPipe.Blocks;
 /// without any cooperation from those blocks.
 /// </summary>
 [BlockRegister]
-public partial class BlockPipePassthrough : BlockPipe {
+public partial class BlockPipePassthrough
+  : BlockPipe,
+    IChimneyVentable,
+    IPipeVentSource {
   /// <summary>Passthroughs never burst - they're embedded in walls/machine housings where a
   /// fracture would be unreachable, so they're exempt from over-pressure failure.</summary>
   public override float BurstPressure => float.MaxValue;
@@ -25,6 +29,11 @@ public partial class BlockPipePassthrough : BlockPipe {
         ["nw", "se", "en", "ws", "un", "us", "uw", "ue", "dn", "ds", "dw", "de"]
       },
     };
+
+  /// <summary>A chimney capping the open top connector draws
+  /// <see cref="PpexValues.ChimneyGasDrawRate"/> litres per second from the run.</summary>
+  public IPipeVentStrategy CreateVentStrategy() =>
+    new ChimneyVent(() => PpexValues.ChimneyGasDrawRate);
 
   protected override string GetFallbackOrientation(string? type) =>
     type == "passthroughbend" ? "nw" : "ns";

@@ -1,5 +1,5 @@
+using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Testing;
-using PipesAndPowerExpanded.BlockNetworkPipe;
 using PipesAndPowerExpanded.BlockNetworkPipe.BlockEntities;
 using PipesAndPowerExpanded.BlockNetworkPipe.Blocks;
 using PipesAndPowerExpanded.BlockStructures.Boiler.BlockEntities;
@@ -7,6 +7,7 @@ using PipesAndPowerExpanded.BlockStructures.Boiler.Blocks;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
 using BoilerState = PipesAndPowerExpanded.BlockStructures.Boiler.BlockEntityBoiler.BoilerState;
+using BlockPipe = PipesAndPowerExpanded.BlockNetworkPipe.Blocks.BlockPipe;
 
 namespace PipesAndPowerExpanded.Tests;
 

@@ -1,6 +1,6 @@
 using ExpandedLib.Blocks;
+using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Testing;
-using PipesAndPowerExpanded.BlockNetworkPipe;
 using PipesAndPowerExpanded.BlockStructures.Boiler;
 using PipesAndPowerExpanded.BlockStructures.Boiler.BlockEntities;
 using PipesAndPowerExpanded.BlockStructures.Boiler.Blocks;

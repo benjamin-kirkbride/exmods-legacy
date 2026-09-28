@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Testing;
 using Integration.Tests.Saves;
-using PipesAndPowerExpanded.BlockNetworkPipe;
 using PipesAndPowerExpanded.BlockNetworkPipe.BlockEntities;
 using PipesAndPowerExpanded.BlockNetworkPipe.Blocks;
 using PipesAndPowerExpanded.Tests;
@@ -13,6 +13,7 @@ using Vintagestory.API.Common;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 using Xunit;
+using BlockPipe = PipesAndPowerExpanded.BlockNetworkPipe.Blocks.BlockPipe;
 
 namespace Integration.Tests.Pins;
 

@@ -1,9 +1,7 @@
-using ExpandedLib.Networks;
 using ExpandedLib.Helpers;
 using ExpandedLib.Industry.MechanicalPower;
 using ExpandedLib.Registries;
 using HarmonyLib;
-using PipesAndPowerExpanded.BlockNetworkPipe;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Server;
@@ -13,7 +11,7 @@ namespace PipesAndPowerExpanded;
 /// <summary>
 /// Main mod system for Pipes and Power Expanded. Loads the gameplay tunables, patches the vanilla
 /// chimney look-at info, auto-registers every <c>[BlockRegister]</c>/<c>[ItemRegister]</c>/etc.
-/// decorated class, adds the creative tab, and registers the unified "pipe" network type (gases + liquids).
+/// decorated class, and adds the creative tab. ppex's pipes run on Industry's "pipe" network type.
 /// </summary>
 public class PipesAndPowerExpandedModSystem : ModSystem {
   private Harmony? _harmony;
@@ -44,7 +42,7 @@ public class PipesAndPowerExpandedModSystem : ModSystem {
     );
 
     // Patch the vanilla chimney's look-at info so a chimney venting one of ppex's pipes
-    // reports it (the gas draw itself runs in PipeNetwork's tick).
+    // reports it (the gas draw itself runs in the passthrough's and outlet's ChimneyVent).
     if (!Harmony.HasAnyPatches(Mod.Info.ModID)) {
       _harmony = new Harmony(Mod.Info.ModID);
       _harmony.PatchAll(GetType().Assembly);
@@ -54,10 +52,6 @@ public class PipesAndPowerExpandedModSystem : ModSystem {
     // mod (a hard dependency); exlib points StructureFillers at exlib:structurefiller and
     // registers its own classes. This registers only ppex's own content.
     EntityRegistry.RegisterAll(api, Mod, GetType().Assembly);
-
-    // The unified pipe network (gas + liquid pools).
-    var netManager = api.ModLoader.GetModSystem<BlockNetworkModSystem>();
-    netManager.RegisterNetworkType("pipe", () => new PipeNetwork(netManager));
   }
 
   public override void Dispose() {

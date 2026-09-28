@@ -37,8 +37,8 @@ failure modes; all gameplay numbers live in the `ppex` section of `ModConfig/ex_
 
 ## Code layout
 
-- `BlockNetworkPipe/` - the unified pipe network (`PipeNetwork`), pipe/valve/intake/
-  condenser blocks and block entities.
+- `BlockNetworkPipe/` - pipe/valve/intake/condenser blocks and block entities on exlib.Industry's
+  pipe network (`PipeNetwork`), with ppex's burst ratings and a joint of their own.
 - `BlockStructures/` - boiler, engine, manual-pump and mechanical-pump mega-block
   machines (multiblock structure + right-click construction + animation).
 - `Commands/` - `.exmod` sub-commands (the metric/imperial `measure` unit toggle).

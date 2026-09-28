@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Registries;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
@@ -10,7 +11,10 @@ namespace PipesAndPowerExpanded.BlockNetworkPipe.Blocks;
 /// face (e.g. a furnace or cowper-stove port), used to inject or extract gas there.
 /// </summary>
 [BlockRegister]
-public partial class BlockPipeOutlet : BlockPipe {
+public partial class BlockPipeOutlet
+  : BlockPipe,
+    IChimneyVentable,
+    IPipeVentSource {
   /// <summary>Outlets never burst - a machine-port connector is a fixed fitting, not a length
   /// of run that should fail under pressure, so it's exempt from over-pressure failure.</summary>
   public override float BurstPressure => float.MaxValue;
@@ -28,6 +32,11 @@ public partial class BlockPipeOutlet : BlockPipe {
     BlockFacing blockFace,
     Cuboidi attachmentArea
   ) => HasConnectorAt(blockFace) || SideSolid[blockFace.Index];
+
+  /// <summary>A chimney capping the open top connector draws
+  /// <see cref="PpexValues.ChimneyGasDrawRate"/> litres per second from the run.</summary>
+  public IPipeVentStrategy CreateVentStrategy() =>
+    new ChimneyVent(() => PpexValues.ChimneyGasDrawRate);
 
   protected override string GetFallbackOrientation(string? type) => "s";
 }

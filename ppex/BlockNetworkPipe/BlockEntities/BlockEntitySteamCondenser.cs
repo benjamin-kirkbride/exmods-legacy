@@ -1,6 +1,7 @@
 using System;
 using ExpandedLib;
 using ExpandedLib.Helpers;
+using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Machines;
 using ExpandedLib.Industry.Helpers;
 using ExpandedLib.Registries;

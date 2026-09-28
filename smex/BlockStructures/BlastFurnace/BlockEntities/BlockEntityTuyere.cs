@@ -1,3 +1,4 @@
+using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Registries;
 using PipesAndPowerExpanded.BlockNetworkPipe.BlockEntities;
 

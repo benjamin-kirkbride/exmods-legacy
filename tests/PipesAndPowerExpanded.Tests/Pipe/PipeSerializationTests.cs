@@ -1,5 +1,5 @@
+using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Testing;
-using PipesAndPowerExpanded.BlockNetworkPipe;
 using PipesAndPowerExpanded.BlockNetworkPipe.BlockEntities;
 using Vintagestory.API.Datastructures;
 using Xunit;

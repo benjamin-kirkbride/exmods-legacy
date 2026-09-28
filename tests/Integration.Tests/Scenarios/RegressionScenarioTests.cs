@@ -1,6 +1,6 @@
 using System.Linq;
+using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Testing;
-using PipesAndPowerExpanded.BlockNetworkPipe;
 using Vintagestory.API.MathTools;
 using Xunit;
 

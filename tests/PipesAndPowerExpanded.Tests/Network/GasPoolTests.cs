@@ -1,5 +1,4 @@
 using ExpandedLib.Testing;
-using PipesAndPowerExpanded.BlockNetworkPipe;
 using Xunit;
 
 namespace PipesAndPowerExpanded.Tests;

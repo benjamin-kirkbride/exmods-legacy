@@ -1,6 +1,6 @@
 using ExpandedLib;
+using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Testing;
-using PipesAndPowerExpanded.BlockNetworkPipe;
 using PipesAndPowerExpanded.BlockStructures.Engine;
 using Vintagestory.API.MathTools;
 using Xunit;

@@ -1,17 +1,14 @@
 using System.Collections.Generic;
-using ExpandedLib.Networks;
 using ExpandedLib.Registries;
 
 namespace PipesAndPowerExpanded.BlockNetworkPipe.Blocks;
 
 /// <summary>
-/// The base pipe block: a self-orienting node of the unified "pipe" network. Provides the
-/// orientation tables shared by every straight/bend/junction variant.
+/// The base ppex pipe block: a self-orienting node of Industry's "pipe" network with ppex's
+/// burst ratings and no throughput cap.
 /// </summary>
 [BlockRegister]
-public partial class BlockPipe : BlockNetworkNode {
-  public override string NetworkType => "pipe";
-
+public partial class BlockPipe : ExpandedLib.Industry.Pipes.BlockPipe {
   /// <summary>
   /// Pipe metal from the <c>material</c> variant (iron/steel). Blocks without the
   /// variant (brick passthrough/outlet) read as iron.
@@ -22,7 +19,7 @@ public partial class BlockPipe : BlockNetworkNode {
   /// Pressure (atm) above which this pipe bursts - the weakest pipe limits a run.
   /// Iron 5, steel 10.
   /// </summary>
-  public virtual float BurstPressure =>
+  public override float BurstPressure =>
     Material switch {
       "steel" => PpexValues.SteelPipeBurstPressure,
       _ => PpexValues.IronPipeBurstPressure,
@@ -35,7 +32,10 @@ public partial class BlockPipe : BlockNetworkNode {
   /// passthrough, tuyere, …) is a subclass and is exempt: it neither bursts nor limits the
   /// pressure, so a new subclass is non-bursting by default unless it deliberately opts back in.
   /// </summary>
-  public virtual bool CanBurst => GetType() == typeof(BlockPipe);
+  public override bool CanBurst => GetType() == typeof(BlockPipe);
+
+  /// <summary>Unlimited: a ppex run passes whatever its producers push.</summary>
+  public override float MaxThroughput => float.MaxValue;
 
   public override Dictionary<string, string[]> AllowedOrientations { get; } =
     new()

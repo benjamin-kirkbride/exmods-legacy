@@ -1,7 +1,7 @@
 using ExpandedLib.Helpers;
+using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Machines;
 using ExpandedLib.Testing;
-using PipesAndPowerExpanded.BlockNetworkPipe;
 using PipesAndPowerExpanded.BlockStructures.Engine.BlockEntities;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;

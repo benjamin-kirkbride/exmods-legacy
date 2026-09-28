@@ -3,6 +3,7 @@ using System.Text;
 using ExpandedLib;
 using ExpandedLib.Helpers;
 using ExpandedLib.Industry.Helpers;
+using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Registries;
 using PipesAndPowerExpanded.BlockNetworkPipe.Blocks;
 using Vintagestory.API.Common;

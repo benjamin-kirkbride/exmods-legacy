@@ -1,7 +1,7 @@
 using ExpandedLib;
+using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Testing;
 using PipesAndPowerExpanded;
-using PipesAndPowerExpanded.BlockNetworkPipe;
 using PipesAndPowerExpanded.Tests;
 using SteelmakingExpanded.BlockStructures.SmokeStack.BlockEntities;
 using Vintagestory.API.Common;

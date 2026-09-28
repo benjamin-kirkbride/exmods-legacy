@@ -1,5 +1,5 @@
+using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Testing;
-using PipesAndPowerExpanded.BlockNetworkPipe;
 using PipesAndPowerExpanded.Tests;
 using SteelmakingExpanded;
 using SteelmakingExpanded.BlockStructures.CowperStove.BlockEntities;

@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ExpandedLib.Blocks;
+using ExpandedLib.Catalogues;
 using ExpandedLib.Helpers;
+using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Machines;
 using ExpandedLib.Industry.Helpers;
 using ExpandedLib.Industry.MechanicalPower;
-using PipesAndPowerExpanded.BlockNetworkPipe;
 using PipesAndPowerExpanded.BlockStructures.Engine.BlockEntities;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
@@ -357,7 +358,7 @@ public abstract class BlockEntityEngine : BlockEntityProductionMachine {
       return true;
     // An empty run accepts water whatever medium it last carried, matching TryProduceLiquid.
     return outNet.State is { Volume: > 0f } state
-      && !PipeNetworkState.MediaCompatible(state.MediumType, "Water");
+      && !ExLiquids.Taxonomy.Compatible(state.MediumType, "Water");
   }
 
   /// <summary>Water jets out of the outlet (and an occasional splash) when the condensate has nowhere to go.</summary>

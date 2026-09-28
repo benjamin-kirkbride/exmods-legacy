@@ -1,9 +1,11 @@
-using PipesAndPowerExpanded.BlockNetworkPipe;
+using ExpandedLib.Catalogues;
+using ExpandedLib.Industry.Pipes;
 using Xunit;
 
 namespace PipesAndPowerExpanded.Tests;
 
-/// <summary>Pure pressure/medium math on <see cref="PipeNetworkState"/> - no world needed.</summary>
+/// <summary>Pure pressure math on <see cref="PipeNetworkState"/> and the medium rules of
+/// <see cref="ExLiquids.Taxonomy"/> - no world needed.</summary>
 public class PipeNetworkStateMathTests {
   [Theory]
   [InlineData(0f, 90f, 0f)]
@@ -47,7 +49,7 @@ public class PipeNetworkStateMathTests {
     string medium,
     bool expected
   ) =>
-    Assert.Equal(expected, PipeNetworkState.MediaCompatible(current, medium));
+    Assert.Equal(expected, ExLiquids.Taxonomy.Compatible(current, medium));
 
   [Theory]
   [InlineData("Air", "Air", "Air")]
@@ -58,5 +60,5 @@ public class PipeNetworkStateMathTests {
     string a,
     string b,
     string expected
-  ) => Assert.Equal(expected, PipeNetworkState.GetHigherPriorityGas(a, b));
+  ) => Assert.Equal(expected, ExLiquids.Taxonomy.HigherPriority(a, b));
 }

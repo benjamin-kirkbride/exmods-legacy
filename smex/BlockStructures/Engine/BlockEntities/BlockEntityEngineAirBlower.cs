@@ -1,8 +1,8 @@
 using ExpandedLib.Helpers;
 using ExpandedLib.Industry.Helpers;
+using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Registries;
 using PipesAndPowerExpanded;
-using PipesAndPowerExpanded.BlockNetworkPipe;
 using PipesAndPowerExpanded.BlockStructures.Engine;
 using PipesAndPowerExpanded.Helpers;
 using Vintagestory.API.Config;
