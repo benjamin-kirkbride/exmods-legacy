@@ -1,12 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!--
-    Roslyn source generator that emits the static accessor class (e.g. PpexValues) for every config
-    POCO marked [ExConfig]. Referenced as an Analyzer by the mod projects (see their .csproj); it is
-    a compile-time component only and ships no runtime assembly. Must target netstandard2.0 - the
-    framework the C# compiler loads analyzers under.
+    Roslyn source generator that surfaces the JSON "attributes" of every [BlockRegister] /
+    [ItemRegister] class as typed members. Referenced as an Analyzer by the mod projects (see their
+    .csproj); it is a compile-time component only and ships no runtime assembly. Must target
+    netstandard2.0 - the framework the C# compiler loads analyzers under. The assembly name differs
+    from exlib's own ExpandedLib.Generators, which the mod projects load beside it.
   -->
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Legacy.AttributeGenerator</AssemblyName>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <IsRoslynComponent>true</IsRoslynComponent>
@@ -15,10 +17,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference
-      Include="Microsoft.CodeAnalysis.CSharp"
-      Version="4.8.0"
-      PrivateAssets="all"
-    />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" />
   </ItemGroup>
 </Project>

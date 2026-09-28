@@ -1,8 +1,8 @@
-using ExpandedLib.Blocks.Networks;
+using ExpandedLib.Networks;
 using ExpandedLib.Helpers;
-using ExpandedLib.Registries.Commands;
-using ExpandedLib.Registries.Entities;
-using ExpandedLib.Registries.Recipes;
+using ExpandedLib.Industry.Helpers;
+using ExpandedLib.Industry.MechanicalPower;
+using ExpandedLib.Registries;
 using HarmonyLib;
 using SteelmakingExpanded.BlockNetworkMolten;
 using SteelmakingExpanded.BlockNetworkMolten.Blocks;
@@ -162,7 +162,7 @@ public class SteelmakingExpandedModSystem : ModSystem {
     // run). Done before any block entity is constructed so the values apply.
     SmexValues.Load(api);
     // Drive the exlib RCC salvage ratio for the bessemer converter from the (live) config.
-    ExpandedLib.Blocks.Construction.ExRccSettings.RegisterBrokenDropsRatio(
+    ExpandedLib.Blocks.ExRccSettings.RegisterBrokenDropsRatio(
       Mod.Info.ModID,
       () => SmexValues.RccBrokenDropsRatio
     );

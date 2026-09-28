@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
 using ExpandedLib.Helpers;
+using ExpandedLib.Industry.Helpers;
+using ExpandedLib.Industry.MechanicalPower;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;

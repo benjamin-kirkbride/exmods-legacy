@@ -1,5 +1,5 @@
 using System.Linq;
-using ExpandedLib.Registries.Entities;
+using ExpandedLib.Registries;
 using SteelmakingExpanded.BlockStructures.Converter.BlockEntities;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;

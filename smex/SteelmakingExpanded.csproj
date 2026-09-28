@@ -15,6 +15,9 @@
     <OutputPath Condition="'$(OutputPath)' == ''"
       >bin\$(Configuration)\Mods\mod</OutputPath>
     <Nullable>enable</Nullable>
+    <!-- This mod's asset domain: exlib's build files glob assets/ as content from it, feed
+         assets/smex/lang/en.json to the lang-key generator and link the shared LegacyUsings.cs. -->
+    <AssetDomain>smex</AssetDomain>
   </PropertyGroup>
 
   <ItemGroup>
@@ -56,12 +59,6 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="assets\**\*">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
   <!-- Stamp the matching game version into the output modinfo for legacy builds; no-op on the
        current version (its modinfo already carries $(CurrentGameVer).0). -->
   <Target
@@ -86,18 +83,40 @@
   <!--
     smex builds on the shared framework in exlib (network/structure base types, single
     BlockNetworkModSystem identity) and uses ppex's pipe network + pipe blocks directly.
-    Reference both built dlls; Private=false because the player installs exlib and ppex as
-    their own mods, so neither dll is bundled into smex's output.
+    Private=false because the player installs exlib and ppex as their own mods, so neither dll is
+    bundled into smex's output.
+
+    Dual mode: source mode references exlib straight from the checkout, package mode takes it from
+    NuGet (ExcludeAssets=runtime, for the same reason as Private=false). ppex is a plain
+    ProjectReference in both modes.
   -->
   <ItemGroup>
-    <ProjectReference Include="..\exlib\ExpandedLib.csproj">
-      <Private>false</Private>
-    </ProjectReference>
     <ProjectReference Include="..\ppex\PipesAndPowerExpanded.csproj">
       <Private>false</Private>
     </ProjectReference>
-    <!-- Source generator that emits the SmexValues accessor from the [ExConfig] SmexConfig POCO.
+  </ItemGroup>
+  <ItemGroup Condition="'$(ExlibRoot)' != ''">
+    <ProjectReference Include="$(ExlibRoot)src\ExpandedLib\ExpandedLib.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+    <ProjectReference Include="$(ExlibRoot)src\ExpandedLib.Industry\ExpandedLib.Industry.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+    <!-- Source generator that emits the SmexValues accessor from the [ExConfigRegister] SmexConfig POCO.
          OutputItemType=Analyzer + ReferenceOutputAssembly=false: compile-time only, ships nothing. -->
+    <ProjectReference
+      Include="$(ExlibRoot)src\ExpandedLib.Generators\ExpandedLib.Generators.csproj"
+      OutputItemType="Analyzer"
+      ReferenceOutputAssembly="false"
+    />
+  </ItemGroup>
+  <ItemGroup Condition="'$(ExlibRoot)' == ''">
+    <PackageReference Include="ExpandedLib" ExcludeAssets="runtime" />
+    <PackageReference Include="ExpandedLib.Industry" ExcludeAssets="runtime" />
+  </ItemGroup>
+  <!-- The typed-attribute generator: surfaces each [BlockRegister]/[ItemRegister] class's JSON
+       "attributes" as members. -->
+  <ItemGroup>
     <ProjectReference
       Include="..\generators\ExpandedLib.Generators.csproj"
       OutputItemType="Analyzer"

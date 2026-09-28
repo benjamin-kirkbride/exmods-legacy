@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ExpandedLib.Helpers;
+using ExpandedLib.Industry.Helpers;
+using ExpandedLib.Industry.MechanicalPower;
 using HarmonyLib;
 using SteelmakingExpanded.BlockNetworkMolten;
 using SteelmakingExpanded.BlockNetworkMolten.Blocks;

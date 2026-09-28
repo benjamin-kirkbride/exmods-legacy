@@ -1,7 +1,9 @@
 using System;
 using System.Text;
 using ExpandedLib.Helpers;
-using ExpandedLib.Registries.Entities;
+using ExpandedLib.Industry.Helpers;
+using ExpandedLib.Industry.MechanicalPower;
+using ExpandedLib.Registries;
 using PipesAndPowerExpanded.BlockNetworkPipe.Blocks;
 using PipesAndPowerExpanded.Helpers;
 using Vintagestory.API.Common;

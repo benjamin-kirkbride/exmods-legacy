@@ -1,6 +1,5 @@
 using System.Linq;
-using ExpandedLib.Registries.Commands;
-using ExpandedLib.Registries.Preferences;
+using ExpandedLib.Registries;
 using PipesAndPowerExpanded.Patches;
 using PipesAndPowerExpanded.Preferences;
 using Vintagestory.API.Client;

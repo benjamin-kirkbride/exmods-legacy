@@ -1,6 +1,8 @@
-using ExpandedLib.Blocks.Structures;
+using ExpandedLib.Industry.MechanicalPower;
+using ExpandedLib.Structures;
 using ExpandedLib.Helpers;
-using ExpandedLib.Registries.Entities;
+using ExpandedLib.Industry.Helpers;
+using ExpandedLib.Registries;
 using PipesAndPowerExpanded.BlockStructures.MpPump.BlockEntities;
 using Vintagestory.API.Common;
 using Vintagestory.API.Datastructures;

@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using ExpandedLib.Helpers;
-using ExpandedLib.Registries.Entities;
+using ExpandedLib.Industry.Helpers;
+using ExpandedLib.Industry.MechanicalPower;
+using ExpandedLib.Registries;
 using PipesAndPowerExpanded.BlockNetworkPipe.BlockEntities;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;

@@ -1,8 +1,10 @@
 using System;
 using System.Text;
-using ExpandedLib.Blocks.Construction;
+using ExpandedLib.Blocks;
 using ExpandedLib.Helpers;
-using ExpandedLib.Registries.Entities;
+using ExpandedLib.Industry.Helpers;
+using ExpandedLib.Industry.MechanicalPower;
+using ExpandedLib.Registries;
 using SteelmakingExpanded.BlockNetworkMolten;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;

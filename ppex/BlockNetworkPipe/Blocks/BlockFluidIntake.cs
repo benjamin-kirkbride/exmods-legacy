@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using ExpandedLib.Blocks.Networks;
-using ExpandedLib.Registries.Entities;
+using ExpandedLib.Networks;
+using ExpandedLib.Registries;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
 

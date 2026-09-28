@@ -1,5 +1,5 @@
 using System.Linq;
-using ExpandedLib.Registries.Entities;
+using ExpandedLib.Registries;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;

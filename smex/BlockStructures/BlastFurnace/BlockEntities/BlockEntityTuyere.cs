@@ -1,4 +1,4 @@
-using ExpandedLib.Registries.Entities;
+using ExpandedLib.Registries;
 using PipesAndPowerExpanded.BlockNetworkPipe.BlockEntities;
 
 namespace SteelmakingExpanded.BlockStructures.BlastFurnace.BlockEntities;

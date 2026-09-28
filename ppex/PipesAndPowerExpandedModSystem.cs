@@ -1,9 +1,8 @@
-using ExpandedLib.Blocks.Networks;
+using ExpandedLib.Networks;
 using ExpandedLib.Helpers;
-using ExpandedLib.Registries.Commands;
-using ExpandedLib.Registries.Entities;
-using ExpandedLib.Registries.Preferences;
-using ExpandedLib.Registries.Recipes;
+using ExpandedLib.Industry.Helpers;
+using ExpandedLib.Industry.MechanicalPower;
+using ExpandedLib.Registries;
 using HarmonyLib;
 using PipesAndPowerExpanded.BlockNetworkPipe;
 using Vintagestory.API.Client;
@@ -24,7 +23,7 @@ public class PipesAndPowerExpandedModSystem : ModSystem {
     // Load gameplay tunables from ModConfig/ppex_values.json (writes defaults on first run).
     PpexValues.Load(api);
     // Drive the exlib RCC salvage ratio for the engines/boilers from the (live) config.
-    ExpandedLib.Blocks.Construction.ExRccSettings.RegisterBrokenDropsRatio(
+    ExpandedLib.Blocks.ExRccSettings.RegisterBrokenDropsRatio(
       Mod.Info.ModID,
       () => PpexValues.RccBrokenDropsRatio
     );

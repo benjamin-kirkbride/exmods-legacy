@@ -1,5 +1,5 @@
 using System;
-using ExpandedLib.Registries.Entities;
+using ExpandedLib.Registries;
 using PipesAndPowerExpanded.Helpers;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;

@@ -1,8 +1,10 @@
 using System;
 using System.Text;
-using ExpandedLib.Blocks.Machines;
-using ExpandedLib.Blocks.Networks;
 using ExpandedLib.Helpers;
+using ExpandedLib.Machines;
+using ExpandedLib.Networks;
+using ExpandedLib.Industry.Helpers;
+using ExpandedLib.Industry.MechanicalPower;
 using PipesAndPowerExpanded.BlockNetworkPipe;
 using PipesAndPowerExpanded.Helpers;
 using Vintagestory.API.Client;

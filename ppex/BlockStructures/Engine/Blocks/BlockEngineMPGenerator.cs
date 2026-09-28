@@ -1,4 +1,4 @@
-using ExpandedLib.Registries.Entities;
+using ExpandedLib.Registries;
 using PipesAndPowerExpanded.BlockStructures.Engine.BlockEntities;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;

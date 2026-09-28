@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ExpandedLib.Blocks.Structures;
+using ExpandedLib.Industry.MechanicalPower;
+using ExpandedLib.Structures;
 using ExpandedLib.Helpers;
-using ExpandedLib.Registries.Entities;
+using ExpandedLib.Industry.Helpers;
+using ExpandedLib.Registries;
 using PipesAndPowerExpanded.BlockNetworkPipe;
 using PipesAndPowerExpanded.BlockNetworkPipe.BlockEntities;
 using PipesAndPowerExpanded.Helpers;

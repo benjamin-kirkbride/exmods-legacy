@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using ExpandedLib.Registries.Preferences;
+using ExpandedLib.Registries;
 using PipesAndPowerExpanded.Helpers;
 
 namespace PipesAndPowerExpanded.Preferences;

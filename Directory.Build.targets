@@ -1,0 +1,18 @@
+<Project>
+  <!-- The workspace switch's targets half; see Directory.Build.props. -->
+  <PropertyGroup>
+    <_WorkspaceBuildTargets>$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)../'))</_WorkspaceBuildTargets>
+  </PropertyGroup>
+  <Import
+    Project="$(_WorkspaceBuildTargets)"
+    Condition="Exists('$(_WorkspaceBuildTargets)')"
+  />
+
+  <!-- GamePath resolution, provisioning, the capability constants, the asset globs and
+       LegacyUsings.cs ship in the ExpandedLib package (build/ExpandedLib.targets); source mode
+       imports the same file. -->
+  <Import
+    Project="$(ExlibRoot)build\ExpandedLib.targets"
+    Condition="'$(ExlibRoot)' != ''"
+  />
+</Project>

@@ -4,183 +4,43 @@
     The supported VintageStory versions live here, and only here; the "version manifest" region
     below is the only place to edit when the version set changes.
 
-    To add a version: append its TFM to $(AllGameTfms), add a per-version PropertyGroup (game
-    version + folder slug + install env var), and add one GAME_GE_<ver> line in the
-    capability-constants block.
+    To add a version: append its TFM to $(AllGameTfms); its per-version row (game version, folder
+    slug, install env var) lives in exlib's build/ExpandedLib.props and its GAME_GE_<ver> constant
+    in build/ExpandedLib.targets.
     To promote a new primary (e.g. when 1.22 becomes legacy and 1.23 arrives): point
     $(CurrentGameTfm)/$(CurrentGameVer) at the new row (leaving the old one in $(AllGameTfms)).
 
-    Nothing in the csprojs or the #if-guarded code changes for a version move - it all derives
-    from here:
-      * $(CurrentGameTfm)/$(AllGameTfms) - csprojs read these for TargetFramework(s)
-      * $(GamePath)/$(GameVer)/$(GameVersion) - per-TFM install, version, modinfo stamp
-      * GAME_GE_<major>_<minor> compile constants - defined for every version <= the one being
-        built, so code guards on a capability threshold (#if GAME_GE_1_22) rather than a raw TFM
-        (#if NET10_0). A threshold stays correct as newer versions appear: 1.23 is also >= 1.22,
-        so a "#if GAME_GE_1_22" current-API path keeps covering it and a "#if !GAME_GE_1_22"
-        legacy shim keeps covering only < 1.22 - including 1.22 itself once it stops being
-        primary. (Mods are written against the current API; a shim bridges an older version up to
-        it, so its guard is "version < where-this-API-arrived".)
-      * GameInstallEnv assembly metadata - lets runtime code (the test harness resolver) pick the
-        matching install without its own #if ladder.
-
-    Only a real new API divergence still needs hand-written code: add a GAME_GE_<new> guard and
-    the shim. The plumbing never needs per-version edits again.
-
-    Properties are evaluated before items in MSBuild, so the manifest is properties (not an item
-    list) to stay robust. $(TargetFramework) is empty during evaluation of the default
-    single-target / outer multi-target build (it's only a global property in the legacy inner
-    builds), so $(_GameTfm) falls back to the primary TFM.
+    The csprojs read $(CurrentGameTfm)/$(AllGameTfms) for TargetFramework(s); $(GamePath),
+    $(GameVer), $(GameVersion) and the GAME_GE_<major>_<minor> compile constants derive from the
+    TFM in exlib's build files, imported below and from Directory.Build.targets. These three are
+    set unconditionally, so the guarded defaults of the same name in ExpandedLib.props back off.
     ============================================================================================
   -->
 
   <!-- ===================== Version manifest (edit only this region) ===================== -->
-  <!-- GameVer is the game-version floor each TFM supports - the .0 of the series - and is stamped
-       into the legacy output modinfo. The mods are kept source-compatible with that .0 release (so
-       a player on any patch of the series can run them); the legacy shims target the .0 API surface.
-       (The GAME_GE_* thresholds below compare on major.minor, so the patch component is irrelevant
-       there.) -->
   <PropertyGroup>
     <CurrentGameTfm>net10.0</CurrentGameTfm>
     <CurrentGameVer>1.22.0</CurrentGameVer>
     <AllGameTfms>net7.0;net8.0;net10.0</AllGameTfms>
   </PropertyGroup>
-
-  <PropertyGroup>
-    <_GameTfm>$(TargetFramework)</_GameTfm>
-    <_GameTfm Condition="'$(_GameTfm)' == ''">$(CurrentGameTfm)</_GameTfm>
-    <IsCurrentGame Condition="'$(_GameTfm)' == '$(CurrentGameTfm)'"
-      >true</IsCurrentGame>
-  </PropertyGroup>
-
-  <!-- Per-version facts: game version floor + the .game/<slug> folder it provisions into + the env
-       var that can override the install location. One per TFM. -->
-  <PropertyGroup Condition="'$(_GameTfm)' == 'net10.0'">
-    <GameVer>1.22.0</GameVer>
-    <GameSlug>1.22</GameSlug>
-    <GameInstallEnv>VINTAGE_STORY</GameInstallEnv>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(_GameTfm)' == 'net8.0'">
-    <GameVer>1.21.0</GameVer>
-    <GameSlug>1.21</GameSlug>
-    <GameInstallEnv>VINTAGE_STORY_121</GameInstallEnv>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(_GameTfm)' == 'net7.0'">
-    <GameVer>1.20.0</GameVer>
-    <GameSlug>1.20</GameSlug>
-    <GameInstallEnv>VINTAGE_STORY_120</GameInstallEnv>
-  </PropertyGroup>
-
-  <!-- Capability-threshold compile constants: GAME_GE_<ver> for every version <= the one built. -->
-  <PropertyGroup Condition="'$(GameVer)' != ''">
-    <DefineConstants
-      Condition="$([MSBuild]::VersionGreaterThanOrEquals('$(GameVer)', '1.20'))"
-      >$(DefineConstants);GAME_GE_1_20</DefineConstants>
-    <DefineConstants
-      Condition="$([MSBuild]::VersionGreaterThanOrEquals('$(GameVer)', '1.21'))"
-      >$(DefineConstants);GAME_GE_1_21</DefineConstants>
-    <DefineConstants
-      Condition="$([MSBuild]::VersionGreaterThanOrEquals('$(GameVer)', '1.22'))"
-      >$(DefineConstants);GAME_GE_1_22</DefineConstants>
-  </PropertyGroup>
   <!-- =================== end version manifest =================== -->
 
-  <!-- Game version stamped into the legacy output modinfo (current keeps the authored value). -->
+  <!-- The workspace switch: the Directory.Build.props above this repository, when there is one, sets
+       $(ExlibRoot) to the exlib checkout beside it (source mode). A standalone clone has none, so
+       $(ExlibRoot) stays empty and every project takes ExpandedLib from its packages. -->
   <PropertyGroup>
-    <GameVersion Condition="'$(IsCurrentGame)' != 'true' and '$(GameVer)' != ''"
-      >$(GameVer)</GameVersion>
+    <_WorkspaceBuildProps>$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))</_WorkspaceBuildProps>
   </PropertyGroup>
+  <Import
+    Project="$(_WorkspaceBuildProps)"
+    Condition="Exists('$(_WorkspaceBuildProps)')"
+  />
 
-  <!-- $(GamePath) = the install for this TFM. Priority:
-         1. An explicit env-var override (its name is in $(GameInstallEnv)) - used by CI and by anyone
-            pointing the build at an external install.
-         2. Otherwise the nearest .game/<slug> holding VintagestoryAPI.dll, from the repository root
-            upward.
-         3. Otherwise nothing is installed yet: .game/<slug> under the nearest directory above the
-            repository holding exmod.workspace.json, else under the repository root. _AutoProvisionGame
-            provisions into that folder.
-       Both the env-var name and the slug come from the manifest above, so there are no per-version
-       branches and no machine-specific .env file to maintain. -->
-  <PropertyGroup Condition="'$(GameInstallEnv)' != ''">
-    <!-- The raw env-var value (empty when there's no override): lets the auto-provision target tell an
-         external install (leave alone) from the default .game/<slug> (safe to populate). -->
-    <_GamePathEnv>$([System.Environment]::GetEnvironmentVariable('$(GameInstallEnv)'))</_GamePathEnv>
-    <GamePath Condition="'$(GamePath)' == ''">$(_GamePathEnv)</GamePath>
-    <_GameAbove Condition="'$(GameSlug)' != ''"
-      >$([MSBuild]::GetDirectoryNameOfFileAbove('$(MSBuildThisFileDirectory)', '.game/$(GameSlug)/VintagestoryAPI.dll'))</_GameAbove>
-    <_ExmodWorkspaceRoot
-      >$([MSBuild]::GetDirectoryNameOfFileAbove('$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..'))', 'exmod.workspace.json'))</_ExmodWorkspaceRoot>
-    <GamePath Condition="'$(GamePath)' == '' and '$(_GameAbove)' != ''"
-      >$([System.IO.Path]::GetFullPath('$(_GameAbove)/.game/$(GameSlug)'))</GamePath>
-    <GamePath Condition="'$(GamePath)' == '' and '$(GameSlug)' != '' and '$(_ExmodWorkspaceRoot)' != ''"
-      >$([System.IO.Path]::GetFullPath('$(_ExmodWorkspaceRoot)/.game/$(GameSlug)'))</GamePath>
-    <GamePath Condition="'$(GamePath)' == '' and '$(GameSlug)' != ''"
-      >$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory).game/$(GameSlug)'))</GamePath>
-  </PropertyGroup>
-
-  <!-- Version to auto-provision: the primary tracks the latest patch (pass the major.minor series so
-       provision-game resolves it); the legacy targets pin the series .0 floor. -->
-  <PropertyGroup>
-    <_ProvisionVersion Condition="'$(IsCurrentGame)' == 'true'"
-      >$(GameSlug)</_ProvisionVersion>
-    <_ProvisionVersion Condition="'$(IsCurrentGame)' != 'true'"
-      >$(GameVer)</_ProvisionVersion>
-  </PropertyGroup>
-
-  <!-- Expose the install env-var name and the .game/<slug> folder to runtime code (the test harness
-       assembly resolver) so it loads the matching version's assemblies without its own per-TFM #if
-       ladder - env override first, else the nearest .game/<slug> from the repository upward, else the
-       workspace root's when exmod.workspace.json is above. -->
-  <ItemGroup Condition="'$(GameInstallEnv)' != ''">
-    <AssemblyMetadata Include="GameInstallEnv" Value="$(GameInstallEnv)" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(GameSlug)' != ''">
-    <AssemblyMetadata Include="GameSlug" Value="$(GameSlug)" />
-  </ItemGroup>
-
-  <!-- The pre-current game APIs have less complete nullable-reference annotations, so passing null
-       to params they accept-but-don't-mark-nullable trips CS8625. Benign cross-version difference;
-       suppress it on the legacy targets only - the current build keeps full nullable checking. -->
-  <PropertyGroup Condition="'$(IsCurrentGame)' != 'true'">
-    <NoWarn>$(NoWarn);CS8625</NoWarn>
-  </PropertyGroup>
-
-  <!-- Auto-provision the server binaries into $(GamePath) when they're missing and no env override is
-       set, so a fresh `dotnet build` / `dotnet test` works seamlessly with no manual step. The playable
-       client is never fetched here - only the launch tasks pull it (provision-game ... -Kind client).
-       An IDE's design-time build (DesignTimeBuild=true) never provisions: it only reports the
-       missing install through _CheckGamePath. -->
-  <Target
-    Name="_AutoProvisionGame"
-    Condition="'$(GameSlug)' != '' and '$(_GamePathEnv)' == '' and !Exists('$(GamePath)\VintagestoryAPI.dll') and '$(DesignTimeBuild)' != 'true'"
-  >
-    <Message
-      Importance="high"
-      Text="Vintage Story $(_ProvisionVersion) not found - provisioning server binaries into $(GamePath) ..."
-    />
-    <!-- -Dest must name the folder $(GamePath) points at, or _CheckGamePath fails even after a
-         successful provision. -->
-    <Exec
-      Condition="$([MSBuild]::IsOSPlatform('Windows'))"
-      Command="pwsh -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildThisFileDirectory)scripts\provision-game.ps1&quot; -Version $(_ProvisionVersion) -Kind server -Dest &quot;$(GamePath)&quot;"
-    />
-    <Exec
-      Condition="!$([MSBuild]::IsOSPlatform('Windows'))"
-      Command="bash &quot;$(MSBuildThisFileDirectory)scripts/provision-game.sh&quot; -Version $(_ProvisionVersion) -Kind server -Dest &quot;$(GamePath)&quot;"
-    />
-  </Target>
-
-  <!-- Fail clearly (instead of a cryptic CS1705 assembly-version mismatch) if, after the auto-provision
-       attempt, the binaries still aren't there (e.g. offline, or an env override pointing nowhere). -->
-  <Target
-    Name="_CheckGamePath"
-    BeforeTargets="ResolveAssemblyReferences"
-    DependsOnTargets="_AutoProvisionGame"
-    Condition="'$(GamePath)' != ''"
-  >
-    <Error
-      Condition="!Exists('$(GamePath)\VintagestoryAPI.dll')"
-      Text="Can't find the Vintage Story $(GameVer) install (GamePath='$(GamePath)'). Provision it with 'pwsh scripts/provision-game.ps1 -Version $(_ProvisionVersion) -Kind server -Dest &quot;$(GamePath)&quot;' (Windows) or 'scripts/provision-game.sh -Version $(_ProvisionVersion) -Kind server -Dest &quot;$(GamePath)&quot;' (Linux/macOS), or set the $(GameInstallEnv) environment variable to an existing install."
-    />
-  </Target>
+  <!-- The per-version rows, GamePath resolution, provisioning and the capability constants ship in
+       the ExpandedLib package (build/ExpandedLib.props and .targets); source mode imports the same
+       files from the checkout. In package mode the PackageReference imports them. -->
+  <Import
+    Project="$(ExlibRoot)build\ExpandedLib.props"
+    Condition="'$(ExlibRoot)' != ''"
+  />
 </Project>

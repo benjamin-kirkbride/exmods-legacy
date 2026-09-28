@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
-using ExpandedLib.Blocks.Networks;
+using ExpandedLib.Networks;
 using ExpandedLib.Helpers;
+using ExpandedLib.Industry.Helpers;
+using ExpandedLib.Industry.MechanicalPower;
 using PipesAndPowerExpanded.BlockNetworkPipe.BlockEntities;
 using PipesAndPowerExpanded.BlockNetworkPipe.Blocks;
 using Vintagestory.API.Common;

@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ExpandedLib.Blocks.Machines;
-using ExpandedLib.Blocks.Networks;
-using ExpandedLib.Blocks.Structures;
 using ExpandedLib.Helpers;
-using ExpandedLib.Registries.Entities;
+using ExpandedLib.Machines;
+using ExpandedLib.Networks;
+using ExpandedLib.Industry.MechanicalPower;
+using ExpandedLib.Structures;
+using ExpandedLib.Industry.Helpers;
+using ExpandedLib.Registries;
 using PipesAndPowerExpanded.BlockNetworkPipe;
 using PipesAndPowerExpanded.Helpers;
 using SteelmakingExpanded.BlockNetworkMolten;

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using ExpandedLib.Blocks.Networks;
+using ExpandedLib.Networks;
 using SteelmakingExpanded.BlockNetworkMolten.BlockEntities;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;

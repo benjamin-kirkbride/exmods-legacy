@@ -15,6 +15,9 @@
     <OutputPath Condition="'$(OutputPath)' == ''"
       >bin\$(Configuration)\Mods\mod</OutputPath>
     <Nullable>enable</Nullable>
+    <!-- This mod's asset domain: exlib's build files glob assets/ as content from it, feed
+         assets/ppex/lang/en.json to the lang-key generator and link the shared LegacyUsings.cs. -->
+    <AssetDomain>ppex</AssetDomain>
   </PropertyGroup>
 
   <ItemGroup>
@@ -56,13 +59,8 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="assets\**\*">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <!-- Stamp the matching game version into the output modinfo for legacy builds; no-op on 1.22. -->
+  <!-- Stamp the matching game version into the output modinfo for legacy builds; no-op on the
+       current version (its modinfo already carries $(CurrentGameVer).0). -->
   <Target
     Name="RewriteModinfoGameVersion"
     AfterTargets="Build"
@@ -70,7 +68,7 @@
   >
     <WriteLinesToFile
       File="$(OutDir)modinfo.json"
-      Lines="$([System.IO.File]::ReadAllText('$(OutDir)modinfo.json').Replace('&quot;game&quot;: &quot;1.22.0&quot;', '&quot;game&quot;: &quot;$(GameVersion)&quot;'))"
+      Lines="$([System.IO.File]::ReadAllText('$(OutDir)modinfo.json').Replace('&quot;game&quot;: &quot;$(CurrentGameVer)&quot;', '&quot;game&quot;: &quot;$(GameVersion)&quot;'))"
       Overwrite="true"
     />
   </Target>
@@ -84,16 +82,34 @@
 
   <!--
     ExpandedLib is its own mod (exlib) with a single runtime type identity (one
-    BlockNetworkModSystem, shared network/structure base types). Reference the built
-    exlib.dll instead of recompiling it. Private=false: the player installs exlib as a
-    separate mod, so its dll is not bundled into ppex's output.
+    BlockNetworkModSystem, shared network/structure base types). Private=false: the player installs
+    exlib as a separate mod, so its dll is not bundled into ppex's output.
+
+    Dual mode: source mode references exlib straight from the checkout, package mode takes it from
+    NuGet (ExcludeAssets=runtime, for the same reason as Private=false).
   -->
-  <ItemGroup>
-    <ProjectReference Include="..\exlib\ExpandedLib.csproj">
+  <ItemGroup Condition="'$(ExlibRoot)' != ''">
+    <ProjectReference Include="$(ExlibRoot)src\ExpandedLib\ExpandedLib.csproj">
       <Private>false</Private>
     </ProjectReference>
-    <!-- Source generator that emits the PpexValues accessor from the [ExConfig] PpexConfig POCO.
+    <ProjectReference Include="$(ExlibRoot)src\ExpandedLib.Industry\ExpandedLib.Industry.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+    <!-- Source generator that emits the PpexValues accessor from the [ExConfigRegister] PpexConfig POCO.
          OutputItemType=Analyzer + ReferenceOutputAssembly=false: compile-time only, ships nothing. -->
+    <ProjectReference
+      Include="$(ExlibRoot)src\ExpandedLib.Generators\ExpandedLib.Generators.csproj"
+      OutputItemType="Analyzer"
+      ReferenceOutputAssembly="false"
+    />
+  </ItemGroup>
+  <ItemGroup Condition="'$(ExlibRoot)' == ''">
+    <PackageReference Include="ExpandedLib" ExcludeAssets="runtime" />
+    <PackageReference Include="ExpandedLib.Industry" ExcludeAssets="runtime" />
+  </ItemGroup>
+  <!-- The typed-attribute generator: surfaces each [BlockRegister]/[ItemRegister] class's JSON
+       "attributes" as members. -->
+  <ItemGroup>
     <ProjectReference
       Include="..\generators\ExpandedLib.Generators.csproj"
       OutputItemType="Analyzer"

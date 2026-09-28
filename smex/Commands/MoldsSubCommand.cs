@@ -1,6 +1,6 @@
 using System.Linq;
 using System.Text;
-using ExpandedLib.Registries.Commands;
+using ExpandedLib.Registries;
 using SteelmakingExpanded.Molds;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;

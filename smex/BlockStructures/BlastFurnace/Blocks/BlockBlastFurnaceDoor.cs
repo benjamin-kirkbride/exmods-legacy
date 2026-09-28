@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using ExpandedLib.Helpers;
-using ExpandedLib.Registries.Entities;
+using ExpandedLib.Industry.Helpers;
+using ExpandedLib.Industry.MechanicalPower;
+using ExpandedLib.Registries;
 using SteelmakingExpanded.BlockStructures.BlastFurnace.BlockEntities;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;

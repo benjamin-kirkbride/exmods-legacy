@@ -34,9 +34,9 @@ namespace ExpandedLib.Generators;
 [Generator(LanguageNames.CSharp)]
 public sealed class ExAttributeGenerator : IIncrementalGenerator {
   private const string BlockAttr =
-    "ExpandedLib.Registries.Entities.BlockRegisterAttribute";
+    "ExpandedLib.Registries.BlockRegisterAttribute";
   private const string ItemAttr =
-    "ExpandedLib.Registries.Entities.ItemRegisterAttribute";
+    "ExpandedLib.Registries.ItemRegisterAttribute";
 
   public void Initialize(IncrementalGeneratorInitializationContext context) {
     var blocks = context

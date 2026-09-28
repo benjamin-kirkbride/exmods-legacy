@@ -1,4 +1,4 @@
-using ExpandedLib.Blocks.Networks;
+using ExpandedLib.Networks;
 using HarmonyLib;
 using PipesAndPowerExpanded.BlockNetworkPipe.BlockEntities;
 using PipesAndPowerExpanded.BlockNetworkPipe.Blocks;

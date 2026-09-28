@@ -1,5 +1,6 @@
-using ExpandedLib.Blocks.Structures;
-using ExpandedLib.Registries.Entities;
+using ExpandedLib.Industry.MechanicalPower;
+using ExpandedLib.Structures;
+using ExpandedLib.Registries;
 
 namespace PipesAndPowerExpanded.BlockStructures.Boiler.Blocks;
 
