@@ -9,7 +9,7 @@ covers:
   - "ppex:steamcondenser-*"
   - "ppex:pipe-fluidintake-*"
 order: 6
-version: 0.6.8
+version: 0.7.0
 ---
 
 Every number on these pages is a config value, and all of them can be read and set in game. The
@@ -38,10 +38,15 @@ commands are server-side and need the `controlserver` privilege.
 
 ## The files
 
-`ModConfig/ppex_values.json` holds the values below, and `/exmod config` is the same file edited
-live. `ModConfig/ppex_recipes.json` holds the per-recipe ingredient counts for each cost level; it
-is edited on disk, not through a command, and `/exmod recipes` only chooses which level of it is
-active. An older `ppex.json` is migrated once to `ppex_values.json`.
+The `ppex` section of `ModConfig/ex_values.json` holds the values below, and `/exmod config ppex`
+edits that section live. The `ppex` section of `ModConfig/ex_recipes.json` holds the per-recipe
+ingredient counts for each cost level; it is edited on disk, not through a command, and `/exmod
+recipes` only chooses which level of it is active. Both files are shared with the other mods on
+Expanded Library, one section per mod.
+
+A world from 0.6.9 or earlier carries `ppex_values.json` (or the older `ppex.json`) and
+`ppex_recipes.json`. The first load folds them into the two sections with their values kept and
+renames them to `.migrated`.
 
 A value that comes back from the file as not-a-number, infinite or negative is reset to its
 default when the world loads, and a few keys are clamped to a range.
@@ -59,17 +64,28 @@ intact now returns everything it was built from.
 
 | key | default | what it sets |
 |---|---|---|
-| `LitresPerPipe` | 30 L | capacity one pipe adds to its run at 1 atm |
 | `IronPipeBurstPressure` | 5 atm | burst rating of an iron pipe |
 | `SteelPipeBurstPressure` | 10 atm | burst rating of a steel pipe |
-| `PipeOverpressureSeconds` | 30 s | time at the burst rating before a pipe lets go |
-| `GasLeakRate` | 8 L/s | gas an open end bleeds from the whole run |
-| `LiquidLeakRate` | 10 L/s | water an open end drains from the whole run |
 | `ChimneyGasDrawRate` | 16 L/s | gas one chimney draws off a passthrough or outlet |
-| `EvaporationLitresPerDay` | 50 L | water lost per in-game day from a run and from a boiler |
 | `BoilingPoint` | 100 C | where water becomes steam and steam becomes water |
 | `SteamExpansionFactor` | 16 | litres of steam per litre of water, both ways |
 | `SteamSaturationExponent` | 0.25 | exponent of the steam temperature curve |
+
+The pipe network's own numbers are Expanded Library's, in the `exlib` section of
+`ModConfig/ex_values.json`, and `/exmod config exlib` sets them. They apply to every mod's pipes:
+
+| key | default | what it sets |
+|---|---|---|
+| `LitresPerPipe` | 30 L | capacity one pipe adds to its run at 1 atm |
+| `PipeOverpressureSeconds` | 30 s | time at the burst rating before a pipe lets go |
+| `GasLeakRate` | 8 L/s | gas an open end bleeds from the whole run |
+| `LiquidLeakRate` | 10 L/s | water an open end drains from the whole run |
+| `EvaporationLitresPerDay` | 50 L | water lost per in-game day from a run and from a boiler |
+| `PipeGasCoolPerSecond` | 2 C/s | how fast a gas run cools |
+| `PipeAmbientTemperature` | 20 C | the temperature a gas run cools toward |
+
+Up to 0.6.9 the first five were ppex keys. A value tuned in the old file is not carried over; the
+server log names it once at load.
 
 ### Boilers (the plain names are the Lancashire)
 

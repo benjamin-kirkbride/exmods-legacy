@@ -5,22 +5,70 @@ All notable changes to this mod are documented here. The format is based on
 [Semantic Versioning](https://semver.org/). For changes before this file existed,
 see the git history.
 
-## [Unreleased]
+## [0.7.0] - 2026-09-29
+
+Requires Expanded Library 0.8.3 or later; it no longer loads with exlib 0.7.2. Back up your world
+before updating: a world saved on this version cannot go back to 0.6.9 or earlier. Its pipes would
+lose their contents, the config would be back at its defaults, and some pipes might not read their
+facing.
 
 ### Changed
 
-- The config moves into the shared files: the tunables into the `ppex` section of
-  `ModConfig/ex_values.json`, the recipe costs into the `ppex` section of `ModConfig/ex_recipes.json`.
-  On first load `ppex_values.json` (or the older `ppex.json`) and `ppex_recipes.json` are folded in
-  with their values kept and renamed to `.migrated`. Back up first: an older ppex does not read the
-  new files.
+- **Built on Expanded Library 0.8.** Pipes run on exlib's shared pipe network. A world from 0.6.8 or
+  0.6.9 loads with every pipe's contents and pressure, and the limits are the same: iron pipe bursts
+  at 5 atm, steel at 10 atm, and a run has no throughput cap. exlib 0.8.3 names this mod in the log
+  and in chat when a version below 0.7.0 is installed beside it.
+- **Gas in a pipe run cools.** Steam, air and exhaust lose 2 C a second toward 20 C, whether or not
+  anything draws from the run: steam left standing a minute in a ten-pipe run drops from 150 C to
+  30 C. Pressure is unchanged, and engines run as before. The rate is `PipeGasCoolPerSecond` and
+  the floor `PipeAmbientTemperature`, in the `exlib` section of `ModConfig/ex_values.json`.
+- **The config moves into the shared files:** the tunables into the `ppex` section of
+  `ModConfig/ex_values.json`, the recipe costs into the `ppex` section of
+  `ModConfig/ex_recipes.json`. On first load `ppex_values.json` (or the older `ppex.json`) and
+  `ppex_recipes.json` are folded in with their values kept, and renamed to `.migrated`.
+- **A turned boiler part stops the boiler.** The coke oven door of a Cornish or Lancashire boiler
+  has to face out, and the flue passthroughs and the passthrough bend have to run along the flue. A
+  part turned in place leaves the boiler incomplete until it is turned back: the look-at line counts
+  it as missing, and the build outline (ctrl+shift+right-click) marks it red. This applies to
+  boilers already standing in a world.
+- **A construction stage takes one kind of material.** A stage that needs four planks takes four of
+  one wood: two oak and two pine are refused. Machines already part-built follow the same rule.
+- **Machine sounds follow the machine volume.** `.exmod sound` and the game's volume sliders set the
+  engine's gear hum, the pumps' water and the Mechanical Power Generator's grind. The grind is now
+  the gearbox sound and quieter. A burning boiler's firebox sound is one loop per boiler that starts
+  and stops with the fire, where copies used to pile up. A pipe's bubbling and trickle no longer
+  overlap themselves.
+- **Runs never join across the two lines.** With Iron Industry Expanded installed, its pipes and
+  these pipes placed side by side form two runs. Machine ports take either line's pipe.
+
+### Added
+
+- **With Iron Industry Expanded or Steel Industry Expanded in the same world, this mod and
+  Steelmaking Expanded close.** Machines already built keep working, but nothing new can be built
+  from the two mods:
+  - their recipes are gone, and their blocks and items leave the creative inventory and the
+    handbook, the guide pages included;
+  - their blocks drop none of their own items when broken; fuel, metal and the vanilla materials of
+    a part-built machine still drop;
+  - their items are removed from each player's inventories on joining, from chests, racks, ground
+    storage and other containers as their chunks load, and from the ground;
+  - a pump, twin-tub blower or Bessemer converter already part-built can be finished: its pipe
+    stage takes the new line's straight pipe;
+  - each player sees one chat notice the first time they join, and the server log says so once at
+    start.
+
+  Not covered, so an item left there stays: the inventories of boats, pack animals, armour stands
+  and traders; storage of other mods that is not a container block (a carried block, say); items
+  inside another item, such as a bag in a chest; chunks that never load again; and an item a
+  machine hands out later, which goes at the next sweep of the place it lands. Removing both new
+  mods opens the line again.
 
 ### Removed
 
 - The pipe tunables `LitresPerPipe`, `GasLeakRate`, `LiquidLeakRate`, `EvaporationLitresPerDay` and
   `PipeOverpressureSeconds`. The pipe network reads them from the `exlib` section of
-  `ModConfig/ex_values.json`, with the same defaults. A value tuned in the old file is logged once at
-  load, naming the key.
+  `ModConfig/ex_values.json`, with the same defaults. A value tuned in the old file is logged once
+  at load, naming the key.
 
 ## [0.6.9] - 2026-09-23
 

@@ -8,7 +8,7 @@ covers:
   - "ppex:pipe-passthrough-*"
   - "ppex:pipe-passthroughbend-*"
 order: 1
-version: 0.6.8
+version: 0.7.0
 ---
 
 Every pipe you connect together forms one network with one shared pool. A network carries one
@@ -41,8 +41,8 @@ fill ratio while it is filling and jumps to the delivery head of the pump feedin
 brim full, 1 atm from the Manual Fluid Pump, 1.5 atm from the Mechanical Fluid Pump, and the
 engine's inlet steam pressure times 0.75 from the Fluid Pump.
 
-A gas run that nothing is drawing from cools 2 C per second toward 20 C, and a leaking one cools
-5 C per second on top of that.
+A gas run cools 2 C per second toward 20 C, whether or not anything is drawing from it, and a
+leaking one cools 5 C per second on top of that. Pressure does not change with it.
 
 ## Bursting, and the passthrough limit
 

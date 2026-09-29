@@ -5,15 +5,67 @@ All notable changes to this mod are documented here. The format is based on
 [Semantic Versioning](https://semver.org/). For changes before this file existed,
 see the git history.
 
-## [Unreleased]
+## [0.10.0] - 2026-09-29
+
+Requires Expanded Library 0.8.3 or later and Pipes and Power Expanded 0.7.0; it no longer loads with
+exlib 0.7.2. Back up your world before updating: a world saved on this version cannot go back to
+0.9.9 or earlier. Its config would be back at its defaults, and its pipes and canals might not
+read their facing.
 
 ### Changed
 
-- The config moves into the shared files: the tunables into the `smex` section of
-  `ModConfig/ex_values.json`, the recipe costs into the `smex` section of `ModConfig/ex_recipes.json`.
-  On first load `smex_values.json` (or the older `smex.json`) and `smex_recipes.json` are folded in
-  with their values kept and renamed to `.migrated`. Back up first: an older smex does not read the
-  new files.
+- **Built on Expanded Library 0.8.** Canals run on exlib's shared molten network with this mod's own
+  flow rules, so metal moves along a run as before. A world from 0.9.8 or 0.9.9 loads with every
+  canal's metal, temperature and solid plugs. exlib 0.8.3 names this mod in the log and in chat
+  when a version below 0.10.0 is installed beside it.
+- **Exhaust cools in its pipes.** Gas in a pipe run now loses 2 C a second (Pipes and Power Expanded
+  0.7.0), so a cowper stove charged through a long exhaust run heats a little slower.
+- **The config moves into the shared files:** the tunables into the `smex` section of
+  `ModConfig/ex_values.json`, the recipe costs into the `smex` section of
+  `ModConfig/ex_recipes.json`. On first load `smex_values.json` (or the older `smex.json`) and
+  `smex_recipes.json` are folded in with their values kept, and renamed to `.migrated`.
+- **A turned part stops its structure.** Each part of the blast furnace, the cowper stove and the
+  Bessemer converter has to face the way its layout sets: the furnace's taps, tuyeres and gas
+  outlets, the stove's heat sinks, coke oven door, outlets and passthrough, and the converter's
+  transmission, gas intake and canal pieces. A part turned in place leaves the structure incomplete
+  and stops it until it is turned back; ctrl+shift+right-click lists it in chat and marks it red in
+  the build outline. This applies to structures already standing in a world.
+- **A construction stage takes one kind of material.** The twin-tub blower's beam stage takes four
+  beams of one wood: two oak and two pine are refused. Machines already part-built follow the same
+  rule.
+- **Machine sounds.** The fire of the blast furnace, the cowper stove and the smoke stack, and the
+  converter's fire and embers, are one loop per machine that starts and stops with the fire, where
+  copies used to pile up. Pouring and sizzling metal no longer repeat over themselves. Every sound
+  of this mod follows `.exmod sound` and the game's volume sliders, and a change reaches a burning
+  machine at once.
+- **Parts that close a wall close a room.** These blocks are now solid on the faces their shape
+  closes: the blast furnace tap on every face, the smoke stack intake around its pipe ends, the
+  hopper bell's four sides, the converter transmission's top, and a canal's floor and the sides its
+  run does not pass through.
+- **Runs never join across the two lines.** With Iron Industry Expanded installed, its canals and
+  these canals placed side by side form two networks.
+
+### Added
+
+- **A wrench turns the blast furnace tap, the cowper heat sink and the converter's gas intake and
+  transmission** a quarter turn, left click one way and right click the other, keeping what the part
+  holds: an open tap stays open, a hot heat sink keeps its heat, and the transmission couples to the
+  axle it now faces.
+- With Iron Industry Expanded or Steel Industry Expanded in the same world, this mod and Pipes and
+  Power Expanded close: nothing new can be built from them and their items are removed, while what
+  is built keeps working. See the Pipes and Power Expanded 0.7.0 changelog for what is and is not
+  covered. With them installed, a broken Bessemer converter no longer returns its large gear.
+
+### Fixed
+
+- **Snow no longer settles in the smoke stack intake's open shaft** or on the refractory floor under
+  it, also after the chunk unloads or the world is reloaded.
+- **On game 1.20 and 1.21, metal in a canal cools.** It held its pour temperature for good there;
+  now it falls about 24 C each game hour (`MoltenCooldownSpeed`) and plugs the cell once it drops
+  below its melting point, as on 1.22. Metal in a mold on a pedestal or under a tap, in a molten
+  barrel and in the converter cools on those versions too.
+- On game 1.20 the mod stopped with an error while starting, at the patch that adds the furnace
+  yield to a held iron feed's tooltip. The patch finds its target there now.
 
 ## [0.9.9] - 2026-09-23
 

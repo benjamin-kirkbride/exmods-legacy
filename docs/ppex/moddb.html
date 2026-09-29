@@ -15,9 +15,10 @@
 <ul>
   <li><strong>Game version:</strong> built for Vintage Story 1.22. Legacy 1.20 and 1.21 builds are on the GitHub releases page.</li>
   <li><strong>Multiplayer:</strong> works in singleplayer and on dedicated servers.</li>
-  <li><strong>Requires:</strong> <a href="https://mods.vintagestory.at/exlib">Expanded Library</a> (exlib).</li>
+  <li><strong>Requires:</strong> <a href="https://mods.vintagestory.at/exlib">Expanded Library</a> (exlib) 0.8.3 or later.</li>
   <li><strong>Languages:</strong> English, Russian, Ukrainian.</li>
-  <li><strong>Save safety:</strong> safe to add to an existing world. Removing it leaves the placed machine and pipe blocks behind, so break them first if you uninstall.</li>
+  <li><strong>Save safety:</strong> safe to add to an existing world. Removing it leaves the placed machine and pipe blocks behind, so break them first if you uninstall. Back up a world before updating to 0.7.0: it cannot go back to 0.6.9 or earlier.</li>
+  <li><strong>Successors:</strong> Iron Industry Expanded and Steel Industry Expanded. With either installed in the same world, this mod and Steelmaking Expanded close there: what is built keeps working, nothing new can be built, and their items are removed.</li>
 </ul>
 
 <h2>Quick start</h2>
@@ -39,12 +40,12 @@
   <li><code>/exmod recipes ppex &lt;normal|cheap&gt;</code> - switch the crafting and construction cost level; applies on the next world reload (admin).</li>
 </ul>
 <p>
-  Two config files are generated under <code>VintagestoryData/ModConfig/</code> on
-  first run:
+  The config lives in two files under <code>VintagestoryData/ModConfig/</code> that every mod on
+  Expanded Library shares, one section per mod:
 </p>
 <ul>
-  <li><code>ppex_values.json</code> - the gameplay tunables (pipe capacity and burst pressures, boiler steam output and water draw, engine steam consumption). Editable live with <code>/exmod config ppex</code>.</li>
-  <li><code>ppex_recipes.json</code> - the per-recipe and per-construction cost numbers for each level (normal and cheap). Pick the active level with <code>/exmod recipes ppex</code> and fine-tune the numbers in this file; changes apply on the next world reload.</li>
+  <li><code>ex_values.json</code>, section <code>ppex</code> - the gameplay tunables (pipe burst pressures, boiler steam output and water draw, engine steam consumption). Editable live with <code>/exmod config ppex</code>. Pipe capacity, leaks, evaporation and cooling are Expanded Library's, in its <code>exlib</code> section.</li>
+  <li><code>ex_recipes.json</code>, section <code>ppex</code> - the per-recipe and per-construction cost numbers for each level (normal and cheap). Pick the active level with <code>/exmod recipes ppex</code> and fine-tune the numbers in this section; changes apply on the next world reload.</li>
 </ul>
 
 <h2>How it works</h2>

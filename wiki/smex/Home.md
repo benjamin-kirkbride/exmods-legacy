@@ -2,21 +2,17 @@
 
 Steelmaking Expanded adds a blast furnace, molten canals and a Bessemer converter. The furnace
 smelts iron ore into a reservoir of melt, the canals plumb that melt to molds, and the converter
-blows it into steel. This is version 0.9.9, and it needs Expanded Library 0.7.2 and
-[Pipes and Power Expanded](/current/ppex/Home/) 0.6.9 or later.
-
-The mod carries no guard against later library versions: with exlib 0.8 or newer installed the game
-simply does not load it, because its assembly reference no longer matches. exlib 0.8 does not leave
-that silent: it logs one error and tells every joining player `exlib <version> does not work with
-Steelmaking Expanded and Pipes and Power Expanded: keep exlib 0.7.2 with them, or replace them with
-Iron Industry Expanded.`
+blows it into steel. This is version 0.10.0, and it needs Expanded Library 0.8.3 or later and
+[Pipes and Power Expanded](/current/ppex/Home/) 0.7.0 or later.
 
 If you are starting from nothing, work through [Getting started](Getting-started) in order; if
 something is already broken, the [FAQ](FAQ) collects the questions players actually asked.
 
 Steelmaking Expanded itself is not being carried forward. Its successor is Steel Industry Expanded,
 a new mod built on exlib 0.8 and later rather than an update to this one, and worlds do not carry
-over between the two.
+over between the two. Add Steel Industry Expanded or Iron Industry Expanded to a world with this mod
+and it closes there: the machines already built keep working and these pages still explain them,
+but nothing new can be built, and this mod's items are removed. [[Compatibility]] has the details.
 
 ## Contents
 

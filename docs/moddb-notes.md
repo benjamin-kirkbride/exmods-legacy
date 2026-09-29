@@ -1,25 +1,25 @@
 # Mod database listing notes
 
-The current releases are ppex 0.6.9 and smex 0.9.9. Neither carries a guard
-against later exlib versions; the game's loader fails to load ppex and smex at all once exlib 0.8
-is installed, since their assembly reference no longer matches, so no code of theirs ever gets the
-chance to run. A listing description can be edited without a release, so all three pages get one.
-The owner uploads through the web form; nothing here is published automatically.
+The prepared releases are ppex 0.7.0 and smex 0.10.0, both on exlib 0.8.3 or later; the owner
+uploads them through the web form once exlib 0.8.3 is out, and nothing here is published
+automatically. The listing pages are `docs/ppex/moddb.html` and `docs/smex/moddb.html`; a listing
+description can be edited without a release.
 
 ## exlib listing description change
 
-0.7.2 is the last version of exlib that Steelmaking Expanded and Pipes and Power Expanded run on.
-0.8 and later serve Iron Industry Expanded and Steel Industry Expanded instead; keep exlib 0.7.2
-installed alongside ppex and smex, not 0.8 or later.
+Pipes and Power Expanded 0.7.0 and Steelmaking Expanded 0.10.0 run on this version, beside Iron
+Industry Expanded and Steel Industry Expanded. exlib 0.8.3 refuses older ppex and smex and says so
+in chat; keep exlib 0.7.2 only for a world that stays on ppex 0.6.9 and smex 0.9.9.
 
 ## ppex listing description change
 
-This mod requires Expanded Library 0.7.2. It carries no guard against later exlib versions; the
-loader fails to load it at all once exlib 0.8 or later is installed. Keep exlib 0.7.2 installed
-alongside it, not 0.8 or later.
+This mod requires Expanded Library 0.8.3 or later. Back up a world before updating: it cannot go
+back to 0.6.9 or earlier. With Iron Industry Expanded or Steel Industry Expanded installed in the
+same world, ppex and smex close there: what is built keeps working, and nothing new can be built.
 
 ## smex listing description change
 
-This mod requires Expanded Library 0.7.2 and Pipes and Power Expanded. It carries no guard against
-later exlib versions; the loader fails to load it at all once exlib 0.8 or later is installed. Keep
-exlib 0.7.2 installed alongside it, not 0.8 or later.
+This mod requires Expanded Library 0.8.3 or later and Pipes and Power Expanded 0.7.0 or later. Back
+up a world before updating: it cannot go back to 0.9.9 or earlier. With Iron Industry Expanded or
+Steel Industry Expanded installed in the same world, ppex and smex close there: what is built keeps
+working, and nothing new can be built.

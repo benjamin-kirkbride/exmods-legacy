@@ -92,8 +92,9 @@ what the boiler question above says: vent and stop a pressurised run before a re
 ## How do I change the numbers this mod uses?
 
 `/exmod config` and `/exmod recipes` are Expanded Library's own commands, not this mod's, and the
-mod id is the section name, so tuning this mod is `/exmod config ppex ...`. It edits
-`ModConfig/ppex_values.json` and applies live. `/exmod recipes ppex <level>` only sets the recipe
-cost level and applies on the next world reload; the per-recipe numbers live in
-`ModConfig/ppex_recipes.json` and are edited on disk. Every key and its default is listed on
-Commands and config.
+mod id is the section name, so tuning this mod is `/exmod config ppex ...`. It edits the `ppex`
+section of `ModConfig/ex_values.json` and applies live. `/exmod recipes ppex <level>` only sets the
+recipe cost level and applies on the next world reload; the per-recipe numbers live in the `ppex`
+section of `ModConfig/ex_recipes.json` and are edited on disk. The pipe capacity, leak and
+evaporation numbers are Expanded Library's, in its `exlib` section. Every key and its default is
+listed on Commands and config.

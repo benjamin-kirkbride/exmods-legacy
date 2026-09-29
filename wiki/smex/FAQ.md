@@ -108,9 +108,10 @@ through the run. [[Bessemer process]] has the pressure table.
 ## How do I change the numbers this mod uses?
 
 `/exmod config` and `/exmod recipes` are Expanded Library's commands, not this mod's, and the mod id
-is the section name: `/exmod config smex <key> <value>`. That writes `ModConfig/smex_values.json`
-and applies live. `/exmod recipes smex <level>` only picks a cost profile, and it lands on the next
-world reload; the per-recipe numbers live in `ModConfig/smex_recipes.json` and are edited there.
+is the section name: `/exmod config smex <key> <value>`. That writes the `smex` section of
+`ModConfig/ex_values.json` and applies live. `/exmod recipes smex <level>` only picks a cost
+profile, and it lands on the next world reload; the per-recipe numbers live in the `smex` section of
+`ModConfig/ex_recipes.json` and are edited there.
 Every key and its default is listed on [[Commands and config]].
 
 ## Why did the update break my burden, and why will the hopper not take crushed coke any more?
@@ -147,5 +148,7 @@ planned restart, rather than leaving a plant pressurised and full of metal.
 
 Hold ctrl and shift and right-click the control block: that raises the build outline and prints
 every block still missing, by name and count, in chat. Red cells in the outline hold the wrong
-block. The outline only appears while the structure is incomplete, and it goes away by itself when
-it is done.
+block, or the right block facing the wrong way: a tap, tuyere, heat sink or converter part turned in
+place stops the structure until it is turned back, and a wrench turns the tap, the heat sink and the
+converter's gas intake and transmission without breaking them. The outline only appears while the
+structure is incomplete, and it goes away by itself when it is done.

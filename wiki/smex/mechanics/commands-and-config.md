@@ -3,7 +3,7 @@ title: Commands and config
 covers:
   - "smex:toolmold*"
 order: 7
-version: 0.9.8
+version: 0.10.0
 ---
 
 Every number on the other pages is a config value, and all of them can be changed in place. The
@@ -32,22 +32,25 @@ Use `/exmod recipes smex <level>`.
 
 ## The files
 
-`ModConfig/smex_values.json` holds the values below. The machines re-read it every tick, so a
-`/exmod config` change reaches a furnace that is already running. A saved value that is not a
-number, or is negative, resets to its default on load. An older file called `smex.json` is migrated
-to this name once.
+The `smex` section of `ModConfig/ex_values.json` holds the values below. The machines re-read it
+every tick, so a `/exmod config` change reaches a furnace that is already running. A saved value
+that is not a number, or is negative, resets to its default on load.
 
-`ModConfig/smex_recipes.json` holds the recipe cost catalogue: which grid recipes and which
-right-click construction the level applies to, with a `normal` profile filled in from the recipes
-as shipped and a `cheap` profile at half cost. Edit the per-recipe numbers there; the command only
-picks which profile is live, and the change lands on the next world reload.
+The `smex` section of `ModConfig/ex_recipes.json` holds the recipe cost catalogue: which grid
+recipes and which right-click construction the level applies to, with a `normal` profile filled in
+from the recipes as shipped and a `cheap` profile at half cost. Edit the per-recipe numbers there;
+the command only picks which profile is live, and the change lands on the next world reload.
+
+Both files are shared with the other mods on Expanded Library, one section per mod. A world from
+0.9.9 or earlier carries `smex_values.json` (or the older `smex.json`) and `smex_recipes.json`. The
+first load folds them into the two sections with their values kept and renames them to `.migrated`.
 
 Upgrading the mod can reset individual keys. Each release that rebalances something lists the keys
 it pushes out, and only those are reset; the rest of your tuning is kept. 0.9.7 reset most of the
 furnace and converter numbers at once, because a saved config from before it left a furnace that
 could not reach its own melting point.
 
-## smex_values.json
+## The values
 
 ### Blast furnace
 
@@ -181,9 +184,9 @@ could not reach its own melting point.
 | `EnablePlateMold` | true | whether the plate mold exists |
 | `EnableIngotMold` | true | whether the double ingot mold exists |
 | `EnableRodMold` | true | whether the quad rod mold exists |
-| `RecipeLevel` | `normal` | the live profile in `smex_recipes.json` |
+| `RecipeLevel` | `normal` | the live profile in the recipe catalogue |
 
-## smex_recipes.json
+## The recipe catalogue
 
 The catalogue names what the level applies to, not what it costs: the right-click construction of
 the converter vessel, and the grid recipes of the tuyere, the furnace door, the furnace tap, the

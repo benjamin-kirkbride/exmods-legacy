@@ -2,7 +2,7 @@
 
 Expanded Library is the shared framework mod behind Pipes and Power Expanded and Steelmaking
 Expanded. It ships no gameplay content of its own - install it because another mod depends on it.
-Current version is 0.7.2.
+Pipes and Power Expanded 0.7.0 and Steelmaking Expanded 0.10.0 need exlib 0.8.3 or later.
 
 It provides the block-network framework that both dependent mods build their pipe and molten
 networks on, the multiblock structure system their boilers, engines, furnaces and converters are
@@ -12,11 +12,10 @@ block codes in old saves, and the registries and shared helpers (attribute-drive
 command registration, versioned live-editable config, per-mod recipe-cost profiles, per-player
 display preferences) the other two mods are written against.
 
-0.7.2 is the last version of exlib in this line. 0.8 and later serve Iron Industry Expanded and
-Steel Industry Expanded instead. ppex 0.6.9 and smex 0.9.9 carry no guard against later exlib
-versions; the game's loader simply fails to load them at all once exlib 0.8 or later replaces
-0.7.2, so keep exlib 0.7.2 installed alongside them. exlib 0.8 itself logs one error naming the
-clash and repeats it to every joining player.
+The same exlib serves Iron Industry Expanded and Steel Industry Expanded. It refuses ppex below
+0.7.0 and smex below 0.10.0: it logs one error naming them and repeats it to every joining player,
+so update the three together. The older ppex and smex ran on exlib 0.7.2, which stays on the
+mod database for worlds that keep them.
 
 exlib has no in-game handbook of its own; the handbook articles that use its framework live in
 ppex and smex.
