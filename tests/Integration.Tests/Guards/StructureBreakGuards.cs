@@ -32,7 +32,7 @@ public class StructureBreakGuards(ITestOutputHelper output) {
   /// <summary>Registers vanilla's <c>game:plank-*</c> item and <c>game:supportbeam-*</c> block in
   /// each of <see cref="Woods"/>, which the test world does not load, so the pump's and the
   /// blower's stage wildcards without allowed variants are paid in them.</summary>
-  private static void HoldWoods(TestWorld world) {
+  internal static void HoldWoods(TestWorld world) {
     int id = 58000;
     foreach (string wood in Woods) {
       world.RegisterItem($"game:plank-{wood}");

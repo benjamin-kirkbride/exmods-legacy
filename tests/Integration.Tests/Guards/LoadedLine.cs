@@ -18,8 +18,8 @@ namespace Integration.Tests.Guards;
 /// copy once per test process: its <c>modinfo.json</c>, its <c>assets</c>, and its assembly as
 /// <c>bin/&lt;modid&gt;.dll</c>, the name <see cref="TestWorld.LoadAssets"/> looks for. Every
 /// loaded block and item is given the world's api, as the engine gives it; their drops and
-/// <c>OnLoaded</c> are left to the caller. Each world is loaded once per test process and never
-/// disposed.</remarks>
+/// <c>OnLoaded</c> are left to the caller. <see cref="World"/> and <see cref="Ppex"/> are each loaded
+/// once per test process and never disposed.</remarks>
 internal static class LoadedLine {
   private static readonly Lazy<TestWorld> Shared = new(() =>
     Load("ppex", "smex")
@@ -56,7 +56,9 @@ internal static class LoadedLine {
     return block.Code.Domain + ":" + path;
   }
 
-  private static TestWorld Load(params string[] mods) {
+  /// <summary>A fresh world that loaded <paramref name="mods"/>, in order, as <see cref="World"/>
+  /// did.</summary>
+  internal static TestWorld Load(params string[] mods) {
     var world = new TestWorld();
     foreach (string modId in mods)
       world.LoadAssets(

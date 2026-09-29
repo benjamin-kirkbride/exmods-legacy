@@ -26,7 +26,7 @@ namespace Integration.Tests;
 /// creative player, then breaks the structure and compares the refund with what was paid.
 /// </summary>
 public class ConstructionBreakTests {
-  private const string Pump = "ppex/assets/ppex/blocktypes/mpfluidpump.json";
+  internal const string Pump = "ppex/assets/ppex/blocktypes/mpfluidpump.json";
   private const string Blower =
     "smex/assets/smex/blocktypes/blastfurnace/mpblower.json";
 
@@ -224,7 +224,7 @@ public class ConstructionBreakTests {
       .OrderBy(g => g.Key)
       .ToDictionary(g => g.Key, g => g.Sum(s => s.StackSize));
 
-  private static JArray Stages(string path) {
+  internal static JArray Stages(string path) {
     JToken root = JToken.Parse(
       File.ReadAllText(Path.Combine(ShippedJsonAssetTests.RepoRoot(), path))
     );
@@ -241,9 +241,10 @@ public class ConstructionBreakTests {
   /// <summary>
   /// One structure placed from <c>path</c> in a <see cref="TestWorld"/> whose registry holds the
   /// variants of one wood and one metal the two structures take, plus the iron support beam. The
-  /// block entity is a bare host unless <c>makeEntity</c> supplies the production one.
+  /// block entity is a bare host unless <c>makeEntity</c> supplies the production one. The host's
+  /// code is the JSON <c>code</c> in <c>domain</c>, the game's when it is null.
   /// </summary>
-  private sealed class Rig {
+  internal sealed class Rig {
     private readonly TestWorld _world = new();
     private readonly List<CollectibleObject> _collectibles = [];
     private readonly List<ItemSlot> _hotbar = [];
@@ -257,11 +258,15 @@ public class ConstructionBreakTests {
     public ExRightClickConstructable Behavior { get; }
     public List<ItemStack> Drops => _world.Drops;
 
+    /// <summary>The world the structure stands in.</summary>
+    public TestWorld World => _world;
+
     public Rig(
       string path,
       string wood = "oak",
       Func<BlockEntity>? makeEntity = null,
-      string metal = "iron"
+      string metal = "iron",
+      string? domain = null
     ) {
       JToken root = JToken.Parse(
         File.ReadAllText(Path.Combine(ShippedJsonAssetTests.RepoRoot(), path))
@@ -286,7 +291,7 @@ public class ConstructionBreakTests {
 
       var host = TestBlocks.Configure(
         new Block(),
-        (string)root["code"]! + "-north",
+        (domain == null ? "" : domain + ":") + (string)root["code"]! + "-north",
         1,
         ("side", "north")
       );
@@ -390,7 +395,8 @@ public class ConstructionBreakTests {
       return Completed == before + 1;
     }
 
-    private int Completed =>
+    /// <summary>The last construction stage completed.</summary>
+    public int Completed =>
       (int)
         ReflectionHelpers.GetField(
           ReflectionHelpers.GetField(Behavior, "rcc")!,
