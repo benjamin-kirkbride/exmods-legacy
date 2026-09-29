@@ -54,6 +54,7 @@ public class PipesAndPowerExpandedModSystem : ModSystem {
     // registers its own classes. This registers only ppex's own content.
     EntityRegistry.RegisterAll(api, Mod, GetType().Assembly);
     AliasPipeEntities(api);
+    PpexChecks.Declare(Mod.Info.ModID);
   }
 
   /// <summary>

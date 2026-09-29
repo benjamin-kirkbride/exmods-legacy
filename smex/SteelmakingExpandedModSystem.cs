@@ -196,6 +196,7 @@ public class SteelmakingExpandedModSystem : ModSystem {
     // Auto-register every [BlockRegister]/[ItemRegister]/[BlockEntityRegister]/etc. block / item / behavior
     // declared in this assembly.
     EntityRegistry.RegisterAll(api, Mod, GetType().Assembly);
+    SmexChecks.Declare(Mod.Info.ModID);
   }
 
   #endregion
