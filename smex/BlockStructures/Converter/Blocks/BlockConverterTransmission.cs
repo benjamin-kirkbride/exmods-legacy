@@ -1,7 +1,10 @@
+using System.Linq;
 using ExpandedLib.Registries;
 using SteelmakingExpanded.BlockStructures.Converter.BlockEntities;
+using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
+using Vintagestory.GameContent;
 using Vintagestory.GameContent.Mechanics;
 
 namespace SteelmakingExpanded.BlockStructures.Converter.Blocks;
@@ -11,7 +14,10 @@ namespace SteelmakingExpanded.BlockStructures.Converter.Blocks;
 /// in its natural (north) orientation; the connector follows the "side" variant.
 /// </summary>
 [BlockRegister]
-public partial class BlockConverterTransmission : Block, IMechanicalPowerBlock {
+public partial class BlockConverterTransmission
+  : Block,
+    IMechanicalPowerBlock,
+    IWrenchOrientable {
   private BlockFacing ConnectorFace =>
     Variant["side"] switch {
       "north" => BlockFacing.SOUTH,
@@ -52,4 +58,23 @@ public partial class BlockConverterTransmission : Block, IMechanicalPowerBlock {
   ) {
     base.OnNeighbourBlockChange(world, pos, neighbour);
   }
+
+  /// <summary>Turns the transmission a quarter turn per step of <paramref name="dir"/> (see
+  /// <see cref="SideWrench.Turn"/>), keeping its block entity, which re-couples its axle on the
+  /// new connector face (<see cref="BlockEntityConverterTransmission.OnExchanged"/>).</summary>
+  public void Rotate(
+    EntityAgent byEntity,
+    BlockSelection blockSel,
+    int dir
+  ) => SideWrench.Turn(this, byEntity, blockSel, dir);
+
+  /// <summary>Appends the wrench turn to the placed-block help.</summary>
+  public override WorldInteraction[] GetPlacedBlockInteractionHelp(
+    IWorldAccessor world,
+    BlockSelection selection,
+    IPlayer forPlayer
+  ) =>
+    (base.GetPlacedBlockInteractionHelp(world, selection, forPlayer) ?? [])
+      .Append(SideWrench.Help(world))
+      .ToArray();
 }

@@ -114,7 +114,7 @@ public class TurnedPartTests {
 
   #region Blast furnace
 
-  private static OrientedPartsScene BlastFurnace() =>
+  internal static OrientedPartsScene BlastFurnace() =>
     OrientedPartsScene.Form(
       new BlockPos(21000, 10, 0),
       "smex:blastfurnacedoor-tier1",
@@ -170,7 +170,7 @@ public class TurnedPartTests {
   #region Bessemer converter
 
   // At side west the control turns its layout to 270: authored south reads west, e reads s.
-  private static OrientedPartsScene Converter() =>
+  internal static OrientedPartsScene Converter() =>
     OrientedPartsScene.Form(
       new BlockPos(22000, 10, 0),
       "smex:convertercontrol-west",
@@ -216,7 +216,7 @@ public class TurnedPartTests {
   #region Cowper stove
 
   // At side north the intake turns its layout to 180: authored south reads north, east reads west.
-  private static OrientedPartsScene Cowper() =>
+  internal static OrientedPartsScene Cowper() =>
     OrientedPartsScene.Form(
       new BlockPos(23000, 10, 0),
       "smex:cowperstove-intake-tier1-north",

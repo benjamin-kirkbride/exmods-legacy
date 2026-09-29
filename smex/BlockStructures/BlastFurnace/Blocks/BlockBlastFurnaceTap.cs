@@ -8,6 +8,7 @@ using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.API.MathTools;
+using Vintagestory.GameContent;
 
 namespace SteelmakingExpanded.BlockStructures.BlastFurnace.Blocks;
 
@@ -17,7 +18,7 @@ namespace SteelmakingExpanded.BlockStructures.BlastFurnace.Blocks;
 /// beneath the spout.
 /// </summary>
 [BlockRegister]
-public partial class BlockBlastFurnaceTap : Block {
+public partial class BlockBlastFurnaceTap : Block, IWrenchOrientable {
   /// <summary>Appends the refractory tier, so the tiers are distinguishable in the inventory,
   /// handbook and look-at HUD rather than reading as one block.</summary>
   public override string GetHeldItemName(ItemStack itemStack) =>
@@ -87,8 +88,19 @@ public partial class BlockBlastFurnaceTap : Block {
       ShouldApply = (wi, bs, es) => forPlayer.Entity.RightHandItemSlot.Empty,
     };
 
-    return baseHelp.Append(toggleHelp).ToArray();
+    return baseHelp
+      .Append(toggleHelp)
+      .Append(SideWrench.Help(world))
+      .ToArray();
   }
+
+  /// <summary>Turns the tap a quarter turn per step of <paramref name="dir"/> (see
+  /// <see cref="SideWrench.Turn"/>), keeping its block entity.</summary>
+  public void Rotate(
+    EntityAgent byEntity,
+    BlockSelection blockSel,
+    int dir
+  ) => SideWrench.Turn(this, byEntity, blockSel, dir);
 
   /// <summary>
   /// The north-facing tap of this tap's own refractory tier: picking and breaking hand back one

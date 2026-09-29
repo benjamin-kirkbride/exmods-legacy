@@ -40,6 +40,23 @@ public class BEBehaviorMPConverterTransmission(BlockEntity blockentity)
       OutFacingForNetworkDiscovery.Axis == EnumAxis.X ? [-1, 0, 0] : [0, 0, -1];
   }
 
+  /// <summary>
+  /// Re-seeds the axle from the block's current <c>side</c> after an exchange: orientation, axle
+  /// shape and base mesh follow the facing, and on the server the transmission leaves its network
+  /// and joins the one on its connector face, or a network of its own when that face holds no
+  /// coupled device.
+  /// </summary>
+  public void Recouple() {
+    _baseMesh = null;
+    SetOrientations();
+    Shape = GetShape();
+    if (Api.Side == EnumAppSide.Server) {
+      LeaveNetwork();
+      CreateJoinAndDiscoverNetwork(OutFacingForNetworkDiscovery);
+    }
+    Blockentity.MarkDirty(true);
+  }
+
   protected override CompositeShape GetShape() {
     return new CompositeShape {
       Base = Block.Shape.Base.Clone(),

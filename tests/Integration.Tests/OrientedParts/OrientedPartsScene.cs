@@ -4,8 +4,11 @@ using ExpandedLib.Networks;
 using ExpandedLib.Structures;
 using ExpandedLib.Testing;
 using Integration.Tests.Guards;
+using NSubstitute;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
+using Vintagestory.GameContent;
+using Vintagestory.GameContent.Mechanics;
 
 namespace Integration.Tests.OrientedParts;
 
@@ -16,6 +19,8 @@ namespace Integration.Tests.OrientedParts;
 /// </summary>
 internal sealed class OrientedPartsScene {
   private readonly StructureRig _rig;
+  private MechanicalPowerMod? _power;
+  private readonly HashSet<string> _classes = [];
 
   private OrientedPartsScene(StructureRig rig, BlockEntityMultiblockStructure machine) {
     _rig = rig;
@@ -68,6 +73,79 @@ internal sealed class OrientedPartsScene {
     Block turned = Loaded(code);
     _rig.World.Register(turned);
     _rig.World.Accessor.ExchangeBlock(turned.BlockId, _rig.Cell(x, y, z));
+    return this;
+  }
+
+  /// <summary>The world position of layout offset (<paramref name="x"/>, <paramref name="y"/>,
+  /// <paramref name="z"/>).</summary>
+  public BlockPos Cell(int x, int y, int z) => _rig.Cell(x, y, z);
+
+  /// <summary>
+  /// Stands <paramref name="be"/>, with its block's entity behaviours, at <paramref name="pos"/>
+  /// under the loaded block <paramref name="code"/> (the block already there when null) and
+  /// initialises it. The world first starts vanilla's mechanical power and registers the block's
+  /// entity class and behaviours under the keys the loaded line holds them by, so a
+  /// <c>SetBlock</c> over the part re-creates its block entity as the engine does.
+  /// </summary>
+  public OrientedPartsScene Stand(
+    BlockPos pos,
+    BlockEntity be,
+    string? code = null
+  ) {
+    if (_power == null) {
+      _power = new MechanicalPowerMod();
+      World.Mods.Register(_power);
+      _power.Start(World.Api);
+    }
+    Block block = code == null ? World.GetBlock(pos) : Loaded(code);
+    IClassRegistryAPI line = LoadedLine.World.Api.ClassRegistry;
+    if (_classes.Add(block.EntityClass))
+      World.RegisterClass(block.EntityClass, be.GetType());
+    foreach (BlockEntityBehaviorType behavior in block.BlockEntityBehaviors)
+      if (_classes.Add(behavior.Name))
+        World.RegisterClass(
+          behavior.Name,
+          line.GetBlockEntityBehaviorClass(behavior.Name)
+        );
+    be.CreateBehaviors(block, World.World);
+    World.Place(pos, block, be);
+    World.Initialize(be);
+    return this;
+  }
+
+  /// <summary>
+  /// Turns the part at layout offset (<paramref name="x"/>, <paramref name="y"/>,
+  /// <paramref name="z"/>) <paramref name="dir"/> quarter turns through the
+  /// <see cref="IWrenchOrientable"/> the vanilla wrench finds on its block, then hands the cell's
+  /// block entity <c>OnExchanged</c>, which the engine's <c>ExchangeBlock</c> calls and this
+  /// world's does not. With <paramref name="registerTurns"/>, the part's four <c>side</c> variants
+  /// are registered first; without, only those the world already holds can be turned to.
+  /// </summary>
+  public OrientedPartsScene Wrench(
+    int x,
+    int y,
+    int z,
+    int dir,
+    bool registerTurns = true
+  ) {
+    BlockPos pos = _rig.Cell(x, y, z);
+    Block block = World.GetBlock(pos);
+    if (registerTurns)
+      foreach (BlockFacing side in BlockFacing.HORIZONTALS)
+        World.Register(
+          Loaded(block.CodeWithVariant("side", side.Code).ToString())
+        );
+
+    var holder = Substitute.For<EntityAgent>();
+    holder.World = World.World;
+    block
+      .GetInterface<IWrenchOrientable>(World.World, pos)!
+      .Rotate(
+        holder,
+        new BlockSelection { Position = pos.Copy(), Face = BlockFacing.UP },
+        dir
+      );
+    World.GetBlockEntity(pos)?.OnExchanged(World.GetBlock(pos));
     return this;
   }
 

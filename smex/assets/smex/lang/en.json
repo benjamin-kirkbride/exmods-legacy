@@ -129,6 +129,7 @@
   "slag-info-count": "Slag: {0}",
 
   "blockhelp-tap-toggle": "Toggle tap pouring",
+  "blockhelp-rotate": "Rotate",
   "blockhelp-canalstart-pour": "Pour molten metal",
   "blockhelp-canal-seal": "Seal canal",
   "blockhelp-canal-unseal": "Break seal",

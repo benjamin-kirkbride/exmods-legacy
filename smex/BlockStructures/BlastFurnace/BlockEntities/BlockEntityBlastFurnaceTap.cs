@@ -56,6 +56,22 @@ public class BlockEntityBlastFurnaceTap : BlockEntity {
     _animatorReady = true;
   }
 
+  /// <summary>Takes the exchanged block; on the client a turned tap rebuilds its animator in the
+  /// new facing and holds its pour pose again.</summary>
+  public override void OnExchanged(Block block) {
+    string? side = Block?.Variant["side"];
+    base.OnExchanged(block);
+    if (
+      Api is ICoreClientAPI capi
+      && _animatable != null
+      && side != block.Variant["side"]
+    ) {
+      _animatorReady = false;
+      InitAnimator(capi);
+      ApplyPourPose();
+    }
+  }
+
   /// <summary>Toggles the tap open/closed and updates its pour pose.</summary>
   public void TogglePouring() {
     IsPouring = !IsPouring;

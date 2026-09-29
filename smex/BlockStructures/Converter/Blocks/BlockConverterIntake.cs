@@ -1,9 +1,12 @@
+using System.Linq;
 using ExpandedLib.Networks;
 using ExpandedLib.Helpers;
 using ExpandedLib.Industry.MechanicalPower;
 using ExpandedLib.Registries;
+using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
+using Vintagestory.GameContent;
 
 namespace SteelmakingExpanded.BlockStructures.Converter.Blocks;
 
@@ -15,7 +18,10 @@ namespace SteelmakingExpanded.BlockStructures.Converter.Blocks;
 /// orientable so it can be aligned with the control block.
 /// </summary>
 [BlockRegister]
-public partial class BlockConverterIntake : Block, INetworkConnector {
+public partial class BlockConverterIntake
+  : Block,
+    INetworkConnector,
+    IWrenchOrientable {
   public string NetworkType => "pipe";
 
   /// <summary>
@@ -37,4 +43,22 @@ public partial class BlockConverterIntake : Block, INetworkConnector {
     BlockFacing blockFace,
     Cuboidi attachmentArea
   ) => HasConnectorAt(blockFace) || SideSolid[blockFace.Index];
+
+  /// <summary>Turns the intake in place a quarter turn per step of <paramref name="dir"/> (see
+  /// <see cref="SideWrench.Turn"/>).</summary>
+  public void Rotate(
+    EntityAgent byEntity,
+    BlockSelection blockSel,
+    int dir
+  ) => SideWrench.Turn(this, byEntity, blockSel, dir);
+
+  /// <summary>Appends the wrench turn to the placed-block help.</summary>
+  public override WorldInteraction[] GetPlacedBlockInteractionHelp(
+    IWorldAccessor world,
+    BlockSelection selection,
+    IPlayer forPlayer
+  ) =>
+    (base.GetPlacedBlockInteractionHelp(world, selection, forPlayer) ?? [])
+      .Append(SideWrench.Help(world))
+      .ToArray();
 }

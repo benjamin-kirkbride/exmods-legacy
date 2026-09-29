@@ -129,6 +129,7 @@
   "slag-info-count": "Шлак: {0}",
 
   "blockhelp-tap-toggle": "Переключить слив лётки",
+  "blockhelp-rotate": "Повернуть",
   "blockhelp-canalstart-pour": "Разлить расплавленный металл",
   "blockhelp-canal-seal": "Запечатать канал",
   "blockhelp-canal-unseal": "Сломать печать",
