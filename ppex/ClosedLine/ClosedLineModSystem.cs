@@ -1,4 +1,5 @@
 using System.Linq;
+using ExpandedLib.Checks;
 using ExpandedLib.Helpers;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
@@ -15,7 +16,8 @@ namespace PipesAndPowerExpanded.ClosedLine;
 /// stack and a construction stage that takes a ppex straight pipe also takes the new line's
 /// (<see cref="ClosedLinePatches"/>), the server takes ppex and smex stacks out of player
 /// inventories, containers and dropped items (<see cref="ClosedLineSweep"/>), and each player is told
-/// once per world (<see cref="ClosedLineNotice"/>). Open, it does nothing.
+/// once per world (<see cref="ClosedLineNotice"/>). exlib's obtainability check, which cannot see
+/// the widened pipe stages, is told they stand. Open, it does nothing.
 /// </summary>
 public class ClosedLineModSystem : ModSystem {
   /// <summary>The asset domains the switch closes.</summary>
@@ -23,6 +25,15 @@ public class ClosedLineModSystem : ModSystem {
 
   /// <summary>The mod ids any one of which closes the line.</summary>
   public static readonly string[] Successors = ["iiex", "siex"];
+
+  /// <summary>The construction stages that take a ppex straight pipe, by domain and
+  /// blocktype file.</summary>
+  private static readonly (string Domain, string File)[] PipeStages =
+  [
+    ("ppex", "ppex:blocktypes/mpfluidpump.json"),
+    ("smex", "smex:blocktypes/converter/bessemer.json"),
+    ("smex", "smex:blocktypes/blastfurnace/mpblower.json"),
+  ];
 
   private bool _patched;
 
@@ -35,6 +46,23 @@ public class ClosedLineModSystem : ModSystem {
   /// null.</summary>
   public static bool IsOldLine(AssetLocation? code) =>
     code != null && Domains.Contains(code.Domain);
+
+  /// <summary>Closed, exempts each pipe stage's ppex straight pipe from exlib's obtainability
+  /// check: no recipe makes it once the line is closed, and the stage also takes the new line's
+  /// straight pipe.</summary>
+  public override void Start(ICoreAPI api) {
+    if (!IsClosed(api))
+      return;
+
+    foreach ((string domain, string file) in PipeStages)
+      foreach (string metal in new[] { "iron", "steel" })
+        ExlibChecks.Exempt(
+          domain,
+          "Obtainability",
+          [file, $"ppex:pipe-straight-ns-{metal}", "ConstructionRequire"],
+          "the closed line's pipe stage also takes an iiex or siex straight pipe"
+        );
+  }
 
   public override void StartServerSide(ICoreServerAPI api) {
     if (!IsClosed(api))

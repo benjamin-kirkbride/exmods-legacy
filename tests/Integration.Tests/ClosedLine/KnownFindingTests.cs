@@ -88,9 +88,25 @@ public class KnownFindingTests(ITestOutputHelper output) {
     );
   }
 
+  // Fails when ClosedLineModSystem.Start exempts no pipe stage: the closed line's pump, converter
+  // and blower stages ask for a ppex pipe no recipe makes.
+  [Fact]
+  public void The_closed_lines_pipe_stages_are_exempt() {
+    CheckResult[] made =
+    [
+      .. Verify(closed: true).Where(r => r.Check == "Obtainability"),
+    ];
+    static bool PipeStage(string e) =>
+      e.Contains(": ppex:pipe-straight-ns-", StringComparison.Ordinal)
+      && e.Contains(" (block, ConstructionRequire)", StringComparison.Ordinal);
+
+    Assert.DoesNotContain(made.SelectMany(r => r.Errors), PipeStage);
+    Assert.Equal(6, made.SelectMany(r => r.Exempted).Count(PipeStage));
+  }
+
   // Fails when an exemption stops taking what it names, e.g. rule (g)'s words written "(f)", or
   // the slag block's is registered in the closed line, which takes the block off the creative
-  // inventory.
+  // inventory, or the pipe stages' in the open line, where ppex's recipes make the pipe.
   [Theory]
   [InlineData(false)]
   [InlineData(true)]
@@ -116,6 +132,7 @@ public class KnownFindingTests(ITestOutputHelper output) {
       .Invoke(null, null);
     PpexChecks.Declare("ppex");
     SmexChecks.Declare(line.World.Api, "smex");
+    new ClosedLineModSystem().Start(line.World.Api);
     var game = new LineGame(line);
     return [.. LoadedLine.Mods.SelectMany(mod => ExlibChecks.Verify(game, mod))];
   }
