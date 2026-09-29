@@ -29,8 +29,8 @@ namespace Integration.Tests;
 public class FireAmbienceSoundTests {
   #region Blast furnace
 
-  // Fails when the furnace loads a new fire loop on each relight instead of restarting its one
-  // loop, or when the loop no longer follows the synced state in or out.
+  // Fails when the furnace loads a new fire loop on a relight, or when its loop does not follow
+  // the synced state in or out.
   [Fact]
   public void A_blast_furnace_put_out_and_relit_ten_times_keeps_one_fire_loop() {
     var rig = new BlastFurnaceRig();
@@ -80,7 +80,7 @@ public class FireAmbienceSoundTests {
 
   #region Converter, cowper stove, smoke stack
 
-  // Fails when a refining tick no longer marks the vessel as blowing, when a later tick that does
+  // Fails when a refining tick does not mark the vessel as blowing, when a later tick that does
   // not refine leaves the mark standing, when the mark is not synced, or when either blow loop is
   // loaded again for the second heat.
   [Fact]
@@ -99,7 +99,7 @@ public class FireAmbienceSoundTests {
       Sync(rig.Control, control, rig.World);
       Assert.All(client.Loaded, s => Assert.True(s.IsPlaying));
 
-      // The rig's vessel is not built, so the production tick stops short of refining.
+      // The rig's vessel is unbuilt: the production tick stops short of refining.
       ReflectionHelpers.Invoke(rig.Control, "OnProductionTick", 1f);
       Sync(rig.Control, control, rig.World);
       Assert.All(client.Loaded, s => Assert.False(s.IsPlaying));
@@ -118,7 +118,7 @@ public class FireAmbienceSoundTests {
     }
   }
 
-  // Fails when soaking up exhaust no longer marks the stove, when a tick without exhaust leaves the
+  // Fails when soaking up exhaust does not mark the stove, when a tick without exhaust leaves the
   // mark standing, when the mark is not synced, or when the roar is loaded again for the second charge.
   [Fact]
   public void A_cowper_stove_roars_with_one_loop_while_it_soaks_up_exhaust() {
@@ -186,7 +186,7 @@ public class FireAmbienceSoundTests {
     rig.World.Accessor.Received(1).MarkBlockEntityDirty(rig.Stove.Pos);
   }
 
-  // Fails when the draught no longer follows the synced draw, or is loaded again when the stack
+  // Fails when the draught does not follow the synced draw, or is loaded again when the stack
   // draws a second time.
   [Fact]
   public void A_smoke_stack_vents_with_one_loop_while_it_draws() {
@@ -232,7 +232,7 @@ public class FireAmbienceSoundTests {
   // A chunk's tree is read before its block entity has an API, so a machine that loads burning
   // starts its loop from Initialize.
 
-  // Fails when the furnace's Initialize no longer starts the fire of a furnace that loads lit.
+  // Fails when the furnace's Initialize does not start the fire of a furnace that loads lit.
   [Fact]
   public void A_blast_furnace_loaded_lit_starts_its_fire_when_initialized() {
     var rig = new BlastFurnaceRig().FeedBlast();
@@ -249,7 +249,7 @@ public class FireAmbienceSoundTests {
     Assert.True(Assert.Single(client.Loaded).IsPlaying);
   }
 
-  // Fails when the control's Initialize no longer starts the blow of a vessel that loads blowing.
+  // Fails when the control's Initialize does not start the blow of a vessel that loads blowing.
   [Fact]
   public void A_converter_loaded_blowing_starts_its_blow_when_initialized() {
     var rig = new ConverterRig();
@@ -267,7 +267,7 @@ public class FireAmbienceSoundTests {
     Assert.All(client.Loaded, s => Assert.True(s.IsPlaying));
   }
 
-  // Fails when the stove's Initialize no longer starts the roar of a stove that loads soaking.
+  // Fails when the stove's Initialize does not start the roar of a stove that loads soaking.
   [Fact]
   public void A_cowper_stove_loaded_soaking_starts_its_roar_when_initialized() {
     var rig = new CowperRig().ChargeFromExhaust(1200f);
@@ -283,7 +283,7 @@ public class FireAmbienceSoundTests {
     Assert.True(Assert.Single(client.Loaded).IsPlaying);
   }
 
-  // Fails when the stack's Initialize no longer starts the draught of a stack that loads drawing.
+  // Fails when the stack's Initialize does not start the draught of a stack that loads drawing.
   [Fact]
   public void A_smoke_stack_loaded_drawing_starts_its_draught_when_initialized() {
     var (world, net) = PipeTestWorld.Run(4, capEnds: true);
@@ -312,7 +312,7 @@ public class FireAmbienceSoundTests {
 
   #region Boiler
 
-  // Fails when the boiler's client tick no longer follows the boiling state, or loads the hum
+  // Fails when the boiler's client tick does not follow the boiling state, or loads the hum
   // again when the water boils a second time.
   [Fact]
   public void A_boiler_hums_with_one_loop_while_it_boils() {
