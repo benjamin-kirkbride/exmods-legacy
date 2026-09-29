@@ -60,7 +60,7 @@ public class BlockEntityMpFluidPump : BlockEntity, IRenderer {
   private ExRightClickConstructable? _rcc;
   private bool _animatorReady;
   private bool _animRunning;
-  private ILoadedSound? _waterSound;
+  private readonly ExSoundLoop _waterSound = new(ExSounds.Watering, 0.6f);
 
   private BlockMpFluidPump? PumpBlock => Block as BlockMpFluidPump;
 
@@ -334,29 +334,9 @@ public class BlockEntityMpFluidPump : BlockEntity, IRenderer {
   }
 
   /// <summary>Runs the watering loop only while the pump is actually moving water.</summary>
-  private void UpdateSounds() {
-    if (Api is not ICoreClientAPI)
-      return;
+  private void UpdateSounds() => _waterSound.Update(Api, Pos, _drawingWater);
 
-    if (_drawingWater) {
-      _waterSound ??= ExSounds.CreateLoop(
-        Api,
-        Pos,
-        ExSounds.Watering,
-        volume: 0.6f,
-        range: 16f
-      );
-      if (_waterSound?.IsPlaying == false)
-        _waterSound.Start();
-    } else if (_waterSound?.IsPlaying == true)
-      _waterSound.Stop();
-  }
-
-  private void DisposeSounds() {
-    _waterSound?.Stop();
-    _waterSound?.Dispose();
-    _waterSound = null;
-  }
+  private void DisposeSounds() => _waterSound.Dispose();
 
   #endregion
 

@@ -24,8 +24,8 @@ public class BlockEntityEngineMpGenerator
   private BEBehaviorEngineMPGenerator? _mp;
   private ICoreClientAPI? _capi;
 
-  // Low metal-on-metal grind from the spinning gear train while the axle turns (client only).
-  private ILoadedSound? _grindSound;
+  // The gear train turning while the axle does (client only).
+  private readonly ExSoundLoop _grindSound = new(ExSounds.GearboxTurn, 0.2f);
 
   // Update the engine's frame before the opaque pass so it renders in step with the axle.
   public double RenderOrder => 0.0;
@@ -91,24 +91,9 @@ public class BlockEntityEngineMpGenerator
       engine.DriveMpCycleFrame(turning, _mp.AngleRad);
   }
 
-  /// <summary>Runs a quiet looping metal-grind while the axle is turning; stops it when it stalls.</summary>
-  private void UpdateGrindSound(bool turning) {
-    if (_capi == null)
-      return;
-    if (turning) {
-      _grindSound ??= ExSounds.CreateLoop(
-        _capi,
-        Pos,
-        ExSounds.MetalGrinding,
-        0.3f,
-        16f,
-        0.85f
-      );
-      if (_grindSound is { IsPlaying: false })
-        _grindSound.Start();
-    } else if (_grindSound is { IsPlaying: true })
-      _grindSound.Stop();
-  }
+  /// <summary>Runs a quiet gear-train loop while the axle is turning; stops it when it stalls.</summary>
+  private void UpdateGrindSound(bool turning) =>
+    _grindSound.Update(_capi, Pos, turning);
 
   /// <summary>
   /// Re-applies the axle orientation when the engine snapped this generator to its matching facing;
@@ -120,9 +105,7 @@ public class BlockEntityEngineMpGenerator
   }
 
   public void Dispose() {
-    _grindSound?.Stop();
-    _grindSound?.Dispose();
-    _grindSound = null;
+    _grindSound.Dispose();
     _capi?.Event.UnregisterRenderer(this, EnumRenderStage.Before);
   }
 

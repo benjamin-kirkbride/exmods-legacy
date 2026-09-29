@@ -46,7 +46,7 @@ public abstract class BlockEntityEngine : BlockEntityProductionMachine {
   private bool _mpTurning;
 
   // Constant low planetary-gear hum from the gear housing while the engine runs (client only).
-  private ILoadedSound? _gearSound;
+  private readonly ExSoundLoop _gearSound = new(ExSounds.PlanetaryGears);
 
   /// <summary>Set true while the engine is driving its sub-machine (cycle animation).</summary>
   private bool _running;
@@ -755,36 +755,20 @@ public abstract class BlockEntityEngine : BlockEntityProductionMachine {
     }
   }
 
-  /// <summary>Lazily creates and starts the constant low gear hum at the gear housing.</summary>
+  /// <summary>Starts the constant low gear hum at the gear housing, or keeps it running at the
+  /// current throttle's volume and pitch.</summary>
   private void StartGearHum() {
-    _gearSound ??= ExSounds.CreateLoop(
-      Api,
-      EngineBlock?.GearHousingPos(Pos) ?? Pos,
-      ExSounds.PlanetaryGears,
-      0.5f,
-      16f,
-      // Pitched down for a low, heavy planetary-gear hum under the per-stroke piston sounds.
-      0.65f
-    );
-    if (_gearSound is { IsPlaying: false })
-      _gearSound.Start();
-    // Apply the profile live (every running tick) so a throttle change is heard without restarting.
-    _gearSound?.SetVolume(0.5f * SoundVolumeFactor);
-    _gearSound?.SetPitch(0.65f * SoundPitchFactor);
+    _gearSound.Volume = 0.5f * SoundVolumeFactor;
+    // Pitched down for a low, heavy planetary-gear hum under the per-stroke piston sounds.
+    _gearSound.Pitch = 0.65f * SoundPitchFactor;
+    _gearSound.Update(Api, EngineBlock?.GearHousingPos(Pos) ?? Pos, true);
   }
 
-  /// <summary>Stops the gear hum (kept allocated so it can resume when the engine restarts).</summary>
-  private void StopGearHum() {
-    if (_gearSound is { IsPlaying: true })
-      _gearSound.Stop();
-  }
+  /// <summary>Stops the gear hum (kept loaded so it can resume when the engine restarts).</summary>
+  private void StopGearHum() => _gearSound.Update(Api, Pos, false);
 
   /// <summary>Stops and releases the gear hum on block removal/unload.</summary>
-  private void DisposeGearHum() {
-    _gearSound?.Stop();
-    _gearSound?.Dispose();
-    _gearSound = null;
-  }
+  private void DisposeGearHum() => _gearSound.Dispose();
 
   #endregion
 }

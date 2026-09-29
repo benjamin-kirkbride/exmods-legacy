@@ -42,8 +42,8 @@ public class BlockEntityManualFluidPump : BlockEntity {
   private bool _animatorReady;
   private bool _animPumping;
   private long _clientTickId;
-  private ILoadedSound? _grindSound;
-  private ILoadedSound? _waterSound;
+  private readonly ExSoundLoop _grindSound = new(ExSounds.MetalGrinding, 0.35f);
+  private readonly ExSoundLoop _waterSound = new(ExSounds.Watering);
 
   /// <summary>Horizontal placement angle (north 0, west 90, south 180, east 270).</summary>
   private int Angle => ExOrientation.AngleFromSide(Block.Variant["side"]);
@@ -252,43 +252,13 @@ public class BlockEntityManualFluidPump : BlockEntity {
   /// pump is cranked, and a watering loop on top of it only while it is actually drawing water.
   /// </summary>
   private void UpdateSounds() {
-    if (Api is not ICoreClientAPI)
-      return;
-
-    if (_pumping) {
-      _grindSound ??= ExSounds.CreateLoop(
-        Api,
-        Pos,
-        ExSounds.MetalGrinding,
-        volume: 0.35f,
-        range: 16f
-      );
-      if (_grindSound?.IsPlaying == false)
-        _grindSound.Start();
-    } else if (_grindSound?.IsPlaying == true)
-      _grindSound.Stop();
-
-    if (_drawingWater) {
-      _waterSound ??= ExSounds.CreateLoop(
-        Api,
-        Pos,
-        ExSounds.Watering,
-        volume: 1f,
-        range: 16f
-      );
-      if (_waterSound?.IsPlaying == false)
-        _waterSound.Start();
-    } else if (_waterSound?.IsPlaying == true)
-      _waterSound.Stop();
+    _grindSound.Update(Api, Pos, _pumping);
+    _waterSound.Update(Api, Pos, _drawingWater);
   }
 
   private void DisposeSounds() {
-    _grindSound?.Stop();
-    _grindSound?.Dispose();
-    _grindSound = null;
-    _waterSound?.Stop();
-    _waterSound?.Dispose();
-    _waterSound = null;
+    _grindSound.Dispose();
+    _waterSound.Dispose();
   }
 
   #endregion

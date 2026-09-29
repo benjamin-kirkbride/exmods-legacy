@@ -5,7 +5,6 @@ using ExpandedLib.Industry.Helpers;
 using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Registries;
 using PipesAndPowerExpanded.BlockNetworkPipe.BlockEntities;
-using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.API.Datastructures;
@@ -25,7 +24,7 @@ public class BlockEntityEngineFluidPump : BlockEntityEngineSubmachine {
   /// synced to clients to drive the water-drawing loop sound.</summary>
   private bool _drawingWater;
 
-  private ILoadedSound? _waterSound;
+  private readonly ExSoundLoop _waterSound = new(ExSounds.Watering, 0.6f);
 
   protected override string? OutputInfo(float power) =>
     Lang.Get(
@@ -98,29 +97,10 @@ public class BlockEntityEngineFluidPump : BlockEntityEngineSubmachine {
   /// Runs a watering trickle loop while the pump is actually drawing water, on top of the
   /// shared piston-stroke sounds - the same loop the manual fluid pump uses.
   /// </summary>
-  protected override void OnClientStateTick(float dt) {
-    if (Api is not ICoreClientAPI)
-      return;
+  protected override void OnClientStateTick(float dt) =>
+    _waterSound.Update(Api, Pos, _drawingWater);
 
-    if (_drawingWater) {
-      _waterSound ??= ExSounds.CreateLoop(
-        Api,
-        Pos,
-        ExSounds.Watering,
-        volume: 0.6f,
-        range: 16f
-      );
-      if (_waterSound?.IsPlaying == false)
-        _waterSound.Start();
-    } else if (_waterSound?.IsPlaying == true)
-      _waterSound.Stop();
-  }
-
-  private void DisposeSounds() {
-    _waterSound?.Stop();
-    _waterSound?.Dispose();
-    _waterSound = null;
-  }
+  private void DisposeSounds() => _waterSound.Dispose();
 
   public override void ToTreeAttributes(ITreeAttribute tree) {
     base.ToTreeAttributes(tree);

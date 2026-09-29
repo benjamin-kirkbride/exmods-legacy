@@ -68,23 +68,8 @@ public class SoundUseGuards(ITestOutputHelper output) {
       _ => Direct
     );
 
-  private const string Held =
-    "F-23: the entity holds the ILoadedSound ExSounds.CreateLoop returns, outside ExSoundLoop";
-
   /// <summary>Finding, and the defect it records.</summary>
-  private static readonly Dictionary<string, string> LoopFindings = new[] {
-    "MpPump.BlockEntities.BlockEntityMpFluidPump._waterSound",
-    "ManualPump.BlockEntities.BlockEntityManualFluidPump._grindSound",
-    "ManualPump.BlockEntities.BlockEntityManualFluidPump._waterSound",
-    "Engine.BlockEntityEngine._gearSound",
-    "Engine.BlockEntities.BlockEntityEngineFluidPump._waterSound",
-    "Engine.BlockEntities.BlockEntityEngineMpGenerator._grindSound",
-  }.ToDictionary(
-    f =>
-      $"PipesAndPowerExpanded.BlockStructures.{f}: holds an ILoadedSound; hold an "
-      + "ExSoundLoop",
-    _ => Held
-  );
+  private static readonly Dictionary<string, string> LoopFindings = new();
 
   private static readonly Regex LineNumber = new(
     @"^([^:]+):\d+:",
