@@ -69,7 +69,28 @@ public class KnownFindingTests(ITestOutputHelper output) {
     );
   }
 
-  // Fails when an exemption stops taking what it names, e.g. rule (g)'s words written "(f)".
+  // Fails when SmexChecks.Declare drops the solidified iron's declaration or the slag block's
+  // exemption: its creative-tab finding stays an error.
+  [Fact]
+  public void The_open_lines_solidified_iron_is_made_and_its_slag_block_exempt() {
+    CheckResult made = Verify(closed: false)
+      .Single(r => r.Check == "Obtainability" && r.Domain == "smex");
+
+    Assert.DoesNotContain(
+      made.Errors,
+      e =>
+        e.StartsWith("smex:solidifiediron ", StringComparison.Ordinal)
+        || e.StartsWith("smex:slag ", StringComparison.Ordinal)
+    );
+    Assert.Contains(
+      made.Exempted,
+      e => e.StartsWith("smex:slag (block, creative tab)", StringComparison.Ordinal)
+    );
+  }
+
+  // Fails when an exemption stops taking what it names, e.g. rule (g)'s words written "(f)", or
+  // the slag block's is registered in the closed line, which takes the block off the creative
+  // inventory.
   [Theory]
   [InlineData(false)]
   [InlineData(true)]
@@ -94,7 +115,7 @@ public class KnownFindingTests(ITestOutputHelper output) {
       .GetMethod("ClearDeclarations", BindingFlags.NonPublic | BindingFlags.Static)!
       .Invoke(null, null);
     PpexChecks.Declare("ppex");
-    SmexChecks.Declare("smex");
+    SmexChecks.Declare(line.World.Api, "smex");
     var game = new LineGame(line);
     return [.. LoadedLine.Mods.SelectMany(mod => ExlibChecks.Verify(game, mod))];
   }
