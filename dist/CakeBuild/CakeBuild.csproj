@@ -7,23 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cake.Frosting" Version="6.1.0" />
-    <PackageReference Include="Cake.Json" Version="7.0.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <!-- Pin transitive NuGet.* deps (from Cake.NuGet) to patched 7.3.1 - fixes NU1901 GHSA-g4vj-cjjj-v7hg -->
-    <PackageReference Include="NuGet.Packaging" Version="7.3.1" />
-    <PackageReference Include="NuGet.Protocol" Version="7.3.1" />
+    <PackageReference Include="Cake.Frosting" />
+    <PackageReference Include="Cake.Json" />
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="NuGet.Packaging" />
+    <PackageReference Include="NuGet.Protocol" />
   </ItemGroup>
 
-  <!-- The 1.22 install, resolved by the repository's Directory.Build.props: the VINTAGE_STORY env-var
-       override if set, else the nearest .game/1.22 from the repository root upward. -->
-  <PropertyGroup>
-    <CakeGamePath>$(GamePath)</CakeGamePath>
-  </PropertyGroup>
-
+  <!-- The 1.22 install, resolved by exlib's build files from the net10.0 target: the VINTAGE_STORY
+       env-var override if set, else the nearest .game/1.22 from the repository root upward. -->
   <ItemGroup>
     <Reference Include="VintagestoryAPI">
-      <HintPath>$(CakeGamePath)/VintagestoryAPI.dll</HintPath>
+      <HintPath>$(GamePath)/VintagestoryAPI.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Cake.Common;
+using Cake.Common.Diagnostics;
 using Cake.Common.IO;
 using Cake.Common.Tools.DotNet;
-using Cake.Common.Tools.DotNet.Build;
 using Cake.Common.Tools.DotNet.MSBuild;
 using Cake.Common.Tools.DotNet.Publish;
 using Cake.Core;
@@ -22,8 +22,8 @@ public static class Program {
   }
 }
 
-/// <summary>One buildable mod project in the monorepo. Folder is the csproj's own directory name
-/// (e.g. "ExpandedLib"), Dir is where that folder lives in the repository (e.g. "exlib").</summary>
+/// <summary>One buildable mod project in the repository. Folder is the csproj's own name (e.g.
+/// "PipesAndPowerExpanded"), Dir is the folder it lives in (e.g. "ppex").</summary>
 public record ModProject(string Folder, string Dir, string ModId, string Version);
 
 /// <summary>A supported game version to publish for: its TFM, the game version stamped into the
@@ -33,12 +33,10 @@ public record ModProject(string Folder, string Dir, string ModId, string Version
 public record GameTarget(string Tfm, string GameVersion, bool IsCurrent);
 
 public class BuildContext : FrostingContext {
-  // Build order matters: exlib first (the shared lib both mods reference), then ppex
-  // (referenced by smex), then smex. Folder is the csproj's own directory name; Dir is where
-  // that folder lives in the repository.
+  // Build order matters: ppex first (referenced by smex), then smex. exlib is not packaged here:
+  // both mods reference it with Private=false, and players install its own release.
   public static readonly (string Folder, string Dir)[] ProjectFolders =
   [
-    ("ExpandedLib", "exlib"),
     ("PipesAndPowerExpanded", "ppex"),
     ("SteelmakingExpanded", "smex"),
   ];
@@ -149,12 +147,6 @@ public sealed class PackageTask : FrostingTask<BuildContext> {
     //   Releases/<gameVersion>/<modid>_<modVersion>_<gameVersion>.zip (legacy)
     foreach (var target in BuildContext.GameTargets) {
       foreach (var project in context.Projects) {
-        // exlib 0.7.2's published zip is the one already on the mod database - this packager
-        // never ships a replacement for it, only ppex and smex (still built above, since both
-        // reference it, but not staged or zipped here).
-        if (project.Dir == "exlib")
-          continue;
-
         string stageDir = $"../Releases/{target.GameVersion}/{project.ModId}";
         context.EnsureDirectoryExists(stageDir);
 
@@ -196,73 +188,20 @@ public sealed class PackageTask : FrostingTask<BuildContext> {
         File.WriteAllText($"{stageDir}/modinfo.json", modinfo);
 
         string versionSuffix = target.IsCurrent ? "" : $"_{target.GameVersion}";
-        context.Zip(
-          stageDir,
-          $"../Releases/{target.GameVersion}/{project.ModId}_{project.Version}{versionSuffix}.zip"
+        string zip =
+          $"../Releases/{target.GameVersion}/{project.ModId}_{project.Version}{versionSuffix}.zip";
+        context.Zip(stageDir, zip);
+        context.Information(
+          "{0}: {1} ({2} bytes)",
+          target.GameVersion,
+          Path.GetFileName(zip),
+          new FileInfo(zip).Length
         );
       }
     }
   }
 }
 
-[TaskName("PackageTesting")]
-[IsDependentOn(typeof(PackageTask))]
-public sealed class PackageTestingTask : FrostingTask<BuildContext> {
-  // The headless test harness (tests/ExpandedLib.Testing) is a developer library, not a game mod, so
-  // it isn't a mod zip and isn't on NuGet (its API still moves a lot release to release). It ships
-  // as a dev bundle attached to the GitHub release: ExpandedLib.Testing.dll plus the exlib.dll it
-  // compiles against (exlib's AssemblyName is "exlib"), which a downstream test project references
-  // directly (the game assemblies and NSubstitute the consumer supplies - see the wiki
-  // "Consuming outside this repo").
-  //
-  // Built for the current game version only (net10.0 / 1.22); on 1.20/1.21 reference it from source.
-  const string BundleReadme =
-    "ExpandedLib.Testing - headless Vintage Story test harness (dev library)\n"
-    + "\n"
-    + "Built for the current game version (1.22 / net10.0). Add both DLLs to your test project\n"
-    + "with <Private>false</Private>, reference VintagestoryAPI/VSSurvivalMod/VSEssentials from\n"
-    + "your own game install, add NSubstitute + xUnit from NuGet, and call\n"
-    + "VsAssemblyResolver.Register() + TestLang.Init() from a [ModuleInitializer]. See the wiki:\n"
-    + "https://github.com/ringavirda/modding-vsexpanded/wiki/Testing-Harness\n";
-
-  public override void Run(BuildContext context) {
-    var current = Array.Find(BuildContext.GameTargets, t => t.IsCurrent)!;
-    var exlib = context.Projects.Find(p => p.Folder == "ExpandedLib")!;
-
-    // Build the harness for the current target (single-TFM => flat bin/<config> output).
-    context.DotNetBuild(
-      "../../tests/ExpandedLib.Testing/ExpandedLib.Testing.csproj",
-      new DotNetBuildSettings {
-        Configuration = context.BuildConfiguration,
-        Framework = current.Tfm,
-      }
-    );
-
-    // Hyphen, not a dot, in the basename: GitHub's release-asset uploader sniffs content type from
-    // the filename and rejects a dotted name segment (exlib.testing_x.zip) with "we can't process
-    // this file". exlib-testing_<version>.zip keeps the _<version> convention and uploads cleanly.
-    string stageDir = $"../Releases/{current.GameVersion}/exlib-testing";
-    context.EnsureDirectoryExists(stageDir);
-
-    context.CopyFile(
-      $"../../tests/ExpandedLib.Testing/bin/{context.BuildConfiguration}/ExpandedLib.Testing.dll",
-      $"{stageDir}/ExpandedLib.Testing.dll"
-    );
-    // exlib.dll comes from exlib's own publish output (the harness references it Private=false, so
-    // it isn't copied into the harness bin). The assembly file is exlib.dll (AssemblyName "exlib").
-    context.CopyFile(
-      $"{context.PublishDir(exlib, current)}/exlib.dll",
-      $"{stageDir}/exlib.dll"
-    );
-    File.WriteAllText($"{stageDir}/README.txt", BundleReadme);
-
-    context.Zip(
-      stageDir,
-      $"../Releases/{current.GameVersion}/exlib-testing_{exlib.Version}.zip"
-    );
-  }
-}
-
 [TaskName("Default")]
-[IsDependentOn(typeof(PackageTestingTask))]
+[IsDependentOn(typeof(PackageTask))]
 public class DefaultTask : FrostingTask { }
