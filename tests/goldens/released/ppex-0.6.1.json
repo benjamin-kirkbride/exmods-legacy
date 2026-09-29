@@ -1,6 +1,6 @@
 {
   "mod": "ppex",
-  "version": "0.6.8",
+  "version": "0.6.1",
   "shipped": [
     {
       "domain": "ppex",
@@ -77,17 +77,6 @@
         "ppex:manualfluidpump-north",
         "ppex:manualfluidpump-south",
         "ppex:manualfluidpump-west"
-      ]
-    },
-    {
-      "domain": "ppex",
-      "assetPath": "mpfluidpump",
-      "baseCode": "ppex:mpfluidpump",
-      "codes": [
-        "ppex:mpfluidpump-east",
-        "ppex:mpfluidpump-north",
-        "ppex:mpfluidpump-south",
-        "ppex:mpfluidpump-west"
       ]
     },
     {
@@ -483,13 +472,6 @@
       "class": "ppex.BlockEntityManualFluidPump",
       "assetPaths": [
         "manualfluidpump"
-      ]
-    },
-    {
-      "domain": "ppex",
-      "class": "ppex.BlockEntityMpFluidPump",
-      "assetPaths": [
-        "mpfluidpump"
       ]
     },
     {

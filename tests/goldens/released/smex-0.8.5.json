@@ -1,15 +1,57 @@
 {
   "mod": "smex",
-  "version": "0.9.8",
+  "version": "0.8.5",
   "shipped": [
+    {
+      "domain": "smex",
+      "assetPath": "bessemer/control",
+      "baseCode": "smex:bessemercontrol",
+      "codes": [
+        "smex:bessemercontrol-east",
+        "smex:bessemercontrol-north",
+        "smex:bessemercontrol-south",
+        "smex:bessemercontrol-west"
+      ]
+    },
+    {
+      "domain": "smex",
+      "assetPath": "bessemer/converter",
+      "baseCode": "smex:bessemerconverter",
+      "codes": [
+        "smex:bessemerconverter-east",
+        "smex:bessemerconverter-north",
+        "smex:bessemerconverter-south",
+        "smex:bessemerconverter-west"
+      ]
+    },
+    {
+      "domain": "smex",
+      "assetPath": "bessemer/gasintake",
+      "baseCode": "smex:bessemer",
+      "codes": [
+        "smex:bessemer-gasintake-e",
+        "smex:bessemer-gasintake-n",
+        "smex:bessemer-gasintake-s",
+        "smex:bessemer-gasintake-w"
+      ]
+    },
+    {
+      "domain": "smex",
+      "assetPath": "bessemer/transmission",
+      "baseCode": "smex:bessemertransmission",
+      "codes": [
+        "smex:bessemertransmission-east",
+        "smex:bessemertransmission-north",
+        "smex:bessemertransmission-south",
+        "smex:bessemertransmission-west"
+      ]
+    },
     {
       "domain": "smex",
       "assetPath": "blastfurnace/door",
       "baseCode": "smex:blastfurnacedoor",
       "codes": [
-        "smex:blastfurnacedoor-tier1",
-        "smex:blastfurnacedoor-tier2",
-        "smex:blastfurnacedoor-tier3"
+        "smex:blastfurnacedoor"
       ]
     },
     {
@@ -26,17 +68,6 @@
       "baseCode": "smex:hopperreinforced",
       "codes": [
         "smex:hopperreinforced"
-      ]
-    },
-    {
-      "domain": "smex",
-      "assetPath": "blastfurnace/mpblower",
-      "baseCode": "smex:mpblower",
-      "codes": [
-        "smex:mpblower-east",
-        "smex:mpblower-north",
-        "smex:mpblower-south",
-        "smex:mpblower-west"
       ]
     },
     {
@@ -60,18 +91,10 @@
       "assetPath": "blastfurnace/tap",
       "baseCode": "smex:blastfurnacetap",
       "codes": [
-        "smex:blastfurnacetap-tier1-east",
-        "smex:blastfurnacetap-tier1-north",
-        "smex:blastfurnacetap-tier1-south",
-        "smex:blastfurnacetap-tier1-west",
-        "smex:blastfurnacetap-tier2-east",
-        "smex:blastfurnacetap-tier2-north",
-        "smex:blastfurnacetap-tier2-south",
-        "smex:blastfurnacetap-tier2-west",
-        "smex:blastfurnacetap-tier3-east",
-        "smex:blastfurnacetap-tier3-north",
-        "smex:blastfurnacetap-tier3-south",
-        "smex:blastfurnacetap-tier3-west"
+        "smex:blastfurnacetap-east",
+        "smex:blastfurnacetap-north",
+        "smex:blastfurnacetap-south",
+        "smex:blastfurnacetap-west"
       ]
     },
     {
@@ -79,62 +102,10 @@
       "assetPath": "blastfurnace/tuyere",
       "baseCode": "smex:blastfurnace",
       "codes": [
-        "smex:blastfurnace-tuyere-tier1-e",
-        "smex:blastfurnace-tuyere-tier1-n",
-        "smex:blastfurnace-tuyere-tier1-s",
-        "smex:blastfurnace-tuyere-tier1-w",
-        "smex:blastfurnace-tuyere-tier2-e",
-        "smex:blastfurnace-tuyere-tier2-n",
-        "smex:blastfurnace-tuyere-tier2-s",
-        "smex:blastfurnace-tuyere-tier2-w",
-        "smex:blastfurnace-tuyere-tier3-e",
-        "smex:blastfurnace-tuyere-tier3-n",
-        "smex:blastfurnace-tuyere-tier3-s",
-        "smex:blastfurnace-tuyere-tier3-w"
-      ]
-    },
-    {
-      "domain": "smex",
-      "assetPath": "converter/bessemer",
-      "baseCode": "smex:converterbessemer",
-      "codes": [
-        "smex:converterbessemer-east",
-        "smex:converterbessemer-north",
-        "smex:converterbessemer-south",
-        "smex:converterbessemer-west"
-      ]
-    },
-    {
-      "domain": "smex",
-      "assetPath": "converter/control",
-      "baseCode": "smex:convertercontrol",
-      "codes": [
-        "smex:convertercontrol-east",
-        "smex:convertercontrol-north",
-        "smex:convertercontrol-south",
-        "smex:convertercontrol-west"
-      ]
-    },
-    {
-      "domain": "smex",
-      "assetPath": "converter/intake",
-      "baseCode": "smex:converter",
-      "codes": [
-        "smex:converter-intake-east",
-        "smex:converter-intake-north",
-        "smex:converter-intake-south",
-        "smex:converter-intake-west"
-      ]
-    },
-    {
-      "domain": "smex",
-      "assetPath": "converter/transmission",
-      "baseCode": "smex:convertertransmission",
-      "codes": [
-        "smex:convertertransmission-east",
-        "smex:convertertransmission-north",
-        "smex:convertertransmission-south",
-        "smex:convertertransmission-west"
+        "smex:blastfurnace-tuyere-e",
+        "smex:blastfurnace-tuyere-n",
+        "smex:blastfurnace-tuyere-s",
+        "smex:blastfurnace-tuyere-w"
       ]
     },
     {
@@ -142,18 +113,10 @@
       "assetPath": "cowperstove/heatsink",
       "baseCode": "smex:cowperstoveheatsink",
       "codes": [
-        "smex:cowperstoveheatsink-tier1-east",
-        "smex:cowperstoveheatsink-tier1-north",
-        "smex:cowperstoveheatsink-tier1-south",
-        "smex:cowperstoveheatsink-tier1-west",
-        "smex:cowperstoveheatsink-tier2-east",
-        "smex:cowperstoveheatsink-tier2-north",
-        "smex:cowperstoveheatsink-tier2-south",
-        "smex:cowperstoveheatsink-tier2-west",
-        "smex:cowperstoveheatsink-tier3-east",
-        "smex:cowperstoveheatsink-tier3-north",
-        "smex:cowperstoveheatsink-tier3-south",
-        "smex:cowperstoveheatsink-tier3-west"
+        "smex:cowperstoveheatsink-east",
+        "smex:cowperstoveheatsink-north",
+        "smex:cowperstoveheatsink-south",
+        "smex:cowperstoveheatsink-west"
       ]
     },
     {
@@ -161,82 +124,165 @@
       "assetPath": "cowperstove/intake",
       "baseCode": "smex:cowperstove",
       "codes": [
-        "smex:cowperstove-intake-tier1-east",
-        "smex:cowperstove-intake-tier1-north",
-        "smex:cowperstove-intake-tier1-south",
-        "smex:cowperstove-intake-tier1-west",
-        "smex:cowperstove-intake-tier2-east",
-        "smex:cowperstove-intake-tier2-north",
-        "smex:cowperstove-intake-tier2-south",
-        "smex:cowperstove-intake-tier2-west",
-        "smex:cowperstove-intake-tier3-east",
-        "smex:cowperstove-intake-tier3-north",
-        "smex:cowperstove-intake-tier3-south",
-        "smex:cowperstove-intake-tier3-west"
+        "smex:cowperstove-intake-e",
+        "smex:cowperstove-intake-n",
+        "smex:cowperstove-intake-s",
+        "smex:cowperstove-intake-w"
       ]
     },
     {
       "domain": "smex",
-      "assetPath": "engine/airblower",
-      "baseCode": "smex:engineairblower",
+      "assetPath": "gas/machines/blower",
+      "baseCode": "smex:gaspipe",
       "codes": [
-        "smex:engineairblower-east",
-        "smex:engineairblower-north",
-        "smex:engineairblower-south",
-        "smex:engineairblower-west"
+        "smex:gaspipe-blower-ns",
+        "smex:gaspipe-blower-we"
       ]
     },
     {
       "domain": "smex",
-      "assetPath": "molds/toolmoldfired",
-      "baseCode": "smex:toolmold",
+      "assetPath": "gas/machines/heated",
+      "baseCode": "smex:gaspipe",
       "codes": [
-        "smex:toolmold-black-fired-doubleingot",
-        "smex:toolmold-black-fired-plate",
-        "smex:toolmold-black-fired-quadrod",
-        "smex:toolmold-blue-fired-doubleingot",
-        "smex:toolmold-blue-fired-plate",
-        "smex:toolmold-blue-fired-quadrod",
-        "smex:toolmold-brown-fired-doubleingot",
-        "smex:toolmold-brown-fired-plate",
-        "smex:toolmold-brown-fired-quadrod",
-        "smex:toolmold-cream-fired-doubleingot",
-        "smex:toolmold-cream-fired-plate",
-        "smex:toolmold-cream-fired-quadrod",
-        "smex:toolmold-earthyorange-fired-doubleingot",
-        "smex:toolmold-earthyorange-fired-plate",
-        "smex:toolmold-earthyorange-fired-quadrod",
-        "smex:toolmold-fire-fired-doubleingot",
-        "smex:toolmold-fire-fired-plate",
-        "smex:toolmold-fire-fired-quadrod",
-        "smex:toolmold-gray-fired-doubleingot",
-        "smex:toolmold-gray-fired-plate",
-        "smex:toolmold-gray-fired-quadrod",
-        "smex:toolmold-orange-fired-doubleingot",
-        "smex:toolmold-orange-fired-plate",
-        "smex:toolmold-orange-fired-quadrod",
-        "smex:toolmold-red-fired-doubleingot",
-        "smex:toolmold-red-fired-plate",
-        "smex:toolmold-red-fired-quadrod",
-        "smex:toolmold-tan-fired-doubleingot",
-        "smex:toolmold-tan-fired-plate",
-        "smex:toolmold-tan-fired-quadrod"
+        "smex:gaspipe-heated-ew",
+        "smex:gaspipe-heated-ns",
+        "smex:gaspipe-heated-sn",
+        "smex:gaspipe-heated-we"
       ]
     },
     {
       "domain": "smex",
-      "assetPath": "molds/toolmoldraw",
-      "baseCode": "smex:toolmold",
+      "assetPath": "gas/machines/intake",
+      "baseCode": "smex:gaspipe",
       "codes": [
-        "smex:toolmold-blue-raw-doubleingot",
-        "smex:toolmold-blue-raw-plate",
-        "smex:toolmold-blue-raw-quadrod",
-        "smex:toolmold-fire-raw-doubleingot",
-        "smex:toolmold-fire-raw-plate",
-        "smex:toolmold-fire-raw-quadrod",
-        "smex:toolmold-red-raw-doubleingot",
-        "smex:toolmold-red-raw-plate",
-        "smex:toolmold-red-raw-quadrod"
+        "smex:gaspipe-intake-e",
+        "smex:gaspipe-intake-n",
+        "smex:gaspipe-intake-s",
+        "smex:gaspipe-intake-w"
+      ]
+    },
+    {
+      "domain": "smex",
+      "assetPath": "gas/machines/pressurevalve",
+      "baseCode": "smex:gaspipe",
+      "codes": [
+        "smex:gaspipe-pressurevalve-du",
+        "smex:gaspipe-pressurevalve-ew",
+        "smex:gaspipe-pressurevalve-ns",
+        "smex:gaspipe-pressurevalve-sn",
+        "smex:gaspipe-pressurevalve-ud",
+        "smex:gaspipe-pressurevalve-we"
+      ]
+    },
+    {
+      "domain": "smex",
+      "assetPath": "gas/machines/valve",
+      "baseCode": "smex:gaspipe",
+      "codes": [
+        "smex:gaspipe-valve-du",
+        "smex:gaspipe-valve-ew",
+        "smex:gaspipe-valve-ns",
+        "smex:gaspipe-valve-sn",
+        "smex:gaspipe-valve-ud",
+        "smex:gaspipe-valve-we"
+      ]
+    },
+    {
+      "domain": "smex",
+      "assetPath": "gas/pipes/bend",
+      "baseCode": "smex:gaspipe",
+      "codes": [
+        "smex:gaspipe-bend-de",
+        "smex:gaspipe-bend-dn",
+        "smex:gaspipe-bend-ds",
+        "smex:gaspipe-bend-dw",
+        "smex:gaspipe-bend-en",
+        "smex:gaspipe-bend-nw",
+        "smex:gaspipe-bend-se",
+        "smex:gaspipe-bend-ue",
+        "smex:gaspipe-bend-un",
+        "smex:gaspipe-bend-us",
+        "smex:gaspipe-bend-uw",
+        "smex:gaspipe-bend-ws"
+      ]
+    },
+    {
+      "domain": "smex",
+      "assetPath": "gas/pipes/outlet",
+      "baseCode": "smex:gaspipe",
+      "codes": [
+        "smex:gaspipe-outlet-e",
+        "smex:gaspipe-outlet-n",
+        "smex:gaspipe-outlet-s",
+        "smex:gaspipe-outlet-w"
+      ]
+    },
+    {
+      "domain": "smex",
+      "assetPath": "gas/pipes/passthrough",
+      "baseCode": "smex:gaspipe",
+      "codes": [
+        "smex:gaspipe-passthrough-ns",
+        "smex:gaspipe-passthrough-ud",
+        "smex:gaspipe-passthrough-we"
+      ]
+    },
+    {
+      "domain": "smex",
+      "assetPath": "gas/pipes/passthroughbend",
+      "baseCode": "smex:gaspipe",
+      "codes": [
+        "smex:gaspipe-passthroughbend-de",
+        "smex:gaspipe-passthroughbend-dn",
+        "smex:gaspipe-passthroughbend-ds",
+        "smex:gaspipe-passthroughbend-dw",
+        "smex:gaspipe-passthroughbend-en",
+        "smex:gaspipe-passthroughbend-nw",
+        "smex:gaspipe-passthroughbend-se",
+        "smex:gaspipe-passthroughbend-ue",
+        "smex:gaspipe-passthroughbend-un",
+        "smex:gaspipe-passthroughbend-us",
+        "smex:gaspipe-passthroughbend-uw",
+        "smex:gaspipe-passthroughbend-ws"
+      ]
+    },
+    {
+      "domain": "smex",
+      "assetPath": "gas/pipes/straight",
+      "baseCode": "smex:gaspipe",
+      "codes": [
+        "smex:gaspipe-straight-ns",
+        "smex:gaspipe-straight-ud",
+        "smex:gaspipe-straight-we"
+      ]
+    },
+    {
+      "domain": "smex",
+      "assetPath": "gas/pipes/tjunction",
+      "baseCode": "smex:gaspipe",
+      "codes": [
+        "smex:gaspipe-tjunction-deu",
+        "smex:gaspipe-tjunction-dns",
+        "smex:gaspipe-tjunction-dnu",
+        "smex:gaspipe-tjunction-dsu",
+        "smex:gaspipe-tjunction-dwe",
+        "smex:gaspipe-tjunction-dwu",
+        "smex:gaspipe-tjunction-esw",
+        "smex:gaspipe-tjunction-nes",
+        "smex:gaspipe-tjunction-swn",
+        "smex:gaspipe-tjunction-uns",
+        "smex:gaspipe-tjunction-uwe",
+        "smex:gaspipe-tjunction-wne"
+      ]
+    },
+    {
+      "domain": "smex",
+      "assetPath": "gas/pipes/xjunction",
+      "baseCode": "smex:gaspipe",
+      "codes": [
+        "smex:gaspipe-xjunction-nsud",
+        "smex:gaspipe-xjunction-nswe",
+        "smex:gaspipe-xjunction-weud"
       ]
     },
     {
@@ -249,201 +295,7 @@
     },
     {
       "domain": "smex",
-      "assetPath": "molten/canalbrick/bend",
-      "baseCode": "smex:moltencanal",
-      "codes": [
-        "smex:moltencanal-bend-black-en",
-        "smex:moltencanal-bend-black-nw",
-        "smex:moltencanal-bend-black-se",
-        "smex:moltencanal-bend-black-ws",
-        "smex:moltencanal-bend-brown-en",
-        "smex:moltencanal-bend-brown-nw",
-        "smex:moltencanal-bend-brown-se",
-        "smex:moltencanal-bend-brown-ws",
-        "smex:moltencanal-bend-cream-en",
-        "smex:moltencanal-bend-cream-nw",
-        "smex:moltencanal-bend-cream-se",
-        "smex:moltencanal-bend-cream-ws",
-        "smex:moltencanal-bend-fire-en",
-        "smex:moltencanal-bend-fire-nw",
-        "smex:moltencanal-bend-fire-se",
-        "smex:moltencanal-bend-fire-ws",
-        "smex:moltencanal-bend-gray-en",
-        "smex:moltencanal-bend-gray-nw",
-        "smex:moltencanal-bend-gray-se",
-        "smex:moltencanal-bend-gray-ws",
-        "smex:moltencanal-bend-orange-en",
-        "smex:moltencanal-bend-orange-nw",
-        "smex:moltencanal-bend-orange-se",
-        "smex:moltencanal-bend-orange-ws",
-        "smex:moltencanal-bend-red-en",
-        "smex:moltencanal-bend-red-nw",
-        "smex:moltencanal-bend-red-se",
-        "smex:moltencanal-bend-red-ws",
-        "smex:moltencanal-bend-tan-en",
-        "smex:moltencanal-bend-tan-nw",
-        "smex:moltencanal-bend-tan-se",
-        "smex:moltencanal-bend-tan-ws"
-      ]
-    },
-    {
-      "domain": "smex",
-      "assetPath": "molten/canalbrick/moldpedestal",
-      "baseCode": "smex:moltencanal",
-      "codes": [
-        "smex:moltencanal-moldpedestal-black-e",
-        "smex:moltencanal-moldpedestal-black-n",
-        "smex:moltencanal-moldpedestal-black-s",
-        "smex:moltencanal-moldpedestal-black-w",
-        "smex:moltencanal-moldpedestal-brown-e",
-        "smex:moltencanal-moldpedestal-brown-n",
-        "smex:moltencanal-moldpedestal-brown-s",
-        "smex:moltencanal-moldpedestal-brown-w",
-        "smex:moltencanal-moldpedestal-cream-e",
-        "smex:moltencanal-moldpedestal-cream-n",
-        "smex:moltencanal-moldpedestal-cream-s",
-        "smex:moltencanal-moldpedestal-cream-w",
-        "smex:moltencanal-moldpedestal-fire-e",
-        "smex:moltencanal-moldpedestal-fire-n",
-        "smex:moltencanal-moldpedestal-fire-s",
-        "smex:moltencanal-moldpedestal-fire-w",
-        "smex:moltencanal-moldpedestal-gray-e",
-        "smex:moltencanal-moldpedestal-gray-n",
-        "smex:moltencanal-moldpedestal-gray-s",
-        "smex:moltencanal-moldpedestal-gray-w",
-        "smex:moltencanal-moldpedestal-orange-e",
-        "smex:moltencanal-moldpedestal-orange-n",
-        "smex:moltencanal-moldpedestal-orange-s",
-        "smex:moltencanal-moldpedestal-orange-w",
-        "smex:moltencanal-moldpedestal-red-e",
-        "smex:moltencanal-moldpedestal-red-n",
-        "smex:moltencanal-moldpedestal-red-s",
-        "smex:moltencanal-moldpedestal-red-w",
-        "smex:moltencanal-moldpedestal-tan-e",
-        "smex:moltencanal-moldpedestal-tan-n",
-        "smex:moltencanal-moldpedestal-tan-s",
-        "smex:moltencanal-moldpedestal-tan-w"
-      ]
-    },
-    {
-      "domain": "smex",
-      "assetPath": "molten/canalbrick/start",
-      "baseCode": "smex:moltencanal",
-      "codes": [
-        "smex:moltencanal-start-black-e",
-        "smex:moltencanal-start-black-n",
-        "smex:moltencanal-start-black-s",
-        "smex:moltencanal-start-black-w",
-        "smex:moltencanal-start-brown-e",
-        "smex:moltencanal-start-brown-n",
-        "smex:moltencanal-start-brown-s",
-        "smex:moltencanal-start-brown-w",
-        "smex:moltencanal-start-cream-e",
-        "smex:moltencanal-start-cream-n",
-        "smex:moltencanal-start-cream-s",
-        "smex:moltencanal-start-cream-w",
-        "smex:moltencanal-start-fire-e",
-        "smex:moltencanal-start-fire-n",
-        "smex:moltencanal-start-fire-s",
-        "smex:moltencanal-start-fire-w",
-        "smex:moltencanal-start-gray-e",
-        "smex:moltencanal-start-gray-n",
-        "smex:moltencanal-start-gray-s",
-        "smex:moltencanal-start-gray-w",
-        "smex:moltencanal-start-orange-e",
-        "smex:moltencanal-start-orange-n",
-        "smex:moltencanal-start-orange-s",
-        "smex:moltencanal-start-orange-w",
-        "smex:moltencanal-start-red-e",
-        "smex:moltencanal-start-red-n",
-        "smex:moltencanal-start-red-s",
-        "smex:moltencanal-start-red-w",
-        "smex:moltencanal-start-tan-e",
-        "smex:moltencanal-start-tan-n",
-        "smex:moltencanal-start-tan-s",
-        "smex:moltencanal-start-tan-w"
-      ]
-    },
-    {
-      "domain": "smex",
-      "assetPath": "molten/canalbrick/straight",
-      "baseCode": "smex:moltencanal",
-      "codes": [
-        "smex:moltencanal-straight-black-ns",
-        "smex:moltencanal-straight-black-we",
-        "smex:moltencanal-straight-brown-ns",
-        "smex:moltencanal-straight-brown-we",
-        "smex:moltencanal-straight-cream-ns",
-        "smex:moltencanal-straight-cream-we",
-        "smex:moltencanal-straight-fire-ns",
-        "smex:moltencanal-straight-fire-we",
-        "smex:moltencanal-straight-gray-ns",
-        "smex:moltencanal-straight-gray-we",
-        "smex:moltencanal-straight-orange-ns",
-        "smex:moltencanal-straight-orange-we",
-        "smex:moltencanal-straight-red-ns",
-        "smex:moltencanal-straight-red-we",
-        "smex:moltencanal-straight-tan-ns",
-        "smex:moltencanal-straight-tan-we"
-      ]
-    },
-    {
-      "domain": "smex",
-      "assetPath": "molten/canalbrick/tjunction",
-      "baseCode": "smex:moltencanal",
-      "codes": [
-        "smex:moltencanal-tjunction-black-esw",
-        "smex:moltencanal-tjunction-black-nes",
-        "smex:moltencanal-tjunction-black-swn",
-        "smex:moltencanal-tjunction-black-wne",
-        "smex:moltencanal-tjunction-brown-esw",
-        "smex:moltencanal-tjunction-brown-nes",
-        "smex:moltencanal-tjunction-brown-swn",
-        "smex:moltencanal-tjunction-brown-wne",
-        "smex:moltencanal-tjunction-cream-esw",
-        "smex:moltencanal-tjunction-cream-nes",
-        "smex:moltencanal-tjunction-cream-swn",
-        "smex:moltencanal-tjunction-cream-wne",
-        "smex:moltencanal-tjunction-fire-esw",
-        "smex:moltencanal-tjunction-fire-nes",
-        "smex:moltencanal-tjunction-fire-swn",
-        "smex:moltencanal-tjunction-fire-wne",
-        "smex:moltencanal-tjunction-gray-esw",
-        "smex:moltencanal-tjunction-gray-nes",
-        "smex:moltencanal-tjunction-gray-swn",
-        "smex:moltencanal-tjunction-gray-wne",
-        "smex:moltencanal-tjunction-orange-esw",
-        "smex:moltencanal-tjunction-orange-nes",
-        "smex:moltencanal-tjunction-orange-swn",
-        "smex:moltencanal-tjunction-orange-wne",
-        "smex:moltencanal-tjunction-red-esw",
-        "smex:moltencanal-tjunction-red-nes",
-        "smex:moltencanal-tjunction-red-swn",
-        "smex:moltencanal-tjunction-red-wne",
-        "smex:moltencanal-tjunction-tan-esw",
-        "smex:moltencanal-tjunction-tan-nes",
-        "smex:moltencanal-tjunction-tan-swn",
-        "smex:moltencanal-tjunction-tan-wne"
-      ]
-    },
-    {
-      "domain": "smex",
-      "assetPath": "molten/canalbrick/xjunction",
-      "baseCode": "smex:moltencanal",
-      "codes": [
-        "smex:moltencanal-xjunction-black-nswe",
-        "smex:moltencanal-xjunction-brown-nswe",
-        "smex:moltencanal-xjunction-cream-nswe",
-        "smex:moltencanal-xjunction-fire-nswe",
-        "smex:moltencanal-xjunction-gray-nswe",
-        "smex:moltencanal-xjunction-orange-nswe",
-        "smex:moltencanal-xjunction-red-nswe",
-        "smex:moltencanal-xjunction-tan-nswe"
-      ]
-    },
-    {
-      "domain": "smex",
-      "assetPath": "molten/canalcobblestone/bend",
+      "assetPath": "molten/canal/bend",
       "baseCode": "smex:moltencanal",
       "codes": [
         "smex:moltencanal-bend-andesite-en",
@@ -530,7 +382,7 @@
     },
     {
       "domain": "smex",
-      "assetPath": "molten/canalcobblestone/moldpedestal",
+      "assetPath": "molten/canal/moldpedestal",
       "baseCode": "smex:moltencanal",
       "codes": [
         "smex:moltencanal-moldpedestal-andesite-e",
@@ -617,7 +469,7 @@
     },
     {
       "domain": "smex",
-      "assetPath": "molten/canalcobblestone/start",
+      "assetPath": "molten/canal/start",
       "baseCode": "smex:moltencanal",
       "codes": [
         "smex:moltencanal-start-andesite-e",
@@ -704,7 +556,7 @@
     },
     {
       "domain": "smex",
-      "assetPath": "molten/canalcobblestone/straight",
+      "assetPath": "molten/canal/straight",
       "baseCode": "smex:moltencanal",
       "codes": [
         "smex:moltencanal-straight-andesite-ns",
@@ -751,7 +603,18 @@
     },
     {
       "domain": "smex",
-      "assetPath": "molten/canalcobblestone/tjunction",
+      "assetPath": "molten/canal/tap",
+      "baseCode": "smex:moltencanal",
+      "codes": [
+        "smex:moltencanal-tap-e",
+        "smex:moltencanal-tap-n",
+        "smex:moltencanal-tap-s",
+        "smex:moltencanal-tap-w"
+      ]
+    },
+    {
+      "domain": "smex",
+      "assetPath": "molten/canal/tjunction",
       "baseCode": "smex:moltencanal",
       "codes": [
         "smex:moltencanal-tjunction-andesite-esw",
@@ -838,7 +701,7 @@
     },
     {
       "domain": "smex",
-      "assetPath": "molten/canalcobblestone/xjunction",
+      "assetPath": "molten/canal/xjunction",
       "baseCode": "smex:moltencanal",
       "codes": [
         "smex:moltencanal-xjunction-andesite-nswe",
@@ -865,158 +728,96 @@
     },
     {
       "domain": "smex",
-      "assetPath": "molten/tap",
-      "baseCode": "smex:moltencanal",
-      "codes": [
-        "smex:moltencanal-tap-e",
-        "smex:moltencanal-tap-n",
-        "smex:moltencanal-tap-s",
-        "smex:moltencanal-tap-w"
-      ]
-    },
-    {
-      "domain": "smex",
-      "assetPath": "slagpath",
-      "baseCode": "smex:slagpath",
-      "codes": [
-        "smex:slagpath-free",
-        "smex:slagpath-snow"
-      ]
-    },
-    {
-      "domain": "smex",
-      "assetPath": "slagpathslab",
-      "baseCode": "smex:slagpathslab",
-      "codes": [
-        "smex:slagpathslab-free",
-        "smex:slagpathslab-snow"
-      ]
-    },
-    {
-      "domain": "smex",
-      "assetPath": "slagpathstairs",
-      "baseCode": "smex:slagpathstairs",
-      "codes": [
-        "smex:slagpathstairs-up-east-free",
-        "smex:slagpathstairs-up-east-snow",
-        "smex:slagpathstairs-up-north-free",
-        "smex:slagpathstairs-up-north-snow",
-        "smex:slagpathstairs-up-south-free",
-        "smex:slagpathstairs-up-south-snow",
-        "smex:slagpathstairs-up-west-free",
-        "smex:slagpathstairs-up-west-snow"
-      ]
-    },
-    {
-      "domain": "smex",
       "assetPath": "smokestack/intake",
       "baseCode": "smex:smokestack",
       "codes": [
-        "smex:smokestack-intake-tier1-e",
-        "smex:smokestack-intake-tier1-n",
-        "smex:smokestack-intake-tier1-s",
-        "smex:smokestack-intake-tier1-w",
-        "smex:smokestack-intake-tier2-e",
-        "smex:smokestack-intake-tier2-n",
-        "smex:smokestack-intake-tier2-s",
-        "smex:smokestack-intake-tier2-w",
-        "smex:smokestack-intake-tier3-e",
-        "smex:smokestack-intake-tier3-n",
-        "smex:smokestack-intake-tier3-s",
-        "smex:smokestack-intake-tier3-w"
+        "smex:smokestack-intake-e",
+        "smex:smokestack-intake-n",
+        "smex:smokestack-intake-s",
+        "smex:smokestack-intake-w"
       ]
     },
     {
-      "domain": "ppex",
-      "assetPath": "pipes/outlet",
-      "baseCode": "ppex:pipe",
+      "domain": "game",
+      "assetPath": "clay/fired/toolmold",
+      "baseCode": "game:toolmold",
       "codes": [
-        "ppex:pipe-outlet-refractorytier1-d",
-        "ppex:pipe-outlet-refractorytier1-e",
-        "ppex:pipe-outlet-refractorytier1-n",
-        "ppex:pipe-outlet-refractorytier1-s",
-        "ppex:pipe-outlet-refractorytier1-u",
-        "ppex:pipe-outlet-refractorytier1-w",
-        "ppex:pipe-outlet-refractorytier2-d",
-        "ppex:pipe-outlet-refractorytier2-e",
-        "ppex:pipe-outlet-refractorytier2-n",
-        "ppex:pipe-outlet-refractorytier2-s",
-        "ppex:pipe-outlet-refractorytier2-u",
-        "ppex:pipe-outlet-refractorytier2-w",
-        "ppex:pipe-outlet-refractorytier3-d",
-        "ppex:pipe-outlet-refractorytier3-e",
-        "ppex:pipe-outlet-refractorytier3-n",
-        "ppex:pipe-outlet-refractorytier3-s",
-        "ppex:pipe-outlet-refractorytier3-u",
-        "ppex:pipe-outlet-refractorytier3-w"
+        "game:toolmold-black-fired-doubleingot",
+        "game:toolmold-black-fired-plate",
+        "game:toolmold-black-fired-quadrod",
+        "game:toolmold-blue-fired-doubleingot",
+        "game:toolmold-blue-fired-plate",
+        "game:toolmold-blue-fired-quadrod",
+        "game:toolmold-brown-fired-doubleingot",
+        "game:toolmold-brown-fired-plate",
+        "game:toolmold-brown-fired-quadrod",
+        "game:toolmold-cream-fired-doubleingot",
+        "game:toolmold-cream-fired-plate",
+        "game:toolmold-cream-fired-quadrod",
+        "game:toolmold-earthyorange-fired-doubleingot",
+        "game:toolmold-earthyorange-fired-plate",
+        "game:toolmold-earthyorange-fired-quadrod",
+        "game:toolmold-fire-fired-doubleingot",
+        "game:toolmold-fire-fired-plate",
+        "game:toolmold-fire-fired-quadrod",
+        "game:toolmold-gray-fired-doubleingot",
+        "game:toolmold-gray-fired-plate",
+        "game:toolmold-gray-fired-quadrod",
+        "game:toolmold-orange-fired-doubleingot",
+        "game:toolmold-orange-fired-plate",
+        "game:toolmold-orange-fired-quadrod",
+        "game:toolmold-red-fired-doubleingot",
+        "game:toolmold-red-fired-plate",
+        "game:toolmold-red-fired-quadrod",
+        "game:toolmold-tan-fired-doubleingot",
+        "game:toolmold-tan-fired-plate",
+        "game:toolmold-tan-fired-quadrod"
       ]
     },
     {
-      "domain": "ppex",
-      "assetPath": "pipes/passthrough",
-      "baseCode": "ppex:pipe",
+      "domain": "game",
+      "assetPath": "clay/raw/toolmold",
+      "baseCode": "game:toolmold",
       "codes": [
-        "ppex:pipe-passthrough-refractorytier1-ns",
-        "ppex:pipe-passthrough-refractorytier1-ud",
-        "ppex:pipe-passthrough-refractorytier1-we",
-        "ppex:pipe-passthrough-refractorytier2-ns",
-        "ppex:pipe-passthrough-refractorytier2-ud",
-        "ppex:pipe-passthrough-refractorytier2-we",
-        "ppex:pipe-passthrough-refractorytier3-ns",
-        "ppex:pipe-passthrough-refractorytier3-ud",
-        "ppex:pipe-passthrough-refractorytier3-we"
-      ]
-    },
-    {
-      "domain": "ppex",
-      "assetPath": "pipes/passthroughbend",
-      "baseCode": "ppex:pipe",
-      "codes": [
-        "ppex:pipe-passthroughbend-refractorytier1-de",
-        "ppex:pipe-passthroughbend-refractorytier1-dn",
-        "ppex:pipe-passthroughbend-refractorytier1-ds",
-        "ppex:pipe-passthroughbend-refractorytier1-dw",
-        "ppex:pipe-passthroughbend-refractorytier1-en",
-        "ppex:pipe-passthroughbend-refractorytier1-nw",
-        "ppex:pipe-passthroughbend-refractorytier1-se",
-        "ppex:pipe-passthroughbend-refractorytier1-ue",
-        "ppex:pipe-passthroughbend-refractorytier1-un",
-        "ppex:pipe-passthroughbend-refractorytier1-us",
-        "ppex:pipe-passthroughbend-refractorytier1-uw",
-        "ppex:pipe-passthroughbend-refractorytier1-ws",
-        "ppex:pipe-passthroughbend-refractorytier2-de",
-        "ppex:pipe-passthroughbend-refractorytier2-dn",
-        "ppex:pipe-passthroughbend-refractorytier2-ds",
-        "ppex:pipe-passthroughbend-refractorytier2-dw",
-        "ppex:pipe-passthroughbend-refractorytier2-en",
-        "ppex:pipe-passthroughbend-refractorytier2-nw",
-        "ppex:pipe-passthroughbend-refractorytier2-se",
-        "ppex:pipe-passthroughbend-refractorytier2-ue",
-        "ppex:pipe-passthroughbend-refractorytier2-un",
-        "ppex:pipe-passthroughbend-refractorytier2-us",
-        "ppex:pipe-passthroughbend-refractorytier2-uw",
-        "ppex:pipe-passthroughbend-refractorytier2-ws",
-        "ppex:pipe-passthroughbend-refractorytier3-de",
-        "ppex:pipe-passthroughbend-refractorytier3-dn",
-        "ppex:pipe-passthroughbend-refractorytier3-ds",
-        "ppex:pipe-passthroughbend-refractorytier3-dw",
-        "ppex:pipe-passthroughbend-refractorytier3-en",
-        "ppex:pipe-passthroughbend-refractorytier3-nw",
-        "ppex:pipe-passthroughbend-refractorytier3-se",
-        "ppex:pipe-passthroughbend-refractorytier3-ue",
-        "ppex:pipe-passthroughbend-refractorytier3-un",
-        "ppex:pipe-passthroughbend-refractorytier3-us",
-        "ppex:pipe-passthroughbend-refractorytier3-uw",
-        "ppex:pipe-passthroughbend-refractorytier3-ws"
+        "game:toolmold-blue-raw-doubleingot",
+        "game:toolmold-blue-raw-plate",
+        "game:toolmold-blue-raw-quadrod",
+        "game:toolmold-fire-raw-doubleingot",
+        "game:toolmold-fire-raw-plate",
+        "game:toolmold-fire-raw-quadrod",
+        "game:toolmold-red-raw-doubleingot",
+        "game:toolmold-red-raw-plate",
+        "game:toolmold-red-raw-quadrod"
       ]
     }
   ],
   "entityClasses": [
     {
       "domain": "smex",
-      "class": "ToolMold",
+      "class": "smex.BlockEntityBessemerControl",
       "assetPaths": [
-        "molds/toolmoldfired"
+        "bessemer/control"
+      ]
+    },
+    {
+      "domain": "smex",
+      "class": "smex.BlockEntityBessemerConverter",
+      "assetPaths": [
+        "bessemer/converter"
+      ]
+    },
+    {
+      "domain": "smex",
+      "class": "smex.BlockEntityBessemerGasIntake",
+      "assetPaths": [
+        "bessemer/gasintake"
+      ]
+    },
+    {
+      "domain": "smex",
+      "class": "smex.BlockEntityBessemerTransmission",
+      "assetPaths": [
+        "bessemer/transmission"
       ]
     },
     {
@@ -1035,27 +836,6 @@
     },
     {
       "domain": "smex",
-      "class": "smex.BlockEntityConverterBessemer",
-      "assetPaths": [
-        "converter/bessemer"
-      ]
-    },
-    {
-      "domain": "smex",
-      "class": "smex.BlockEntityConverterControl",
-      "assetPaths": [
-        "converter/control"
-      ]
-    },
-    {
-      "domain": "smex",
-      "class": "smex.BlockEntityConverterTransmission",
-      "assetPaths": [
-        "converter/transmission"
-      ]
-    },
-    {
-      "domain": "smex",
       "class": "smex.BlockEntityCowperStove",
       "assetPaths": [
         "cowperstove/intake"
@@ -1063,9 +843,62 @@
     },
     {
       "domain": "smex",
-      "class": "smex.BlockEntityEngineAirBlower",
+      "class": "smex.BlockEntityGasBlower",
       "assetPaths": [
-        "engine/airblower"
+        "gas/machines/blower"
+      ]
+    },
+    {
+      "domain": "smex",
+      "class": "smex.BlockEntityGasHeatedIntake",
+      "assetPaths": [
+        "gas/machines/heated"
+      ]
+    },
+    {
+      "domain": "smex",
+      "class": "smex.BlockEntityGasIntake",
+      "assetPaths": [
+        "gas/machines/intake"
+      ]
+    },
+    {
+      "domain": "smex",
+      "class": "smex.BlockEntityGasOutlet",
+      "assetPaths": [
+        "gas/pipes/outlet"
+      ]
+    },
+    {
+      "domain": "smex",
+      "class": "smex.BlockEntityGasPassthrough",
+      "assetPaths": [
+        "gas/pipes/passthrough",
+        "gas/pipes/passthroughbend"
+      ]
+    },
+    {
+      "domain": "smex",
+      "class": "smex.BlockEntityGasPipe",
+      "assetPaths": [
+        "gas/pipes/bend",
+        "gas/pipes/straight",
+        "gas/pipes/tjunction",
+        "gas/pipes/xjunction"
+      ]
+    },
+    {
+      "domain": "smex",
+      "class": "smex.BlockEntityGasPressureValve",
+      "assetPaths": [
+        "gas/machines/pressurevalve"
+      ]
+    },
+    {
+      "domain": "smex",
+      "class": "smex.BlockEntityGasValve",
+      "assetPaths": [
+        "gas/machines/valve"
       ]
     },
     {
@@ -1100,44 +933,31 @@
       "domain": "smex",
       "class": "smex.BlockEntityMoltenCanal",
       "assetPaths": [
-        "molten/canalbrick/bend",
-        "molten/canalbrick/straight",
-        "molten/canalbrick/tjunction",
-        "molten/canalbrick/xjunction",
-        "molten/canalcobblestone/bend",
-        "molten/canalcobblestone/straight",
-        "molten/canalcobblestone/tjunction",
-        "molten/canalcobblestone/xjunction"
+        "molten/canal/bend",
+        "molten/canal/straight",
+        "molten/canal/tjunction",
+        "molten/canal/xjunction"
       ]
     },
     {
       "domain": "smex",
       "class": "smex.BlockEntityMoltenCanalMoldPedestal",
       "assetPaths": [
-        "molten/canalbrick/moldpedestal",
-        "molten/canalcobblestone/moldpedestal"
+        "molten/canal/moldpedestal"
       ]
     },
     {
       "domain": "smex",
       "class": "smex.BlockEntityMoltenCanalStart",
       "assetPaths": [
-        "molten/canalbrick/start",
-        "molten/canalcobblestone/start"
+        "molten/canal/start"
       ]
     },
     {
       "domain": "smex",
       "class": "smex.BlockEntityMoltenCanalTap",
       "assetPaths": [
-        "molten/tap"
-      ]
-    },
-    {
-      "domain": "smex",
-      "class": "smex.BlockEntityMpBlower",
-      "assetPaths": [
-        "blastfurnace/mpblower"
+        "molten/canal/tap"
       ]
     },
     {
@@ -1172,10 +992,10 @@
   "items": [
     {
       "domain": "smex",
-      "assetPath": "burden",
-      "baseCode": "smex:burden",
+      "assetPath": "blastmix",
+      "baseCode": "smex:blastmix",
       "codes": [
-        "smex:burden"
+        "smex:blastmix"
       ]
     },
     {
@@ -1202,8 +1022,5 @@
         "game:crushed-coke"
       ]
     }
-  ],
-  "pairedWith": {
-    "ppex": "0.6.8"
-  }
+  ]
 }

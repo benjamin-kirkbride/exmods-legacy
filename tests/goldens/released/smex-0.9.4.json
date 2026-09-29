@@ -1,15 +1,13 @@
 {
   "mod": "smex",
-  "version": "0.9.8",
+  "version": "0.9.4",
   "shipped": [
     {
       "domain": "smex",
       "assetPath": "blastfurnace/door",
       "baseCode": "smex:blastfurnacedoor",
       "codes": [
-        "smex:blastfurnacedoor-tier1",
-        "smex:blastfurnacedoor-tier2",
-        "smex:blastfurnacedoor-tier3"
+        "smex:blastfurnacedoor"
       ]
     },
     {
@@ -26,17 +24,6 @@
       "baseCode": "smex:hopperreinforced",
       "codes": [
         "smex:hopperreinforced"
-      ]
-    },
-    {
-      "domain": "smex",
-      "assetPath": "blastfurnace/mpblower",
-      "baseCode": "smex:mpblower",
-      "codes": [
-        "smex:mpblower-east",
-        "smex:mpblower-north",
-        "smex:mpblower-south",
-        "smex:mpblower-west"
       ]
     },
     {
@@ -60,18 +47,10 @@
       "assetPath": "blastfurnace/tap",
       "baseCode": "smex:blastfurnacetap",
       "codes": [
-        "smex:blastfurnacetap-tier1-east",
-        "smex:blastfurnacetap-tier1-north",
-        "smex:blastfurnacetap-tier1-south",
-        "smex:blastfurnacetap-tier1-west",
-        "smex:blastfurnacetap-tier2-east",
-        "smex:blastfurnacetap-tier2-north",
-        "smex:blastfurnacetap-tier2-south",
-        "smex:blastfurnacetap-tier2-west",
-        "smex:blastfurnacetap-tier3-east",
-        "smex:blastfurnacetap-tier3-north",
-        "smex:blastfurnacetap-tier3-south",
-        "smex:blastfurnacetap-tier3-west"
+        "smex:blastfurnacetap-east",
+        "smex:blastfurnacetap-north",
+        "smex:blastfurnacetap-south",
+        "smex:blastfurnacetap-west"
       ]
     },
     {
@@ -79,18 +58,10 @@
       "assetPath": "blastfurnace/tuyere",
       "baseCode": "smex:blastfurnace",
       "codes": [
-        "smex:blastfurnace-tuyere-tier1-e",
-        "smex:blastfurnace-tuyere-tier1-n",
-        "smex:blastfurnace-tuyere-tier1-s",
-        "smex:blastfurnace-tuyere-tier1-w",
-        "smex:blastfurnace-tuyere-tier2-e",
-        "smex:blastfurnace-tuyere-tier2-n",
-        "smex:blastfurnace-tuyere-tier2-s",
-        "smex:blastfurnace-tuyere-tier2-w",
-        "smex:blastfurnace-tuyere-tier3-e",
-        "smex:blastfurnace-tuyere-tier3-n",
-        "smex:blastfurnace-tuyere-tier3-s",
-        "smex:blastfurnace-tuyere-tier3-w"
+        "smex:blastfurnace-tuyere-e",
+        "smex:blastfurnace-tuyere-n",
+        "smex:blastfurnace-tuyere-s",
+        "smex:blastfurnace-tuyere-w"
       ]
     },
     {
@@ -142,18 +113,10 @@
       "assetPath": "cowperstove/heatsink",
       "baseCode": "smex:cowperstoveheatsink",
       "codes": [
-        "smex:cowperstoveheatsink-tier1-east",
-        "smex:cowperstoveheatsink-tier1-north",
-        "smex:cowperstoveheatsink-tier1-south",
-        "smex:cowperstoveheatsink-tier1-west",
-        "smex:cowperstoveheatsink-tier2-east",
-        "smex:cowperstoveheatsink-tier2-north",
-        "smex:cowperstoveheatsink-tier2-south",
-        "smex:cowperstoveheatsink-tier2-west",
-        "smex:cowperstoveheatsink-tier3-east",
-        "smex:cowperstoveheatsink-tier3-north",
-        "smex:cowperstoveheatsink-tier3-south",
-        "smex:cowperstoveheatsink-tier3-west"
+        "smex:cowperstoveheatsink-east",
+        "smex:cowperstoveheatsink-north",
+        "smex:cowperstoveheatsink-south",
+        "smex:cowperstoveheatsink-west"
       ]
     },
     {
@@ -1135,13 +1098,6 @@
     },
     {
       "domain": "smex",
-      "class": "smex.BlockEntityMpBlower",
-      "assetPaths": [
-        "blastfurnace/mpblower"
-      ]
-    },
-    {
-      "domain": "smex",
       "class": "smex.BlockEntitySlag",
       "assetPaths": [
         "blastfurnace/slag"
@@ -1172,10 +1128,10 @@
   "items": [
     {
       "domain": "smex",
-      "assetPath": "burden",
-      "baseCode": "smex:burden",
+      "assetPath": "blastmix",
+      "baseCode": "smex:blastmix",
       "codes": [
-        "smex:burden"
+        "smex:blastmix"
       ]
     },
     {

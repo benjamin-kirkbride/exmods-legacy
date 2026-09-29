@@ -1,6 +1,6 @@
 {
   "mod": "ppex",
-  "version": "0.6.8",
+  "version": "0.6.0",
   "shipped": [
     {
       "domain": "ppex",
@@ -77,17 +77,6 @@
         "ppex:manualfluidpump-north",
         "ppex:manualfluidpump-south",
         "ppex:manualfluidpump-west"
-      ]
-    },
-    {
-      "domain": "ppex",
-      "assetPath": "mpfluidpump",
-      "baseCode": "ppex:mpfluidpump",
-      "codes": [
-        "ppex:mpfluidpump-east",
-        "ppex:mpfluidpump-north",
-        "ppex:mpfluidpump-south",
-        "ppex:mpfluidpump-west"
       ]
     },
     {
@@ -487,13 +476,6 @@
     },
     {
       "domain": "ppex",
-      "class": "ppex.BlockEntityMpFluidPump",
-      "assetPaths": [
-        "mpfluidpump"
-      ]
-    },
-    {
-      "domain": "ppex",
       "class": "ppex.BlockEntityPipe",
       "assetPaths": [
         "pipes/bend",
@@ -539,24 +521,5 @@
       ]
     }
   ],
-  "items": [
-    {
-      "domain": "ppex",
-      "assetPath": "gear",
-      "baseCode": "ppex:gear",
-      "codes": [
-        "ppex:gear-iron",
-        "ppex:gear-steel"
-      ]
-    },
-    {
-      "domain": "ppex",
-      "assetPath": "largegear",
-      "baseCode": "ppex:largegear",
-      "codes": [
-        "ppex:largegear-iron",
-        "ppex:largegear-steel"
-      ]
-    }
-  ]
+  "items": []
 }

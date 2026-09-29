@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ExpandedLib.Testing;
+using Legacy.Tests;
 using Vintagestory.API.Common;
 using Xunit;
 using Xunit.Abstractions;
@@ -12,6 +13,7 @@ namespace Integration.Tests.Guards;
 /// (<c>tests/goldens/released</c>) reaches a live block in the shipped JSON loaded through the
 /// game's own loader (<see cref="LoadedLine"/>): the code loads a block, and the entity class it
 /// names, and every released entity class, loads a block entity type from the loaded registry.
+/// Every released item code loads an item.
 /// </summary>
 public class ReleasedCodeGuards(ITestOutputHelper output) {
   public static TheoryData<string> Mods => [.. LoadedLine.Mods];
@@ -80,6 +82,28 @@ public class ReleasedCodeGuards(ITestOutputHelper output) {
       output.WriteLine("  " + finding);
 
     Assert.NotEmpty(history.EntityClasses);
+    FindingLists.Assert(findings, Allowed, KnownFindings);
+  }
+
+  // Fails when a released item code loads no item: an itemtype renamed or removed, or a patch that
+  // added the code dropped.
+  [Theory]
+  [MemberData(nameof(Mods))]
+  public void Every_released_item_code_loads_an_item(string modId) {
+    TestWorld world = LoadedLine.World;
+    IReadOnlyList<string> codes = LegacyReleasedHistory.Items(modId);
+    List<string> findings =
+    [
+      .. codes.Where(c => world.World.GetItem(new AssetLocation(c)) == null)
+        .Select(c => $"{c} loads no item"),
+    ];
+    output.WriteLine(
+      $"{modId}: {codes.Count} released item codes, {findings.Count} finding(s)"
+    );
+    foreach (string finding in findings)
+      output.WriteLine("  " + finding);
+
+    Assert.NotEmpty(codes);
     FindingLists.Assert(findings, Allowed, KnownFindings);
   }
 }
