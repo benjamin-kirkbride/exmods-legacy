@@ -112,7 +112,7 @@ public class PipeMigration : IBlockCodeMigration {
               new AssetLocation("ppex", $"pipe-{shape}-fire-{orient}")
             );
 
-    // Pre-brick legacy passthrough/outlet (before the brick variantgroup existed) → fire brick.
+    // Pre-brick legacy passthrough/outlet (before the brick variantgroup existed) to fire brick.
     foreach (string o in new[] { "ns", "we", "ud" })
       yield return (
         new AssetLocation("smex", $"gaspipe-passthrough-{o}"),
@@ -124,7 +124,7 @@ public class PipeMigration : IBlockCodeMigration {
         new AssetLocation("ppex", $"pipe-outlet-fire-{o}")
       );
 
-    // Removed inline gas machines → a plain iron straight pipe of the matching axis.
+    // Removed inline gas machines to a plain iron straight pipe of the matching axis.
     foreach (string o in new[] { "ns", "we" })
       yield return (
         new AssetLocation("smex", $"gaspipe-blower-{o}"),
