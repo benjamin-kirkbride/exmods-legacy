@@ -69,6 +69,6 @@
       "rotateY": 270
     }
   },
-  "sidesolid": { "all": false },
-  "sideopaque": { "all": false }
+  "sidesolid": { "all": false, "down": true },
+  "sideopaque": { "all": false, "down": true }
 }

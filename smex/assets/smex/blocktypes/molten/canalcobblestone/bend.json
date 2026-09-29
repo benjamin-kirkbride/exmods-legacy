@@ -53,6 +53,16 @@
       "rotateY": 90
     }
   },
-  "sidesolid": { "all": false },
-  "sideopaque": { "all": false }
+  "sidesolidByType": {
+    "*-nw": { "all": false, "east": true, "south": true, "down": true },
+    "*-se": { "all": false, "north": true, "west": true, "down": true },
+    "*-en": { "all": false, "south": true, "west": true, "down": true },
+    "*-ws": { "all": false, "north": true, "east": true, "down": true }
+  },
+  "sideopaqueByType": {
+    "*-nw": { "all": false, "east": true, "south": true, "down": true },
+    "*-se": { "all": false, "north": true, "west": true, "down": true },
+    "*-en": { "all": false, "south": true, "west": true, "down": true },
+    "*-ws": { "all": false, "north": true, "east": true, "down": true }
+  }
 }

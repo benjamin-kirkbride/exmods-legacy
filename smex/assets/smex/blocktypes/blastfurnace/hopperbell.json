@@ -11,12 +11,8 @@
   "maxstacksize": 1,
   "lightAbsorption": 0,
   "shape": { "base": "smex:blastfurnace/hopper-bell" },
-  "sidesolid": {
-    "all": false
-  },
-  "sideopaque": {
-    "all": false
-  },
+  "sidesolid": { "all": false, "north": true, "east": true, "south": true, "west": true },
+  "sideopaque": { "all": false, "north": true, "east": true, "south": true, "west": true },
   "resistance": 1.75,
   "sounds": {
     "place": "game:block/anvil",

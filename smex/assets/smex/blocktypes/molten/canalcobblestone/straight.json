@@ -42,6 +42,12 @@
       "rotateY": 90
     }
   },
-  "sidesolid": { "all": false },
-  "sideopaque": { "all": false }
+  "sidesolidByType": {
+    "*-ns": { "all": false, "east": true, "west": true, "down": true },
+    "*-we": { "all": false, "north": true, "south": true, "down": true }
+  },
+  "sideopaqueByType": {
+    "*-ns": { "all": false, "east": true, "west": true, "down": true },
+    "*-we": { "all": false, "north": true, "south": true, "down": true }
+  }
 }

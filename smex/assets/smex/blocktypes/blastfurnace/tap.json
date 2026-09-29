@@ -36,10 +36,6 @@
       }
     }
   },
-  "sidesolid": {
-    "all": false
-  },
-  "sideopaque": {
-    "all": false
-  }
+  "sidesolid": { "all": true },
+  "sideopaque": { "all": false, "down": true }
 }

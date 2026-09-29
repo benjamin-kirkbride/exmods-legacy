@@ -42,6 +42,6 @@
       "base": "smex:molten/canal/xjunction"
     }
   },
-  "sidesolid": { "all": false },
-  "sideopaque": { "all": false }
+  "sidesolid": { "all": false, "down": true },
+  "sideopaque": { "all": false, "down": true }
 }

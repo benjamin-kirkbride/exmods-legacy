@@ -140,10 +140,16 @@
   "textures": {
     "front1": { "base": "game:block/clay/refractory/{refractory}/front1" }
   },
-  "sidesolid": {
-    "all": false
+  "sidesolidByType": {
+    "*-n": { "all": false, "east": true, "west": true, "up": true, "down": true },
+    "*-s": { "all": false, "east": true, "west": true, "up": true, "down": true },
+    "*-e": { "all": false, "north": true, "south": true, "up": true, "down": true },
+    "*-w": { "all": false, "north": true, "south": true, "up": true, "down": true }
   },
-  "sideopaque": {
-    "all": false
+  "sideopaqueByType": {
+    "*-n": { "all": false, "east": true, "west": true, "up": true, "down": true },
+    "*-s": { "all": false, "east": true, "west": true, "up": true, "down": true },
+    "*-e": { "all": false, "north": true, "south": true, "up": true, "down": true },
+    "*-w": { "all": false, "north": true, "south": true, "up": true, "down": true }
   }
 }
