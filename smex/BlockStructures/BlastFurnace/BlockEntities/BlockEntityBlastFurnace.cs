@@ -66,9 +66,10 @@ public class BlockEntityBlastFurnace : BlockEntityMultiblockMachine {
   /// <summary>Base yaw (radians) of the furnace door, used to orient the multiblock structure.</summary>
   public float BaseAngleRad { get; set; } = -1f;
 
-  // Sound throttles (world-elapsed ms): the furnace fire ambience and the molten
-  // tap-pour hiss are looping, gated so the per-second tick doesn't spam audio.
-  private long _lastFireSoundMs;
+  // The fire roaring in the hearth while the furnace is lit (client only).
+  private readonly ExSoundLoop _fireSound = new(ExSounds.Fire, 0.6f, 32f);
+
+  // Throttle stamp (world-elapsed ms) for the molten tap-pour sound.
   private long _lastTapSoundMs;
 
   private string _cachedInfoText = "";
@@ -150,6 +151,8 @@ public class BlockEntityBlastFurnace : BlockEntityMultiblockMachine {
     CacheAttributes();
     if (api.Side == EnumAppSide.Server && StructureComplete)
       ScanForOutlets();
+    if (api.Side == EnumAppSide.Client)
+      UpdateFireSound();
   }
 
   private void CacheAttributes() {
@@ -230,7 +233,7 @@ public class BlockEntityBlastFurnace : BlockEntityMultiblockMachine {
         lowerTapPos,
         ExSounds.MoltenMetal,
         ref _lastTapSoundMs,
-        2000,
+        ExSounds.ClipLengthMs(ExSounds.MoltenMetal),
         0.5f
       );
     }
@@ -260,7 +263,7 @@ public class BlockEntityBlastFurnace : BlockEntityMultiblockMachine {
         higherTapPos,
         ExSounds.MoltenMetal,
         ref _lastTapSoundMs,
-        2000,
+        ExSounds.ClipLengthMs(ExSounds.MoltenMetal),
         0.5f
       );
     }
@@ -454,17 +457,6 @@ public class BlockEntityBlastFurnace : BlockEntityMultiblockMachine {
     }
 
     if (State == BlastFurnaceState.Firing || State == BlastFurnaceState.Melting) {
-      // Roaring furnace ambience while lit.
-      ExSounds.PlayThrottled(
-        Api,
-        GetGlobalPos(0, 0, 2),
-        ExSounds.Fire,
-        ref _lastFireSoundMs,
-        5000,
-        0.6f,
-        32f
-      );
-
       // Ceiling and heating rate both interpolate with the blast temperature; cold blast still
       // clears the melting point. A choked flue reads as no blast.
       float blastFraction = BlastFraction(hotBlastTemp);
@@ -798,7 +790,24 @@ public class BlockEntityBlastFurnace : BlockEntityMultiblockMachine {
   public override void OnBlockRemoved() {
     if (Api?.Side == EnumAppSide.Server && State != BlastFurnaceState.Idle)
       Extinguish();
+    _fireSound.Dispose();
     base.OnBlockRemoved();
+  }
+
+  public override void OnBlockUnloaded() {
+    _fireSound.Dispose();
+    base.OnBlockUnloaded();
+  }
+
+  /// <summary>Plays the fire at the hearth while the synced state is lit, stops it otherwise.
+  /// Client only.</summary>
+  private void UpdateFireSound() {
+    EnsureStructureLoaded();
+    _fireSound.Update(
+      Api,
+      GetGlobalPos(0, 0, 2),
+      State == BlastFurnaceState.Firing || State == BlastFurnaceState.Melting
+    );
   }
 
   #endregion
@@ -828,6 +837,8 @@ public class BlockEntityBlastFurnace : BlockEntityMultiblockMachine {
     _cachedBurdenCount = tree.GetInt("cachedBurdenCount", 0);
     _cachedIsFull = tree.GetBool("cachedIsFull", false);
     BaseAngleRad = tree.GetFloat("baseAngleRad", -1f);
+    if (Api?.Side == EnumAppSide.Client)
+      UpdateFireSound();
   }
 
   public override void ToTreeAttributes(ITreeAttribute tree) {

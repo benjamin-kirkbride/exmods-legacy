@@ -59,11 +59,10 @@ public partial class BlockBlastFurnaceTap : Block {
       if (world.Side == EnumAppSide.Server)
         tap.TogglePouring();
 
-      world.PlaySoundAt(
+      ExSounds.PlayAt(
+        world,
+        blockSel.Position,
         ExSounds.CokeOvenDoorOpen,
-        blockSel.Position.X,
-        blockSel.Position.Y,
-        blockSel.Position.Z,
         byPlayer
       );
 

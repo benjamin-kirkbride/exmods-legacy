@@ -112,10 +112,15 @@ public class BlockEntityConverterControl : BlockEntityMultiblockMachine {
 
   private BEBehaviorAnimatable? _animatable;
 
-  // Sound throttles (world-elapsed ms) for the looping ambience. Filling and pouring are
-  // mutually exclusive, so they share _lastMoltenSoundMs.
-  private long _lastProcessSoundMs;
-  private long _lastFireSoundMs;
+  // Whether the last tick blew the charge; synced for the blow's sounds.
+  private bool _blowing;
+
+  // The roaring blast through the bath and the carbon burning off over it, while it blows (client
+  // only).
+  private readonly ExSoundLoop _embersSound = new(ExSounds.Embers, 0.5f, 24f);
+  private readonly ExSoundLoop _fireSound = new(ExSounds.Fire, 1.5f, 24f);
+
+  // Throttle stamp (world-elapsed ms) for the filling and pouring sounds, which never overlap.
   private long _lastMoltenSoundMs;
   #endregion
 
@@ -149,6 +154,30 @@ public class BlockEntityConverterControl : BlockEntityMultiblockMachine {
         );
       ApplyControlPose();
     }
+    UpdateBlowSounds();
+  }
+
+  public override void OnBlockRemoved() {
+    DisposeBlowSounds();
+    base.OnBlockRemoved();
+  }
+
+  public override void OnBlockUnloaded() {
+    DisposeBlowSounds();
+    base.OnBlockUnloaded();
+  }
+
+  private void DisposeBlowSounds() {
+    _embersSound.Dispose();
+    _fireSound.Dispose();
+  }
+
+  /// <summary>Plays the blow's sounds while the synced vessel blows, stops them otherwise. Client
+  /// only.</summary>
+  private void UpdateBlowSounds() {
+    bool blowing = StructureComplete && _blowing;
+    _embersSound.Update(Api, Pos.AddCopy(0, 0, 2), blowing);
+    _fireSound.Update(Api, Pos.AddCopy(0, 0, 2), blowing);
   }
 
   #endregion
@@ -156,6 +185,14 @@ public class BlockEntityConverterControl : BlockEntityMultiblockMachine {
   #region Production tick (server only, started by base when StructureComplete)
 
   protected override void OnProductionTick(float dt) {
+    bool wasBlowing = _blowing;
+    _blowing = false;
+    TickVessel(dt);
+    if (_blowing != wasBlowing)
+      MarkDirty();
+  }
+
+  private void TickVessel(float dt) {
     if (!StructureComplete || !IsConverterConstructed()) {
       SetStatus(Lang.Get("smex:bessemer-status-notbuilt"));
       return;
@@ -288,27 +325,7 @@ public class BlockEntityConverterControl : BlockEntityMultiblockMachine {
 
     // Emit process smoke only while iron is actively refining.
     GetConverter()?.SpawnSmokeParticles();
-
-    // Roaring blast through the molten bath while refining.
-    ExSounds.PlayThrottled(
-      Api,
-      Pos.AddCopy(0, 0, 2),
-      ExSounds.Embers,
-      ref _lastProcessSoundMs,
-      4000,
-      0.5f
-    );
-
-    // Crackling fire over the blast (the carbon burning off), offset from the embers throttle so
-    // the two loops overlap rather than fire in lockstep.
-    ExSounds.PlayThrottled(
-      Api,
-      Pos.AddCopy(0, 0, 2),
-      ExSounds.Fire,
-      ref _lastFireSoundMs,
-      3000,
-      1.5f
-    );
+    _blowing = true;
 
     _processSeconds += _convSpeed * dt;
     if (_processSeconds >= ProcessDurationSec)
@@ -384,7 +401,7 @@ public class BlockEntityConverterControl : BlockEntityMultiblockMachine {
       Pos,
       ExSounds.Sizzle,
       ref _lastMoltenSoundMs,
-      1500,
+      ExSounds.ClipLengthMs(ExSounds.Sizzle),
       0.6f
     );
     // A fresh charge of iron restarts the refining clock.
@@ -435,7 +452,7 @@ public class BlockEntityConverterControl : BlockEntityMultiblockMachine {
       Pos,
       ExSounds.MoltenMetal,
       ref _lastMoltenSoundMs,
-      1500,
+      ExSounds.ClipLengthMs(ExSounds.MoltenMetal),
       0.6f
     );
     if (_contentUnits <= 0) {
@@ -1295,6 +1312,7 @@ public class BlockEntityConverterControl : BlockEntityMultiblockMachine {
     tree.SetFloat("airDemand", _airDemand);
     tree.SetBool("solidified", _solidified);
     tree.SetString("status", _status);
+    tree.SetBool("blowing", _blowing);
   }
 
   public override void FromTreeAttributes(
@@ -1321,9 +1339,11 @@ public class BlockEntityConverterControl : BlockEntityMultiblockMachine {
     _airDemand = tree.GetFloat("airDemand");
     _solidified = tree.GetBool("solidified");
     _status = tree.GetString("status", Lang.Get("smex:bessemer-status-idle"));
+    _blowing = tree.GetBool("blowing");
 
     if (Api?.Side == EnumAppSide.Client && prevState != OpState)
       ApplyControlPose();
+    UpdateBlowSounds();
   }
 
   #endregion

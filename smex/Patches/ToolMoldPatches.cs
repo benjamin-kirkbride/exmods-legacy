@@ -357,10 +357,10 @@ public static class ToolMoldPatches {
         be.FillLevel = 0;
         be.UpdateRenderer();
         be.MarkDirty(true);
-        world.PlaySoundAt(
-          ExSounds.Ingot,
+        ExSounds.PlayAt(
+          world,
           blockSel.Position,
-          -0.5,
+          ExSounds.Ingot,
           byPlayer,
           randomizePitch: false
         );
@@ -406,13 +406,19 @@ public static class ToolMoldPatches {
     );
 
     world.BlockAccessor.SetBlock(0, blockSel.Position);
-    if (__instance.Sounds?.Place != null)
-      world.PlaySoundAt(
-        __instance.Sounds.Place,
+#if GAME_GE_1_22
+    if (__instance.Sounds?.Place.Location is { } placeSound)
+      ExSounds.PlayAt(
+        world,
         blockSel.Position,
-        -0.5,
-        byPlayer
+        placeSound,
+        byPlayer,
+        range: __instance.Sounds.Place.Range
       );
+#else
+    if (__instance.Sounds?.Place is { } placeSound)
+      ExSounds.PlayAt(world, blockSel.Position, placeSound, byPlayer);
+#endif
     __result = true;
     return false;
   }

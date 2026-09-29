@@ -127,7 +127,7 @@ public partial class BlockMoltenCanal : BlockNetworkNode {
       && world.BlockAccessor.GetBlockEntity(pos) is BlockEntityMoltenCanal be
       && be.WouldSpillOnRemoval()
     )
-      world.PlaySoundAt(ExSounds.Sizzle, pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5);
+      ExSounds.PlayAt(world, pos, ExSounds.Sizzle);
 
     base.OnBlockBroken(world, pos, byPlayer, dropQuantityMultiplier);
   }

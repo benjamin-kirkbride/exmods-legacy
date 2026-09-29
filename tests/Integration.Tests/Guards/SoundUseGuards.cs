@@ -25,48 +25,13 @@ public class SoundUseGuards(ITestOutputHelper output) {
   /// <summary>Finding, and why it stands.</summary>
   private static readonly Dictionary<string, string> Allowed = new();
 
-  private const string Outpaced =
-    "F-21: a throttled one-shot is played again before its clip ends, so plays overlap";
-
   /// <summary>Finding, keyed without its line number, and the defect it records.</summary>
   private static readonly Dictionary<string, string> ShortRepeatFindings =
-    new[] {
-      "BlockEntityBoiler.cs: ExSounds.Lava repeats every 2500 ms but lasts 56630 ms",
-      "BlockEntityMoltenCanalMoldPedestal.cs: ExSounds.MoltenMetal repeats every 2000 ms "
-        + "but lasts 3381 ms",
-      "BlockEntityMoltenCanalStart.cs: ExSounds.PourMetal repeats every 2000 ms but lasts "
-        + "3941 ms",
-      "BlockEntityMoltenCanalTap.cs: ExSounds.MoltenMetal repeats every 2000 ms but lasts "
-        + "3381 ms",
-      "BlockEntityBlastFurnace.cs: ExSounds.MoltenMetal repeats every 2000 ms but lasts "
-        + "3381 ms",
-      "BlockEntityBlastFurnace.cs: ExSounds.Fire repeats every 5000 ms but lasts 9260 ms",
-      "BlockEntityConverterControl.cs: ExSounds.Embers repeats every 4000 ms but lasts "
-        + "22094 ms",
-      "BlockEntityConverterControl.cs: ExSounds.Fire repeats every 3000 ms but lasts 9260 ms",
-      "BlockEntityConverterControl.cs: ExSounds.Sizzle repeats every 1500 ms but lasts "
-        + "3564 ms",
-      "BlockEntityConverterControl.cs: ExSounds.MoltenMetal repeats every 1500 ms but lasts "
-        + "3381 ms",
-      "BlockEntityCowperStove.cs: ExSounds.Fire repeats every 5000 ms but lasts 9260 ms",
-      "BlockEntitySmokeStack.cs: ExSounds.Fire repeats every 6000 ms but lasts 9260 ms",
-    }.ToDictionary(k => k, _ => Outpaced);
-
-  private const string Direct =
-    "F-22: the sound is played past ExSounds and ignores the machine volume and sound type";
+    new();
 
   /// <summary>Finding, keyed without its line number, and the defect it records.</summary>
   private static readonly Dictionary<string, string> DirectSoundFindings =
-    new[] {
-      "BlockMoltenBarrel.cs",
-      "BlockMoltenCanal.cs",
-      "BlockEntityHopperBell.cs",
-      "BlockBlastFurnaceTap.cs",
-      "ToolMoldPatches.cs",
-    }.ToDictionary(
-      f => $"{f}: PlaySoundAt called directly; use ExSounds",
-      _ => Direct
-    );
+    new();
 
   /// <summary>Finding, and the defect it records.</summary>
   private static readonly Dictionary<string, string> LoopFindings = new();
@@ -77,7 +42,7 @@ public class SoundUseGuards(ITestOutputHelper output) {
   );
 
   // Fails when a call site repeats a sound faster than its clip where the known findings do not
-  // name it, e.g. the mold pedestal's MoltenMetal interval cut from 2000 to 1000 ms.
+  // name it, e.g. the mold pedestal's MoltenMetal interval set to 1000 ms.
   [Fact]
   public void Repeating_one_shots_never_outpace_their_clips() {
     IReadOnlyList<string> files = Premise.NotEmpty(Sources(), "source files");

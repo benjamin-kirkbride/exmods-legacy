@@ -343,6 +343,13 @@ internal sealed class CowperRig {
     return this;
   }
 
+  /// <summary>Valves the exhaust intake off (drains it), then runs one production tick.</summary>
+  public CowperRig CutExhaust() {
+    _exhaust.TryConsumeGas(float.MaxValue, World.Accessor);
+    Tick();
+    return this;
+  }
+
   /// <summary>
   /// Feeds cool blast air into the passthrough, then runs one production tick (discharge). The exhaust
   /// line is valved off first (drained) - a stove only discharges while it is NOT taking exhaust, the

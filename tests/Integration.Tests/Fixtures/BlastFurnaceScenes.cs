@@ -126,6 +126,17 @@ internal sealed class BlastFurnaceRig {
     }
   }
 
+  /// <summary>Sets every hearth pile burning again, as a player relighting the charge.</summary>
+  public BlastFurnaceRig RelightHearth() {
+    foreach (var pos in _pilePositions)
+      if (
+        World.Api.World.BlockAccessor.GetBlockEntity(pos)
+        is BlockEntityCoalPile pile
+      )
+        ReflectionHelpers.SetField(pile, "burning", true);
+    return this;
+  }
+
   /// <summary>Whether any hearth pile is still burning - the hearth is alight.</summary>
   public bool HearthAlight {
     get {

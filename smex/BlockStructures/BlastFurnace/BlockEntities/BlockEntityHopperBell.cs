@@ -302,7 +302,7 @@ public class BlockEntityHopperBell : BlockEntity {
     }
 
     SpawnFallingParticles();
-    Api.World.PlaySoundAt(ExSounds.StoneCrush, Pos.X, Pos.Y, Pos.Z);
+    ExSounds.PlayAt(Api.World, Pos, ExSounds.StoneCrush);
   }
 
   private void SpawnFallingParticles() =>

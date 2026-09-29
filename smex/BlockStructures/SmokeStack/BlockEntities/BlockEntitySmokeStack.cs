@@ -25,7 +25,9 @@ public class BlockEntitySmokeStack
     IPipeNode {
   private float _lastConsumedAmount;
   private BlockNetworkModSystem? _system;
-  private long _lastVentSoundMs;
+
+  // Soft draught of exhaust venting up the stack while it draws (client only).
+  private readonly ExSoundLoop _ventSound = new(ExSounds.Fire, 0.3f, 32f);
 
   public override void Initialize(ICoreAPI api) {
     base.Initialize(api);
@@ -35,14 +37,26 @@ public class BlockEntitySmokeStack
     // but this class inherits from BlockEntityMultiblockMachine, so do it explicitly.
     if (api.Side == EnumAppSide.Server && _system.GetNetworkAt(Pos) == null)
       _system.AddNode(api.World.BlockAccessor, Pos, "pipe");
+    UpdateVentSound();
   }
 
   public override void OnBlockRemoved() {
     // Safety fallback for chunk-unload edge cases (break-time RemoveNode is handled elsewhere).
     if (Api?.Side == EnumAppSide.Server)
       _system?.RemoveNode(Api.World.BlockAccessor, Pos);
+    _ventSound.Dispose();
     base.OnBlockRemoved();
   }
+
+  public override void OnBlockUnloaded() {
+    _ventSound.Dispose();
+    base.OnBlockUnloaded();
+  }
+
+  /// <summary>Plays the draught while the synced draw is above zero, stops it otherwise. Client
+  /// only.</summary>
+  private void UpdateVentSound() =>
+    _ventSound.Update(Api, Pos, StructureComplete && _lastConsumedAmount > 0);
 
   #region INetworkNode
 
@@ -179,16 +193,6 @@ public class BlockEntitySmokeStack
       return;
 
     SpawnSmokeParticles(medium);
-    // Soft draught of exhaust venting up the stack.
-    ExSounds.PlayThrottled(
-      Api,
-      Pos,
-      ExSounds.Fire,
-      ref _lastVentSoundMs,
-      6000,
-      0.3f,
-      32f
-    );
   }
 
   private void SpawnSmokeParticles(string medium) {
@@ -263,6 +267,7 @@ public class BlockEntitySmokeStack
     string? json = tree.GetString("possibleOrientations");
     if (json != null)
       PossibleOrientations = JsonSerializer.Deserialize<string[]>(json) ?? [];
+    UpdateVentSound();
   }
 
   #endregion

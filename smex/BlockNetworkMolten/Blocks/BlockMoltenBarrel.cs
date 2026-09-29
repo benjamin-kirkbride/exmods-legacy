@@ -390,15 +390,7 @@ public partial class BlockMoltenBarrel : Block {
       && be.CurrentUnitAmount > 0
       && !be.IsHardened
     )
-      world.PlaySoundAt(
-        ExSounds.Sizzle,
-        pos.X + 0.5,
-        pos.Y + 0.5,
-        pos.Z + 0.5,
-        null,
-        true,
-        24f
-      );
+      ExSounds.PlayAt(world, pos, ExSounds.Sizzle, range: 24f);
 
     base.OnBlockBroken(world, pos, byPlayer, dropQuantityMultiplier);
   }

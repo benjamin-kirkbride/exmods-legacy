@@ -115,7 +115,7 @@ public class BlockEntityMoltenCanalStart
         Pos,
         ExSounds.PourMetal,
         ref _lastPourSoundMs,
-        2000,
+        ExSounds.ClipLengthMs(ExSounds.PourMetal),
         0.6f
       );
   }

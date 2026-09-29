@@ -28,7 +28,12 @@ public class BlockEntityCowperStove : BlockEntityMultiblockMachine {
   private BlockFacing _connectorFace = BlockFacing.SOUTH;
   private float _internalTemperature = 20f;
   private string _lastStatus = Lang.Get("smex:cowperstove-status-idle");
-  private long _lastHeatSoundMs;
+
+  // Whether the last tick soaked up furnace exhaust; synced for the roar.
+  private bool _soaking;
+
+  // Low roar of the regenerator soaking up furnace exhaust (client only).
+  private readonly ExSoundLoop _heatSound = new(ExSounds.Fire, 0.4f, 24f);
 
   // Cached config tunables (see SmexValues) - read once at init instead of
   // re-reading the static config every production tick.
@@ -52,7 +57,23 @@ public class BlockEntityCowperStove : BlockEntityMultiblockMachine {
       BlockFacing.SOUTH,
       ExOrientation.AngleFromSide(Block.Variant["side"])
     );
+    UpdateHeatSound();
   }
+
+  public override void OnBlockRemoved() {
+    _heatSound.Dispose();
+    base.OnBlockRemoved();
+  }
+
+  public override void OnBlockUnloaded() {
+    _heatSound.Dispose();
+    base.OnBlockUnloaded();
+  }
+
+  /// <summary>Plays the roar while the synced stove soaks up exhaust, stops it otherwise. Client
+  /// only.</summary>
+  private void UpdateHeatSound() =>
+    _heatSound.Update(Api, Pos, StructureComplete && _soaking);
 
   // Pulls the gameplay tunables off the live config. Re-run each production tick (not just at load)
   // so a `/exmod config smex ...` change applies immediately, not only after the chunk reloads.
@@ -154,6 +175,7 @@ public class BlockEntityCowperStove : BlockEntityMultiblockMachine {
     }
 
     string newStatus = Lang.Get("smex:cowperstove-status-idle");
+    bool soaking = false;
 
     if (isReceivingExhaust && passthroughVol > ExlibValues.LitresPerPipe) {
       // Air and exhaust both present. Closing the air valve cuts its supply but leaves the gas
@@ -180,15 +202,7 @@ public class BlockEntityCowperStove : BlockEntityMultiblockMachine {
       }
 
       SpawnHeatingParticles();
-      // Low roar of the regenerator soaking up furnace exhaust.
-      ExSounds.PlayThrottled(
-        Api,
-        Pos,
-        ExSounds.Fire,
-        ref _lastHeatSoundMs,
-        5000,
-        0.4f
-      );
+      soaking = true;
 
       BlockPos exhaustOutletPos2 = GetGlobalPos(0, 0, 2);
       if (
@@ -244,8 +258,9 @@ public class BlockEntityCowperStove : BlockEntityMultiblockMachine {
     if (_internalTemperature < _ambientTemperature)
       _internalTemperature = _ambientTemperature;
 
-    if (_lastStatus != newStatus) {
+    if (_lastStatus != newStatus || _soaking != soaking) {
       _lastStatus = newStatus;
+      _soaking = soaking;
       MarkDirty(true);
     }
 
@@ -314,6 +329,7 @@ public class BlockEntityCowperStove : BlockEntityMultiblockMachine {
     base.ToTreeAttributes(tree);
     tree.SetFloat("internalTemperature", _internalTemperature);
     tree.SetString("lastStatus", _lastStatus);
+    tree.SetBool("soaking", _soaking);
   }
 
   public override void FromTreeAttributes(
@@ -326,6 +342,8 @@ public class BlockEntityCowperStove : BlockEntityMultiblockMachine {
       "lastStatus",
       Lang.Get("smex:cowperstove-status-idle")
     );
+    _soaking = tree.GetBool("soaking");
+    UpdateHeatSound();
   }
 
   #endregion

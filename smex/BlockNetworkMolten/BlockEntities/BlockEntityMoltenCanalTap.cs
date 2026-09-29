@@ -415,7 +415,7 @@ public class BlockEntityMoltenCanalTap : BlockEntityMoltenCanal {
       Pos,
       ExSounds.MoltenMetal,
       ref _lastDrainSoundMs,
-      2000,
+      ExSounds.ClipLengthMs(ExSounds.MoltenMetal),
       0.5f
     );
 

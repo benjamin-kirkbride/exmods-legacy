@@ -35,8 +35,8 @@ public abstract class BlockEntityBoiler : BlockEntityMultiblockMachine {
   private BoilerWaterRenderer? _waterRenderer;
   private long _clientTickId;
 
-  // Throttle stamp for the client-side boiling hum loop.
-  private long _boilHumMs;
+  // The boiling hum at the lid while the water boils (client only).
+  private readonly ExSoundLoop _boilHum = new(ExSounds.Lava, 0.4f);
 
   #region Per-variant stats
 
@@ -201,6 +201,7 @@ public abstract class BlockEntityBoiler : BlockEntityMultiblockMachine {
     }
     _waterRenderer?.Dispose();
     _waterRenderer = null;
+    _boilHum.Dispose();
   }
 
   private void OnConstructShapeChanged(CompositeShape cs) {
@@ -839,16 +840,11 @@ public abstract class BlockEntityBoiler : BlockEntityMultiblockMachine {
     }
 
     // A boiling boiler rumbles (lava bubble/rumble loop, tuned low) from the vessel body.
-    if (_state == BoilerState.Boiling)
-      ExSounds.PlayLoop(
-        Api.World,
-        BoilerBlock?.LidWorldPos(Pos) ?? Pos,
-        ExSounds.Lava,
-        ref _boilHumMs,
-        2500,
-        0.4f,
-        16f
-      );
+    _boilHum.Update(
+      Api,
+      BoilerBlock?.LidWorldPos(Pos) ?? Pos,
+      _state == BoilerState.Boiling
+    );
 
     // Near choke pressure, vent warning steam so the player sees it's about to burst.
     if (InDangerZone)
