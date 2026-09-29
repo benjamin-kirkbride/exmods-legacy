@@ -173,9 +173,9 @@ public class MoltenPinTests {
 
   #region Cooling
 
-  // 1.20 and 1.21 decay a stack's temperature only once more than 1/85 hour has passed since its
-  // last stamp, and the cell stamps it every tick, so at MoltenClock.HoursPerTick the metal holds
-  // its temperature there. 1.22 decays from 1/150 hour on.
+  // 1.20 and 1.21 decay a stack only once more than 1/85 hour has passed since its last update, a
+  // linear 24 C an hour, so at MoltenClock.HoursPerTick the cell cools every second tick. 1.22 decays
+  // from 1/150 hour on, faster above 200 C.
   [Fact]
   public void A_canal_cell_of_iron_at_1700_cools_as_the_game_version_decays_it() {
     var line = new CanalLine("straight");
@@ -185,7 +185,7 @@ public class MoltenPinTests {
     float atSixty = 0f;
 
     line.Record(trace, 0);
-    for (int t = 1; frozen == 0 && t <= 400; t++) {
+    for (int t = 1; frozen == 0 && t <= 1200; t++) {
       line.Step();
       line.Record(trace, t);
       if (t == 60)
@@ -199,8 +199,8 @@ public class MoltenPinTests {
     Assert.Equal(1601.0f, atSixty, Trace.TemperatureDigits);
     Assert.Equal(126, frozen);
 #else
-    Assert.Equal(1700.0f, atSixty, Trace.TemperatureDigits);
-    Assert.Equal(0, frozen);
+    Assert.Equal(1688.0f, atSixty, Trace.TemperatureDigits);
+    Assert.Equal(1000, frozen);
 #endif
   }
 

@@ -221,6 +221,30 @@ public class MoltenCanalMetalApiTests {
     Assert.True(be.HasMoltenMetal);
   }
 
+  [Fact]
+  public void Changing_the_cooldown_speed_reaches_metal_already_in_the_cell() {
+    var world = NewWorld();
+    var be = Canal(world);
+    be.PushMetal(20, Metal(world, Iron, 1600f), world.World);
+
+    float original = SmexValues.MoltenCooldownSpeed;
+    try {
+      SmexValues.Edit(c => c.MoltenCooldownSpeed = 240f);
+      UpdateThermal(be, world);
+
+      var stack = (ItemStack)ReflectionHelpers.GetField(be, "_cellMetalStack")!;
+      Assert.Equal(
+        240f,
+        (stack.Attributes["temperature"] as ITreeAttribute)!.GetFloat(
+          "cooldownSpeed"
+        ),
+        3
+      );
+    } finally {
+      SmexValues.Edit(c => c.MoltenCooldownSpeed = original);
+    }
+  }
+
   #endregion
 
   #region CellState / IsHardened

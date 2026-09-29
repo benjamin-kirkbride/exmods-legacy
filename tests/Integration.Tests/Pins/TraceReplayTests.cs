@@ -85,7 +85,8 @@ internal sealed record TraceDiff(int FirstTick, string Moved) {
 /// <c>expected-different</c>, with the change of the port that is meant to move it; or
 /// <c>finding</c>, with the defect that moves it. A row asserts the first tick that differs and the
 /// fields that differ (<see cref="TraceDiff"/>), so a trace that starts or stops differing fails its
-/// row. The rows are the same on 1.20, 1.21 and 1.22.
+/// row. The rows are the same on 1.20, 1.21 and 1.22, but for the canal traces, which differ from the
+/// published ones on 1.20 and 1.21 only.
 /// </summary>
 public class TraceReplayTests {
   private const string Same = "same";
@@ -94,6 +95,10 @@ public class TraceReplayTests {
 
   /// <summary>Industry's passive gas cooling, 2 deg C/s toward 20 deg C, which ppex never ran.</summary>
   private const string Cooling = "cooling";
+
+  /// <summary>Canal metal cooling on 1.20 and 1.21, where the published smex held it at its
+  /// temperature.</summary>
+  private const string CanalCooling = "canal-cooling";
 
   private static readonly PipePinTests Pipe = new();
   private static readonly PipeNetworkDiffPinTests Diff = new();
@@ -198,17 +203,31 @@ public class TraceReplayTests {
       { "machine-boiler-watt", Expected, Cooling, 1, "temp" },
       { "machine-blower-load", Same, "", 0, "" },
       { "molten-rate", Same, "", 0, "" },
+#if GAME_GE_1_22
       { "molten-reach-10", Same, "", 0, "" },
+#else
+      { "molten-reach-10", Expected, CanalCooling, 15, "temp" },
+#endif
       { "molten-minimum-canal", Same, "", 0, "" },
       { "molten-minimum-pedestal", Same, "", 0, "" },
       { "molten-pedestal-fill", Same, "", 0, "" },
+#if GAME_GE_1_22
       { "molten-cooling", Same, "", 0, "" },
+#else
+      { "molten-cooling", Expected, CanalCooling, 6, "lines,temp" },
+#endif
       { "sequence-pipe-seed1", Expected, Cooling, 21, "temp" },
       { "sequence-pipe-seed2", Expected, Cooling, 7, "temp" },
       { "sequence-pipe-seed3", Expected, Cooling, 7, "temp" },
+#if GAME_GE_1_22
       { "sequence-canal-seed1", Same, "", 0, "" },
       { "sequence-canal-seed2", Same, "", 0, "" },
       { "sequence-canal-seed3", Same, "", 0, "" },
+#else
+      { "sequence-canal-seed1", Expected, CanalCooling, 25, "temp" },
+      { "sequence-canal-seed2", Expected, CanalCooling, 12, "temp" },
+      { "sequence-canal-seed3", Expected, CanalCooling, 20, "temp" },
+#endif
     };
 
   [Theory]
