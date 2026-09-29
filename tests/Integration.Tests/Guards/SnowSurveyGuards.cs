@@ -24,18 +24,11 @@ public class SnowSurveyGuards(ITestOutputHelper output) {
   /// <summary>Finding, and why it stands.</summary>
   private static readonly Dictionary<string, string> Allowed = new();
 
-  private const string OpenShaft =
-    "F-27: the smoke stack's shaft is open to the sky over its floor, and the layout marks "
-    + "no nosnow";
-
   /// <summary>Finding, and the defect it records.</summary>
-  private static readonly Dictionary<string, string> KnownFindings = new() {
-    ["smex:smokestack: (0,-1,1) snow lies on carries no nosnow"] = OpenShaft,
-    ["smex:smokestack: (0,0,1) snow settles in carries no nosnow"] = OpenShaft,
-  };
+  private static readonly Dictionary<string, string> KnownFindings = new();
 
   // Fails when an open column's marks differ from the known findings, e.g. the smoke stack's
-  // shaft cells marked nosnow, or when the survey stops reading open cells as air.
+  // nosnow role removed, or when the survey stops reading open cells as air.
   [Fact]
   public void Every_open_column_marks_where_snow_settles_and_lies() {
     var layouts = new HashSet<string>(StringComparer.Ordinal);
