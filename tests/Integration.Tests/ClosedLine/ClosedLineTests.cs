@@ -56,6 +56,20 @@ public class ClosedLineTests(ITestOutputHelper output) {
     );
   }
 
+  // Fails when ClosedLineRecipes.Closes reads the output alone: a named ppex recipe of a vanilla
+  // output is left.
+  [Fact]
+  public void A_named_ppex_recipe_of_a_vanilla_output_is_closed_by_its_name() {
+    var json = JObject.Parse(
+      """{ "name": "Piping (Straight)", "output": { "type": "item", "code": "game:stick" } }"""
+    );
+
+    GridRecipe recipe = json.ToObject<GridRecipe>("ppex")!;
+
+    Assert.Equal("ppex:piping (straight)", recipe.Name?.ToString());
+    Assert.True(ClosedLineRecipes.Closes(recipe.Name, recipe.Output.Code));
+  }
+
   // Fails when ClosedLineModSystem hides nothing, or keeps every guide page.
   [Fact]
   public void Every_ppex_and_smex_collectible_is_off_the_creative_inventory_and_the_handbook() {

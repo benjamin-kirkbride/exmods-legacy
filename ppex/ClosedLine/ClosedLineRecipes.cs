@@ -19,7 +19,8 @@ public static class ClosedLineRecipes {
   ];
 
   /// <summary>Removes the closed line's recipes from <paramref name="api"/>'s registries. A recipe's
-  /// source is its <c>Name</c>, the asset it was loaded from.</summary>
+  /// <c>Name</c> carries the domain of the asset it was loaded from: the game reads a JSON
+  /// <c>name</c> into that domain, and names a recipe without one after the asset itself.</summary>
   /// <remarks>Run on the server once recipes have loaded; clients receive the registries from it on
   /// joining. A registry the game does not hold is skipped.</remarks>
   /// <returns>The count removed from each of <see cref="Registries"/>.</returns>
@@ -48,8 +49,8 @@ public static class ClosedLineRecipes {
     return removed;
   }
 
-  /// <summary>Whether a recipe loaded from <paramref name="source"/> with
-  /// <paramref name="output"/> belongs to the closed line.</summary>
+  /// <summary>Whether a recipe named <paramref name="source"/> with <paramref name="output"/>
+  /// belongs to the closed line: either is in the ppex or smex domain.</summary>
   public static bool Closes(AssetLocation? source, AssetLocation? output) =>
     ClosedLineModSystem.IsOldLine(source) || ClosedLineModSystem.IsOldLine(output);
 }
