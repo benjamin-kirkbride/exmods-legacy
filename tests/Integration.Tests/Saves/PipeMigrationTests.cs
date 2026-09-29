@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ExpandedLib.Testing;
+using Integration.Tests.Guards;
 using PipesAndPowerExpanded.BlockMigrations;
 using Vintagestory.API.Common;
 using Xunit;
@@ -29,6 +30,38 @@ public class PipeMigrationTests {
     Assert.Equal(
       "ppex:pipe-passthrough-refractorytier1-ns",
       remaps.Single(r => r.Old.ToString() == OldCode).New.ToString()
+    );
+  }
+
+  // Fails when the fire fallback ignores a loaded tier: the old code is mapped twice, as exlib's
+  // migration then warns on every boot.
+  [Fact]
+  public void The_loaded_line_maps_each_old_tier_code_once_to_its_tier() {
+    List<(AssetLocation Old, AssetLocation New)> remaps =
+    [
+      .. new PipeMigration().GetRemaps(LoadedLine.World.Api),
+    ];
+    var tiered = remaps
+      .Where(r =>
+        r.Old.Path.StartsWith(
+          "gaspipe-passthrough-refractorytier1-",
+          System.StringComparison.Ordinal
+        )
+      )
+      .ToList();
+
+    Assert.NotEmpty(tiered);
+    Assert.Empty(
+      remaps.GroupBy(r => r.Old.ToString()).Where(g => g.Count() > 1)
+    );
+    Assert.All(
+      tiered,
+      r =>
+        Assert.Equal(
+          "ppex:pipe-passthrough-refractorytier1-"
+            + r.Old.Path[(r.Old.Path.LastIndexOf('-') + 1)..],
+          r.New.ToString()
+        )
     );
   }
 

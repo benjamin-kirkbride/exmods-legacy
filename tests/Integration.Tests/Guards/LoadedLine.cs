@@ -12,7 +12,9 @@ namespace Integration.Tests.Guards;
 /// <summary>
 /// ppex and then smex loaded into one <see cref="TestWorld"/> through the game's own asset manager
 /// and object loader (<see cref="TestWorld.LoadAssets"/>), as a server loads them: the shipped JSON
-/// under <c>ppex/assets</c> and <c>smex/assets</c>, and the assemblies this test process runs.
+/// under <c>ppex/assets</c> and <c>smex/assets</c>, the assemblies this test process runs, and smex's
+/// patches, which add the refractory tiers to ppex's pipes and reach the game's <c>coalpile</c>,
+/// <c>crushed</c> and <c>nugget</c>. exlib starts once, before ppex and smex.
 /// </summary>
 /// <remarks>Each mod is staged under the test output's <c>loaded-line/&lt;modid&gt;</c>, a fresh
 /// copy once per test process: its <c>modinfo.json</c>, its <c>assets</c>, and its assembly as
@@ -31,9 +33,6 @@ internal static class LoadedLine {
   public static TestWorld World => Shared.Value;
 
   /// <summary>A world that loaded ppex alone.</summary>
-  /// <remarks>Each load starts exlib's systems again, so in <see cref="World"/> exlib's classes
-  /// were registered once more after ppex's; here their names stand in the game's order, exlib's
-  /// then ppex's.</remarks>
   public static TestWorld Ppex => PpexOnly.Value;
 
   /// <summary>The two mod ids, in load order.</summary>
@@ -56,19 +55,22 @@ internal static class LoadedLine {
     return block.Code.Domain + ":" + path;
   }
 
-  /// <summary>A fresh world that loaded <paramref name="mods"/>, in order, as <see cref="World"/>
-  /// did.</summary>
+  /// <summary>A fresh world that loaded <paramref name="mods"/> through one asset list, in order, as
+  /// <see cref="World"/> did.</summary>
   internal static TestWorld Load(params string[] mods) {
     var world = new TestWorld();
-    foreach (string modId in mods)
-      world.LoadAssets(
-        Stage(
-          modId,
-          modId == "ppex"
-            ? typeof(PipesAndPowerExpandedModSystem)
-            : typeof(SteelmakingExpandedModSystem)
-        )
-      );
+    world.LoadAssets(
+      [
+        .. mods.Select(modId =>
+          Stage(
+            modId,
+            modId == "ppex"
+              ? typeof(PipesAndPowerExpandedModSystem)
+              : typeof(SteelmakingExpandedModSystem)
+          )
+        ),
+      ]
+    );
     foreach (CollectibleObject collectible in world.World.Collectibles)
       if (collectible != null)
         ReflectionHelpers.SetField(collectible, "api", world.Api);
