@@ -9,8 +9,12 @@ namespace PipesAndPowerExpanded.ClosedLine;
 /// <summary>The chat line that tells a player the line is closed, sent once per player per world.
 /// The players told are kept in the save's mod data under <c>ppex:closedline-notified</c>.</summary>
 public static class ClosedLineNotice {
-  /// <summary>The notice's lang key.</summary>
+  /// <summary>The notice's lang key; its <c>{0}</c> takes the names of the enabled
+  /// successors.</summary>
   public const string LangKey = "ppex:closedline-notice";
+
+  /// <summary>The lang key that joins two names, <c>{0}</c> and <c>{1}</c>, in the notice.</summary>
+  public const string AndKey = "ppex:closedline-notice-and";
 
   private const string NotifiedKey = "closedline-notified";
 
@@ -29,11 +33,23 @@ public static class ClosedLineNotice {
 
     player.SendMessage(
       GlobalConstants.GeneralChatGroup,
-      Lang.GetL(player.LanguageCode, LangKey),
+      Text(api, player.LanguageCode),
       EnumChatType.Notification
     );
     notified.Add(player.PlayerUID);
     ExWorldData.Set(api, "ppex", NotifiedKey, notified);
     return true;
+  }
+
+  /// <summary>The notice in <paramref name="langCode"/>, naming each of
+  /// <see cref="ClosedLineModSystem.Successors"/> enabled in <paramref name="api"/>'s game by its
+  /// modinfo name, joined through <see cref="AndKey"/>.</summary>
+  public static string Text(ICoreAPI api, string langCode) {
+    string names = "";
+    foreach (string id in ClosedLineModSystem.Successors)
+      if (api.ModLoader.GetMod(id)?.Info.Name is { } name)
+        names =
+          names.Length == 0 ? name : Lang.GetL(langCode, AndKey, names, name);
+    return Lang.GetL(langCode, LangKey, names);
   }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using NSubstitute;
 using PipesAndPowerExpanded.ClosedLine;
 using Vintagestory.API.Common;
+using Vintagestory.API.Common.Entities;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
 using Vintagestory.API.Util;
@@ -22,11 +24,16 @@ namespace Integration.Tests.ClosedLine;
 /// <see cref="RecipeRegistrySystem"/> registries, the survival handbook's mod system, save data kept
 /// in memory, and its client api reading the same mod loader and collectibles; then
 /// <see cref="ClosedLineModSystem"/> started on both sides. The line is closed when iiex is
-/// enabled before the start.
+/// enabled before the start. At the start the world already holds a loaded chunk with
+/// <see cref="StartRack"/> and a loaded <see cref="StartDrop"/>.
 /// </summary>
 /// <remarks>Each world is loaded once per test process and never disposed. Recipes are the parsed
 /// JSON objects, one per recipe, before the game expands their ingredient variants.</remarks>
 internal sealed class ClosedLineWorld {
+  /// <summary>The xunit collection of the test classes that write to <see cref="Closed"/>'s save
+  /// data, so they run one at a time.</summary>
+  public const string Collection = "ClosedLine";
+
   private static readonly Lazy<ClosedLineWorld> ClosedWorld = new(() =>
     new ClosedLineWorld(closed: true)
   );
@@ -63,6 +70,22 @@ internal sealed class ClosedLineWorld {
   /// <summary>The save's mod data, as the save holds it.</summary>
   public Dictionary<string, List<string>> SaveData { get; } = [];
 
+  /// <summary>ppex's iron straight pipe.</summary>
+  public Block Pipe { get; }
+
+  /// <summary>A smex tool mold.</summary>
+  public Block Mold { get; }
+
+  /// <summary>A stand-in for the game's iron ingot.</summary>
+  public Item Ingot { get; }
+
+  /// <summary>A vanilla mold rack in a chunk loaded before the start, holding <see cref="Mold"/>
+  /// and <see cref="Ingot"/>.</summary>
+  public BlockEntityMoldRack StartRack { get; }
+
+  /// <summary>A dropped <see cref="Pipe"/> loaded before the start.</summary>
+  public EntityItem StartDrop { get; }
+
   private ClosedLineWorld(bool closed) {
     World = LoadedLine.Load("ppex", "smex");
     LoadRecipes();
@@ -72,8 +95,10 @@ internal sealed class ClosedLineWorld {
     World.ClientApi.World.Blocks.Returns(World.World.Blocks);
     World.ClientApi.World.Items.Returns(World.World.Items);
     KeepSaveData();
-    if (closed)
+    if (closed) {
       World.Mods.Add("iiex", "0.7.0");
+      World.Mods.GetMod("iiex")!.Info.Name = "Iron Industry Expanded";
+    }
 
     OldLine = [
       .. World
@@ -81,6 +106,34 @@ internal sealed class ClosedLineWorld {
         .Concat(World.World.Items)
         .Where(c => ClosedLineModSystem.IsOldLine(c?.Code)),
     ];
+    Pipe = OldLine
+      .OfType<Block>()
+      .First(b => b.Code.ToString() == "ppex:pipe-straight-ns-iron");
+    Mold = OldLine
+      .OfType<Block>()
+      .First(b =>
+        b.Code.Domain == "smex"
+        && b.Code.Path.StartsWith("toolmold-", StringComparison.Ordinal)
+      );
+    Ingot = World.RegisterItem("game:ingot-iron");
+    StartRack = new BlockEntityMoldRack {
+      Api = World.Api,
+      Block = new Block { Code = new AssetLocation("game:moldrack-normal") },
+      Pos = new BlockPos(0, 1, 0),
+    };
+    StartRack.Inventory[0].Itemstack = new ItemStack(Mold);
+    StartRack.Inventory[1].Itemstack = new ItemStack(Ingot);
+    IServerChunk loaded = Substitute.For<IServerChunk>();
+    loaded.BlockEntities.Returns(
+      new Dictionary<BlockPos, BlockEntity> { [StartRack.Pos] = StartRack }
+    );
+    World.Api.WorldManager.AllLoadedChunks.Returns(
+      new Dictionary<long, IServerChunk> { [0] = loaded }
+    );
+    StartDrop = new EntityItem { Itemstack = new ItemStack(Pipe) };
+    World.World.LoadedEntities.Returns(
+      new ConcurrentDictionary<long, Entity> { [1] = StartDrop }
+    );
     RecipesBefore = CountRecipes();
     InCreativeBefore = [
       .. OldLine
@@ -160,6 +213,14 @@ internal sealed class ClosedLineWorld {
   }
 
   private static int _nextStandIn = 61000;
+
+  /// <summary>The codes of the stacks <paramref name="inventory"/> holds, slot by slot.</summary>
+  public static List<string> Codes(IInventory inventory) =>
+    [
+      .. inventory
+        .Where(slot => slot.Itemstack != null)
+        .Select(slot => slot.Itemstack.Collectible.Code.ToString()),
+    ];
 
   /// <summary>Whether <paramref name="block"/> reserves filler cells or carries construction
   /// stages, the blocks <see cref="StructureBreaks"/> stands up.</summary>

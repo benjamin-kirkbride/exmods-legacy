@@ -1,7 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
+using ExpandedLib.Testing;
+using NSubstitute;
 using PipesAndPowerExpanded.ClosedLine;
 using Vintagestory.API.Common;
+using Vintagestory.API.MathTools;
+using Vintagestory.API.Server;
+using Vintagestory.GameContent;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -10,7 +15,7 @@ namespace Integration.Tests.ClosedLine;
 /// <summary>
 /// The open line in <see cref="ClosedLineWorld.Open"/>, where neither iiex nor siex is enabled:
 /// the recipes, the creative inventory and the drops stay as they were, with the closed line's
-/// patches applied.
+/// patches applied, and no stack is swept.
 /// </summary>
 public class OpenLineTests(ITestOutputHelper output) {
   private static ClosedLineWorld Open => ClosedLineWorld.Open;
@@ -73,5 +78,41 @@ public class OpenLineTests(ITestOutputHelper output) {
       baseline.Values.SelectMany(c => c),
       c => ClosedLineModSystem.IsOldLine(new AssetLocation(c))
     );
+  }
+
+  // Fails when the switch is forced closed: the sweep takes the ppex and smex stacks.
+  [Fact]
+  public void Nothing_is_swept() {
+    TestPlayer joiner = Open.World.Player("sweeper");
+    IServerPlayer player = Assert.IsAssignableFrom<IServerPlayer>(joiner.ServerPlayer);
+    joiner.Hotbar[0].Itemstack = new ItemStack(Open.Pipe);
+    player.InventoryManager.Inventories.Returns(
+      new Dictionary<string, IInventory> { ["hotbar"] = joiner.Hotbar }
+    );
+    var rack = new BlockEntityMoldRack {
+      Block = new Block { Code = new AssetLocation("game:moldrack-normal") },
+      Pos = new BlockPos(0, 1, 0),
+    };
+    rack.Inventory[0].Itemstack = new ItemStack(Open.Mold);
+    IWorldChunk chunk = Substitute.For<IWorldChunk>();
+    chunk.BlockEntities.Returns(new Dictionary<BlockPos, BlockEntity> { [rack.Pos] = rack });
+    var drop = new EntityItem { Itemstack = new ItemStack(Open.Pipe) };
+
+    Open.World.Api.Event.PlayerJoin += Raise.Event<PlayerDelegate>(player);
+    Open.World.Api.Event.ChunkDirty += Raise.Event<ChunkDirtyDelegate>(
+      new Vec3i(0, 0, 0),
+      chunk,
+      EnumChunkDirtyReason.NewlyLoaded
+    );
+    Open.World.Api.Event.OnEntitySpawn += Raise.Event<EntityDelegate>(drop);
+
+    Assert.Equal(["ppex:pipe-straight-ns-iron"], ClosedLineWorld.Codes(joiner.Hotbar));
+    Assert.Equal([Open.Mold.Code.ToString()], ClosedLineWorld.Codes(rack.Inventory));
+    Assert.True(drop.Alive);
+    Assert.Equal(
+      [Open.Mold.Code.ToString(), "game:ingot-iron"],
+      ClosedLineWorld.Codes(Open.StartRack.Inventory)
+    );
+    Assert.True(Open.StartDrop.Alive);
   }
 }

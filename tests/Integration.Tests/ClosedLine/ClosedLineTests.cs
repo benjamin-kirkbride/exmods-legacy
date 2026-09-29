@@ -21,8 +21,10 @@ namespace Integration.Tests.ClosedLine;
 /// <summary>
 /// The closed line in <see cref="ClosedLineWorld.Closed"/>, where iiex is enabled: no ppex or smex
 /// recipe is left, no ppex or smex collectible is in the creative inventory or the handbook, no ppex
-/// or smex stack drops from a ppex or smex block, and each player is told once.
+/// or smex stack drops from a ppex or smex block, and each player is told once, by the names of the
+/// successors enabled.
 /// </summary>
+[Collection(ClosedLineWorld.Collection)]
 public class ClosedLineTests(ITestOutputHelper output) {
   private static ClosedLineWorld Closed => ClosedLineWorld.Closed;
 
@@ -142,6 +144,7 @@ public class ClosedLineTests(ITestOutputHelper output) {
     TestPlayer joiner = Closed.World.Player("joiner");
     IServerPlayer player = Assert.IsAssignableFrom<IServerPlayer>(joiner.ServerPlayer);
     player.LanguageCode.Returns("en");
+    player.InventoryManager.Inventories.Returns([]);
 
     for (int join = 0; join < 2; join++)
       Closed.World.Api.Event.PlayerJoin += Raise.Event<PlayerDelegate>(player);
@@ -163,25 +166,87 @@ public class ClosedLineTests(ITestOutputHelper output) {
     );
   }
 
-  // Fails when a locale lacks the notice or its text carries an angle bracket, which cuts or blanks
-  // a chat line.
+  // Fails when a locale lacks the notice or its join, or either carries an angle bracket, which
+  // cuts or blanks a chat line.
   [Theory]
   [InlineData("en")]
   [InlineData("ru")]
   [InlineData("uk")]
   public void The_notice_reads_in_every_locale_without_angle_brackets(string locale) {
-    string? notice = (string?)
-      JObject.Parse(
-        File.ReadAllText(
-          Path.Combine(RepoPaths.Root, "ppex", "assets", "ppex", "lang", locale + ".json")
-        )
-      )[ClosedLineNotice.LangKey.Split(':')[1]];
-    output.WriteLine($"{locale}: {notice}");
+    JObject lang = JObject.Parse(
+      File.ReadAllText(
+        Path.Combine(RepoPaths.Root, "ppex", "assets", "ppex", "lang", locale + ".json")
+      )
+    );
+    foreach (string key in new[] { ClosedLineNotice.LangKey, ClosedLineNotice.AndKey }) {
+      string? text = (string?)lang[key.Split(':')[1]];
+      output.WriteLine($"{locale} {key}: {text}");
 
-    Assert.False(string.IsNullOrWhiteSpace(notice));
-    Assert.DoesNotContain('<', notice);
-    Assert.DoesNotContain('>', notice);
+      Assert.False(string.IsNullOrWhiteSpace(text), key);
+      Assert.Contains("{0}", text);
+      Assert.DoesNotContain('<', text);
+      Assert.DoesNotContain('>', text);
+    }
   }
+
+  // Fails when the notice names iiex whatever is enabled: a world with siex alone is told of iiex.
+  [Theory]
+  [InlineData("en")]
+  [InlineData("ru")]
+  [InlineData("uk")]
+  public void The_notice_names_siex_when_only_siex_is_enabled(string locale) {
+    string notice = NoticeIn(locale, "siex");
+
+    Assert.Contains("Steel Industry Expanded", notice);
+    Assert.DoesNotContain("Iron Industry Expanded", notice);
+    Assert.DoesNotContain("{", notice);
+  }
+
+  // Fails when the join keeps only the last name: a world with both is told of siex alone.
+  [Theory]
+  [InlineData("en", "and")]
+  [InlineData("ru", "\u0438")]
+  [InlineData("uk", "\u0456")]
+  public void The_notice_names_both_when_both_are_enabled(string locale, string and) {
+    string notice = NoticeIn(locale, "iiex", "siex");
+
+    Assert.Contains($"Iron Industry Expanded {and} Steel Industry Expanded", notice);
+  }
+
+  /// <summary>The chat line <see cref="ClosedLineNotice.Send"/> sends a player reading
+  /// <paramref name="locale"/> in a fresh world where only <paramref name="successors"/> are
+  /// enabled, each under its modinfo name.</summary>
+  private string NoticeIn(string locale, params string[] successors) {
+    var world = new TestWorld();
+    foreach (string id in successors) {
+      world.Mods.Add(id, "0.1.0");
+      world.Mods.GetMod(id)!.Info.Name = SuccessorNames[id];
+    }
+    IServerPlayer player = Assert.IsAssignableFrom<IServerPlayer>(
+      world.Player("told").ServerPlayer
+    );
+    player.LanguageCode.Returns(NoticeLocales.Prefix + locale);
+    string? sent = null;
+    player
+      .When(p =>
+        p.SendMessage(
+          Arg.Any<int>(),
+          Arg.Any<string>(),
+          Arg.Any<EnumChatType>(),
+          Arg.Any<string>()
+        )
+      )
+      .Do(ci => sent = ci.ArgAt<string>(1));
+
+    Assert.True(ClosedLineNotice.Send(world.Api, player));
+    output.WriteLine($"{locale}, {string.Join(" and ", successors)}: {sent}");
+    return Assert.IsType<string>(sent);
+  }
+
+  private static readonly Dictionary<string, string> SuccessorNames = new() {
+    ["iiex"] = "Iron Industry Expanded",
+    ["siex"] = "Steel Industry Expanded",
+  };
 
   /// <summary>The guide pages of the game install, ppex and smex, as the handbook reads them from
   /// <c>config/handbook</c>; <paramref name="game"/> receives the game's.</summary>

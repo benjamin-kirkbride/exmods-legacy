@@ -13,8 +13,9 @@ namespace PipesAndPowerExpanded.ClosedLine;
 /// lines (<see cref="ClosedLineRecipes"/>), both sides take their collectibles off the creative
 /// inventory and the handbook, the client hides their guide pages, their blocks drop no ppex or smex
 /// stack and a construction stage that takes a ppex straight pipe also takes the new line's
-/// (<see cref="ClosedLinePatches"/>), and each player is told once per world
-/// (<see cref="ClosedLineNotice"/>). Open, it does nothing.
+/// (<see cref="ClosedLinePatches"/>), the server takes ppex and smex stacks out of player
+/// inventories, containers and dropped items (<see cref="ClosedLineSweep"/>), and each player is told
+/// once per world (<see cref="ClosedLineNotice"/>). Open, it does nothing.
 /// </summary>
 public class ClosedLineModSystem : ModSystem {
   /// <summary>The asset domains the switch closes.</summary>
@@ -42,9 +43,10 @@ public class ClosedLineModSystem : ModSystem {
     var removed = ClosedLineRecipes.Remove(api);
     int hidden = Hide(api);
     _patched |= ClosedLinePatches.Apply(api);
+    ClosedLineSweep.Register(api);
     ClosedLineNotice.Register(api);
     api.Logger.Notification(
-      "[ppex] iiex or siex is enabled, so ppex and smex are closed. Removed {0} recipe(s) ({1}), took {2} collectible(s) off the creative inventory and the handbook, and their blocks drop no ppex or smex stack.",
+      "[ppex] iiex or siex is enabled, so ppex and smex are closed. Removed {0} recipe(s) ({1}), took {2} collectible(s) off the creative inventory and the handbook, their blocks drop no ppex or smex stack, and their stacks leave player inventories, containers and the ground.",
       removed.Values.Sum(),
       string.Join(", ", removed.Select(r => $"{r.Key} {r.Value}")),
       hidden
