@@ -116,9 +116,8 @@ internal sealed class OrientedPartsScene {
   /// <summary>
   /// Turns the part at layout offset (<paramref name="x"/>, <paramref name="y"/>,
   /// <paramref name="z"/>) <paramref name="dir"/> quarter turns through the
-  /// <see cref="IWrenchOrientable"/> the vanilla wrench finds on its block, then hands the cell's
-  /// block entity <c>OnExchanged</c>, which the engine's <c>ExchangeBlock</c> calls and this
-  /// world's does not. With <paramref name="registerTurns"/>, the part's four <c>side</c> variants
+  /// <see cref="IWrenchOrientable"/> the vanilla wrench finds on its block. With
+  /// <paramref name="registerTurns"/>, the part's four <c>side</c> variants
   /// are registered first; without, only those the world already holds can be turned to.
   /// </summary>
   public OrientedPartsScene Wrench(
@@ -145,7 +144,6 @@ internal sealed class OrientedPartsScene {
         new BlockSelection { Position = pos.Copy(), Face = BlockFacing.UP },
         dir
       );
-    World.GetBlockEntity(pos)?.OnExchanged(World.GetBlock(pos));
     return this;
   }
 
