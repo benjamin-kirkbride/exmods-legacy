@@ -70,6 +70,13 @@ facing.
   `ModConfig/ex_values.json`, with the same defaults. A value tuned in the old file is logged once
   at load, naming the key.
 
+### Fixed
+
+- **The log no longer warns about the old refractory gas pipes at every start.** With Steelmaking
+  Expanded installed, 57 lines said a `smex:gaspipe-...-refractorytier...` code was "already mapped
+  elsewhere". An old refractory gas pipe still becomes the pipe of the same brick, and a fire brick
+  pipe only when Steelmaking Expanded is not installed.
+
 ## [0.6.9] - 2026-09-23
 
 ### Fixed

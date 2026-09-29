@@ -7,16 +7,18 @@ namespace PipesAndPowerExpanded.BlockMigrations;
 
 /// <summary>
 /// Migrates the gas pipe network that moved out of Steelmaking Expanded (<c>smex</c>) into this
-/// mod (<c>ppex</c>) and was renamed <c>gaspipe-* → pipe-*</c>. Several shapes also changed their
-/// variant structure between versions, so a plain <c>gas</c>-prefix swap is not enough:
+/// mod (<c>ppex</c>) and was renamed <c>gaspipe-*</c> to <c>pipe-*</c>. Several shapes also
+/// changed their variant structure between versions, so a plain <c>gas</c>-prefix swap is not
+/// enough:
 ///
 /// <list type="bullet">
 /// <item><description>straight / bend / t-junction / x-junction and both valves gained an
 /// iron/steel <c>material</c> axis the old pipes never had; each old (material-less) code maps to
 /// the <c>iron</c> variant of the new block (steel is new and has no legacy equivalent).</description></item>
-/// <item><description>outlet / passthrough / passthrough-bend keep their <c>brick</c> axis, but the
-/// three <c>refractorytier1/2/3</c> bricks were dropped; old placements of those map to the
-/// <c>fire</c> brick.</description></item>
+/// <item><description>outlet / passthrough / passthrough-bend keep their <c>brick</c> axis. An old
+/// placement in one of the three <c>refractorytier1/2/3</c> bricks maps to the same brick when that
+/// block is loaded (smex's <c>patches/compat/ppex/refractory.json</c> adds the tiers to ppex's
+/// pipes), and to the <c>fire</c> brick when it is not.</description></item>
 /// <item><description>the old inline gas machines (<c>blower</c>, <c>heated</c>, <c>intake</c>) were
 /// removed; their placements become a plain <c>iron</c> straight pipe of the matching axis so the
 /// network stays continuous.</description></item>
@@ -72,7 +74,7 @@ public class PipeMigration : IBlockCodeMigration {
       }
 
       // outlet/passthrough/passthrough-bend keep the brick axis: a straight gas-prefix swap of
-      // the still-shared bricks (the dropped refractory tiers are handled separately below).
+      // every loaded brick, the refractory tiers included when smex's patch adds them.
       if (path.StartsWith("pipe-"))
         yield return (
           new AssetLocation("smex", "gas" + path),
@@ -80,7 +82,8 @@ public class PipeMigration : IBlockCodeMigration {
         );
     }
 
-    // Refractory bricks were removed from outlet/passthrough/passthrough-bend; fall back to fire.
+    // A refractory tier no loaded block carries falls back to the fire brick; one that is loaded
+    // was mapped to itself above.
     string[] refractory =
     [
       "refractorytier1",
@@ -99,10 +102,15 @@ public class PipeMigration : IBlockCodeMigration {
     foreach (var (shape, orients) in brickShapes)
       foreach (string tier in refractory)
         foreach (string orient in orients)
-          yield return (
-            new AssetLocation("smex", $"gaspipe-{shape}-{tier}-{orient}"),
-            new AssetLocation("ppex", $"pipe-{shape}-fire-{orient}")
-          );
+          if (
+            api.World.GetBlock(
+              new AssetLocation("ppex", $"pipe-{shape}-{tier}-{orient}")
+            ) == null
+          )
+            yield return (
+              new AssetLocation("smex", $"gaspipe-{shape}-{tier}-{orient}"),
+              new AssetLocation("ppex", $"pipe-{shape}-fire-{orient}")
+            );
 
     // Pre-brick legacy passthrough/outlet (before the brick variantgroup existed) → fire brick.
     foreach (string o in new[] { "ns", "we", "ud" })
