@@ -1,7 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using ExpandedLib.Migrations;
 using ExpandedLib.Testing;
 using Legacy.Tests;
+using PipesAndPowerExpanded;
+using SteelmakingExpanded;
 using Vintagestory.API.Common;
 using Xunit;
 using Xunit.Abstractions;
@@ -9,11 +13,12 @@ using Xunit.Abstractions;
 namespace Integration.Tests.Guards;
 
 /// <summary>
-/// Every block code and entity class the published ppex 0.6.8 and smex 0.9.8 shipped
-/// (<c>tests/goldens/released</c>) reaches a live block in the shipped JSON loaded through the
-/// game's own loader (<see cref="LoadedLine"/>): the code loads a block, and the entity class it
-/// names, and every released entity class, loads a block entity type from the loaded registry.
-/// Every released item code loads an item.
+/// Every block code, item code and entity class any published ppex or smex release shipped
+/// (<c>tests/goldens/released</c>) still has a path into the shipped JSON loaded through the game's
+/// own loader (<see cref="LoadedLine"/>). A block code loads a block, or its declared remap chain
+/// ends at a code that does or at a declared removal; a loaded block's entity class resolves. An
+/// item code loads an item, or an item migration of the two mods maps it to one. Every released
+/// entity class loads a block entity type from the loaded registry.
 /// </summary>
 public class ReleasedCodeGuards(ITestOutputHelper output) {
   public static TheoryData<string> Mods => [.. LoadedLine.Mods];
@@ -21,25 +26,118 @@ public class ReleasedCodeGuards(ITestOutputHelper output) {
   /// <summary>Finding, and why it stands.</summary>
   private static readonly Dictionary<string, string> Allowed = new();
 
-  /// <summary>Finding, and the defect it records.</summary>
-  private static readonly Dictionary<string, string> KnownFindings = new();
+  private static readonly Dictionary<string, string> NoFindings = new();
 
-  // Fails when a released code loads no block (a variant group renamed, a blocktype file moved out
-  // or its code changed), or names an entity class the loaded registry does not hold.
+  /// <summary>Mod, then finding, and the defect it records.</summary>
+  private static readonly Dictionary<string, Dictionary<string, string>> KnownBlocks = new() {
+    ["ppex"] = new(),
+    ["smex"] = new() {
+        ["smex:gaspipe-heated-ew"] =
+          "shipped in smex 0.8.0 to 0.8.5 without a brick; no migration maps it",
+        ["smex:gaspipe-heated-ns"] =
+          "shipped in smex 0.8.0 to 0.8.5 without a brick; no migration maps it",
+        ["smex:gaspipe-heated-sn"] =
+          "shipped in smex 0.8.0 to 0.8.5 without a brick; no migration maps it",
+        ["smex:gaspipe-heated-we"] =
+          "shipped in smex 0.8.0 to 0.8.5 without a brick; no migration maps it",
+        ["smex:gaspipe-passthroughbend-de"] =
+          "shipped in smex 0.8.5; no migration maps it",
+        ["smex:gaspipe-passthroughbend-dn"] =
+          "shipped in smex 0.8.5; no migration maps it",
+        ["smex:gaspipe-passthroughbend-ds"] =
+          "shipped in smex 0.8.5; no migration maps it",
+        ["smex:gaspipe-passthroughbend-dw"] =
+          "shipped in smex 0.8.5; no migration maps it",
+        ["smex:gaspipe-passthroughbend-en"] =
+          "shipped in smex 0.8.5; no migration maps it",
+        ["smex:gaspipe-passthroughbend-nw"] =
+          "shipped in smex 0.8.5; no migration maps it",
+        ["smex:gaspipe-passthroughbend-se"] =
+          "shipped in smex 0.8.5; no migration maps it",
+        ["smex:gaspipe-passthroughbend-ue"] =
+          "shipped in smex 0.8.5; no migration maps it",
+        ["smex:gaspipe-passthroughbend-un"] =
+          "shipped in smex 0.8.5; no migration maps it",
+        ["smex:gaspipe-passthroughbend-us"] =
+          "shipped in smex 0.8.5; no migration maps it",
+        ["smex:gaspipe-passthroughbend-uw"] =
+          "shipped in smex 0.8.5; no migration maps it",
+        ["smex:gaspipe-passthroughbend-ws"] =
+          "shipped in smex 0.8.5; no migration maps it",
+    },
+  };
+
+  /// <summary>Mod, then finding, and the defect it records.</summary>
+  private static readonly Dictionary<string, Dictionary<string, string>> KnownClasses = new() {
+    ["ppex"] = new(),
+    ["smex"] = new() {
+        ["smex.BlockEntityBessemerControl"] =
+          "named by smex 0.8.0 to 0.8.7; loads no type in the port",
+        ["smex.BlockEntityBessemerConverter"] =
+          "named by smex 0.8.0 to 0.8.7; loads no type in the port",
+        ["smex.BlockEntityBessemerGasIntake"] =
+          "named by smex 0.8.0 to 0.8.7; loads no type in the port",
+        ["smex.BlockEntityBessemerTransmission"] =
+          "named by smex 0.8.0 to 0.8.7; loads no type in the port",
+        ["smex.BlockEntityGasBlower"] =
+          "named by smex 0.8.0 to 0.8.7; loads no type in the port",
+        ["smex.BlockEntityGasHeatedIntake"] =
+          "named by smex 0.8.0 to 0.8.7; loads no type in the port",
+        ["smex.BlockEntityGasIntake"] =
+          "named by smex 0.8.0 to 0.8.7; loads no type in the port",
+        ["smex.BlockEntityGasOutlet"] =
+          "named by smex 0.8.0 to 0.8.7; loads no type in the port",
+        ["smex.BlockEntityGasPassthrough"] =
+          "named by smex 0.8.0 to 0.8.7; loads no type in the port",
+        ["smex.BlockEntityGasPipe"] =
+          "named by smex 0.8.0 to 0.8.7; loads no type in the port",
+        ["smex.BlockEntityGasPressureValve"] =
+          "named by smex 0.8.0 to 0.8.7; loads no type in the port",
+        ["smex.BlockEntityGasValve"] =
+          "named by smex 0.8.0 to 0.8.7; loads no type in the port",
+    },
+  };
+
+  // Fails when a released code has no path (a variant group renamed with no remap, a blocktype
+  // file moved out or its code changed), or a loaded block names an entity class the loaded
+  // registry does not hold.
   [Theory]
   [MemberData(nameof(Mods))]
-  public void Every_released_code_loads_a_block_whose_entity_class_resolves(
+  public void Every_released_code_reaches_a_block_whose_entity_class_resolves(
     string modId
   ) {
     TestWorld world = LoadedLine.World;
     ReleasedModHistory history = ReleasedHistory.For(modId)!;
     string[] codes = [.. history.Shipped.SelectMany(s => s.Codes)];
+    var firstShipped = new Dictionary<string, string>();
+    foreach (var release in ReleasedHistory.Releases(modId))
+      foreach (string code in release.Added.SelectMany(s => s.Codes))
+        firstShipped.TryAdd(code, release.Version);
+    Dictionary<string, string> declared = ReleasedCodePaths.Declared(
+      BlockMigrationModSystem
+        .DeclaredBlockRemaps(world.Api)
+        .Select(r => (r.OldCode.ToString(), r.NewCode.ToString()))
+    );
+    HashSet<string> removed =
+    [
+      .. BlockMigrationModSystem
+        .DeclaredRemovals(world.Api)
+        .Select(r => r.Code.ToString()),
+    ];
+    bool Loads(string code) =>
+      world.World.GetBlock(new AssetLocation(code)) != null;
+
     var findings = new List<string>();
     foreach (string code in codes) {
       Block? block = world.World.GetBlock(new AssetLocation(code));
-      if (block == null)
-        findings.Add($"{code} loads no block");
-      else if (
+      if (block == null) {
+        string? end = ReleasedCodePaths.DeadEnd(code, Loads, declared, removed);
+        if (end != null)
+          findings.Add(
+            $"{code} (first shipped in {modId} {firstShipped[code]}) loads no block, "
+              + (end == code ? "no migration declares it" : $"its chain ends at {end}")
+          );
+      } else if (
         block.EntityClass is { } entityClass
         && world.Api.ClassRegistry.GetBlockEntity(entityClass) == null
       )
@@ -54,7 +152,7 @@ public class ReleasedCodeGuards(ITestOutputHelper output) {
       output.WriteLine("  " + finding);
 
     Assert.NotEmpty(codes);
-    FindingLists.Assert(findings, Allowed, KnownFindings);
+    FindingLists.Assert(findings, Allowed, KnownBlocks[modId], ReleasedCodePaths.KeyOf);
   }
 
   // Fails when an entity class the release's blocktypes named is unregistered: its type renamed,
@@ -82,20 +180,54 @@ public class ReleasedCodeGuards(ITestOutputHelper output) {
       output.WriteLine("  " + finding);
 
     Assert.NotEmpty(history.EntityClasses);
-    FindingLists.Assert(findings, Allowed, KnownFindings);
+    FindingLists.Assert(findings, Allowed, KnownClasses[modId], ReleasedCodePaths.KeyOf);
   }
 
-  // Fails when a released item code loads no item: an itemtype renamed or removed, or a patch that
-  // added the code dropped.
+  // Fails when a released item code has no path: an itemtype renamed or removed with no item
+  // migration, a patch that added the code dropped, or the migrations ignored.
   [Theory]
   [MemberData(nameof(Mods))]
-  public void Every_released_item_code_loads_an_item(string modId) {
+  public void Every_released_item_code_reaches_an_item(string modId) {
     TestWorld world = LoadedLine.World;
     IReadOnlyList<string> codes = LegacyReleasedHistory.Items(modId);
+    IReadOnlyDictionary<string, string> firstShipped =
+      LegacyReleasedHistory.ItemFirstShipped(modId);
+    Dictionary<string, string> declared = ReleasedCodePaths.Declared(
+      new[]
+      {
+        typeof(PipesAndPowerExpandedModSystem).Assembly,
+        typeof(SteelmakingExpandedModSystem).Assembly,
+      }
+        .SelectMany(a => a.GetTypes())
+        .Where(t =>
+          !t.IsAbstract
+          && typeof(IItemCodeMigration).IsAssignableFrom(t)
+          && t.GetConstructor(Type.EmptyTypes) != null
+        )
+        .SelectMany(t =>
+          ((IItemCodeMigration)Activator.CreateInstance(t)!).GetRemaps(world.Api)
+        )
+        .Select(r => (r.oldCode.ToString(), r.newCode.ToString()))
+    );
     List<string> findings =
     [
-      .. codes.Where(c => world.World.GetItem(new AssetLocation(c)) == null)
-        .Select(c => $"{c} loads no item"),
+      .. codes
+        .Select(c =>
+          (
+            Code: c,
+            End: ReleasedCodePaths.DeadEnd(
+              c,
+              code => world.World.GetItem(new AssetLocation(code)) != null,
+              declared,
+              new HashSet<string>()
+            )
+          )
+        )
+        .Where(c => c.End != null)
+        .Select(c =>
+          $"{c.Code} (first shipped in {modId} {firstShipped[c.Code]}) loads no item, "
+            + (c.End == c.Code ? "no migration maps it" : $"its chain ends at {c.End}")
+        ),
     ];
     output.WriteLine(
       $"{modId}: {codes.Count} released item codes, {findings.Count} finding(s)"
@@ -104,6 +236,6 @@ public class ReleasedCodeGuards(ITestOutputHelper output) {
       output.WriteLine("  " + finding);
 
     Assert.NotEmpty(codes);
-    FindingLists.Assert(findings, Allowed, KnownFindings);
+    FindingLists.Assert(findings, Allowed, NoFindings, ReleasedCodePaths.KeyOf);
   }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using ExpandedLib.Testing;
 using Legacy.Tests;
 using Xunit;
@@ -36,37 +37,92 @@ public class ReleasedHistoryTests {
         .Order(StringComparer.Ordinal)
     );
 
-  // Fails when the newest golden is picked by file name: 0.9.8 sorts after 0.10.0.
+  // Fails when every release is registered whole: a code then appears once per release.
   [Fact]
-  public void Register_takes_the_newest_release_of_a_mod_by_version() {
+  public void Each_released_code_is_registered_once() {
+    foreach (
+      var (mod, codes, own, classes, items) in new[]
+      {
+        ("ppex", 292, 292, 15, 4),
+        ("smex", 1154, 1052, 33, 5),
+      }
+    ) {
+      ReleasedModHistory history = ReleasedHistory.For(mod)!;
+      string[] shipped = [.. history.Shipped.SelectMany(s => s.Codes)];
+      Assert.Equal(shipped.Length, shipped.Distinct().Count());
+      Assert.Equal(codes, shipped.Length);
+      Assert.Equal(
+        own,
+        history.Shipped.Where(s => s.Domain == mod).Sum(s => s.Codes.Length)
+      );
+      Assert.Equal(classes, history.EntityClasses.Count);
+      Assert.Equal(
+        history.EntityClasses.Count,
+        history.EntityClasses.Select(e => e.Class).Distinct().Count()
+      );
+      Assert.Equal(items, LegacyReleasedHistory.Items(mod).Count);
+      Assert.Equal(
+        items,
+        LegacyReleasedHistory.Items(mod).Distinct().Count()
+      );
+    }
+  }
+
+  // Fails when an item is registered under a later release than the first that shipped it.
+  [Fact]
+  public void The_renamed_smex_item_is_registered_under_its_first_release() {
+    Assert.Equal("0.8.0", LegacyReleasedHistory.ItemFirstShipped("smex")["smex:blastmix"]);
+    Assert.DoesNotContain(
+      "smex:blastmix",
+      ReleasedHistory.For("smex")!.Shipped.SelectMany(s => s.Codes)
+    );
+  }
+
+  // Fails when the releases are taken in file-name order (0.10.0 before 0.9.8), or the newest
+  // by file name is registered as the version.
+  [Fact]
+  public void Register_reads_the_releases_oldest_first_by_version() {
     string folder = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
     Directory.CreateDirectory(folder);
     try {
-      foreach (var (version, code) in new[] { ("0.9.8", "old"), ("0.10.0", "new") })
+      foreach (var (version, codes) in new[] { ("0.9.8", "\"smex:a-old\", \"smex:a-both\""), ("0.10.0", "\"smex:a-both\", \"smex:a-new\"") })
         File.WriteAllText(
-          Path.Combine(folder, $"smex-{version}.json"),
+          Path.Combine(folder, $"zzex-{version}.json"),
           $$"""
           {
-            "mod": "smex",
+            "mod": "zzex",
             "version": "{{version}}",
             "shipped": [
-              { "domain": "smex", "assetPath": "a", "baseCode": "smex:a", "codes": ["smex:a-{{code}}"] }
+              { "domain": "zzex", "assetPath": "a", "baseCode": "smex:a", "codes": [{{codes}}] }
             ],
             "entityClasses": [],
             "items": [
-              { "domain": "smex", "assetPath": "b", "baseCode": "smex:b", "codes": ["smex:b-{{code}}"] }
+              { "domain": "zzex", "assetPath": "b", "baseCode": "smex:b", "codes": ["smex:b-{{version}}"] }
             ]
           }
           """
         );
       try {
         LegacyReleasedHistory.Register(folder);
-        ReleasedModHistory history = ReleasedHistory.For("smex")!;
-        Assert.Equal("0.10.0", history.Versions["smex"]);
-        Assert.Equal(["smex:a-new"], history.Shipped.SelectMany(s => s.Codes));
-        Assert.Equal(["smex:b-new"], LegacyReleasedHistory.Items("smex"));
+        ReleasedModHistory history = ReleasedHistory.For("zzex")!;
+        Assert.Equal("0.10.0", history.Versions["zzex"]);
+        Assert.Equal(
+          ["smex:a-old", "smex:a-both", "smex:a-new"],
+          history.Shipped.SelectMany(s => s.Codes)
+        );
+        Assert.Equal(
+          ["smex:a-old", "smex:a-both"],
+          ReleasedHistory.Releases("zzex").Single(r => r.Version == "0.9.8").Added.SelectMany(s => s.Codes)
+        );
+        Assert.Equal(
+          ["smex:a-new"],
+          ReleasedHistory.Releases("zzex").Single(r => r.Version == "0.10.0").Added.SelectMany(s => s.Codes)
+        );
+        Assert.Equal(["smex:b-0.9.8", "smex:b-0.10.0"], LegacyReleasedHistory.Items("zzex"));
       } finally {
-        LegacyReleasedHistory.Register();
+        typeof(ReleasedHistory)
+          .GetMethod("Forget", BindingFlags.NonPublic | BindingFlags.Static)!
+          .Invoke(null, ["zzex"]);
       }
     } finally {
       Directory.Delete(folder, true);
