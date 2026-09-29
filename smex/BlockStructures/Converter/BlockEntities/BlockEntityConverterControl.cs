@@ -677,7 +677,7 @@ public class BlockEntityConverterControl : BlockEntityMultiblockMachine {
 
   /// <summary>
   /// The gas intake must face the same way as the control (matching <c>side</c> variant) or its
-  /// blast connector won't line up. The multiblock check accepts any orientation, so validate here.
+  /// blast connector won't line up. The layout's <c>multiblockFacings</c> pins it as well.
   /// </summary>
   public bool IsGasIntakeAligned() {
     Block intake = Api.World.BlockAccessor.GetBlock(

@@ -159,6 +159,13 @@
       { "x": 0, "y": 1, "z": 3, "allowAttach": true },
       { "x": 1, "y": 1, "z": 3 }
     ],
+    "multiblockFacings": {
+      "game:cokeovendoor-*-south": [2]
+    },
+    "multiblockConnectors": {
+      "n": [{ "x": 0, "y": -1, "z": -2 }, { "x": 0, "y": -1, "z": -1 }, { "x": 0, "y": -1, "z": 0 }],
+      "s": [{ "x": 0, "y": -1, "z": -2 }, { "x": 0, "y": -1, "z": -1 }]
+    },
     "multiblockStructure": {
       "blockNumbers": {
         "ppex:boilercornish*": 1,
@@ -168,7 +175,7 @@
         "game:air*": 6,
         "@(air|coalpile)": 7,
         "exlib:structurefiller": 8,
-        "game:cokeovendoor*": 9,
+        "game:cokeovendoor-*-south": 9,
         "ppex:pipe-outlet-fire-u": 10
       },
       "offsets": [

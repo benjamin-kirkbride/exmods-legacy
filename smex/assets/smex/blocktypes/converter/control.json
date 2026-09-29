@@ -16,12 +16,20 @@
     "smex": ["*-north"]
   },
   "attributes": {
+    "multiblockFacings": {
+      "smex:convertertransmission-south": [1],
+      "smex:converter-intake-south": [2]
+    },
+    "multiblockConnectors": {
+      "e": [{ "x": 1, "y": 1, "z": 2 }, { "x": 2, "y": 1, "z": 2 }, { "x": 1, "y": -2, "z": 2 }, { "x": 2, "y": -2, "z": 2 }],
+      "w": [{ "x": 2, "y": 1, "z": 2 }, { "x": 2, "y": -2, "z": 2 }]
+    },
     "multiblockStructure": {
       "blockNumbers": {
         "smex:convertercontrol*": 1,
-        "smex:convertertransmission*": 2,
+        "smex:convertertransmission-south": 2,
         "smex:converterbessemer*": 3,
-        "smex:converter-intake*": 4,
+        "smex:converter-intake-south": 4,
         "smex:moltencanal-tap*": 5,
         "smex:moltencanal-start*": 6,
         "smex:moltencanal-straight*": 7,

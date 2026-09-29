@@ -32,8 +32,8 @@ a box four wide, five deep and four tall before you start.
 2. Hold ctrl and shift and right-click it for the build outline and the chat list of what is
    missing.
 3. Set the transmission directly under the control and the gas intake four cells out, **both facing
-   the same way as the control**. Any other facing completes the structure and then refuses to run,
-   with "Gas intake misaligned!" or "Transmission misaligned!" on the panel.
+   the same way as the control**. Any other facing leaves the structure incomplete, and the build
+   outline marks the part in red.
 4. Lay the two canal runs beside the vessel's cell: the tap and its straight above, the start and
    its straight below.
 5. With one large gear and eight iron or steel rods in your hotbar, right-click the control. That
@@ -66,9 +66,9 @@ The full procedure and the numbers behind it are on [[Bessemer process]]. In sho
 has to be a pipe in the cell in front of it, facing back at it. A blower bolted straight onto the
 intake feeds nothing.
 
-**Everything is built and nothing happens.** Read the panel top to bottom: it names an unbuilt
-vessel, a misaligned intake, a misaligned transmission and missing power in that order, before it
-says anything about the charge.
+**Everything is built and nothing happens.** Read the panel top to bottom: it names an incomplete
+structure, an unbuilt vessel and missing power in that order, before it says anything about the
+charge. A turned intake or transmission reads as an incomplete structure.
 
 **The pressure sags part way through a blow.** The converter's air draw climbs with the blow rate.
 Size the supply for the rate you mean to run; see [[Bessemer process]].

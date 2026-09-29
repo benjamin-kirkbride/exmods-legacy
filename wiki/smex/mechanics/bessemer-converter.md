@@ -26,8 +26,7 @@ The build is on the [[Bessemer converter]] page.
 | metal out | a canal start under the vessel to take the finished steel |
 
 The gas intake and the transmission must face the same way as the control block. Any other
-orientation completes the multiblock and then refuses to run, with "Gas intake misaligned!" or
-"Transmission misaligned!" on the panel.
+orientation leaves the multiblock incomplete, and the build outline marks the part in red.
 
 The intake is a fixed port, not a pipe: a pipe has to sit in the cell in front of it, presenting a
 connector back at it. A blower bolted straight onto the intake feeds nothing, which is the single

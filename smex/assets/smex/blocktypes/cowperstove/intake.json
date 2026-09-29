@@ -16,14 +16,22 @@
   "maxstacksize": 1,
   "attributes": {
     "handbook": { "groupBy": ["cowperstove-intake-*"] },
+    "multiblockFacings": {
+      "smex:cowperstoveheatsink-*-south": [2],
+      "game:cokeovendoor-*-east": [2]
+    },
+    "multiblockConnectors": {
+      "n": [{ "x": 0, "y": 1, "z": 0 }, { "x": 0, "y": 1, "z": 2 }],
+      "s": [{ "x": 0, "y": 0, "z": 2 }, { "x": 0, "y": 1, "z": 2 }]
+    },
     "multiblockStructure": {
       "blockNumbers": {
         "game:refractorybricks-good-tier*": 1,
         "smex:cowperstove-intake*": 2,
         "ppex:pipe-outlet*": 3,
         "ppex:pipe-passthrough-*": 4,
-        "smex:cowperstoveheatsink*": 5,
-        "game:cokeovendoor*": 6,
+        "smex:cowperstoveheatsink-*-south": 5,
+        "game:cokeovendoor-*-east": 6,
         "game:air": 7,
         "@(air|coalpile)": 8
       },

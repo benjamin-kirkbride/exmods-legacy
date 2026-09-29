@@ -31,12 +31,21 @@
     "easingSpeedByType": {
       "*": 2
     },
+    "multiblockFacings": {
+      "smex:blastfurnacetap-*-west": [2],
+      "smex:blastfurnacetap-*-east": [2]
+    },
+    "multiblockConnectors": {
+      "n": [{ "x": 0, "y": -2, "z": 1 }, { "x": 0, "y": 3, "z": 1 }],
+      "s": [{ "x": 0, "y": -2, "z": 3 }, { "x": 0, "y": 3, "z": 3 }]
+    },
     "multiblockStructure": {
       "blockNumbers": {
         "game:refractorybricks-good-tier*": 1,
         "game:multiblock-monolithic-0-p1-0": 2,
         "smex:blastfurnacedoor*": 3,
-        "smex:blastfurnacetap*": 4,
+        "smex:blastfurnacetap-*-west": 4,
+        "smex:blastfurnacetap-*-east": 6,
         "smex:blastfurnace-tuyere*": 5,
         "ppex:pipe-outlet*": 7,
         "smex:hopperreinforced*": 8,
@@ -96,7 +105,7 @@
         { "x": 1, "y": -1, "z": 2, "w": 10 },
         { "x": 0, "y": -1, "z": 2, "w": 10 },
         { "x": -1, "y": -1, "z": 2, "w": 10 },
-        { "x": -2, "y": -1, "z": 2, "w": 4 },
+        { "x": -2, "y": -1, "z": 2, "w": 6 },
         { "x": 2, "y": -1, "z": 3, "w": 1 },
         { "x": 1, "y": -1, "z": 3, "w": 10 },
         { "x": 0, "y": -1, "z": 3, "w": 10 },

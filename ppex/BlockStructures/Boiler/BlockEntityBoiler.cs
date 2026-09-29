@@ -950,7 +950,7 @@ public abstract class BlockEntityBoiler : BlockEntityMultiblockMachine {
 
     if (!StructureComplete) {
       UpdateStructureRotation();
-      int missing = _structure?.InCompleteBlockCount(Api.World, Pos) ?? 0;
+      int missing = IncompleteBlockCount();
       dsc.AppendLine(Lang.Get("ppex:structure-incomplete-count", missing));
       return;
     }
