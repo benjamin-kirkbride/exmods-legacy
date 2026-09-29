@@ -111,7 +111,7 @@ public class WrenchTurnTests {
 
   #region The turn
 
-  // Fails when SideWrench.Turn drops the sign of dir or turns the other way round.
+  // Fails when SideWrench.Turn turns the other way round, dir's sign flipped.
   [Theory]
   [InlineData(1, "south")]
   [InlineData(-1, "north")]
