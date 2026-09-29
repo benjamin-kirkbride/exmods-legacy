@@ -31,40 +31,7 @@ public class ReleasedCodeGuards(ITestOutputHelper output) {
   /// <summary>Mod, then finding, and the defect it records.</summary>
   private static readonly Dictionary<string, Dictionary<string, string>> KnownBlocks = new() {
     ["ppex"] = new(),
-    ["smex"] = new() {
-        ["smex:gaspipe-heated-ew"] =
-          "shipped in smex 0.8.0 to 0.8.5 without a brick; no migration maps it",
-        ["smex:gaspipe-heated-ns"] =
-          "shipped in smex 0.8.0 to 0.8.5 without a brick; no migration maps it",
-        ["smex:gaspipe-heated-sn"] =
-          "shipped in smex 0.8.0 to 0.8.5 without a brick; no migration maps it",
-        ["smex:gaspipe-heated-we"] =
-          "shipped in smex 0.8.0 to 0.8.5 without a brick; no migration maps it",
-        ["smex:gaspipe-passthroughbend-de"] =
-          "shipped in smex 0.8.5; no migration maps it",
-        ["smex:gaspipe-passthroughbend-dn"] =
-          "shipped in smex 0.8.5; no migration maps it",
-        ["smex:gaspipe-passthroughbend-ds"] =
-          "shipped in smex 0.8.5; no migration maps it",
-        ["smex:gaspipe-passthroughbend-dw"] =
-          "shipped in smex 0.8.5; no migration maps it",
-        ["smex:gaspipe-passthroughbend-en"] =
-          "shipped in smex 0.8.5; no migration maps it",
-        ["smex:gaspipe-passthroughbend-nw"] =
-          "shipped in smex 0.8.5; no migration maps it",
-        ["smex:gaspipe-passthroughbend-se"] =
-          "shipped in smex 0.8.5; no migration maps it",
-        ["smex:gaspipe-passthroughbend-ue"] =
-          "shipped in smex 0.8.5; no migration maps it",
-        ["smex:gaspipe-passthroughbend-un"] =
-          "shipped in smex 0.8.5; no migration maps it",
-        ["smex:gaspipe-passthroughbend-us"] =
-          "shipped in smex 0.8.5; no migration maps it",
-        ["smex:gaspipe-passthroughbend-uw"] =
-          "shipped in smex 0.8.5; no migration maps it",
-        ["smex:gaspipe-passthroughbend-ws"] =
-          "shipped in smex 0.8.5; no migration maps it",
-    },
+    ["smex"] = new(),
   };
 
   /// <summary>Mod, then finding, and the defect it records.</summary>
@@ -181,6 +148,24 @@ public class ReleasedCodeGuards(ITestOutputHelper output) {
 
     Assert.NotEmpty(history.EntityClasses);
     FindingLists.Assert(findings, Allowed, KnownClasses[modId], ReleasedCodePaths.KeyOf);
+  }
+
+  // Fails when a gas pipe code of smex 0.8.0 or 0.8.5 drops out of the declared removals.
+  [Fact]
+  public void The_unmapped_gas_pipes_are_declared_removed() {
+    string[] facings = ["de", "dn", "ds", "dw", "en", "nw", "se", "ue", "un", "us", "uw", "ws"];
+    string[] expected =
+    [
+      .. new[] { "ew", "ns", "sn", "we" }.Select(f => "smex:gaspipe-heated-" + f),
+      .. facings.Select(f => "smex:gaspipe-passthroughbend-" + f),
+    ];
+    string[] removed =
+    [
+      .. BlockMigrationModSystem
+        .DeclaredRemovals(LoadedLine.World.Api)
+        .Select(r => r.Code.ToString()),
+    ];
+    Assert.Empty(expected.Except(removed));
   }
 
   // Fails when a released item code has no path: an itemtype renamed or removed with no item
