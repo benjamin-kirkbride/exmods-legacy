@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using ExpandedLib.Testing;
+using Vintagestory.API.Common;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -14,16 +15,37 @@ namespace Integration.Tests.Guards;
 /// Every ppex and smex blocktype with filler offsets or construction stages, loaded from its
 /// shipped JSON (<see cref="LoadedLine"/>), broken by <see cref="StructureBreaks"/> in every
 /// variant, from every cell, at every stage and in every payment. Each failure is keyed by its
-/// variant and its kind, and the keys are judged against the known findings.
+/// variant and its kind, and the keys are judged against the allowed and the known findings.
 /// </summary>
 [GuardOf(typeof(StructureBreaks), nameof(StructureBreaks.Run))]
 public class StructureBreakGuards(ITestOutputHelper output) {
-  private static readonly Lazy<StructureBreaks.Result> Breaks = new(() =>
-    StructureBreaks.Run(
+  private static readonly Lazy<StructureBreaks.Result> Breaks = new(() => {
+    HoldWoods(LoadedLine.World);
+    return StructureBreaks.Run(
       LoadedLine.World,
       b => LoadedLine.Mods.Contains(b.Code.Domain)
-    )
-  );
+    );
+  });
+
+  private static readonly string[] Woods = ["birch", "oak"];
+
+  /// <summary>Registers vanilla's <c>game:plank-*</c> item and <c>game:supportbeam-*</c> block in
+  /// each of <see cref="Woods"/>, which the test world does not load, so the pump's and the
+  /// blower's stage wildcards without allowed variants are paid in them.</summary>
+  private static void HoldWoods(TestWorld world) {
+    int id = 58000;
+    foreach (string wood in Woods) {
+      world.RegisterItem($"game:plank-{wood}");
+      Block beam = TestBlocks.Configure(
+        new Block(),
+        $"game:supportbeam-{wood}",
+        id++,
+        ("wood", wood)
+      );
+      ReflectionHelpers.SetField(beam, "api", world.Api);
+      world.Register(beam);
+    }
+  }
 
   /// <summary>Blocktypes and variants the run covered at its last green run; fewer means the load
   /// or the scope stopped seeing structures.</summary>
@@ -31,36 +53,23 @@ public class StructureBreakGuards(ITestOutputHelper output) {
 
   private const int VariantFloor = 32;
 
-  /// <summary>Finding, and why it stands.</summary>
-  private static readonly Dictionary<string, string> Allowed = new();
-
-  private const string DropsNorth =
-    "F-17: vanilla's HorizontalOrientable drops the -north variant (dropBlockFace), where the "
-    + "check expects the variant broken";
-
   private const string LastMetal =
-    "F-18: several paid stages store metal, and the refund pays every stage in the metal paid "
-    + "last";
-
-  private const string NoAllowedVariant =
-    "F-19: stage wildcards name no allowedVariants, so the check cannot pay stage 1 and breaks "
-    + "no stage past 0";
+    "F-18, accepted (fallen 2026-09-29, \"Ship shared keys, same\"): several paid stages store "
+    + "metal, and the refund pays every stage in the metal paid last";
 
   private const string PlacementCost =
-    "F-20: BlockConverterBessemer.GetDrops hands back the control's placement cost, a large "
-    + "gear and 8 iron rods, beside the construction refund";
+    "F-20, accepted (fallen 2026-09-29, \"By design, guard lists it\"): "
+    + "BlockConverterBessemer.GetDrops hands back the control's placement cost, a large gear and 8 "
+    + "iron rods, beside the construction refund";
+
+  private const string SharedKeys =
+    "accepted (fallen 2026-09-23, \"Ship shared keys\"): the pump's and the blower's paid stages "
+    + "share wood and metal, and the refund pays every stage in the wood and the metal paid last";
 
   private static readonly string[] Facings = ["north", "east", "south", "west"];
 
-  /// <summary>Finding, and the defect it records.</summary>
-  private static readonly Dictionary<string, string> KnownFindings = new[] {
-    DropsItsNorth("ppex:boilercornish"),
-    DropsItsNorth("ppex:boilerlancashire"),
-    DropsItsNorth("ppex:enginecornish"),
-    DropsItsNorth("ppex:enginewatt"),
-    DropsItsNorth("ppex:manualfluidpump"),
-    DropsItsNorth("ppex:mpfluidpump"),
-    DropsItsNorth("smex:mpblower"),
+  /// <summary>Finding, and why it stands.</summary>
+  private static readonly Dictionary<string, string> Allowed = new[] {
     Each(
       "ppex:boilercornish",
       LastMetal,
@@ -100,30 +109,33 @@ public class StructureBreakGuards(ITestOutputHelper output) {
       Many("metalplate-iron", "metalplate-steel", "rod-steel")
     ),
     Each(
-      "smex:converterbessemer",
-      PlacementCost,
-      ["drops too many game:rod-iron", "drops too many ppex:largegear-iron"]
-    ),
-    Each(
       "ppex:mpfluidpump",
-      NoAllowedVariant,
-      [
-        "could not be stood up: InvalidOperationException: stage 1 stores wildcard 'wood' "
-          + "for game:plank-* but names no allowed variant",
-      ]
+      SharedKeys,
+      Few("metalnailsandstrips-iron", "metalplate-iron", "metalplate-steel"),
+      Few("rod-iron", "rod-steel"),
+      Many("metalnailsandstrips-steel", "metalplate-iron", "metalplate-steel"),
+      Many("rod-iron", "rod-steel")
     ),
     Each(
       "smex:mpblower",
-      NoAllowedVariant,
-      [
-        "could not be stood up: InvalidOperationException: stage 1 stores wildcard 'wood' "
-          + "for game:supportbeam-* but names no allowed variant",
-      ]
+      SharedKeys,
+      Few("metalnailsandstrips-iron", "metalplate-iron", "plank-oak"),
+      Few("rod-steel", "supportbeam-birch"),
+      Many("metalnailsandstrips-steel", "metalplate-steel", "plank-birch"),
+      Many("rod-iron", "supportbeam-oak")
+    ),
+    Each(
+      "smex:converterbessemer",
+      PlacementCost,
+      ["drops too many game:rod-iron", "drops too many ppex:largegear-iron"]
     ),
   }
     .SelectMany(e => e)
     .GroupBy(e => e.Key)
     .ToDictionary(g => g.Key, g => string.Join("; ", g.Select(e => e.Value)));
+
+  /// <summary>Finding, and the defect it records.</summary>
+  private static readonly Dictionary<string, string> KnownFindings = new();
 
   /// <summary>Each of <paramref name="kinds"/> for every facing of
   /// <paramref name="blocktype"/>.</summary>
@@ -135,18 +147,6 @@ public class StructureBreakGuards(ITestOutputHelper output) {
     from side in Facings
     from kind in kinds.SelectMany(k => k)
     select KeyValuePair.Create($"{blocktype}-{side} {kind}", defect);
-
-  /// <summary>The east, south and west variants of <paramref name="blocktype"/> each drop the
-  /// north variant in place of their own.</summary>
-  private static IEnumerable<KeyValuePair<string, string>> DropsItsNorth(
-    string blocktype
-  ) =>
-    from side in Facings.Skip(1)
-    from kind in new[] {
-      $"drops too few {blocktype}-{side}",
-      $"drops too many {blocktype}-north",
-    }
-    select KeyValuePair.Create($"{blocktype}-{side} {kind}", DropsNorth);
 
   private static IEnumerable<string> Few(params string[] items) =>
     items.Select(i => $"drops too few game:{i}");
