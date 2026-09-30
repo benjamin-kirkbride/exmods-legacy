@@ -145,7 +145,7 @@ public class ClosedLineTests(ITestOutputHelper output) {
       .Where(c => ClosedLineModSystem.IsOldLine(new AssetLocation(c)))
       .Distinct()
       .ToList();
-    Assert.Empty(oldLine);
+    Assert.True(oldLine.Count == 0, string.Join(", ", oldLine));
     Assert.True(threw.Count < Closed.OldLine.OfType<Block>().Count() / 2);
 #if GAME_GE_1_22
     Assert.Contains(spawned, s => s.Collectible.Code.Domain == "game");
