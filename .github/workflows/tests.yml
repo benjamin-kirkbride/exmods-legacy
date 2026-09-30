@@ -18,6 +18,9 @@ on:
 # step fills from the freely downloadable dedicated-server archive.
 env:
   VS_VERSION: ${{ github.event.inputs.vs_version || '1.22.7' }}
+  # Source mode, as in the workspace: every project builds against the exlib checkout below. The
+  # ExpandedLib packages target the newest game only, so the 1.21 and 1.20 lanes have none to restore.
+  ExlibRoot: ${{ github.workspace }}/.exlib/
 
 jobs:
   test:
@@ -38,6 +41,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      # The exlib ppex 0.7.0 and smex 0.10.0 are built and shipped against (0.8.3).
+      - name: Checkout exlib
+        uses: actions/checkout@v4
+        with:
+          repository: ringavirda/modding-vsexlib
+          ref: 4b3c57609a5f04ffc8796d904994a7dad8c7479f
+          path: .exlib
 
       # The SDK from global.json builds every target; the 1.21 and 1.20 test hosts run on their own
       # runtimes.
