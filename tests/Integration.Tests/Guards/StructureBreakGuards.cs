@@ -67,7 +67,7 @@ public class StructureBreakGuards(ITestOutputHelper output) {
     + "share wood and metal, and the refund pays every stage in the wood and the metal paid last";
 
   private const string PipeMetal =
-    "the pump's straight pipe ingredient is refunded in the last stored metal on every version, "
+    "the straight pipe ingredient is refunded in the last stored metal on every version, "
     + "not the metal it was paid in";
 
   private static readonly string[] Facings = ["north", "east", "south", "west"];
@@ -124,6 +124,16 @@ public class StructureBreakGuards(ITestOutputHelper output) {
       "ppex:mpfluidpump",
       PipeMetal,
       ["drops too few ppex:pipe-straight-ns-steel", "drops too many ppex:pipe-straight-ns-iron"]
+    ),
+    Each(
+      "smex:mpblower",
+      PipeMetal,
+      ["drops too few ppex:pipe-straight-ns-iron", "drops too many ppex:pipe-straight-ns-steel"]
+    ),
+    Each(
+      "smex:converterbessemer",
+      PipeMetal,
+      ["drops too few ppex:pipe-straight-ns-iron", "drops too many ppex:pipe-straight-ns-steel"]
     ),
     Each(
       "smex:mpblower",
