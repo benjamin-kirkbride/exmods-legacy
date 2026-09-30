@@ -68,6 +68,8 @@ read their facing.
   yield to a held iron feed's tooltip. The patch finds its target there now.
 - **The blower shows only its base as an item**, in hand, in the inventory and dropped, as the
   engines and boilers do. It showed the whole blower.
+- **Canals, taps, mold pedestals, tuyeres and the smoke stack intake turn under the wrench.**
+  The wrench sounded and nothing moved. A dropped or middle-clicked block is the same item as before.
 
 ## [0.9.9] - 2026-09-23
 

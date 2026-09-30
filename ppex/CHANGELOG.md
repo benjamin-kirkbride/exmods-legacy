@@ -78,6 +78,8 @@ facing.
   pipe only when Steelmaking Expanded is not installed.
 - **The mechanical fluid pump shows only its base as an item**, in hand, in the inventory and dropped, as
   the engines and boilers do. It showed the whole pump.
+- **Pipes, valves, outlets and the other pipe blocks turn under the wrench.** The wrench
+  sounded and nothing moved. A dropped or middle-clicked pipe is the same item as before.
 
 ## [0.6.9] - 2026-09-23
 
