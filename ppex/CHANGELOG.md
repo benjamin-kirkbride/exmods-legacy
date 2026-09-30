@@ -76,6 +76,8 @@ facing.
   Expanded installed, 57 lines said a `smex:gaspipe-...-refractorytier...` code was "already mapped
   elsewhere". An old refractory gas pipe still becomes the pipe of the same brick, and a fire brick
   pipe only when Steelmaking Expanded is not installed.
+- **The mechanical fluid pump shows only its base as an item**, in hand, in the inventory and dropped, as
+  the engines and boilers do. It showed the whole pump.
 
 ## [0.6.9] - 2026-09-23
 

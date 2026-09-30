@@ -102,6 +102,36 @@ public class ConstructionStageTests {
     );
   }
 
+  [Theory]
+  [MemberData(nameof(EveryConstructionFile))]
+  public void Every_shape_shows_only_the_first_stage(string path) {
+    JToken root = Root(path);
+    var expected = Strings(Stages(path)![0], "addElements")!
+      .Select(e => e + "/*")
+      .ToArray();
+    var shapes = new List<(string Name, JToken Shape)>();
+    if (VariantCatalogue.Get(root, "shape") is JToken shape)
+      shapes.Add(("shape", shape));
+    if (VariantCatalogue.Get(root, "shapebytype") is JObject byType)
+      foreach (JProperty p in byType.Properties())
+        shapes.Add((p.Name, p.Value));
+
+    var found = new List<string>();
+    foreach (var (name, entry) in shapes) {
+      var actual = Strings(entry, "selectiveElements");
+      if (actual == null || !actual.SequenceEqual(expected))
+        found.Add(
+          $"{name}: selectiveElements [{string.Join(", ", actual ?? [])}], stage 0 is [{string.Join(", ", expected)}]"
+        );
+    }
+
+    Assert.True(shapes.Count > 0, $"{path}: no shape");
+    Assert.True(
+      found.Count == 0,
+      $"{path}:\n  " + string.Join("\n  ", found)
+    );
+  }
+
   [Fact]
   public void A_wildcard_without_a_stored_key_is_refused() =>
     Assert.Equal(
@@ -243,11 +273,14 @@ public class ConstructionStageTests {
       ?.Select(t => (string)t!)
       .ToArray();
 
-  /// <summary>The stages of the file's ExRightClickConstructable behaviour; null when it has none.</summary>
-  private static JArray? Stages(string path) {
-    JToken root = JToken.Parse(
+  private static JToken Root(string path) =>
+    JToken.Parse(
       File.ReadAllText(Path.Combine(ShippedJsonAssetTests.RepoRoot(), path))
     );
+
+  /// <summary>The stages of the file's ExRightClickConstructable behaviour; null when it has none.</summary>
+  private static JArray? Stages(string path) {
+    JToken root = Root(path);
     foreach (
       JToken b in VariantCatalogue.Get(root, "entityBehaviors") ?? new JArray()
     )

@@ -135,10 +135,26 @@
     ]
   },
   "shapebytype": {
-    "*-north": { "base": "ppex:mpfluidpump", "rotateY": 0 },
-    "*-east": { "base": "ppex:mpfluidpump", "rotateY": 270 },
-    "*-south": { "base": "ppex:mpfluidpump", "rotateY": 180 },
-    "*-west": { "base": "ppex:mpfluidpump", "rotateY": 90 }
+    "*-north": {
+      "base": "ppex:mpfluidpump",
+      "rotateY": 0,
+      "selectiveElements": ["Root/Base/*", "Root/BaseExtension/*"]
+    },
+    "*-east": {
+      "base": "ppex:mpfluidpump",
+      "rotateY": 270,
+      "selectiveElements": ["Root/Base/*", "Root/BaseExtension/*"]
+    },
+    "*-south": {
+      "base": "ppex:mpfluidpump",
+      "rotateY": 180,
+      "selectiveElements": ["Root/Base/*", "Root/BaseExtension/*"]
+    },
+    "*-west": {
+      "base": "ppex:mpfluidpump",
+      "rotateY": 90,
+      "selectiveElements": ["Root/Base/*", "Root/BaseExtension/*"]
+    }
   },
   "sidesolid": { "all": false },
   "sideopaque": { "all": false }

@@ -156,10 +156,26 @@
     ]
   },
   "shapebytype": {
-    "*-north": { "base": "smex:blastfurnace/mpblower", "rotateY": 0 },
-    "*-east": { "base": "smex:blastfurnace/mpblower", "rotateY": 270 },
-    "*-south": { "base": "smex:blastfurnace/mpblower", "rotateY": 180 },
-    "*-west": { "base": "smex:blastfurnace/mpblower", "rotateY": 90 }
+    "*-north": {
+      "base": "smex:blastfurnace/mpblower",
+      "rotateY": 0,
+      "selectiveElements": ["Root/Base/*", "Root/BaseExtention/*"]
+    },
+    "*-east": {
+      "base": "smex:blastfurnace/mpblower",
+      "rotateY": 270,
+      "selectiveElements": ["Root/Base/*", "Root/BaseExtention/*"]
+    },
+    "*-south": {
+      "base": "smex:blastfurnace/mpblower",
+      "rotateY": 180,
+      "selectiveElements": ["Root/Base/*", "Root/BaseExtention/*"]
+    },
+    "*-west": {
+      "base": "smex:blastfurnace/mpblower",
+      "rotateY": 90,
+      "selectiveElements": ["Root/Base/*", "Root/BaseExtention/*"]
+    }
   },
   "sidesolid": { "all": false },
   "sideopaque": { "all": false }

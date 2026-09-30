@@ -66,6 +66,8 @@ read their facing.
   barrel and in the converter cools on those versions too.
 - On game 1.20 the mod stopped with an error while starting, at the patch that adds the furnace
   yield to a held iron feed's tooltip. The patch finds its target there now.
+- **The blower shows only its base as an item**, in hand, in the inventory and dropped, as the
+  engines and boilers do. It showed the whole blower.
 
 ## [0.9.9] - 2026-09-23
 
