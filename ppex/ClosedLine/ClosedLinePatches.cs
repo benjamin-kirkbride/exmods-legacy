@@ -6,11 +6,7 @@ using ExpandedLib.Blocks;
 using HarmonyLib;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
-#if GAME_GE_1_22
-using StageIngredient = Vintagestory.GameContent.ConstructionIngredient;
-#else
 using StageIngredient = ExpandedLib.Blocks.ExConstructionIngredient;
-#endif
 
 namespace PipesAndPowerExpanded.ClosedLine;
 

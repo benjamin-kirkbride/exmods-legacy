@@ -9,8 +9,7 @@ namespace Integration.Tests.ClosedLine;
 /// <summary>
 /// The MP fluid pump built from its shipped JSON (<see cref="ConstructionBreakTests.Rig"/>) with its
 /// pipe stage paid in a stand-in for iiex's plated straight pipe: taken when iiex is enabled,
-/// refused when it is not. Runs through vanilla's <c>RightClickConstruction</c> on 1.22 and exlib's
-/// port on 1.20 and 1.21.
+/// refused when it is not. Runs through exlib's construction on every version.
 /// </summary>
 public class ClosedLineConstructionTests {
   private const string NewPipe = "iiex:pipe-plated-straight-ns";

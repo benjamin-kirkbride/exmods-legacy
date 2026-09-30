@@ -21,9 +21,8 @@ namespace Integration.Tests;
 
 /// <summary>
 /// Builds the MP fluid pump and the twin-tub blower from their shipped JSON to each stage through
-/// the real <see cref="ExRightClickConstructable"/> (vanilla's <c>RightClickConstruction</c> on
-/// 1.22, exlib's port on 1.20 and 1.21), paying from a survival player's hotbar or building as a
-/// creative player, then breaks the structure and compares the refund with what was paid.
+/// the real <see cref="ExRightClickConstructable"/> (exlib's construction on every version), paying
+/// from a survival player's hotbar or building as a creative player, then breaks the structure and compares the refund with what was paid.
 /// </summary>
 public class ConstructionBreakTests {
   internal const string Pump = "ppex/assets/ppex/blocktypes/mpfluidpump.json";
@@ -192,8 +191,8 @@ public class ConstructionBreakTests {
     Assert.Equal(accepted, rig.Interact());
   }
 
-  // Fails when the stage admits its stored wood in two variants: with OnAttemptConstruct cleared on
-  // 1.22, or the mixed-variant check removed from exlib's 1.20 and 1.21 port, it takes both woods.
+  // Fails when the stage admits its stored wood in two variants: with OnAttemptConstruct cleared or
+  // the mixed-variant check removed from exlib's construction, it takes both woods.
   [Fact]
   public void The_blower_beam_stage_refuses_beams_of_two_woods() {
     var rig = new Rig(Blower);
