@@ -4,18 +4,18 @@ covers:
   - "ppex:boilercornish-*"
   - "ppex:boilerlancashire-*"
 order: 7
-version: 0.7.0
+version: 0.7.1
 ---
 
-What this mod is built to run beside. Every line below is in the 0.7.0 code. A mod not named here
+What this mod is built to run beside. Every line below is in the 0.7.1 code. A mod not named here
 has no adaptation and no guard, which says nothing either way about whether the pair works.
 
 ## What it needs
 
 | requirement | value |
 |---|---|
-| Expanded Library | 0.8.3 or later |
-| Steelmaking Expanded, if you run it | 0.10.0 |
+| Expanded Library | 0.8.4 or later |
+| Steelmaking Expanded, if you run it | 0.10.1 |
 | game | separate builds for 1.20, 1.21 and 1.22 |
 
 Run the three Expanded mods as one set. Versions that have drifted apart are the usual cause of
@@ -23,12 +23,13 @@ blocks that vanish or refuse to place after an update, and there is a build of t
 supported game version: download the one that matches your game rather than editing
 `modinfo.json`, which produces a half-working install with items missing.
 
-Expanded Library 0.8.3 refuses a Pipes and Power Expanded below 0.7.0 or a Steelmaking Expanded
-below 0.10.0: the library logs one error and sends every joining player the line `exlib <version>
-needs Pipes and Power Expanded 0.7.0 or later: update, or keep exlib 0.7.2 with the installed
-versions.`, naming each mod that is behind.
+Expanded Library 0.8.4 refuses a Pipes and Power Expanded below 0.7.1 or a Steelmaking Expanded
+below 0.10.1: the library logs one error and sends every joining player the line `exlib <version>
+needs Pipes and Power Expanded 0.7.1 or later: update, or keep exlib 0.8.3 with the installed
+versions.`, naming each mod that is behind. The exlib to keep is 0.8.3 when every mod behind is on
+the 0.7.0 / 0.10.0 line, and 0.7.2 when one is older.
 
-Back up a world before moving it to this version. A world saved on 0.7.0 cannot go back to 0.6.9
+Back up a world before moving it to this version. A world saved on 0.7.1 cannot go back to 0.6.9
 or earlier: its pipes would lose their contents, its config would be back at the defaults, and
 some pipes might not read their facing.
 

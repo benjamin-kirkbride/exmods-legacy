@@ -8,8 +8,8 @@ package management and version manifest.
 
 | Path             | modid   | Version | What it is                                                      |
 | ---------------- | ------- | ------- | ---------------------------------------------------------------- |
-| `ppex/`          | `ppex`  | 0.7.0   | Pipe networks (gas + water), boilers, steam engines and their sub-machines. |
-| `smex/`          | `smex`  | 0.10.0  | Blast furnace, cowper stoves, molten-metal canals and casting, Bessemer converter. |
+| `ppex/`          | `ppex`  | 0.7.1   | Pipe networks (gas + water), boilers, steam engines and their sub-machines. |
+| `smex/`          | `smex`  | 0.10.1  | Blast furnace, cowper stoves, molten-metal canals and casting, Bessemer converter. |
 | `generators/`    | -       | -       | Roslyn source generators the mods use at compile time (config accessors, block-attribute bakers). |
 | `tests/`         | -       | -       | Headless xUnit test projects: per-mod unit tests + cross-mod integration. |
 | `dist/CakeBuild/`| -       | -       | Cake build project that publishes per-game-version release zips into `dist/Releases/`. |
@@ -18,7 +18,7 @@ package management and version manifest.
 | `wiki/`          | -       | -       | The current-mods wiki pages - home, FAQ and instructions per mod (read by the wiki site). |
 | `Legacy.sln`     | -       | -       | Solution tying the projects together. |
 
-Both mods need Expanded Library 0.8.3 or later, and smex needs ppex 0.7.0. `smex` references
+Both mods need Expanded Library 0.8.4 or later, and smex needs ppex 0.7.1. `smex` references
 `exlib` and `ppex` with `Private=false`, so players install all three mods separately. The mods
 build against the exlib checkout beside this repository when the workspace's
 `Directory.Build.props` is above it, else against the ExpandedLib packages.
@@ -26,7 +26,7 @@ build against the exlib checkout beside this repository when the workspace's
 ## What never happens here
 
 No new features, no refactors, no format pass - this tree predates the family's CSharpier gate
-and is not formatted by it. exlib 0.8.3 refuses ppex below 0.7.0 and smex below 0.10.0: it logs one
+and is not formatted by it. exlib 0.8.4 refuses ppex below 0.7.1 and smex below 0.10.1: it logs one
 Error naming them and repeats it to every joining player.
 
 **iiex (Iron Industry Expanded) and siex (Steel Industry Expanded) are the successors** - new

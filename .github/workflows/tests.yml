@@ -42,12 +42,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # The exlib ppex 0.7.0 and smex 0.10.0 are built and shipped against (0.8.3).
+      # The exlib ppex 0.7.1 and smex 0.10.1 are built and shipped against (0.8.4).
       - name: Checkout exlib
         uses: actions/checkout@v4
         with:
           repository: ringavirda/modding-vsexlib
-          ref: 4b3c57609a5f04ffc8796d904994a7dad8c7479f
+          ref: 5b1fdb07751355874141563b6b09607d6987ace8
           path: .exlib
 
       # The SDK from global.json builds every target; the 1.21 and 1.20 test hosts run on their own

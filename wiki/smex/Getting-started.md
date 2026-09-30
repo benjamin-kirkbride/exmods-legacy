@@ -6,8 +6,8 @@ a converter.
 
 ## Before anything
 
-Steelmaking Expanded 0.10.0 needs Expanded Library 0.8.3 or later and
-[Pipes and Power Expanded](/current/ppex/Home/) 0.7.0 or later, and all three have to move
+Steelmaking Expanded 0.10.1 needs Expanded Library 0.8.4 or later and
+[Pipes and Power Expanded](/current/ppex/Home/) 0.7.1 or later, and all three have to move
 together. It also needs you to be working iron already: the furnace is built from refractory
 brick, and the machines around it want plates, rods and nails. Read [[Compatibility]] first if you
 run other ore or metallurgy mods, because crushing recipes are where they collide.

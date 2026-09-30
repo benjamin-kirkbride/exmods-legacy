@@ -2,8 +2,8 @@
 
 Steelmaking Expanded adds a blast furnace, molten canals and a Bessemer converter. The furnace
 smelts iron ore into a reservoir of melt, the canals plumb that melt to molds, and the converter
-blows it into steel. This is version 0.10.0, and it needs Expanded Library 0.8.3 or later and
-[Pipes and Power Expanded](/current/ppex/Home/) 0.7.0 or later.
+blows it into steel. This is version 0.10.1, and it needs Expanded Library 0.8.4 or later and
+[Pipes and Power Expanded](/current/ppex/Home/) 0.7.1 or later.
 
 If you are starting from nothing, work through [Getting started](Getting-started) in order; if
 something is already broken, the [FAQ](FAQ) collects the questions players actually asked.

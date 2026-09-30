@@ -4,22 +4,22 @@ covers:
   - "smex:hopperreinforced"
   - "smex:burden"
 order: 8
-version: 0.10.0
+version: 0.10.1
 ---
 
-What this mod is built to run beside. Every line below is in the 0.10.0 code. A mod not named here
+What this mod is built to run beside. Every line below is in the 0.10.1 code. A mod not named here
 has no adaptation and no guard, which says nothing either way about whether the pair works.
 
 ## The other Expanded mods
 
 | mod | version this needs | note |
 |---|---|---|
-| Expanded Library (exlib) | 0.8.3 or later | a hard dependency. It refuses this mod below 0.10.0 and ppex below 0.7.0: the library logs one error and sends every joining player the line `exlib <version> needs Steelmaking Expanded 0.10.0 or later: update, or keep exlib 0.7.2 with the installed versions.` |
-| Pipes and Power Expanded (ppex) | 0.7.0 or later | a hard dependency. The furnace, the stoves and the converter all breathe through its pipes |
+| Expanded Library (exlib) | 0.8.4 or later | a hard dependency. It refuses this mod below 0.10.1 and ppex below 0.7.1: the library logs one error and sends every joining player the line `exlib <version> needs Steelmaking Expanded 0.10.1 or later: update, or keep exlib 0.8.3 with the installed versions.`, with exlib 0.7.2 in place of 0.8.3 when a mod behind is older than 0.10.0 or 0.7.0 |
+| Pipes and Power Expanded (ppex) | 0.7.1 or later | a hard dependency. The furnace, the stoves and the converter all breathe through its pipes |
 | game | 1.20, 1.21 and 1.22 | a separate build per game version; download the one that matches rather than editing `modinfo.json` |
 
 Update the three mods together. Versions that have drifted apart are the usual cause of blocks
-missing after an update. Back up a world before moving it to this version: a world saved on 0.10.0
+missing after an update. Back up a world before moving it to this version: a world saved on 0.10.1
 cannot go back to 0.9.9 or earlier.
 
 ## Iron Industry Expanded and Steel Industry Expanded

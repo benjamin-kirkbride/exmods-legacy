@@ -5,6 +5,20 @@ All notable changes to this mod are documented here. The format is based on
 [Semantic Versioning](https://semver.org/). For changes before this file existed,
 see the git history.
 
+## [0.10.1] - 2026-09-30
+
+Requires Expanded Library 0.8.4 or later and Pipes and Power Expanded 0.7.1. exlib 0.8.4 names
+0.10.0 in the log and in chat, since its 1.22 build does not work beside the new library. A
+part-built structure keeps its stage.
+
+### Fixed
+
+- **Looking at an unfinished blower or converter no longer stalls a frame.** Rebuilt for
+  Expanded Library 0.8.4, whose construction hint searches every item in the game once a world for
+  each material rather than each time the look moves to another part.
+- **Canals, taps, mold pedestals, tuyeres and the smoke stack intake turn under the wrench.**
+  The wrench sounded and nothing moved. A dropped or middle-clicked block is the same item as before.
+
 ## [0.10.0] - 2026-09-29
 
 Requires Expanded Library 0.8.3 or later and Pipes and Power Expanded 0.7.0; it no longer loads with
@@ -68,8 +82,6 @@ read their facing.
   yield to a held iron feed's tooltip. The patch finds its target there now.
 - **The blower shows only its base as an item**, in hand, in the inventory and dropped, as the
   engines and boilers do. It showed the whole blower.
-- **Canals, taps, mold pedestals, tuyeres and the smoke stack intake turn under the wrench.**
-  The wrench sounded and nothing moved. A dropped or middle-clicked block is the same item as before.
 
 ## [0.9.9] - 2026-09-23
 

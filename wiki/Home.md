@@ -9,9 +9,9 @@ content of its own. Pipes and Power Expanded (`ppex`) adds the pipe networks, bo
 engines. Steelmaking Expanded (`smex`) adds the blast furnace, cowper stoves, molten-metal
 handling and the Bessemer converter, and depends on both of the mods above it.
 
-The current versions are ppex 0.7.0 and smex 0.10.0, on exlib 0.8.3 or later. Back up a world
+The current versions are ppex 0.7.1 and smex 0.10.1, on exlib 0.8.4 or later. Back up a world
 before moving it to them: it cannot go back to ppex 0.6.9 and smex 0.9.9 on exlib 0.7.2 afterwards.
-exlib 0.8.3 refuses older ppex and smex, logging one error and telling every joining player which
+exlib 0.8.4 refuses older ppex and smex, logging one error and telling every joining player which
 versions to update to.
 
 Iron Industry Expanded and Steel Industry Expanded are the successors to ppex and smex. They are

@@ -5,6 +5,20 @@ All notable changes to this mod are documented here. The format is based on
 [Semantic Versioning](https://semver.org/). For changes before this file existed,
 see the git history.
 
+## [0.7.1] - 2026-09-30
+
+Requires Expanded Library 0.8.4 or later. exlib 0.8.4 names 0.7.0 in the log and in chat, since
+its 1.22 build does not work beside the new library. A part-built machine keeps its stage.
+
+### Fixed
+
+- **Looking at an unfinished boiler, engine or pump no longer stalls a frame.** The construction
+  hint searched every item in the game again each time the look moved to another part; with
+  Expanded Library 0.8.4 it searches once a world for each material, and not at all for a paid
+  stage.
+- **Pipes, valves, outlets and the other pipe blocks turn under the wrench.** The wrench
+  sounded and nothing moved. A dropped or middle-clicked pipe is the same item as before.
+
 ## [0.7.0] - 2026-09-29
 
 Requires Expanded Library 0.8.3 or later; it no longer loads with exlib 0.7.2. Back up your world
@@ -78,8 +92,6 @@ facing.
   pipe only when Steelmaking Expanded is not installed.
 - **The mechanical fluid pump shows only its base as an item**, in hand, in the inventory and dropped, as
   the engines and boilers do. It showed the whole pump.
-- **Pipes, valves, outlets and the other pipe blocks turn under the wrench.** The wrench
-  sounded and nothing moved. A dropped or middle-clicked pipe is the same item as before.
 
 ## [0.6.9] - 2026-09-23
 
