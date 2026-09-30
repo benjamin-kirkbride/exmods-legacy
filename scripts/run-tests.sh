@@ -108,6 +108,11 @@ for c in "${combos[@]}"; do
   fi
   [[ $status == PASS ]] || fail=$((fail+1))
   printf '%s  %-40s %s\n' "$status" "$c" "$line"
+  # The first 20 failed tests, each with the first line of its error message.
+  if [[ $status == FAIL && -f "$log" ]]; then
+    awk '/^[[:space:]]+Failed [^!]/ { if (++n > 20) exit; sub(/^[[:space:]]+/, ""); print "    " $0; m = 1; next }
+         m && /Error Message:/ { getline; sub(/^[[:space:]]+/, ""); print "      " $0; m = 0 }' "$log"
+  fi
 done
 
 # The census: the last green test count per version/project on this branch, a flat JSON object that
