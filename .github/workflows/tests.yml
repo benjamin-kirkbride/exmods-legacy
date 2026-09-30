@@ -69,6 +69,21 @@ jobs:
       - name: Provision Vintage Story (server assemblies)
         run: bash scripts/provision-game.sh -Version "${{ matrix.game || env.VS_VERSION }}" -Kind server
 
+      # 1.22.6 and later ship IPlayer.IsInInteractionRangeOf(BlockPos) as internal abstract, which no
+      # test double can implement. extools' patcher makes it public in the provisioned copy, as
+      # `exmod provision` does in the workspace; on 1.21 and 1.20 it finds no such member.
+      - name: Checkout extools
+        uses: actions/checkout@v4
+        with:
+          repository: ringavirda/modding-vsextools
+          ref: v0.3.4
+          path: .extools
+
+      - name: Publicize the game API
+        run: |
+          cp .extools/tools/patch-api.cs "$RUNNER_TEMP/patch-api.cs"
+          dotnet run "$RUNNER_TEMP/patch-api.cs" -- "$GITHUB_WORKSPACE/.game/${{ matrix.series }}/VintagestoryAPI.dll"
+
       # The last green test count per project, which the test step compares against and rewrites
       # when it passes; one cache per branch and series, the newest run's copy restored.
       - name: Restore .exmod/census/
