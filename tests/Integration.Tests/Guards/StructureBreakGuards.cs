@@ -66,6 +66,10 @@ public class StructureBreakGuards(ITestOutputHelper output) {
     "accepted (fallen 2026-09-23, \"Ship shared keys\"): the pump's and the blower's paid stages "
     + "share wood and metal, and the refund pays every stage in the wood and the metal paid last";
 
+  private const string PipeMetal =
+    "the pump's straight pipe ingredient is refunded in the last stored metal on every version, "
+    + "not the metal it was paid in";
+
   private static readonly string[] Facings = ["north", "east", "south", "west"];
 
   /// <summary>Finding, and why it stands.</summary>
@@ -115,6 +119,11 @@ public class StructureBreakGuards(ITestOutputHelper output) {
       Few("rod-iron", "rod-steel"),
       Many("metalnailsandstrips-steel", "metalplate-iron", "metalplate-steel"),
       Many("rod-iron", "rod-steel")
+    ),
+    Each(
+      "ppex:mpfluidpump",
+      PipeMetal,
+      ["drops too few ppex:pipe-straight-ns-steel", "drops too many ppex:pipe-straight-ns-iron"]
     ),
     Each(
       "smex:mpblower",
