@@ -120,7 +120,14 @@
     "general": ["*-intake-*-n"],
     "smex": ["*-intake-*-n"]
   },
-  "behaviors": [{ "name": "MultiblockStructure" }, { "name": "Lockable" }],
+  "behaviors": [
+    { "name": "MultiblockStructure" },
+    { "name": "Lockable" },
+    {
+      "name": "ExOrientable",
+      "properties": { "mode": "network", "scheme": "Face" }
+    }
+  ],
   "variantgroups": [
     { "code": "type", "states": ["intake"] },
     { "code": "refractory", "states": ["tier1", "tier2", "tier3"] },

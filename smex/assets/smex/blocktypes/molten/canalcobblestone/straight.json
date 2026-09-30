@@ -26,7 +26,13 @@
   "textures": {
     "granite1": { "base": "game:block/stone/cobblestone/{rock}1" }
   },
-  "behaviors": [{ "name": "Lockable" }],
+  "behaviors": [
+    { "name": "Lockable" },
+    {
+      "name": "ExOrientable",
+      "properties": { "mode": "network", "scheme": "AxisFlat" }
+    }
+  ],
   "variantgroups": [
     { "code": "type", "states": ["straight"] },
     { "code": "rock", "loadFromProperties": "block/rockwithdeposit" },

@@ -24,7 +24,13 @@
       ]
     }
   },
-  "behaviors": [{ "name": "Lockable" }],
+  "behaviors": [
+    { "name": "Lockable" },
+    {
+      "name": "ExOrientable",
+      "properties": { "mode": "network", "scheme": "PipeBend" }
+    }
+  ],
   "variantgroups": [
     { "code": "type", "states": ["bend"] },
     {

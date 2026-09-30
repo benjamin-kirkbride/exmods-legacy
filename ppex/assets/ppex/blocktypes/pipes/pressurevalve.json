@@ -14,7 +14,13 @@
     "general": ["*-pressurevalve-sn-*"],
     "ppex": ["*-pressurevalve-sn-*"]
   },
-  "behaviors": [{ "name": "Lockable" }],
+  "behaviors": [
+    { "name": "Lockable" },
+    {
+      "name": "ExOrientable",
+      "properties": { "mode": "network", "scheme": "DirectedAxis" }
+    }
+  ],
   "variantgroups": [
     { "code": "type", "states": ["pressurevalve"] },
     { "code": "orientation", "states": ["ns", "we", "ud", "sn", "ew", "du"] },

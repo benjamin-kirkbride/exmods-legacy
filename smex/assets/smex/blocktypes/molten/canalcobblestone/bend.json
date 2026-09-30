@@ -29,7 +29,13 @@
   "textures": {
     "granite1": { "base": "game:block/stone/cobblestone/{rock}1" }
   },
-  "behaviors": [{ "name": "Lockable" }],
+  "behaviors": [
+    { "name": "Lockable" },
+    {
+      "name": "ExOrientable",
+      "properties": { "mode": "network", "scheme": "CanalBend" }
+    }
+  ],
   "variantgroups": [
     { "code": "type", "states": ["bend"] },
     { "code": "rock", "loadFromProperties": "block/rockwithdeposit" },

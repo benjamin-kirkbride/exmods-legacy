@@ -24,7 +24,13 @@
       ]
     }
   },
-  "behaviors": [{ "name": "Lockable" }],
+  "behaviors": [
+    { "name": "Lockable" },
+    {
+      "name": "ExOrientable",
+      "properties": { "mode": "network", "scheme": "Axis" }
+    }
+  ],
   "variantgroups": [
     { "code": "type", "states": ["straight"] },
     { "code": "orientation", "states": ["ns", "we", "ud"] },

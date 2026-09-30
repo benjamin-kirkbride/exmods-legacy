@@ -4,7 +4,13 @@
   "entityClass": "smex.BlockEntityTuyere",
   "blockmaterial": "Ceramic",
   "maxstacksize": 1,
-  "behaviors": [{ "name": "Lockable" }],
+  "behaviors": [
+    { "name": "Lockable" },
+    {
+      "name": "ExOrientable",
+      "properties": { "mode": "network", "scheme": "Face" }
+    }
+  ],
   "textures": {
     "front1": { "base": "game:block/clay/refractory/{refractory}/front1" }
   },

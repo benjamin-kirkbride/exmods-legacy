@@ -29,7 +29,13 @@
     "iron3": { "base": "game:block/metal/sheet-plain/iron3" },
     "steel32": { "base": "game:block/metal/sheet-plain/steel3" }
   },
-  "behaviors": [{ "name": "Lockable" }],
+  "behaviors": [
+    { "name": "Lockable" },
+    {
+      "name": "ExOrientable",
+      "properties": { "mode": "network", "scheme": "Face" }
+    }
+  ],
   "variantgroups": [
     { "code": "type", "states": ["tap"] },
     { "code": "orientation", "states": ["n", "w", "s", "e"] }

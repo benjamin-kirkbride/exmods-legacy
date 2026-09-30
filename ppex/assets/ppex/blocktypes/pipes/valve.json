@@ -15,7 +15,13 @@
     "general": ["*-valve-sn-*"],
     "ppex": ["*-valve-sn-*"]
   },
-  "behaviors": [{ "name": "Lockable" }],
+  "behaviors": [
+    { "name": "Lockable" },
+    {
+      "name": "ExOrientable",
+      "properties": { "mode": "network", "scheme": "DirectedAxis" }
+    }
+  ],
   "variantgroups": [
     { "code": "type", "states": ["valve"] },
     { "code": "orientation", "states": ["ns", "we", "ud", "sn", "ew", "du"] },

@@ -24,7 +24,13 @@
       ]
     }
   },
-  "behaviors": [{ "name": "Lockable" }],
+  "behaviors": [
+    { "name": "Lockable" },
+    {
+      "name": "ExOrientable",
+      "properties": { "mode": "network", "scheme": "PipeCross" }
+    }
+  ],
   "variantgroups": [
     { "code": "type", "states": ["xjunction"] },
     { "code": "orientation", "states": ["nswe", "nsud", "weud"] },
