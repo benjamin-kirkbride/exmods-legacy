@@ -111,6 +111,30 @@ internal sealed class BlastFurnaceRig {
     return this;
   }
 
+  /// <summary>
+  /// Puts a fireclay outlet open on top on each gas-outlet cell with a chimney standing on it, so
+  /// both flues draw.
+  /// </summary>
+  public BlastFurnaceRig WithChimneyedExhaust() {
+    _flues =
+    [
+      ChimneyedOutlet(_pos.AddCopy(0, 3, 1), 32),
+      ChimneyedOutlet(_pos.AddCopy(0, 3, 3), 33),
+    ];
+    return this;
+  }
+
+  private PipeNetwork ChimneyedOutlet(BlockPos pos, int id) {
+    var outlet = PpexScenes.UpOutlet(id);
+    var be = new BlockEntityPipeOutlet { Pos = pos.Copy(), Block = outlet };
+    World.Place(pos, outlet, be);
+    World.Attach(be);
+    World.AddNode(pos, "pipe");
+    ReflectionHelpers.SetProperty(be, nameof(be.NetworkSystem), World.Networks);
+    World.Place(pos.UpCopy(), PpexScenes.Chimney(id + 10));
+    return (PipeNetwork)World.NetworkAt(pos)!;
+  }
+
   /// <summary>Exhaust (L/s) the furnace pushed into its outlets on the last tick, summed.</summary>
   public float ExhaustVented =>
     (float)ReflectionHelpers.GetField(Furnace, "_exhaustVented")!;
@@ -169,7 +193,7 @@ internal sealed class BlastFurnaceRig {
   public BlastFurnaceRig WithBlockedExhaust() {
     Tuyere(_pos.AddCopy(0, 3, 1), 30);
     Tuyere(_pos.AddCopy(0, 3, 3), 31);
-    // Seal both stubs. An open end vents a fixed 8 L/s, which frees enough room for the next tick
+    // Seal both stubs. An open end vents 8 L/s at 1 atm, which frees enough room for the next tick
     // to be accepted - so an unsealed stub only chokes intermittently and the extinguish timer
     // keeps resetting. The player's case is a main whose sink has been valved away: sealed, full,
     // and refusing every tick.

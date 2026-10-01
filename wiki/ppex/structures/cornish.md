@@ -68,8 +68,8 @@ up to 10 L/s, and stops at half its capacity so there is always room for steam.
 **Steam** leaves the top connector, and nothing else. Until a pipe sits above that cell the neck is
 open and the boiler simply bleeds steam into the air.
 
-**Exhaust** leaves the far end. It must be able to go somewhere: a chimney on the outlet draws
-exactly what the fire makes, and an open pipe end does not.
+**Exhaust** leaves the far end, and the fire needs draught: a chimney on the outlet draws exactly
+what the fire makes, a smoke stack on the run draws too, and an open pipe end gives none.
 
 ## First firing
 
@@ -90,15 +90,15 @@ exactly what the fire makes, and an open pipe end does not.
 culprits are the cell under the outlet, which has to be air, a snow layer, and a passthrough turned
 the wrong way.
 
-**Nothing happens after lighting the coal.** Either the water is below 150 L or the exhaust has
-nowhere to go. A choked boiler says so on the look-at line and snuffs its own fuel pile after 10
-seconds.
+**Nothing happens after lighting the coal.** Either the water is below 150 L or the exhaust has no
+chimney or smoke stack. A choked boiler says so on the look-at line and snuffs its own fuel pile
+after 10 seconds.
 
 **The wrench will not finish the build.** Electrical Progressives' Advanced Wrench fails silently
 on these multiblocks. Use the vanilla one.
 
-**Steam but no pressure.** An open end somewhere on the steam run bleeds 8 L/s. Turn on the network
-highlight and walk the line.
+**Steam but no pressure.** An open end somewhere on the steam run blows the boiler down to about
+1 atm. Turn on the network highlight and walk the line.
 
 **It exploded.** See Boilers: a Cornish sitting at 5 atm, still firing, with the lid shut, for
 30 seconds is the one case that does it.

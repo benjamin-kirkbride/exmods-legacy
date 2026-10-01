@@ -4,4 +4,4 @@ built from these. It is exempt from over-pressure failure and never caps a run's
 pressure the run reaches.
 
 Stand a chimney on its open top connector to draw 16 L/s of gas through it instead of leaking
-8 L/s, the way a boiler's firebox is exhausted.
+there as an open end, the way a boiler's firebox is exhausted and given its draught.

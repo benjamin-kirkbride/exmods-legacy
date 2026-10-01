@@ -22,7 +22,8 @@ namespace SteelmakingExpanded.BlockStructures.SmokeStack.BlockEntities;
 public class BlockEntitySmokeStack
   : BlockEntityMultiblockMachine,
     INetworkNode,
-    IPipeNode {
+    IPipeNode,
+    IPipeDraught {
   private float _lastConsumedAmount;
   private BlockNetworkModSystem? _system;
 
@@ -57,6 +58,13 @@ public class BlockEntitySmokeStack
   /// only.</summary>
   private void UpdateVentSound() =>
     _ventSound.Update(Api, Pos, StructureComplete && _lastConsumedAmount > 0);
+
+  #region IPipeDraught
+
+  /// <summary>True once the stack is built: it draws its run whether or not gas is moving.</summary>
+  public bool GivesDraught => StructureComplete;
+
+  #endregion
 
   #region INetworkNode
 

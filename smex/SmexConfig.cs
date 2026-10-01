@@ -346,7 +346,8 @@ public class SmexConfig : IExVersionedConfig {
   /// <summary>Hearth heating rate (°C/s) on blast at or above <see cref="BfBlastTempReference"/>.</summary>
   public float BfHeatRateHot { get; set; } = 8f;
 
-  /// <summary>Hearth heating rate (°C/s) with no blast at all - the natural draught through the stack.</summary>
+  /// <summary>Hearth heating rate (°C/s) with no blast at all, on the natural draught of a chimney or
+  /// smoke stack on an exhaust run. With neither the hearth does not heat.</summary>
   public float BfHeatRateUnblown { get; set; } = 2f;
 
   /// <summary>Hearth temperature (°C) the moment the charge catches, before the blast works on it.</summary>

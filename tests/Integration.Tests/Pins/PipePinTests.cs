@@ -121,15 +121,18 @@ public class PipePinTests {
   #region Leaks
 
   /// <summary>
-  /// Steam at 150 C leaks 8 L a second from one or two open ends. The run also takes Industry's
-  /// passive gas cooling, 2 C a second toward 20 C, on top of what the leak loses: 143 C after the
-  /// first second and 80 C after ten.
+  /// Steam at 150 C leaks 8 L a second from each open end at 1 atm, in proportion to the run's
+  /// pressure: the 200 L in ten pipes start at 2/3 atm and lose 2/75 of the run a second per end.
+  /// The run also takes Industry's passive gas cooling, 2 C a second toward 20 C, on top of what
+  /// the leak loses: 143 C after the first second and 80 C after ten.
   /// </summary>
   [Theory]
-  [InlineData(1)]
-  [InlineData(2)]
-  public void An_open_run_leaks_eight_litres_of_gas_a_second_whatever_its_open_ends(
-    int openEnds
+  [InlineData(1, 194.67f, 152.63f)]
+  [InlineData(2, 189.33f, 115.61f)]
+  public void An_open_run_leaks_eight_litres_of_gas_a_second_per_open_end_at_one_atmosphere(
+    int openEnds,
+    float afterOneSecond,
+    float afterTenSeconds
   ) {
     var line = PipeLine.Of(Length, capStart: openEnds < 2, capEnd: false);
     var trace = new Trace($"pipe-leak-gas-{openEnds}");
@@ -148,9 +151,9 @@ public class PipePinTests {
     }
     trace.Save();
 
-    Assert.Equal(192f, volumeAfterOne, Trace.VolumeDigits);
+    Assert.Equal(afterOneSecond, volumeAfterOne, Trace.VolumeDigits);
     Assert.Equal(143f, tempAfterOne, Trace.TemperatureDigits);
-    Assert.Equal(120f, line.Net.State!.Volume, Trace.VolumeDigits);
+    Assert.Equal(afterTenSeconds, line.Net.State!.Volume, Trace.VolumeDigits);
     Assert.Equal(80f, line.Net.State.Temperature, Trace.TemperatureDigits);
   }
 

@@ -81,12 +81,13 @@ run bursts its own pipes first and then itself.
 **Incomplete with everything built.** Show the outline. The cell under the exhaust outlet has to be
 air, snow is not air, and a passthrough can be turned the wrong way.
 
-**It heats and never boils.** Water below 200 L, or exhaust with nowhere to go. A choked boiler says
-so and snuffs its own coal pile after 10 seconds.
+**It heats and never boils.** Water below 200 L, or exhaust with no chimney or smoke stack. A
+choked boiler says so and snuffs its own coal pile after 10 seconds.
 
 **The steam line reads far less than the boiler.** They equalise rather than the boiler emptying
 into the run, and 1200 L of vessel against a long pipe run takes time. An open end anywhere on the
-run bleeds 8 L/s and stops it for good.
+run is another matter: it blows the boiler down to about 1 atm and the line never gets working
+pressure.
 
 **It exploded.** See Boilers. At 12 atm the blast reaches 4 blocks and takes the pipes and
 ports with it.

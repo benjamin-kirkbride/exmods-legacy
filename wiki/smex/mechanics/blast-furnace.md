@@ -107,8 +107,9 @@ make out of the furnace's own exhaust, lifts both the ceiling and the climb.
 | 620 C, a half-charged stove | 1640 C | 6 C/s | 1.31x |
 | 1240 C, a fully charged stove | 1740 C | 8 C/s | 2.0x |
 
-With no blast at all the hearth still creeps up at 2 C/s on natural draught, which is not enough
-to hold a furnace lit. Cold blast covers the 582 C from ignition to iron's melting point in about
+With no blast at all the hearth creeps up at 2 C/s on natural draught, and only while a chimney
+or a smoke stack stands on one of its exhaust runs; open pipe ends give no draught, and on them the
+hearth does not climb. Neither holds a furnace lit. Cold blast covers the 582 C from ignition to iron's melting point in about
 two and a half minutes; a fully charged stove halves that.
 
 Melting starts at 1482 C. The rate is the heat margin's rate multiplied by the share of the air

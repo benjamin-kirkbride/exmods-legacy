@@ -19,6 +19,15 @@ part-built structure keeps its stage.
 - **Canals, taps, mold pedestals, tuyeres and the smoke stack intake turn under the wrench.**
   The wrench sounded and nothing moved. A dropped or middle-clicked block is the same item as before.
 
+### Changed
+
+- **A built smoke stack gives a boiler's fire draught.** A Pipes and Power Expanded 0.7.1 boiler
+  needs a chimney or a smoke stack on its exhaust run, since open pipe ends give no draught; piping
+  its exhaust to a smoke stack is enough.
+- **An unblown blast furnace climbs only on a chimney or smoke stack's draught.** In the seconds a
+  furnace runs without blast, its hearth climbs 2 C a second only while a chimney or a smoke stack
+  stands on one of its exhaust runs. Open pipe ends give no draught.
+
 ## [0.10.0] - 2026-09-29
 
 Requires Expanded Library 0.8.3 or later and Pipes and Power Expanded 0.7.0; it no longer loads with

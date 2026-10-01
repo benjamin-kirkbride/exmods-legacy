@@ -18,6 +18,17 @@ its 1.22 build does not work beside the new library. A part-built machine keeps 
   stage.
 - **Pipes, valves, outlets and the other pipe blocks turn under the wrench.** The wrench
   sounded and nothing moved. A dropped or middle-clicked pipe is the same item as before.
+- **A boiler with an open steam line blows down instead of sitting at its limit.** An unpiped
+  steam outlet, or a steam run with an open end anywhere, takes at least what the boiler makes, so
+  it settles at about 1 atm. Two boilers on one leaking run, or a charged main that sprang a leak,
+  could burst a boiler; they no longer can.
+
+### Changed
+
+- **Open pipe ends leak per end.** With Expanded Library 0.8.4 a run loses 8 L/s of gas for each
+  open end at 1 atm, in proportion to its pressure, and 10 L/s of water for each open end.
+- **A boiler's fire needs a chimney or a smoke stack.** Open pipe ends carry exhaust away but give
+  no draught, so a boiler whose exhaust run has neither is choked and its fire goes out.
 
 ## [0.7.0] - 2026-09-29
 

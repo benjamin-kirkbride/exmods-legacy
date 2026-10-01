@@ -44,8 +44,9 @@ enough to reach the 150 L the boiler needs.
 ## 3. The exhaust
 
 Stand a chimney on the fireclay Pipe Outlet, which sits at the far end of the boiler, opposite the
-firebox. A boiler makes 16 L/s of exhaust, a chimney draws exactly that, and an open pipe end
-carries only half of it. Get this wrong and the fire snuffs itself ten seconds after you light it.
+firebox. A boiler makes 16 L/s of exhaust and a chimney draws exactly that. The fire draws only
+through a chimney or a smoke stack: an open pipe end carries the exhaust away but gives no draught.
+Get this wrong and the fire snuffs itself ten seconds after you light it.
 
 ## 4. Steam, and the valve that saves the engine
 

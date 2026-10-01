@@ -76,6 +76,22 @@ public class SmokeStackTests {
 
   #endregion
 
+  #region Draught
+
+  // Fails when a built stack gives its run no draught.
+  [Fact]
+  public void A_built_stack_gives_its_run_draught_and_an_unbuilt_one_none() {
+    var world = new TestWorld();
+    var built = Stack(world, new BlockPos(0, 0, 0));
+    var unbuilt = Stack(world, new BlockPos(5, 0, 0));
+    Commission(built, world.Networks);
+
+    Assert.True(built.GivesDraught);
+    Assert.False(unbuilt.GivesDraught);
+  }
+
+  #endregion
+
   #region Structure-gated draw
 
   [Fact]

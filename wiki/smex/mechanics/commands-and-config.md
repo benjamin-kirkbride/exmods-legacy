@@ -66,7 +66,7 @@ could not reach its own melting point.
 | `BfBlastTempReference` | 1240 | blast temperature that buys the full boost, in C |
 | `BfHeatRateBase` | 4 | climb on cold blast, in C per second |
 | `BfHeatRateHot` | 8 | climb on fully hot blast, in C per second |
-| `BfHeatRateUnblown` | 2 | climb on natural draught, in C per second |
+| `BfHeatRateUnblown` | 2 | climb with no blast, on a chimney or smoke stack's draught, in C per second |
 | `BfMeltSpeedBase` | 0.2 | melt rate at zero margin over the melting point |
 | `BfMeltGainPer100C` | 0.7 | extra melt rate per 100 C of margin |
 | `BfMeltSpeedMin` | 0.5 | floor on the melt rate once melting |

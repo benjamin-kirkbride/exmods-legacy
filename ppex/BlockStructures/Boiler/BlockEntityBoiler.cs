@@ -326,13 +326,19 @@ public abstract class BlockEntityBoiler : BlockEntityMultiblockMachine {
       BoilerBlock != null
         ? this.NetworkAt<PipeNetwork>(BoilerBlock.ExhaustOutletWorldPos(Pos))
         : null;
+    // The fire draws only through a chimney or a stack on its exhaust run; open ends give no
+    // draught. An exhaust run backed up to the vent cap blocks it as well.
     bool draughtBlocked =
-      (exhaustNet?.State?.Pressure ?? 0f)
-      >= PpexValues.ExhaustMaxOutputPressure;
+      exhaustNet != null
+      && (
+        (exhaustNet.State?.Pressure ?? 0f)
+          >= PpexValues.ExhaustMaxOutputPressure
+        || !exhaustNet.HasDraught(ba)
+      );
     bool burning = fireOn && !draughtBlocked;
 
-    // Fire lit but exhaust outlet backed up to the vent cap = choked: combustion gas can't
-    // escape. Sit choked too long and the fuel pile is snuffed (like a blocked flue).
+    // Fire lit but no draught = choked. Sit choked too long and the fuel pile is snuffed (like a
+    // blocked flue).
     _choked = fireOn && draughtBlocked;
     if (
       _chokeTimer.Update(_choked, dt, PpexValues.BoilerChokeExtinguishSeconds)
@@ -472,9 +478,9 @@ public abstract class BlockEntityBoiler : BlockEntityMultiblockMachine {
 
   /// <summary>
   /// Pushes internal steam into the steam network, capped at the choke pressure. With no
-  /// connected steam pipe at the outlet, the neck is open: steam bleeds to atmosphere at
-  /// <see cref="PpexValues.BoilerSteamLeakRate"/> and the method returns <c>true</c> to
-  /// drive the leak particles.
+  /// connected steam pipe at the outlet, the neck is open and the boiler blows down through it;
+  /// the method then returns <c>true</c> to drive the leak particles. A run with an open end blows
+  /// the boiler down the same way, its own open ends showing the leak.
   /// </summary>
   private bool PushSteam(IBlockAccessor ba, float dt) {
     // The steam connector is the port filler atop the body; the network it feeds sits in
@@ -488,20 +494,25 @@ public abstract class BlockEntityBoiler : BlockEntityMultiblockMachine {
       ba.GetBlock(pipePos) is BlockNetworkNode steamPipe
       && steamPipe.HasConnectorAt(BlockFacing.DOWN);
 
-    if (!pipeAttached) {
-      // Open neck - steam jets out instead of building pressure.
-      float leaked = Math.Min(
-        _steamVolume,
-        PpexValues.BoilerSteamLeakRate * dt
-      );
-      _steamVolume = Math.Max(0f, _steamVolume - leaked);
-      return leaked > 0f;
-    }
+    if (!pipeAttached)
+      return BlowDown(dt) > 0f;
 
     PipeNetwork? steamNet = this.NetworkAt<PipeNetwork>(pipePos);
     if (steamNet == null)
       return false;
 
+    ChargeRun(steamNet, ba);
+    if (steamNet.State?.IsLeaking == true)
+      BlowDown(dt);
+    return false;
+  }
+
+  /// <summary>
+  /// Moves steam into <paramref name="steamNet"/> until the boiler and the run share one
+  /// pressure, so steam always stays in both (the boiler never empties into the run). Moves
+  /// nothing while the run is at or above the boiler's pressure.
+  /// </summary>
+  private void ChargeRun(PipeNetwork steamNet, IBlockAccessor ba) {
     // A freshly built run has no PipeNetworkState (created lazily on first TryProduceGas).
     // Treat that as an empty network at full node capacity so the boiler can charge it.
     var st = steamNet.State;
@@ -509,17 +520,16 @@ public abstract class BlockEntityBoiler : BlockEntityMultiblockMachine {
     float netMaxVolume =
       st?.MaxVolume ?? steamNet.Nodes.Count * ExlibValues.LitresPerPipe;
     if (netMaxVolume <= 0f)
-      return false;
+      return;
 
-    // Boiler and pipe run are connected vessels: move steam until pressures equalise, so it
-    // always stays in both (the boiler never empties into the run). Transfer = boiler steam
-    // above the shared equilibrium pressure (free vessel space F, pipe capacity V):
-    //   eqP = (Sboiler + Spipe) / (F + V);  transfer = Sboiler − eqP·F.
+    // Transfer = boiler steam above the shared equilibrium pressure (free vessel space F, pipe
+    // capacity V):
+    //   eqP = (Sboiler + Spipe) / (F + V);  transfer = Sboiler - eqP*F.
     float freeSpace = Math.Max(1f, Capacity - _waterVolume);
     float eqPressure = (_steamVolume + netVolume) / (freeSpace + netMaxVolume);
     float transfer = _steamVolume - eqPressure * freeSpace;
     if (transfer <= 0.001f)
-      return false; // pipe already at/above the boiler's pressure - hold the steam in
+      return;
 
     float accepted = steamNet.ProduceGasMeasured(
       transfer,
@@ -530,7 +540,20 @@ public abstract class BlockEntityBoiler : BlockEntityMultiblockMachine {
     );
     if (accepted > 0f)
       _steamVolume = Math.Max(0f, _steamVolume - accepted);
-    return false;
+  }
+
+  /// <summary>
+  /// Vents steam to atmosphere through an open outlet: per second, the larger of
+  /// <see cref="PpexValues.BoilerSteamLeakRate"/> and the boiler's own make at 1 atm, in
+  /// proportion to the internal pressure. A firing boiler with an open outlet settles at about
+  /// 1 atm.
+  /// </summary>
+  /// <returns>Litres vented.</returns>
+  private float BlowDown(float dt) {
+    float rate = Math.Max(PpexValues.BoilerSteamLeakRate, SteamPerSecond);
+    float vented = Math.Min(_steamVolume, rate * InternalPressure * dt);
+    _steamVolume -= vented;
+    return vented;
   }
 
   /// <summary>

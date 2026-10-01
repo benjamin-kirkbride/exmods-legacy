@@ -27,10 +27,10 @@ once. A charged run opened into an empty one reads the average, which looks like
 been dumped. It has not gone anywhere, it is spread over more pipe.
 
 A closed valve does not cap the far side. If nothing is built past it, that face is an open end for
-the run on the other side and bleeds 8 L/s like any other hole. A run that is still audibly leaking
-after you closed a valve needs a pipe or a port built past the valve. Some players have also found a
-freshly placed valve passing flow until they toggled it once; if a run reads as one network across a
-closed valve, toggle it and check again with the highlight.
+the run on the other side and leaks like any other, 8 L/s of gas at 1 atm or 10 L/s of water.
+A run that is still audibly leaking after you closed a valve needs a pipe or a port built past the
+valve. Some players have also found a freshly placed valve passing flow until they toggled it once;
+if a run reads as one network across a closed valve, toggle it and check again with the highlight.
 
 ## The pressure valve
 
@@ -51,8 +51,8 @@ It only flows downhill. Gas or water crosses only while the output side sits bel
 pressure, so a pressure valve can never push a loop round past itself and is **not** a backflow
 preventer. An overflow wired into a line that already sits at or above its source moves nothing.
 
-With nothing piped to its output face, the valve vents the overflow to the air at the ordinary leak
-rate, 8 L/s of gas or 10 L/s of water, with a plume to show it. That is the usual way to use one.
+With nothing piped to its output face, the valve vents the overflow to the air at up to 8 L/s of
+gas or 10 L/s of water, with a plume to show it. That is the usual way to use one.
 
 Where it goes: **not** in the line between a strong boiler and a weaker engine. A pressure valve
 is a network endpoint, so one set in-line splits the run in two and then feeds the engine's side
@@ -80,7 +80,8 @@ three come in fireclay and the seven coloured brick finishes, and none of them e
 a run's pressure.
 
 Stand an ordinary chimney on the open top connector of any of the three and the network vents
-16 L/s of gas through it, smoking, instead of leaking 8 L/s. That is how a firebox is exhausted.
+16 L/s of gas through it, smoking, instead of leaking there. That is how a firebox is exhausted:
+a boiler's fire draws only through a chimney or a smoke stack, and an open end gives it no draught.
 
 An outlet that faces the wrong way can be turned with a wrench, which cycles the facings that are
 valid in that cell. Where only one facing is valid there is nothing to cycle and the wrench does

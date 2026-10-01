@@ -550,6 +550,40 @@ public class BlastFurnaceScenarioTests {
 
   #endregion
 
+  #region Natural draught
+
+  /// <summary>A firing hearth below the melting point, short of the unblown ceiling.</summary>
+  private const float UnblownStart = 1400f;
+
+  private static BlastFurnaceRig Unblown(BlastFurnaceRig rig) =>
+    rig.CutBlast().SetState(BlastFurnaceState.Firing).SetTemp(UnblownStart);
+
+  // Fails when unblown heating ignores the flue's draught.
+  [Fact]
+  public void An_unblown_hearth_on_open_flues_does_not_heat() {
+    var rig = Unblown(new BlastFurnaceRig().WithOpenExhaust());
+
+    rig.Tick(3);
+
+    Assert.Equal(UnblownStart, rig.Temp, 1);
+  }
+
+  // Fails when the furnace never finds draught on its flues.
+  [Fact]
+  public void An_unblown_hearth_heats_on_a_chimney() {
+    var rig = Unblown(new BlastFurnaceRig().WithChimneyedExhaust());
+
+    rig.Tick(3);
+
+    Assert.Equal(
+      UnblownStart + 3f * SmexValues.BfHeatRateUnblown,
+      rig.Temp,
+      1
+    );
+  }
+
+  #endregion
+
   #region Live config
 
   // Regression (player-reported): /exmod config smex ... used to take effect only after a relog,

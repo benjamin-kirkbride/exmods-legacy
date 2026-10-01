@@ -25,8 +25,8 @@ sits beside it and pushes into or draws out of the pipe that meets its port face
 | iron pipe burst pressure | 5 atm |
 | steel pipe burst pressure | 10 atm |
 | grace at burst pressure before a pipe lets go | 30 s |
-| gas bled by an open end | 8 L/s from the whole run |
-| water drained by an open end | 10 L/s |
+| gas bled by an open end | 8 L/s per open end at 1 atm, in proportion to the run's pressure |
+| water drained by an open end | 10 L/s per open end |
 | gas drawn by a chimney on a passthrough or outlet | 16 L/s per chimney |
 | evaporation from a water run | 50 L per in-game day |
 
@@ -65,16 +65,20 @@ steam will burst its own pipes. Keep a consumer or a pressure valve on it.
 
 ## Open ends
 
-Any connector left facing air leaks. Gas costs the run 8 L/s and water 10 L/s, and the rate is for
-the whole network, not per opening, so a second hole does not double it. A leaking run is also
-capped at 1 atm however hard it is fed: a producer is held to that ceiling while any end is open,
-so a Watt Engine, which engages at 2 atm, never starts on a line with a hole in it. A run fed
-slower than it leaks runs down to empty instead, and that is the usual reason a line reads 0 atm
-while a boiler is plainly boiling.
+Any connector left facing air is an open end, and every open end leaks. Gas costs the run 8 L/s
+per open end at 1 atm, in proportion to the run's pressure, so a run at half an atmosphere loses
+4 L/s through each end and two open ends lose twice what one does. Water drains at 10 L/s per open
+end. A leaking run is also capped at 1 atm however hard it is fed: a producer is held to that
+ceiling while any end is open, so a Watt Engine, which engages at 2 atm, never starts on a line
+with a hole in it. A gas run fed slower than its ends leak settles below 1 atm, where the leak
+matches the feed, and an unfed one runs down toward empty. A boiler on a steam run with an open end
+blows itself down to about 1 atm; Boilers has the numbers.
 
 A chimney is the exception. Stand an ordinary chimney on the open top connector of a passthrough,
-a passthrough bend or an outlet and the network vents 16 L/s through it instead of leaking 8 L/s,
-smoking while it does. That is the way to exhaust a firebox: 16 L/s is exactly what a boiler makes.
+a passthrough bend or an outlet and the network vents 16 L/s through it instead of leaking there,
+smoking while it does. That is the way to exhaust a firebox: 16 L/s is exactly what a boiler makes,
+and a boiler's fire draws only through a chimney or a smoke stack. An open pipe end carries
+exhaust away but gives the fire no draught.
 
 ## Laying a run
 
@@ -87,7 +91,7 @@ smoking while it does. That is the way to exhaust a firebox: 16 L/s is exactly w
    the neighbour that decides its shape, and place it again.
 4. Butt the last pipe straight against the machine's port face, or end the run in a Pipe Outlet
    against it.
-5. Cap or connect every other end. A run with an open end will not pressurise.
+5. Cap or connect every other end. A run with an open end never rises above 1 atm.
 6. Check the result with `.exmod network hi`. Every network is tinted its own translucent colour,
    the colours hold still as you work, and the highlight refreshes about four times a second, so a
    run that is secretly two networks shows up at once. `.exmod network unhi` turns it off.

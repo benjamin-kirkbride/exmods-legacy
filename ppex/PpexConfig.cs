@@ -163,8 +163,9 @@ public class PpexConfig : IExVersionedConfig {
   /// <summary>Internal steam (L/s) an open lid vents to atmosphere.</summary>
   public float BoilerLidVentRate { get; set; } = 200f;
 
-  /// <summary>Internal steam (L/s) bled to atmosphere when the steam outlet has no pipe
-  /// attached - the boiler's neck is open, so steam jets out instead of pressurising.</summary>
+  /// <summary>Least internal steam (L/s at 1 atm) an open outlet vents: an unpiped neck, or a
+  /// steam run with an open end. The boiler's own make is used when larger, and the flow grows in
+  /// proportion to the internal pressure.</summary>
   public float BoilerSteamLeakRate { get; set; } = 16f;
 
   /// <summary>Rendered water-surface height (block units) while the boiler holds some water

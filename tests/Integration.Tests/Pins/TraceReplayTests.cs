@@ -100,6 +100,11 @@ public class TraceReplayTests {
   /// temperature.</summary>
   private const string CanalCooling = "canal-cooling";
 
+  /// <summary>Industry's passive gas cooling, and gas leaking 8 L/s per open end at 1 atm in
+  /// proportion to the run's pressure, where the published ppex lost a flat 8 L a tick whatever its
+  /// open ends.</summary>
+  private const string CoolingAndLeak = "cooling-and-leak-per-end";
+
   private static readonly PipePinTests Pipe = new();
   private static readonly PipeNetworkDiffPinTests Diff = new();
   private static readonly MachinePinTests Machine = new();
@@ -132,12 +137,16 @@ public class TraceReplayTests {
     ["pipe-throughput-500"] = () =>
       Pipe.Five_hundred_litres_a_second_cross_a_ten_pipe_run(),
     ["pipe-leak-gas-1"] = () =>
-      Pipe.An_open_run_leaks_eight_litres_of_gas_a_second_whatever_its_open_ends(
-        1
+      Pipe.An_open_run_leaks_eight_litres_of_gas_a_second_per_open_end_at_one_atmosphere(
+        1,
+        194.67f,
+        152.63f
       ),
     ["pipe-leak-gas-2"] = () =>
-      Pipe.An_open_run_leaks_eight_litres_of_gas_a_second_whatever_its_open_ends(
-        2
+      Pipe.An_open_run_leaks_eight_litres_of_gas_a_second_per_open_end_at_one_atmosphere(
+        2,
+        189.33f,
+        115.61f
       ),
     ["pipe-leak-water"] = () =>
       Pipe.An_open_run_leaks_ten_litres_of_water_a_second(),
@@ -192,8 +201,8 @@ public class TraceReplayTests {
       { "pipe-burst-steel", Expected, Cooling, 1, "temp" },
       { "pipe-burst-mixed", Expected, Cooling, 1, "temp" },
       { "pipe-throughput-500", Same, "", 0, "" },
-      { "pipe-leak-gas-1", Expected, Cooling, 1, "temp" },
-      { "pipe-leak-gas-2", Expected, Cooling, 1, "temp" },
+      { "pipe-leak-gas-1", Expected, CoolingAndLeak, 1, "p,temp,vol" },
+      { "pipe-leak-gas-2", Expected, CoolingAndLeak, 1, "p,temp,vol" },
       { "pipe-leak-water", Same, "", 0, "" },
       { "pipe-chimney", Expected, Cooling, 1, "temp" },
       { "pipe-standing-steam", Expected, Cooling, 1, "temp" },
@@ -216,9 +225,9 @@ public class TraceReplayTests {
 #else
       { "molten-cooling", Expected, CanalCooling, 6, "lines,temp" },
 #endif
-      { "sequence-pipe-seed1", Expected, Cooling, 21, "temp" },
-      { "sequence-pipe-seed2", Expected, Cooling, 7, "temp" },
-      { "sequence-pipe-seed3", Expected, Cooling, 7, "temp" },
+      { "sequence-pipe-seed1", Expected, CoolingAndLeak, 21, "lines,medium,p,temp,vol" },
+      { "sequence-pipe-seed2", Expected, CoolingAndLeak, 7, "lines,medium,p,temp,vol" },
+      { "sequence-pipe-seed3", Expected, CoolingAndLeak, 7, "lines,p,temp,vol" },
 #if GAME_GE_1_22
       { "sequence-canal-seed1", Same, "", 0, "" },
       { "sequence-canal-seed2", Same, "", 0, "" },

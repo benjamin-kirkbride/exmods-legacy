@@ -29,8 +29,8 @@ flips it. A plain Piping (Valve) has no direction: open, the run flows through i
 severs the network at its own cell. Opening one merges the two sides into a single pool that
 settles at one pressure at once, which looks like the pressure has been dumped and is really just
 the same gas in more pipe. And a closed valve does not cap the far side: if nothing is built past
-it, that face is an open end for the run beyond and bleeds 8 L/s like any other hole. See
-[[Valves and outlets]].
+it, that face is an open end for the run beyond and leaks like any other, 8 L/s of gas at 1 atm.
+See [[Valves and outlets]].
 
 ## My boilers exploded
 
@@ -39,10 +39,10 @@ fire is lit, and its internal pressure is at or above the choke pressure with th
 Opening the lid dumps 200 L/s and resets that timer. Pumped feedwater above 1 atm flashes to extra
 steam and is the common way to drive a vessel there.
 
-Venting is the ordinary reason a boiler dies, and it is not this. A boiler makes 16 L/s of exhaust
-and an open pipe end only carries 8 L/s, so without a chimney on the exhaust outlet or a route to
-a smoke stack the boiler counts as choked and the fuel pile is snuffed 10 s later. A choked flue
-puts the fire out; it does not burst the vessel.
+Draught is the ordinary reason a boiler dies, and it is not this. The fire draws only through a
+chimney on the exhaust outlet or a smoke stack on the exhaust run; an open pipe end carries the
+exhaust away but gives no draught, so without one the boiler counts as choked and the fuel pile is
+snuffed 10 s later. A choked flue puts the fire out; it does not burst the vessel.
 
 There is a second case that is still open: boilers found at critical pressure immediately after a
 chunk reload, a relog or a server restart, with a relief valve fitted and the hatch open. No fix

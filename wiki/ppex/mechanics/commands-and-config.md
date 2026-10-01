@@ -78,8 +78,8 @@ The pipe network's own numbers are Expanded Library's, in the `exlib` section of
 |---|---|---|
 | `LitresPerPipe` | 30 L | capacity one pipe adds to its run at 1 atm |
 | `PipeOverpressureSeconds` | 30 s | time at the burst rating before a pipe lets go |
-| `GasLeakRate` | 8 L/s | gas an open end bleeds from the whole run |
-| `LiquidLeakRate` | 10 L/s | water an open end drains from the whole run |
+| `GasLeakRate` | 8 L/s | gas each open end bleeds at 1 atm, in proportion to the run's pressure |
+| `LiquidLeakRate` | 10 L/s | water each open end drains |
 | `EvaporationLitresPerDay` | 50 L | water lost per in-game day from a run and from a boiler |
 | `PipeGasCoolPerSecond` | 2 C/s | how fast a gas run cools |
 | `PipeAmbientTemperature` | 20 C | the temperature a gas run cools toward |
@@ -111,7 +111,7 @@ server log names it once at load.
 | `BoilerExhaustPerSecond` | 16 L/s | exhaust a burning boiler makes |
 | `ExhaustMaxOutputPressure` | 0.8 atm | back pressure at which the fire is choked |
 | `BoilerLidVentRate` | 200 L/s | steam an open lid dumps |
-| `BoilerSteamLeakRate` | 16 L/s | steam an unpiped outlet bleeds |
+| `BoilerSteamLeakRate` | 16 L/s | the least steam an open outlet vents per second at 1 atm; the boiler's own make is used when larger |
 | `BoilerWaterIntakeFillFraction` | 0.5 | share of capacity the automatic intake fills to |
 | `BoilerWaterIntakeRate` | 10 L/s | automatic intake draw |
 | `WaterPressureSteamBoost` | 1 | extra litres of steam per litre admitted per atm over 1 atm |

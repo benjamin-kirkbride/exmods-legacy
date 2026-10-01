@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ExpandedLib.Industry.Molten;
 using ExpandedLib.Industry.Pipes;
+using ExpandedLib.Machines;
 using ExpandedLib.Structures;
 using ExpandedLib.Helpers;
 using ExpandedLib.Industry.Helpers;
@@ -278,6 +279,16 @@ public class BlockEntityBlastFurnace : BlockEntityMultiblockMachine {
     _tuyeres = [GetGlobalPos(0, -2, 1), GetGlobalPos(0, -2, 3)];
   }
 
+  /// <summary>Whether any gas outlet's run has draught (<see cref="PipeNetwork.HasDraught"/>).
+  /// Walks each run's nodes.</summary>
+  private bool FlueHasDraught() {
+    IBlockAccessor ba = Api.World.BlockAccessor;
+    foreach (BlockPos pos in _gasOutlets)
+      if (this.NetworkAt<PipeNetwork>(pos)?.HasDraught(ba) == true)
+        return true;
+    return false;
+  }
+
   protected override void OnProductionTick(float dt) {
     if (!StructureComplete)
       return;
@@ -464,10 +475,12 @@ public class BlockEntityBlastFurnace : BlockEntityMultiblockMachine {
         _naturalMaxTemp + (_boostedMaxTemp - _naturalMaxTemp) * blastFraction;
 
       float oldTemp = _internalTemp;
-      // Heating/cooling rates are per-second; scale by dt for tick-independence.
+      // Heating/cooling rates are per-second; scale by dt for tick-independence. Unblown, the hearth
+      // heats only on the draught of a chimney or smoke stack on an exhaust run.
       float heatRate = receivingBlast
         ? _heatRateBase + (_heatRateHot - _heatRateBase) * blastFraction
-        : _heatRateUnblown;
+        : FlueHasDraught() ? _heatRateUnblown
+        : 0f;
 
       if (_internalTemp < _targetTemp)
         _internalTemp = Math.Min(_internalTemp + heatRate * dt, _targetTemp);
