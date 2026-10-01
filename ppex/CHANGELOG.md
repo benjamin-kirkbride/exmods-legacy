@@ -26,7 +26,10 @@ its 1.22 build does not work beside the new library. A part-built machine keeps 
   machines in.** A water line reads the head of the pump that keeps it brim-full, and a relief valve
   the line tops holds it down to the valve's gate for every machine drawing from it. The starter
   plant's 0.5 atm water relief valve now keeps the feed from flashing in every session; before, the
-  boiler caught the main full at the pump's head whenever the valve ran before the pump.
+  boiler caught the main full at the pump's head whenever the valve ran before the pump. A steam
+  condenser carries the pressure of the line feeding it on to its outlet, and a relief valve the
+  pressure of the line it spills from on to its overflow line, the same way, so a boiler fed
+  through either flashes the same in every session.
 
 ### Changed
 
