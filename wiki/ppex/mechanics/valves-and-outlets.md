@@ -59,7 +59,7 @@ is a network endpoint, so one set in-line splits the run in two and then feeds t
 until both sides match, which is the pressure it was supposed to prevent. Hang it off a junction on
 the run the engine is on, so that run is the valve's input side, and let the output side vent to
 air or to an overflow line. A Cornish Boiler at 5 atm in front of a Watt Engine that wears above
-4 atm is the case that needs one, gated at 2.5 to 3 atm.
+4 atm is the case that needs one, gated at 2.5 to 3.5 atm.
 
 On water it does not throttle, it dumps: once the feed pressure tops the gate it moves the whole
 line into the output side, or sprays it out of an open face.
