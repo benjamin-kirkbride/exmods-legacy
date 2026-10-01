@@ -5,6 +5,7 @@ using ExpandedLib.Industry.Helpers;
 using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Registries;
 using PipesAndPowerExpanded.BlockNetworkPipe.BlockEntities;
+using PipesAndPowerExpanded.Helpers;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.API.Datastructures;
@@ -38,6 +39,7 @@ public class BlockEntityEngineFluidPump : BlockEntityEngineSubmachine {
     );
 
   protected override void DoWork(float power, float dt) {
+    WaterLine.Hold(this, null, 0f);
     if (power <= 0f) {
       SetDrawing(false);
       return;
@@ -60,9 +62,13 @@ public class BlockEntityEngineFluidPump : BlockEntityEngineSubmachine {
     float drawn = bottomNet?.TryConsumeLiquid(move, ba) ?? 0f;
     if (drawn > 0f)
       leftNet?.TryProduceLiquid(drawn, 20f, pressure, ba);
+    WaterLine.Hold(this, leftNet, pressure);
 
     intake.ProduceWater(amount, 20f, ba);
   }
+
+  protected override void OnIdleProductionTick(float dt) =>
+    WaterLine.Hold(this, null, 0f);
 
   /// <summary>Updates the synced water-drawing flag, syncing to clients only on change.</summary>
   private void SetDrawing(bool drawing) {

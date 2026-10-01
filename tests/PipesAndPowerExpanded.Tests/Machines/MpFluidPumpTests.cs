@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Linq;
+using ExpandedLib;
 using ExpandedLib.Industry.MechanicalPower;
 using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Structures;
@@ -12,6 +13,7 @@ using PipesAndPowerExpanded.BlockNetworkPipe.Blocks;
 using PipesAndPowerExpanded.BlockStructures.Engine.BlockEntities;
 using PipesAndPowerExpanded.BlockStructures.MpPump.BlockEntities;
 using PipesAndPowerExpanded.BlockStructures.MpPump.Blocks;
+using PipesAndPowerExpanded.Helpers;
 using Vintagestory.API.Common;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
@@ -358,6 +360,58 @@ public class MpFluidPumpTests {
     Assert.Equal(0f, moved, 4);
     Assert.False(Drawing(pump));
     Assert.Null(delivery.State);
+  }
+
+  #endregion
+
+  #region Holding the delivery line
+
+  // Fails when a pump holds its line whatever it filled (the brim test in WaterLine.Hold): the
+  // part-filled main would read the pump's head.
+  [Fact]
+  public void A_pump_that_leaves_its_main_part_full_leaves_it_reading_its_fill() {
+    var (_, pump, _, delivery) = Rig();
+
+    pump.DoWork(0.2f, 1f);
+
+    float fill = delivery.State!.Volume / ExlibValues.LitresPerPipe;
+    Assert.True(fill < 1f, "the premise: one slow stroke does not fill the one-pipe main");
+    Assert.Equal(fill, WaterLine.Head(delivery), 3);
+  }
+
+  // Fails when the pump records no hold (WaterLine.Hold in BlockEntityMpFluidPump.DoWork): the
+  // brim-full main would read its fill, 1 atm.
+  [Fact]
+  public void A_pump_that_fills_its_main_holds_it_at_its_delivery_head() {
+    var (_, pump, _, delivery) = Rig();
+
+    pump.DoWork(3f, 10f);
+
+    Assert.Equal(PpexValues.MpPumpDeliveryPressure, WaterLine.Head(delivery), 3);
+  }
+
+  // Fails when a stopped pump keeps its hold (the release at the head of
+  // BlockEntityMpFluidPump.DoWork).
+  [Fact]
+  public void A_stopped_pump_lets_its_main_go_to_its_fill() {
+    var (_, pump, _, delivery) = Rig();
+    pump.DoWork(3f, 10f);
+
+    pump.DoWork(0f, 1f);
+
+    Assert.Equal(1f, WaterLine.Head(delivery), 3);
+  }
+
+  // Fails when a pump no longer in the world still counts (the presence test in
+  // WaterLine.Present).
+  [Fact]
+  public void A_pump_whose_block_entity_is_gone_no_longer_holds_its_main() {
+    var (world, pump, _, delivery) = Rig();
+    pump.DoWork(3f, 10f);
+
+    world.Unload(pump.Pos);
+
+    Assert.Equal(1f, WaterLine.Head(delivery), 3);
   }
 
   #endregion

@@ -2,6 +2,7 @@ using ExpandedLib;
 using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Testing;
 using PipesAndPowerExpanded.BlockStructures.Engine;
+using PipesAndPowerExpanded.Helpers;
 using Vintagestory.API.MathTools;
 using Xunit;
 
@@ -170,6 +171,45 @@ public class SteamSupplyScenarioTests {
     scene.Step(3); // never cranked
 
     Assert.Equal(0f, plant.OutputVolume, 3);
+  }
+
+  // Fails when the pump records no hold (WaterLine.Hold in BlockEntityManualFluidPump.DoWork): the
+  // brim-full main would read its fill, 1 atm, not the 1.5 atm head the pump is set to.
+  [Fact]
+  public void A_crank_that_fills_its_main_holds_it_at_the_pumps_head() {
+    float head = PpexValues.ManualPumpDeliveryPressure;
+    try {
+      PpexValues.Edit(c => c.ManualPumpDeliveryPressure = 1.5f);
+      var scene = new Scene().Network("pipe", s => new PipeNetwork(s));
+      var plant = new ManualPumpPlant(scene, new BlockPos(0, 8, 0));
+      scene.Build();
+
+      plant.FillPond(30f).Crank(20);
+
+      Assert.Equal(1.5f, WaterLine.Head(plant.Output), 3);
+    } finally {
+      PpexValues.Edit(c => c.ManualPumpDeliveryPressure = head);
+    }
+  }
+
+  // Fails when a released crank keeps its hold (the release in
+  // BlockEntityManualFluidPump.StopPumping).
+  [Fact]
+  public void A_released_crank_lets_its_main_go_to_its_fill() {
+    float head = PpexValues.ManualPumpDeliveryPressure;
+    try {
+      PpexValues.Edit(c => c.ManualPumpDeliveryPressure = 1.5f);
+      var scene = new Scene().Network("pipe", s => new PipeNetwork(s));
+      var plant = new ManualPumpPlant(scene, new BlockPos(0, 8, 0));
+      scene.Build();
+      plant.FillPond(30f).Crank(20);
+
+      plant.Pump.OnPumpStop();
+
+      Assert.Equal(1f, WaterLine.Head(plant.Output), 3);
+    } finally {
+      PpexValues.Edit(c => c.ManualPumpDeliveryPressure = head);
+    }
   }
 
   #endregion

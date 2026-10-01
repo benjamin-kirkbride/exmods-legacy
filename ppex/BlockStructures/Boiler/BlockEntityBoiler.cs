@@ -7,6 +7,7 @@ using ExpandedLib.Machines;
 using ExpandedLib.Networks;
 using ExpandedLib.Structures;
 using ExpandedLib.Industry.Helpers;
+using PipesAndPowerExpanded.Helpers;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
@@ -350,7 +351,7 @@ public abstract class BlockEntityBoiler : BlockEntityMultiblockMachine {
 
     PipeNetwork? waterNet = this.ConnectedNetwork<PipeNetwork>(BlockFacing.DOWN);
     if (waterNet != null && _waterVolume < MaxWaterIntakeFill) {
-      float feedPressure = waterNet.State?.Pressure ?? 0f;
+      float feedPressure = WaterLine.Pressure(waterNet);
       // Cap the draw at the intake rate so a piped supply trickles in (≤10 L/s) instead of
       // gulping the whole remaining headroom in a single tick.
       float request = Math.Min(

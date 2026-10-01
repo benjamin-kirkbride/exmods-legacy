@@ -237,6 +237,9 @@ internal sealed class ManualPumpPlant {
     return this;
   }
 
+  /// <summary>The output main.</summary>
+  public PipeNetwork Output => _scene.NetworkAt<PipeNetwork>(_output)!;
+
   public float OutputVolume =>
     _scene.NetworkAt<PipeNetwork>(_output)!.State?.Volume ?? 0f;
   public bool OutputIsWater =>

@@ -11,6 +11,7 @@ using ExpandedLib.Industry.MechanicalPower;
 using ExpandedLib.Registries;
 using PipesAndPowerExpanded.BlockNetworkPipe.BlockEntities;
 using PipesAndPowerExpanded.BlockStructures.MpPump.Blocks;
+using PipesAndPowerExpanded.Helpers;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
@@ -114,6 +115,7 @@ public class BlockEntityMpFluidPump : BlockEntity, IRenderer {
   /// mechanical network.
   /// </summary>
   public float DoWork(float speed, float dt) {
+    WaterLine.Hold(this, null, 0f);
     float output = OutputAt(speed);
     if (output <= 0f || dt <= 0f) {
       SetDrawing(false);
@@ -147,6 +149,7 @@ public class BlockEntityMpFluidPump : BlockEntity, IRenderer {
         PpexValues.MpPumpDeliveryPressure,
         ba
       );
+    WaterLine.Hold(this, deliveryNet, PpexValues.MpPumpDeliveryPressure);
 
     intake.ProduceWater(amount, 20f, ba);
     return drawn;

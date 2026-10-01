@@ -7,6 +7,7 @@ using ExpandedLib.Testing;
 using Integration.Tests.Saves;
 using PipesAndPowerExpanded;
 using PipesAndPowerExpanded.BlockNetworkPipe.Blocks;
+using PipesAndPowerExpanded.Helpers;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Util;
 using Xunit;
@@ -29,6 +30,10 @@ public class StarterSteamPowerSetupTests(ITestOutputHelper output) {
 
   /// <summary>The steam run's flow the drawing prints (L/s).</summary>
   private const double DrawnSteamFlow = 32.0;
+
+  /// <summary>What the steam main's relief valve vents in the drawing (L/s): the boiler's make
+  /// over the engine's draw.</summary>
+  private const double DrawnSteamVent = 2.0;
 
   private const float BandLow = 2f;
   private const float BandHigh = 4f;
@@ -238,7 +243,11 @@ public class StarterSteamPowerSetupTests(ITestOutputHelper output) {
   }
 
   // a to d fail in every order under their mutations in the drawn order's test above; the chimney
-  // left off fails a in all six.
+  // left off fails a in all six. e fails in the two orders where the water valve ticks before the
+  // pump when the boiler reads its feed main's live pressure (waterNet.State.Pressure in
+  // BlockEntityBoiler): the main is then brim-full at the pump's head and the feed flashes steam.
+  // It fails in all six when the water valve does not hold the main down (WaterLine.Relieve in
+  // BlockEntityPressureValve.OverflowLiquid).
   [Theory]
   [MemberData(nameof(Orders))]
   public void The_setup_holds_in_every_tick_order(string order) {
@@ -253,7 +262,74 @@ public class StarterSteamPowerSetupTests(ITestOutputHelper output) {
     output.WriteLine(
       $"{order}: steam.flow {steady["steam.flow"]} l/s,"
         + $" steam-valve.vent {steady["steam-valve.vent"]} l/s,"
+        + $" water-valve.vent {steady["water-valve.vent"]} l/s,"
         + $" boiler.feed {steady["boiler.feed"]} l/s, feed.pressure {steady["feed.pressure"]} atm"
+    );
+    double flow = (double)steady["steam.flow"];
+    double vent = (double)steady["steam-valve.vent"];
+    Assert.True(
+      Math.Abs(flow - DrawnSteamFlow) <= 0.5
+        && Math.Abs(vent - DrawnSteamVent) <= 0.5,
+      $"e: the steam run carried {flow} L/s and the steam valve vented {vent} L/s"
+    );
+  }
+
+  // With the water valve gated at 1.5 atm the engine's pump holds the feed main at 2.625 atm, the
+  // valve opens and holds it down to 1.5, and the boiler flashes half a litre of steam per litre it
+  // draws: 1 L/s on top of its 32, vented by the steam valve. Fails in the orders where a draw
+  // falls between the pump and the water valve when the valve opens on the main's live pressure
+  // (inState.Pressure in BlockEntityPressureValve.OverflowLiquid), and in all six when the engine's
+  // pump records no hold (WaterLine.Hold in BlockEntityEngineFluidPump.DoWork) or the boiler reads
+  // the main's live pressure.
+  [Theory]
+  [MemberData(nameof(Orders))]
+  public void A_relief_gated_above_1_atm_holds_the_feed_at_its_gate_in_every_tick_order(
+    string order
+  ) {
+    var plant = new StarterSteamPowerPlant(
+      order: order.Split(',').Select(Enum.Parse<Ticker>).ToList(),
+      waterGate: 1.5f
+    );
+    SetupRecording recording = plant.Record(RunSeconds);
+    plant.Run(RunSeconds);
+
+    IReadOnlyDictionary<string, object> steady = recording.Steady();
+    double flow = (double)steady["steam.flow"];
+    double vent = (double)steady["steam-valve.vent"];
+    Assert.True(
+      Math.Abs(flow - (DrawnSteamFlow + 1.0)) <= 0.5
+        && Math.Abs(vent - (DrawnSteamVent + 1.0)) <= 0.5,
+      $"{order}: the steam run carried {flow} L/s and the steam valve vented {vent} L/s"
+    );
+  }
+
+  // Fails when a pump whose engine gives it no power keeps holding its main (the release at the
+  // head of BlockEntityEngineFluidPump.DoWork): the main would read the pump's 2.625 atm.
+  [Fact]
+  public void A_pump_without_power_lets_its_main_go_to_its_fill() {
+    var plant = new StarterSteamPowerPlant().Run(300);
+    Assert.True(WaterLine.Head(plant.FeedRun) > 1f, "the premise: the pump holds the main");
+
+    ReflectionHelpers.Invoke(plant.Pump, "DoWork", 0f, 1f);
+
+    Assert.True(
+      WaterLine.Head(plant.FeedRun) <= 1f,
+      $"the main read {WaterLine.Head(plant.FeedRun)} atm"
+    );
+  }
+
+  // Fails when a pump that has lost its engine keeps holding its main (the
+  // OnIdleProductionTick of BlockEntityEngineFluidPump).
+  [Fact]
+  public void A_pump_without_an_engine_lets_its_main_go_to_its_fill() {
+    var plant = new StarterSteamPowerPlant().Run(300);
+    Assert.True(WaterLine.Head(plant.FeedRun) > 1f, "the premise: the pump holds the main");
+
+    ReflectionHelpers.Invoke(plant.Pump, "OnIdleProductionTick", 1f);
+
+    Assert.True(
+      WaterLine.Head(plant.FeedRun) <= 1f,
+      $"the main read {WaterLine.Head(plant.FeedRun)} atm"
     );
   }
 

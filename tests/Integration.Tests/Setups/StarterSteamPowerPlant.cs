@@ -101,12 +101,14 @@ internal sealed class StarterSteamPowerPlant {
   /// The order the engine, the pump and the water valve are placed in, which is their tick order;
   /// each named once. Null is <see cref="DrawnOrder"/>.
   /// </param>
+  /// <param name="waterGate">Gate of the feed main's relief valve (atm).</param>
   /// <exception cref="ArgumentException"><paramref name="order"/> does not name each of the three once.</exception>
   public StarterSteamPowerPlant(
     bool chimney = true,
     bool steamValve = true,
     bool openEnd = false,
-    IReadOnlyList<Ticker>? order = null
+    IReadOnlyList<Ticker>? order = null,
+    float waterGate = WaterGate
   ) {
     order ??= DrawnOrder;
     if (order.Count != 3 || order.Distinct().Count() != 3)
@@ -244,7 +246,7 @@ internal sealed class StarterSteamPowerPlant {
           Scene.Machine(pumpPos, pumpBlock, Pump);
           break;
         case Ticker.WaterValve:
-          Install(WaterValve, WaterGate);
+          Install(WaterValve, waterGate);
           break;
       }
   }
@@ -340,6 +342,9 @@ internal sealed class StarterSteamPowerPlant {
     Seconds.Where(s => s.At >= from && failed(s)).Select(s => (int?)s.At).FirstOrDefault();
 
   private PipeNetwork? SteamRun => Scene.NetworkAt<PipeNetwork>(_steam);
+
+  /// <summary>The feed main, from the pump and the engine's condensate outlet into the boiler.</summary>
+  public PipeNetwork FeedRun => Scene.NetworkAt<PipeNetwork>(_feed)!;
 
   private BlockEntityCoalPile? Pile =>
     Scene.EntityAt<BlockEntityCoalPile>(Boiler.Block.FuelWorldPos(Boiler.Be.Pos));

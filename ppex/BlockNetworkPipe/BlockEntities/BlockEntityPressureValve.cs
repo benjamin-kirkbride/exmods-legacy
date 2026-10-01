@@ -6,6 +6,7 @@ using ExpandedLib.Industry.Helpers;
 using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Registries;
 using PipesAndPowerExpanded.BlockNetworkPipe.Blocks;
+using PipesAndPowerExpanded.Helpers;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.API.Datastructures;
@@ -92,6 +93,7 @@ public class BlockEntityPressureValve : BlockEntityPipe {
     var outNet =
       NetworkSystem?.GetConnectedNetworkAcross(ba, Pos, outFace) as PipeNetwork;
 
+    WaterLine.Relieve(this, null, 0f);
     float moved =
       OverflowGas(inNet, outNet, outFace)
       + OverflowLiquid(inNet, outNet, outFace);
@@ -206,9 +208,10 @@ public class BlockEntityPressureValve : BlockEntityPipe {
   }
 
   /// <summary>
-  /// Spills the input network's water into the output network once the pump-set feed
-  /// pressure tops the gate. With no output network the open face sprays water out,
-  /// capped at the pipe-leak rate. Returns the litres actually moved.
+  /// Spills the input network's water into the output network once the pressure its pumps hold
+  /// it at (<see cref="WaterLine.Head"/>, its fill ratio when none does) tops the gate. With no
+  /// output network the open face sprays water out, capped at the pipe-leak rate. Returns the
+  /// litres actually moved.
   /// </summary>
   private float OverflowLiquid(
     PipeNetwork? inNet,
@@ -216,17 +219,15 @@ public class BlockEntityPressureValve : BlockEntityPipe {
     BlockFacing outFace
   ) {
     var inState = inNet?.State;
-    if (
-      inState == null
-      || !inState.IsLiquid
-      || inState.Volume <= 0f
-      || inState.Pressure <= _gatePressure
-    )
+    if (inState == null || !inState.IsLiquid || inState.Volume <= 0f)
       return 0f;
+    float press = WaterLine.Head(inNet!);
+    if (press <= _gatePressure)
+      return 0f;
+    WaterLine.Relieve(this, inNet, _gatePressure);
 
     var ba = Api.World.BlockAccessor;
     float temp = inState.Temperature;
-    float press = inState.Pressure;
 
     // Don't draw water for a run that carries gas - it can't be deposited and would be lost.
     if (outNet?.State is { } os && !os.IsLiquid && os.MediumType.Length > 0)

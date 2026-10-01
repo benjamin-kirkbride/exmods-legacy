@@ -92,6 +92,7 @@ public class BlockEntityManualFluidPump : BlockEntity {
   public void OnPumpStop() => StopPumping();
 
   private void StopPumping() {
+    WaterLine.Hold(this, null, 0f);
     if (!_pumping && !_drawingWater)
       return;
     _pumping = false;
@@ -144,6 +145,11 @@ public class BlockEntityManualFluidPump : BlockEntity {
         );
       intake!.ProduceWater(amount, ExClimate.AmbientAt(this), ba);
     }
+    WaterLine.Hold(
+      this,
+      drawing ? outputNet : null,
+      PpexValues.ManualPumpDeliveryPressure
+    );
 
     if (drawing != _drawingWater) {
       _drawingWater = drawing;

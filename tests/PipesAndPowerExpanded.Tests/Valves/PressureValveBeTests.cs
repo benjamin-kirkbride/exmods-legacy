@@ -1,7 +1,9 @@
+using ExpandedLib;
 using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Testing;
 using PipesAndPowerExpanded.BlockNetworkPipe.BlockEntities;
 using PipesAndPowerExpanded.BlockNetworkPipe.Blocks;
+using PipesAndPowerExpanded.Helpers;
 using Vintagestory.API.Common;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
@@ -238,6 +240,31 @@ public class PressureValveBeTests {
     RunTick(valve);
 
     Assert.Equal(0f, Tick(valve), 3);
+  }
+
+  #endregion
+
+  #region Water relief
+
+  // Fails when a valve keeps holding its line down once the line no longer tops its gate (the
+  // release at the head of BlockEntityPressureValve.OnTick): the line would still read 0.5 atm.
+  [Fact]
+  public void A_relief_turned_up_past_its_line_lets_the_line_go_to_its_fill() {
+    var (world, valve, inNet) = VentRig();
+    world.Place(valve.Pos, valve.Block, valve);
+    inNet.TryProduceLiquid(50f, 20f, 1f, world.Accessor);
+    while (valve.GatePressure > 0.5f + 0.001f && valve.AdjustGatePressure(false)) { }
+    RunTick(valve);
+    Assert.Equal(0.5f, WaterLine.Pressure(inNet), 3);
+
+    while (valve.GatePressure < 1f - 0.001f && valve.AdjustGatePressure(true)) { }
+    RunTick(valve);
+
+    Assert.Equal(
+      inNet.State!.Volume / (inNet.Nodes.Count * ExlibValues.LitresPerPipe),
+      WaterLine.Pressure(inNet),
+      3
+    );
   }
 
   #endregion
