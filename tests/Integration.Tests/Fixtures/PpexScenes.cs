@@ -25,10 +25,10 @@ internal static class PpexScenes {
   public static BlockPipeOutlet UpOutlet(int id) {
     var block = TestBlocks.Configure(
       new BlockPipeOutlet(),
-      "ppex:pipe-outlet-black-u",
+      "ppex:pipe-outlet-fire-u",
       id,
       ("type", "outlet"),
-      ("brick", "black"),
+      ("brick", "fire"),
       ("orientation", "u")
     );
     ReflectionHelpers.SetProperty(block, "Type", "outlet");
@@ -36,9 +36,13 @@ internal static class PpexScenes {
     return block;
   }
 
-  /// <summary>A vanilla chimney block.</summary>
+  /// <summary>The code <see cref="Chimney"/> places: vanilla's red clay brick chimney, shipped on
+  /// 1.20, 1.21 and 1.22.</summary>
+  public const string ChimneyCode = "game:claybrickchimney-four-red-ns";
+
+  /// <summary>A vanilla chimney block, <see cref="ChimneyCode"/>.</summary>
   public static Block Chimney(int id) =>
-    TestBlocks.Configure(new Block(), "game:chimney", id);
+    TestBlocks.Configure(new Block(), ChimneyCode, id);
 
   /// <summary>One shared oriented pipe block (the engine reuses a single instance across a run).</summary>
   public static BlockPipe Pipe(string orientation, int id) =>

@@ -3068,7 +3068,7 @@
             <mxGeometry height="120" width="120" x="210" y="210" as="geometry" />
           </mxCell>
         </UserObject>
-        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-2" code="game:chimney" label="Chimney" machine="chimney">
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-2" code="game:claybrickchimney-four-red-ns" label="Chimney" machine="chimney">
           <mxCell parent="1" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1">
             <mxGeometry height="60" width="60" x="240" y="60" as="geometry" />
           </mxCell>

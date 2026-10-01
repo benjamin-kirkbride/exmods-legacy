@@ -11,6 +11,7 @@ using PipesAndPowerExpanded.BlockStructures.Engine.Blocks;
 using PipesAndPowerExpanded.Tests;
 using Vintagestory.API.MathTools;
 using Vintagestory.GameContent;
+using BlockPipePassthrough = PipesAndPowerExpanded.BlockNetworkPipe.Blocks.BlockPipePassthrough;
 using BoilerState = PipesAndPowerExpanded.BlockStructures.Boiler.BlockEntityBoiler.BoilerState;
 
 namespace Integration.Tests.Setups;
@@ -20,8 +21,8 @@ namespace Integration.Tests.Setups;
 /// Cornish boiler with a chimney on its exhaust, its steam main to a Watt engine turning a fluid pump,
 /// a 3.5 atm relief valve on the steam main, a pond intake under the pump, and the feed main from the
 /// pump and the engine's condensate back into the boiler with a 0.5 atm relief valve. Machines are
-/// built in tick order. Each second is recorded under the drawing's ids and kept as a
-/// <see cref="Second"/>.
+/// built in tick order, the engine, the pump and the water valve last in the order the constructor
+/// is given. Each second is recorded under the drawing's ids and kept as a <see cref="Second"/>.
 /// </summary>
 internal sealed class StarterSteamPowerPlant {
   /// <summary>The file name of the setup's recording.</summary>
@@ -46,8 +47,24 @@ internal sealed class StarterSteamPowerPlant {
     int PipesLost,
     bool EngineBroken,
     bool EngineRunning,
-    float SteamPressure
+    float SteamPressure,
+    float InletPressure,
+    float Feed
   );
+
+  /// <summary>The machines whose tick order the plant takes as a constructor argument.</summary>
+  public enum Ticker {
+    Engine,
+    Pump,
+    WaterValve,
+  }
+
+  /// <summary>The tick order D11 builds: engine, pump, then the water valve.</summary>
+  public static readonly IReadOnlyList<Ticker> DrawnOrder = [
+    Ticker.Engine,
+    Ticker.Pump,
+    Ticker.WaterValve,
+  ];
 
   public readonly Scene Scene = new Scene().Network(
     "pipe",
@@ -68,47 +85,69 @@ internal sealed class StarterSteamPowerPlant {
   private readonly BlockPos _feed;
   private readonly BlockPos _pond;
   private readonly List<BlockPos> _pipes = [];
+  private readonly List<(BlockPos Pos, string Code)> _placed = [];
   private int _nextId = 200;
   private SetupRecording? _recording;
+  private float _lastWater;
+
+  /// <summary>Water (L) the boiler drew from its feed main in the last second: the change in its
+  /// water plus what it boiled.</summary>
+  private float _feedDraw;
 
   /// <param name="chimney">A chimney on the exhaust outlet; without one the outlet is open on top.</param>
   /// <param name="steamValve">The steam main's relief valve; without one its cell is capped.</param>
   /// <param name="openEnd">A pipe on the steam main open to air on its north face.</param>
+  /// <param name="order">
+  /// The order the engine, the pump and the water valve are placed in, which is their tick order;
+  /// each named once. Null is <see cref="DrawnOrder"/>.
+  /// </param>
+  /// <exception cref="ArgumentException"><paramref name="order"/> does not name each of the three once.</exception>
   public StarterSteamPowerPlant(
     bool chimney = true,
     bool steamValve = true,
-    bool openEnd = false
+    bool openEnd = false,
+    IReadOnlyList<Ticker>? order = null
   ) {
+    order ??= DrawnOrder;
+    if (order.Count != 3 || order.Distinct().Count() != 3)
+      throw new ArgumentException(
+        "The order names the engine, the pump and the water valve once each.",
+        nameof(order)
+      );
     Scene.World.BreakRunsBlockHooks = false;
 
     Boiler = new BoilerFixture(Scene, new BlockPos(0, 8, 0));
 
     _exhaust = Boiler.Block.ExhaustOutletWorldPos(Boiler.Be.Pos);
     var outlet = new BlockEntityPipeOutlet();
-    Scene.World.Place(_exhaust, PpexScenes.UpOutlet(NextId()), outlet);
+    BlockPipeOutlet outletBlock = PpexScenes.UpOutlet(NextId());
+    Scene.World.Place(_exhaust, outletBlock, outlet);
     Scene.World.Initialize(outlet);
+    _placed.Add((_exhaust, outletBlock.Code.ToString()));
     if (chimney)
       Scene.Block(_exhaust.UpCopy(), PpexScenes.Chimney(NextId()));
 
     // Steam main: up off the boiler's port, east, down to the engine's inlet on the ground. The
     // port filler under the first pipe is a cap here.
     _steam = Boiler.SteamPipeAttachPos;
-    BlockPos tee = _steam.AddCopy(2, 0, 0);
-    BlockPos foot = new(tee.X, Boiler.Be.Pos.Y, tee.Z);
+    BlockPos tee = _steam.AddCopy(1, 0, 0);
+    BlockPos corner = _steam.AddCopy(2, 0, 0);
+    BlockPos foot = new(corner.X, Boiler.Be.Pos.Y, corner.Z);
     BlockPos inlet = foot.EastCopy();
     Scene.Block(_steam.DownCopy(), PpexScenes.Cap(NextId()));
     var steamMain = new Main()
       .Open(_steam, BlockFacing.DOWN)
-      .Lay(_steam, tee, foot, inlet)
+      .Lay(_steam, corner, foot, inlet)
       .Open(tee, BlockFacing.SOUTH)
       .Open(inlet, BlockFacing.NORTH);
     if (openEnd)
-      steamMain.Open(_steam.AddCopy(1, 0, 0), BlockFacing.NORTH);
+      steamMain.Open(tee, BlockFacing.NORTH);
     Place(steamMain);
     BlockPos steamValvePos = tee.SouthCopy();
-    if (steamValve)
-      SteamValve = Valve(steamValvePos, "ns", SteamGate);
-    else
+    if (steamValve) {
+      SteamValve = NewValve(steamValvePos, "ns");
+      Install(SteamValve, SteamGate);
+    } else
       Scene.Block(steamValvePos, PpexScenes.Cap(NextId()));
 
     BlockPos enginePos = inlet.NorthCopy();
@@ -122,8 +161,6 @@ internal sealed class StarterSteamPowerPlant {
       Pos = enginePos.Copy(),
       Block = engineBlock,
     };
-    Scene.Machine(enginePos, engineBlock, Engine);
-    RccFake.Complete(Engine);
 
     BlockPos pumpPos = engineBlock.SubmachinePos(enginePos);
     var pumpBlock = TestBlocks.Configure(
@@ -136,7 +173,6 @@ internal sealed class StarterSteamPowerPlant {
       Pos = pumpPos.Copy(),
       Block = pumpBlock,
     };
-    Scene.Machine(pumpPos, pumpBlock, Pump);
 
     // Pond run: a bend under the pump, the intake beside it on the pond, facing the bend.
     _pond = pumpPos.DownCopy();
@@ -162,8 +198,10 @@ internal sealed class StarterSteamPowerPlant {
       Scene.World.Networks
     );
 
-    // Feed main: from the engine's condensate outlet past the pump's left face, west and under the
-    // boiler's master cell, its feed face. The water valve hangs off it to the north.
+    // Feed main: from the engine's condensate outlet past the pump's left face, down a course,
+    // south along the boiler's east side and round behind the firebox, then north through the
+    // structure's two fireclay passthroughs to its bend under the master cell, the feed face. The
+    // water valve hangs off it to the north.
     BlockFacing left = ExpandedLib.Helpers.ExOrientation.RotateFacing(
       BlockFacing.WEST,
       ExpandedLib.Helpers.ExOrientation.AngleFromSide("east")
@@ -172,6 +210,7 @@ internal sealed class StarterSteamPowerPlant {
     BlockPos pumpOut = pumpPos.AddCopy(left);
     BlockPos waterTee = pumpOut.WestCopy();
     _feed = Boiler.Be.Pos.DownCopy();
+    BlockPos behind = _feed.AddCopy(0, 0, 3);
     Place(
       new Main()
         .Lay(
@@ -180,16 +219,41 @@ internal sealed class StarterSteamPowerPlant {
           pumpOut,
           new BlockPos(_feed.X + 1, pumpOut.Y, pumpOut.Z),
           new BlockPos(_feed.X + 1, _feed.Y, pumpOut.Z),
-          _feed.EastCopy(),
+          new BlockPos(_feed.X + 2, _feed.Y, pumpOut.Z),
+          new BlockPos(_feed.X + 2, _feed.Y, behind.Z),
+          behind,
           _feed
         )
         .Open(condensate, engineBlock.WaterOutletFace.Opposite)
         .Open(pumpOut, left.Opposite)
         .Open(waterTee, BlockFacing.NORTH)
-        .Open(_feed, BlockFacing.UP)
+        .Open(_feed, BlockFacing.UP),
+      _feed,
+      _feed.SouthCopy(),
+      _feed.SouthCopy(2)
     );
-    WaterValve = Valve(waterTee.NorthCopy(), "sn", WaterGate);
+    WaterValve = NewValve(waterTee.NorthCopy(), "sn");
+
+    foreach (Ticker ticker in order)
+      switch (ticker) {
+        case Ticker.Engine:
+          Scene.Machine(enginePos, engineBlock, Engine);
+          RccFake.Complete(Engine);
+          break;
+        case Ticker.Pump:
+          Scene.Machine(pumpPos, pumpBlock, Pump);
+          break;
+        case Ticker.WaterValve:
+          Install(WaterValve, WaterGate);
+          break;
+      }
   }
+
+  /// <summary>
+  /// Every pipe and pipe fitting the plant laid, with its placed code: the steam, pond and feed mains
+  /// and the exhaust outlet. The valves, the intake and the cap under the steam main are not listed.
+  /// </summary>
+  public IReadOnlyList<(BlockPos Pos, string Code)> Placed => _placed;
 
   /// <summary>
   /// Records the plant's runs and machines under the drawing's ids, for <paramref name="seconds"/>.
@@ -206,15 +270,11 @@ internal sealed class StarterSteamPowerPlant {
       .State(BoilerWord)
       .Value("water", "L", () => Water)
       .Value("pressure", "atm", () => Boiler.Be.InternalPressure)
-      .Value(
-        "feed",
-        "l/s",
-        () => (SteamRun?.State?.FlowRate ?? 0f) / PpexValues.SteamExpansionFactor
-      )
+      .Value("feed", "l/s", () => _feedDraw)
       .Constant("max", "atm", PpexValues.CornishBoilerMaxOutputPressure)
       .Constant("boostAbove", "atm", 1f);
     _recording
-      .Machine("chimney", "game:chimney")
+      .Machine("chimney", PpexScenes.ChimneyCode)
       .State(() => Draws ? "drawing" : "idle");
     _recording
       .Machine("engine", "ppex:enginewatt-north")
@@ -248,8 +308,13 @@ internal sealed class StarterSteamPowerPlant {
   public StarterSteamPowerPlant Run(int seconds) {
     Scene.Build();
     Boiler.Prime(BoilerState.Idle, water: PrimeWater, steam: 0f);
+    _lastWater = Water;
     for (int t = 0; t < seconds; t++) {
+      float boiled = Boiled();
       Scene.Step(1);
+      float water = Water;
+      _feedDraw = water - _lastWater + boiled;
+      _lastWater = water;
       _recording?.Sample(t);
       Seconds.Add(
         new Second(
@@ -261,7 +326,9 @@ internal sealed class StarterSteamPowerPlant {
           _pipes.Count(p => Scene.World.GetBlock(p).Id == 0),
           Engine.IsBroken,
           Engine.IsRunning,
-          SteamRun?.State?.Pressure ?? 0f
+          SteamRun?.State?.Pressure ?? 0f,
+          Engine.InletPressure,
+          _feedDraw
         )
       );
     }
@@ -280,6 +347,17 @@ internal sealed class StarterSteamPowerPlant {
   private bool Choked => (bool)ReflectionHelpers.GetField(Boiler.Be, "_choked")!;
 
   private float Water => (float)ReflectionHelpers.GetField(Boiler.Be, "_waterVolume")!;
+
+  /// <summary>
+  /// Water (L) the boiler turns to steam in the coming second, read before its tick: its full rate
+  /// while boiling with water at or above its floor and pressure below its limit, else none.
+  /// </summary>
+  private float Boiled() =>
+    (BoilerState)ReflectionHelpers.GetField(Boiler.Be, "_state")! == BoilerState.Boiling
+    && Water >= PpexValues.CornishBoilerMinBoilWater
+    && Boiler.Be.InternalPressure < PpexValues.CornishBoilerMaxOutputPressure
+      ? PpexValues.CornishBoilerSteamPerSecond / PpexValues.SteamExpansionFactor
+      : 0f;
 
   private bool PumpDraws =>
     (bool)ReflectionHelpers.GetField(Pump, "_drawingWater")!;
@@ -310,14 +388,9 @@ internal sealed class StarterSteamPowerPlant {
 
   private int NextId() => _nextId++;
 
-  /// <summary>An iron pressure-relief valve at <paramref name="pos"/>, input face first in
-  /// <paramref name="orientation"/>, its output open to air, dialled to <paramref name="gate"/>
-  /// atm in the valve's own steps.</summary>
-  private BlockEntityPressureValve Valve(
-    BlockPos pos,
-    string orientation,
-    float gate
-  ) {
+  /// <summary>An iron pressure-relief valve for <paramref name="pos"/>, input face first in
+  /// <paramref name="orientation"/>, its output open to air; placed by <see cref="Install"/>.</summary>
+  private BlockEntityPressureValve NewValve(BlockPos pos, string orientation) {
     var block = TestBlocks.Configure(
       new BlockPressureValve(),
       $"ppex:pipe-pressurevalve-{orientation}-iron",
@@ -328,8 +401,13 @@ internal sealed class StarterSteamPowerPlant {
     );
     ReflectionHelpers.SetProperty(block, "Type", "pressurevalve");
     ReflectionHelpers.SetProperty(block, "Orientation", orientation);
-    var valve = new BlockEntityPressureValve { Pos = pos.Copy(), Block = block };
-    Scene.Machine(pos, block, valve);
+    return new BlockEntityPressureValve { Pos = pos.Copy(), Block = block };
+  }
+
+  /// <summary>Places <paramref name="valve"/>, which starts its tick, and dials it to
+  /// <paramref name="gate"/> atm in the valve's own steps.</summary>
+  private void Install(BlockEntityPressureValve valve, float gate) {
+    Scene.Machine(valve.Pos, valve.Block, valve);
     ReflectionHelpers.SetProperty(
       valve,
       nameof(valve.NetworkSystem),
@@ -337,19 +415,48 @@ internal sealed class StarterSteamPowerPlant {
     );
     while (valve.GatePressure < gate - 0.001f && valve.AdjustGatePressure(true)) { }
     while (valve.GatePressure > gate + 0.001f && valve.AdjustGatePressure(false)) { }
-    return valve;
   }
 
-  private void Place(Main main) {
+  /// <summary>
+  /// Lays <paramref name="main"/> in iron pipe, except the cells in <paramref name="passthroughs"/>,
+  /// which are fireclay passthroughs (a bend where their two faces are not opposite).
+  /// </summary>
+  private void Place(Main main, params BlockPos[] passthroughs) {
     foreach (var (pos, faces) in main.Cells) {
       string orientation = new(
         "udnsew".Where(c => faces.Contains(c)).ToArray()
       );
-      EnginePlant.Pipe(Scene, pos, orientation, NextId());
+      if (passthroughs.Contains(pos))
+        Passthrough(pos, orientation);
+      else {
+        EnginePlant.Pipe(Scene, pos, orientation, NextId());
+        _placed.Add((pos, Scene.World.GetBlock(pos).Code.ToString()));
+      }
       _pipes.Add(pos);
     }
   }
 
+  private void Passthrough(BlockPos pos, string orientation) {
+    string type = orientation is "ns" or "we" or "ud" ? "passthrough" : "passthroughbend";
+    string code = $"ppex:pipe-{type}-fire-{orientation}";
+    var block = TestBlocks.Configure(
+      new BlockPipePassthrough(),
+      code,
+      NextId(),
+      ("type", type),
+      ("brick", "fire"),
+      ("orientation", orientation)
+    );
+    ReflectionHelpers.SetProperty(block, "Type", type);
+    ReflectionHelpers.SetProperty(block, "Orientation", orientation);
+    Scene.Node(
+      pos,
+      block,
+      new BlockEntityPipePassthrough { Pos = pos.Copy(), Block = block },
+      "pipe"
+    );
+    _placed.Add((pos, code));
+  }
   /// <summary>A pipe run under construction: each cell and the faces it connects on.</summary>
   private sealed class Main {
     public readonly Dictionary<BlockPos, HashSet<char>> Cells = [];
