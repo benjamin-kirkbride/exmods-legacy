@@ -4,6 +4,7 @@ using PipesAndPowerExpanded.BlockNetworkPipe.BlockEntities;
 using PipesAndPowerExpanded.BlockNetworkPipe.Blocks;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
+using Vintagestory.GameContent;
 using Xunit;
 using BoilerState = PipesAndPowerExpanded.BlockStructures.Boiler.BlockEntityBoiler.BoilerState;
 
@@ -60,6 +61,13 @@ public class BoilerDraughtTests {
 
     public bool Burning =>
       (bool)ReflectionHelpers.GetField(Boiler.Be, "_burning")!;
+
+    public bool PileBurning =>
+      Scene
+        .EntityAt<BlockEntityCoalPile>(
+          Boiler.Block.FuelWorldPos(Boiler.Be.Pos)
+        )!
+        .IsBurning;
   }
 
   #endregion
@@ -86,6 +94,17 @@ public class BoilerDraughtTests {
 
     Assert.False(plant.Choked, "a chimney left the fire choked");
     Assert.True(plant.Burning);
+  }
+
+  // Fails when a choked boiler never puts its pile out, or when the pile has no world to play its
+  // snuff through.
+  [Fact]
+  public void A_choked_fire_is_snuffed_after_its_grace() {
+    var plant = new Plant().WithOpenJunction();
+
+    plant.Fire(11);
+
+    Assert.False(plant.PileBurning, "the choked pile still burns");
   }
 
   #endregion

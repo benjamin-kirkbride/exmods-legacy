@@ -83,7 +83,7 @@ internal sealed class BoilerFixture {
   ) {
     Block = TestBlocks.Configure(
       new BlockBoilerCornish(),
-      "ppex:boiler-cornish-north",
+      "ppex:boilercornish-north",
       blockId,
       ("side", "north")
     );
@@ -95,12 +95,16 @@ internal sealed class BoilerFixture {
     scene.Machine(pos, Block, Be);
     BoilerFakes.ForceConstructed(Be);
 
+    // Attached, not initialized: the pile holds its fire without burning down, and a snuff can
+    // play its sound through the world.
     var fuelPos = Block.FuelWorldPos(pos);
+    var pile = BoilerFakes.BurningPile(fuelPos);
     scene.World.Place(
       fuelPos,
       TestBlocks.Configure(new Block(), "game:coalpile", coalId),
-      BoilerFakes.BurningPile(fuelPos)
+      pile
     );
+    scene.World.Attach(pile);
   }
 
   public BoilerFixture Prime(BoilerState state, float water, float steam) {

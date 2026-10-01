@@ -1,0 +1,386 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using ExpandedLib.Industry.Pipes;
+using ExpandedLib.Testing;
+using PipesAndPowerExpanded;
+using PipesAndPowerExpanded.BlockNetworkPipe.BlockEntities;
+using PipesAndPowerExpanded.BlockNetworkPipe.Blocks;
+using PipesAndPowerExpanded.BlockStructures.Engine.BlockEntities;
+using PipesAndPowerExpanded.BlockStructures.Engine.Blocks;
+using PipesAndPowerExpanded.Tests;
+using Vintagestory.API.MathTools;
+using Vintagestory.GameContent;
+using BoilerState = PipesAndPowerExpanded.BlockStructures.Boiler.BlockEntityBoiler.BoilerState;
+
+namespace Integration.Tests.Setups;
+
+/// <summary>
+/// The starter steam power setup as the wiki draws it, every machine under its shipped code: a fired
+/// Cornish boiler with a chimney on its exhaust, its steam main to a Watt engine turning a fluid pump,
+/// a 3.5 atm relief valve on the steam main, a pond intake under the pump, and the feed main from the
+/// pump and the engine's condensate back into the boiler with a 0.5 atm relief valve. Machines are
+/// built in tick order. Each second is recorded under the drawing's ids and kept as a
+/// <see cref="Second"/>.
+/// </summary>
+internal sealed class StarterSteamPowerPlant {
+  /// <summary>The file name of the setup's recording.</summary>
+  public const string Setup = "starter-steam-power";
+
+  /// <summary>Gate of the steam main's relief valve (atm).</summary>
+  public const float SteamGate = 3.5f;
+
+  /// <summary>Gate of the feed main's relief valve (atm).</summary>
+  public const float WaterGate = 0.5f;
+
+  /// <summary>Water poured into the boiler before it is fired (L), a bucket pour's limit.</summary>
+  public const float PrimeWater = 500f;
+
+  /// <summary>One second of the run, read after its tick.</summary>
+  public readonly record struct Second(
+    int At,
+    bool Choked,
+    bool PileBurning,
+    float BoilerPressure,
+    float Water,
+    int PipesLost,
+    bool EngineBroken,
+    bool EngineRunning,
+    float SteamPressure
+  );
+
+  public readonly Scene Scene = new Scene().Network(
+    "pipe",
+    s => new PipeNetwork(s)
+  );
+  public readonly BoilerFixture Boiler;
+  public readonly BlockEntityEngineWatt Engine;
+  public readonly BlockEntityEngineFluidPump Pump;
+  public readonly BlockEntityFluidIntake Intake;
+  public readonly BlockEntityPressureValve? SteamValve;
+  public readonly BlockEntityPressureValve WaterValve;
+
+  /// <summary>Every second run so far, from 0.</summary>
+  public readonly List<Second> Seconds = [];
+
+  private readonly BlockPos _exhaust;
+  private readonly BlockPos _steam;
+  private readonly BlockPos _feed;
+  private readonly BlockPos _pond;
+  private readonly List<BlockPos> _pipes = [];
+  private int _nextId = 200;
+  private SetupRecording? _recording;
+
+  /// <param name="chimney">A chimney on the exhaust outlet; without one the outlet is open on top.</param>
+  /// <param name="steamValve">The steam main's relief valve; without one its cell is capped.</param>
+  /// <param name="openEnd">A pipe on the steam main open to air on its north face.</param>
+  public StarterSteamPowerPlant(
+    bool chimney = true,
+    bool steamValve = true,
+    bool openEnd = false
+  ) {
+    Scene.World.BreakRunsBlockHooks = false;
+
+    Boiler = new BoilerFixture(Scene, new BlockPos(0, 8, 0));
+
+    _exhaust = Boiler.Block.ExhaustOutletWorldPos(Boiler.Be.Pos);
+    var outlet = new BlockEntityPipeOutlet();
+    Scene.World.Place(_exhaust, PpexScenes.UpOutlet(NextId()), outlet);
+    Scene.World.Initialize(outlet);
+    if (chimney)
+      Scene.Block(_exhaust.UpCopy(), PpexScenes.Chimney(NextId()));
+
+    // Steam main: up off the boiler's port, east, down to the engine's inlet on the ground. The
+    // port filler under the first pipe is a cap here.
+    _steam = Boiler.SteamPipeAttachPos;
+    BlockPos tee = _steam.AddCopy(2, 0, 0);
+    BlockPos foot = new(tee.X, Boiler.Be.Pos.Y, tee.Z);
+    BlockPos inlet = foot.EastCopy();
+    Scene.Block(_steam.DownCopy(), PpexScenes.Cap(NextId()));
+    var steamMain = new Main()
+      .Open(_steam, BlockFacing.DOWN)
+      .Lay(_steam, tee, foot, inlet)
+      .Open(tee, BlockFacing.SOUTH)
+      .Open(inlet, BlockFacing.NORTH);
+    if (openEnd)
+      steamMain.Open(_steam.AddCopy(1, 0, 0), BlockFacing.NORTH);
+    Place(steamMain);
+    BlockPos steamValvePos = tee.SouthCopy();
+    if (steamValve)
+      SteamValve = Valve(steamValvePos, "ns", SteamGate);
+    else
+      Scene.Block(steamValvePos, PpexScenes.Cap(NextId()));
+
+    BlockPos enginePos = inlet.NorthCopy();
+    var engineBlock = TestBlocks.Configure(
+      new BlockEngineWatt(),
+      "ppex:enginewatt-north",
+      NextId(),
+      ("side", "north")
+    );
+    Engine = new BlockEntityEngineWatt {
+      Pos = enginePos.Copy(),
+      Block = engineBlock,
+    };
+    Scene.Machine(enginePos, engineBlock, Engine);
+    RccFake.Complete(Engine);
+
+    BlockPos pumpPos = engineBlock.SubmachinePos(enginePos);
+    var pumpBlock = TestBlocks.Configure(
+      new BlockEngineFluidPump(),
+      "ppex:enginefluidpump-east",
+      NextId(),
+      ("side", "east")
+    );
+    Pump = new BlockEntityEngineFluidPump {
+      Pos = pumpPos.Copy(),
+      Block = pumpBlock,
+    };
+    Scene.Machine(pumpPos, pumpBlock, Pump);
+
+    // Pond run: a bend under the pump, the intake beside it on the pond, facing the bend.
+    _pond = pumpPos.DownCopy();
+    Place(new Main().Open(_pond, BlockFacing.UP).Open(_pond, BlockFacing.EAST));
+    BlockPos intakePos = _pond.EastCopy();
+    var intakeBlock = TestBlocks.Configure(
+      new BlockFluidIntake(),
+      "ppex:pipe-fluidintake-w",
+      NextId(),
+      ("type", "fluidintake"),
+      ("orientation", "w")
+    );
+    ReflectionHelpers.SetProperty(intakeBlock, "Orientation", "w");
+    Intake = new BlockEntityFluidIntake {
+      Pos = intakePos.Copy(),
+      Block = intakeBlock,
+    };
+    Scene.Node(intakePos, intakeBlock, Intake, "pipe");
+    ReflectionHelpers.SetProperty(Intake, nameof(Intake.HasWater), true);
+    ReflectionHelpers.SetProperty(
+      Intake,
+      nameof(Intake.NetworkSystem),
+      Scene.World.Networks
+    );
+
+    // Feed main: from the engine's condensate outlet past the pump's left face, west and under the
+    // boiler's master cell, its feed face. The water valve hangs off it to the north.
+    BlockFacing left = ExpandedLib.Helpers.ExOrientation.RotateFacing(
+      BlockFacing.WEST,
+      ExpandedLib.Helpers.ExOrientation.AngleFromSide("east")
+    );
+    BlockPos condensate = enginePos.AddCopy(engineBlock.WaterOutletFace);
+    BlockPos pumpOut = pumpPos.AddCopy(left);
+    BlockPos waterTee = pumpOut.WestCopy();
+    _feed = Boiler.Be.Pos.DownCopy();
+    Place(
+      new Main()
+        .Lay(
+          condensate,
+          new BlockPos(condensate.X, condensate.Y, pumpOut.Z),
+          pumpOut,
+          new BlockPos(_feed.X + 1, pumpOut.Y, pumpOut.Z),
+          new BlockPos(_feed.X + 1, _feed.Y, pumpOut.Z),
+          _feed.EastCopy(),
+          _feed
+        )
+        .Open(condensate, engineBlock.WaterOutletFace.Opposite)
+        .Open(pumpOut, left.Opposite)
+        .Open(waterTee, BlockFacing.NORTH)
+        .Open(_feed, BlockFacing.UP)
+    );
+    WaterValve = Valve(waterTee.NorthCopy(), "sn", WaterGate);
+  }
+
+  /// <summary>
+  /// Records the plant's runs and machines under the drawing's ids, for <paramref name="seconds"/>.
+  /// </summary>
+  public SetupRecording Record(int seconds) {
+    _recording = new SetupRecording(Setup, Scene, seconds);
+    _recording.Run("steam", _steam);
+    _recording.Run("exhaust", _exhaust);
+    _recording.Run("feed", _feed);
+    _recording.Run("pond", _pond);
+
+    _recording
+      .Machine("boiler", "ppex:boilercornish-north")
+      .State(BoilerWord)
+      .Value("water", "L", () => Water)
+      .Value("pressure", "atm", () => Boiler.Be.InternalPressure)
+      .Value(
+        "feed",
+        "l/s",
+        () => (SteamRun?.State?.FlowRate ?? 0f) / PpexValues.SteamExpansionFactor
+      )
+      .Constant("max", "atm", PpexValues.CornishBoilerMaxOutputPressure)
+      .Constant("boostAbove", "atm", 1f);
+    _recording
+      .Machine("chimney", "game:chimney")
+      .State(() => Draws ? "drawing" : "idle");
+    _recording
+      .Machine("engine", "ppex:enginewatt-north")
+      .State(() =>
+        Engine.IsBroken ? "broken"
+        : Engine.IsRunning ? "running"
+        : "idle"
+      )
+      .Value("pressure", "atm", () => Engine.InletPressure)
+      .Constant("engage", "atm", PpexValues.WattEngineEngagePressure)
+      .Constant("break", "atm", PpexValues.WattEngineBreakPressure)
+      .Constant("steam", "l/s", PpexValues.WattEngineSteamRate)
+      .Constant("water", "l/s", PpexValues.WattEngineWaterRate)
+      .Constant("efficiency", "", PpexValues.SteamEngineEfficiency);
+    _recording
+      .Machine("pump", "ppex:enginefluidpump-east")
+      .State(() => PumpDraws ? "drawing" : "idle");
+    _recording
+      .Machine("intake", "ppex:pipe-fluidintake-w")
+      .State(() => PumpDraws ? "drawing" : "idle");
+    if (SteamValve != null)
+      RecordValve("steam-valve", SteamValve);
+    RecordValve("water-valve", WaterValve);
+    return _recording;
+  }
+
+  /// <summary>
+  /// Primes the boiler idle with <see cref="PrimeWater"/> and no steam, its pile burning, then runs
+  /// <paramref name="seconds"/> seconds, sampling the recording after each when there is one.
+  /// </summary>
+  public StarterSteamPowerPlant Run(int seconds) {
+    Scene.Build();
+    Boiler.Prime(BoilerState.Idle, water: PrimeWater, steam: 0f);
+    for (int t = 0; t < seconds; t++) {
+      Scene.Step(1);
+      _recording?.Sample(t);
+      Seconds.Add(
+        new Second(
+          t,
+          Choked,
+          Pile?.IsBurning == true,
+          Boiler.Be.InternalPressure,
+          Water,
+          _pipes.Count(p => Scene.World.GetBlock(p).Id == 0),
+          Engine.IsBroken,
+          Engine.IsRunning,
+          SteamRun?.State?.Pressure ?? 0f
+        )
+      );
+    }
+    return this;
+  }
+
+  /// <summary>The first second <paramref name="failed"/> holds, or null when none does.</summary>
+  public int? First(Func<Second, bool> failed, int from = 0) =>
+    Seconds.Where(s => s.At >= from && failed(s)).Select(s => (int?)s.At).FirstOrDefault();
+
+  private PipeNetwork? SteamRun => Scene.NetworkAt<PipeNetwork>(_steam);
+
+  private BlockEntityCoalPile? Pile =>
+    Scene.EntityAt<BlockEntityCoalPile>(Boiler.Block.FuelWorldPos(Boiler.Be.Pos));
+
+  private bool Choked => (bool)ReflectionHelpers.GetField(Boiler.Be, "_choked")!;
+
+  private float Water => (float)ReflectionHelpers.GetField(Boiler.Be, "_waterVolume")!;
+
+  private bool PumpDraws =>
+    (bool)ReflectionHelpers.GetField(Pump, "_drawingWater")!;
+
+  private bool Draws =>
+    Pile?.IsBurning == true
+    && Scene.NetworkAt<PipeNetwork>(_exhaust)?.HasDraught(Scene.World.Accessor) == true;
+
+  private string BoilerWord() {
+    if (Choked)
+      return "choked";
+    if ((bool)ReflectionHelpers.GetField(Boiler.Be, "_steamLeaking")!)
+      return "blowing";
+    var state = (BoilerState)ReflectionHelpers.GetField(Boiler.Be, "_state")!;
+    return state.ToString().ToLowerInvariant();
+  }
+
+  private void RecordValve(string id, BlockEntityPressureValve valve) {
+    _recording!
+      .Machine(id, valve.Block.Code.ToString())
+      .State(() => Vent(valve) > 0f ? "venting" : "shut")
+      .Value("vent", "l/s", () => Vent(valve))
+      .Constant("gate", "atm", valve.GatePressure);
+  }
+
+  private static float Vent(BlockEntityPressureValve valve) =>
+    (float)ReflectionHelpers.GetField(valve, "_lastVentVolume")!;
+
+  private int NextId() => _nextId++;
+
+  /// <summary>An iron pressure-relief valve at <paramref name="pos"/>, input face first in
+  /// <paramref name="orientation"/>, its output open to air, dialled to <paramref name="gate"/>
+  /// atm in the valve's own steps.</summary>
+  private BlockEntityPressureValve Valve(
+    BlockPos pos,
+    string orientation,
+    float gate
+  ) {
+    var block = TestBlocks.Configure(
+      new BlockPressureValve(),
+      $"ppex:pipe-pressurevalve-{orientation}-iron",
+      NextId(),
+      ("type", "pressurevalve"),
+      ("orientation", orientation),
+      ("material", "iron")
+    );
+    ReflectionHelpers.SetProperty(block, "Type", "pressurevalve");
+    ReflectionHelpers.SetProperty(block, "Orientation", orientation);
+    var valve = new BlockEntityPressureValve { Pos = pos.Copy(), Block = block };
+    Scene.Machine(pos, block, valve);
+    ReflectionHelpers.SetProperty(
+      valve,
+      nameof(valve.NetworkSystem),
+      Scene.World.Networks
+    );
+    while (valve.GatePressure < gate - 0.001f && valve.AdjustGatePressure(true)) { }
+    while (valve.GatePressure > gate + 0.001f && valve.AdjustGatePressure(false)) { }
+    return valve;
+  }
+
+  private void Place(Main main) {
+    foreach (var (pos, faces) in main.Cells) {
+      string orientation = new(
+        "udnsew".Where(c => faces.Contains(c)).ToArray()
+      );
+      EnginePlant.Pipe(Scene, pos, orientation, NextId());
+      _pipes.Add(pos);
+    }
+  }
+
+  /// <summary>A pipe run under construction: each cell and the faces it connects on.</summary>
+  private sealed class Main {
+    public readonly Dictionary<BlockPos, HashSet<char>> Cells = [];
+
+    /// <summary>Lays pipe along the axis-aligned legs between consecutive corners.</summary>
+    public Main Lay(params BlockPos[] corners) {
+      for (int i = 1; i < corners.Length; i++) {
+        BlockPos at = corners[i - 1].Copy();
+        BlockPos to = corners[i];
+        while (!at.Equals(to)) {
+          BlockFacing step = Toward(at, to);
+          Open(at, step);
+          at = at.AddCopy(step);
+          Open(at, step.Opposite);
+        }
+      }
+      return this;
+    }
+
+    /// <summary>Adds a connector on <paramref name="face"/> of the cell at <paramref name="pos"/>.</summary>
+    public Main Open(BlockPos pos, BlockFacing face) {
+      if (!Cells.TryGetValue(pos, out HashSet<char>? faces))
+        Cells[pos.Copy()] = faces = [];
+      faces.Add(face.Code[0]);
+      return this;
+    }
+
+    private static BlockFacing Toward(BlockPos at, BlockPos to) =>
+      to.X != at.X ? (to.X > at.X ? BlockFacing.EAST : BlockFacing.WEST)
+      : to.Y != at.Y ? (to.Y > at.Y ? BlockFacing.UP : BlockFacing.DOWN)
+      : to.Z > at.Z ? BlockFacing.SOUTH
+      : BlockFacing.NORTH;
+  }
+}
