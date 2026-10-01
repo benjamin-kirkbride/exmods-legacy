@@ -367,17 +367,35 @@ public class SetupRecordingTests : IDisposable {
     Assert.False(File.Exists(Received));
   }
 
-  // Fails when a change in the series that leaves the steady figures alone fails the comparison.
+  // Fails when the comparison reads only the steady figures and constants: a changed start-up
+  // leaves both alone.
   [Fact]
-  public void A_changed_start_with_the_same_steady_figures_passes() {
-    Scripted(Repeat(1f, Seconds)).Save(_folder, write: false);
+  public void A_changed_start_with_the_same_steady_figures_fails() {
+    string committed = Scripted(Repeat(1f, Seconds)).Save(_folder, write: false);
     var values = Repeat(1f, Seconds);
     values[2] = 7f;
 
-    string text = Scripted(values).Save(_folder, write: false);
+    Assert.ThrowsAny<Exception>(() => Scripted(values).Save(_folder, write: false));
 
-    Assert.NotEqual(text, File.ReadAllText(Committed));
-    Assert.False(File.Exists(Received));
+    Assert.Equal(committed, File.ReadAllText(Committed));
+    Assert.Contains("[2,7.000]", File.ReadAllText(Received));
+  }
+
+  // Fails when the comparison skips the header: a committed file naming an older ppex passes.
+  [Fact]
+  public void A_committed_file_with_a_stale_header_fails() {
+    string text = Scripted(Repeat(1f, Seconds)).Save(_folder, write: false);
+    string ppex = Parse(text)["mods"]!["ppex"]!.GetValue<string>();
+    File.WriteAllText(
+      Committed,
+      text.Replace($"\"ppex\":\"{ppex}\"", "\"ppex\":\"0.0.1\"")
+    );
+
+    Assert.ThrowsAny<Exception>(() =>
+      Scripted(Repeat(1f, Seconds)).Save(_folder, write: false)
+    );
+
+    Assert.Equal(text, File.ReadAllText(Received));
   }
 
   // Fails when a changed constant passes the comparison.
@@ -410,18 +428,27 @@ public class SetupRecordingTests : IDisposable {
     Assert.Equal(writes, recording.Writes(value));
   }
 
-  // Fails when a recording over a mebibyte is written.
-  [Fact]
-  public void A_recording_over_a_mebibyte_is_refused() {
+  // Fails when the limit is doubled (the recording a kibibyte over it is written) or halved (the
+  // one a kibibyte under it is refused).
+  [Theory]
+  [InlineData(1024, true)]
+  [InlineData(-1024, false)]
+  public void A_recording_over_a_mebibyte_is_refused(int beyond, bool refused) {
+    // The state word is written twice, in its series and as the steady word, beside a few hundred
+    // bytes of header and keys.
     var recording = new SetupRecording(Name, new Scene(), Seconds);
     recording
       .Machine("m", "ppex:m-north")
-      .State(() => new string('x', SetupRecording.MaxBytes));
+      .State(() => new string('x', (SetupRecording.MaxBytes + beyond) / 2));
     for (int t = 0; t < Seconds; t++)
       recording.Sample(t);
 
-    Assert.Throws<InvalidOperationException>(() => recording.Save(_folder, write: false));
-    Assert.False(File.Exists(Committed));
+    if (refused)
+      Assert.Throws<InvalidOperationException>(() => recording.Save(_folder, write: false));
+    else
+      recording.Save(_folder, write: false);
+
+    Assert.Equal(!refused, File.Exists(Committed));
   }
 
   // Fails when the recording folder is not Recordings/<major.minor> beside Trace's version folder.

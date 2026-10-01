@@ -20,8 +20,10 @@ namespace Integration.Tests.Setups;
 /// What a setup's scene did, per second: every pipe run's medium, flow, pressure, temperature and
 /// volume, and every machine's state and values. A scenario calls <see cref="Sample"/> once after
 /// each server second, then <see cref="Save()"/> writes <c>{setup}.json</c> under
-/// <c>tests/Integration.Tests/Setups/Recordings/{game version}</c> (schema 1) and compares the
-/// steady figures with the committed file. Numbers carry <see cref="Trace"/>'s rounding. A series is a
+/// <c>tests/Integration.Tests/Setups/Recordings/{game version}</c> (schema 1) and compares it whole
+/// with the committed file. A run's flow is its network's smoothed rate
+/// (<see cref="PipeNetworkState.FlowRate"/>: each second 0.3 of the way from the last reading to the
+/// larger of the litres produced into and consumed from the run that second). Numbers carry <see cref="Trace"/>'s rounding. A series is a
 /// change list: <c>[second, value]</c> is written when the rounded value differs from the last one.
 /// The steady window is the last third of the run.
 /// </summary>
@@ -135,9 +137,9 @@ internal sealed class SetupRecording {
   /// <summary>
   /// Records the setup in <see cref="Folder"/> and returns its text. <c>{setup}.json</c> is written
   /// only when it is absent, or when <c>LEGACY_WRITE_SETUPS</c> is <c>1</c> or a comma-separated
-  /// list naming the setup. Otherwise the steady figures and constants are compared with the
-  /// committed file's: equal ones delete <c>{setup}.received.json</c>, differing ones write it and
-  /// fail the caller.
+  /// list naming the setup. Otherwise the text is compared whole with the committed file's (header,
+  /// codes, units, every series, steady figures and constants): an equal text deletes
+  /// <c>{setup}.received.json</c>, a differing one writes it and fails the caller.
   /// </summary>
   /// <exception cref="InvalidOperationException">The recording is incomplete or over <see cref="MaxBytes"/>.</exception>
   public string Save() =>
@@ -177,35 +179,45 @@ internal sealed class SetupRecording {
     }
     Replace(received, text);
     Assert.Fail(
-      $"{_setup} steady figures differ from {committed}:\n"
+      $"{_setup} recording differs from {committed}; received {received}:\n"
         + string.Join('\n', differences)
     );
     return text;
   }
 
   /// <summary>
-  /// Every steady figure and constant of <paramref name="recorded"/> that differs from
-  /// <paramref name="committed"/> (both schema 1 texts), one line each; empty when they agree.
+  /// Every line of <paramref name="recorded"/> that differs from the same line of
+  /// <paramref name="committed"/>, one entry each naming the line and the text around the first
+  /// differing character; empty when the two texts are equal.
   /// </summary>
   internal static List<string> Differences(string committed, string recorded) {
     var differences = new List<string>();
-    JsonNode? was = JsonNode.Parse(committed);
-    JsonNode? now = JsonNode.Parse(recorded);
-    foreach (string group in new[] { "runs", "machines" }) {
-      JsonObject wasGroup = was?[group]?.AsObject() ?? [];
-      JsonObject nowGroup = now?[group]?.AsObject() ?? [];
-      foreach (string id in wasGroup.Select(p => p.Key).Union(nowGroup.Select(p => p.Key))) {
-        foreach (string part in new[] { "steady", "constants" }) {
-          JsonNode? a = wasGroup[id]?[part];
-          JsonNode? b = nowGroup[id]?[part];
-          if (a?.ToJsonString() != b?.ToJsonString())
-            differences.Add(
-              $"{group}/{id}/{part}: committed {a?.ToJsonString() ?? "absent"}, recorded {b?.ToJsonString() ?? "absent"}"
-            );
-        }
-      }
+    if (committed == recorded)
+      return differences;
+    string[] was = committed.Split('\n');
+    string[] now = recorded.Split('\n');
+    for (int i = 0; i < Math.Max(was.Length, now.Length); i++) {
+      string? a = i < was.Length ? was[i] : null;
+      string? b = i < now.Length ? now[i] : null;
+      if (a == b)
+        continue;
+      int at = 0;
+      while (a != null && b != null && at < a.Length && at < b.Length && a[at] == b[at])
+        at++;
+      differences.Add(
+        $"line {i + 1}: committed {Around(a, at)}, recorded {Around(b, at)}"
+      );
     }
     return differences;
+  }
+
+  /// <summary>Up to 40 characters either side of <paramref name="at"/>, or "absent".</summary>
+  private static string Around(string? line, int at) {
+    if (line == null)
+      return "absent";
+    int from = Math.Max(0, at - 40);
+    int to = Math.Min(line.Length, at + 40);
+    return (from > 0 ? "..." : "") + line[from..to] + (to < line.Length ? "..." : "");
   }
 
   private void RequireComplete() {
