@@ -1,4 +1,4 @@
-<mxfile host="Electron" pages="5">
+<mxfile host="Electron" pages="6">
   <diagram name="Page-1" id="2bGoaK19yGElt54mBA6g">
     <mxGraphModel dx="2054" dy="1250" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -3055,6 +3055,184 @@
         <mxCell id="Q5v_Ab0HL9TnUDys6BRt-331" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Electrical dynamo made from normal (impure) copper wires is massively inefficient." vertex="1">
           <mxGeometry height="85" width="132.5" x="916.25" y="2145" as="geometry" />
         </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="Kq7sT2vNw8RfXa3LmP0e" name="Starter steam power setup">
+    <mxGraphModel dx="1426" dy="1250" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-1" code="ppex:boilercornish-north" label="Boiler&lt;div&gt;(Cornish)&lt;/div&gt;" machine="boiler">
+          <mxCell parent="1" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="120" width="120" x="210" y="210" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-2" code="game:chimney" label="Chimney" machine="chimney">
+          <mxCell parent="1" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="60" width="60" x="240" y="60" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-3" code="ppex:pipe-pressurevalve-ns-iron" label="Pressure&lt;div&gt;Valve&lt;/div&gt;" machine="steam-valve">
+          <mxCell parent="1" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="60" width="60" x="460" y="110" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-4" code="ppex:enginewatt-north" label="Engine&lt;br&gt;(Watt)" machine="engine">
+          <mxCell parent="1" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="60" width="120" x="650" y="240" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-5" code="ppex:enginefluidpump-east" label="Fluid Pump" machine="pump">
+          <mxCell parent="1" style="whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="40" width="80" x="770" y="250" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-6" code="ppex:pipe-fluidintake-w" label="Fluid Intake" machine="intake">
+          <mxCell parent="1" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="80" width="80" x="770" y="50" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-7" code="ppex:pipe-pressurevalve-sn-iron" label="Pressure&lt;div&gt;Valve&lt;/div&gt;" machine="water-valve">
+          <mxCell parent="1" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1">
+            <mxGeometry height="60" width="60" x="780" y="450" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-8" label="2l/s excees&lt;div&gt;steam&lt;/div&gt;" machine="steam-valve" show="vent">
+          <mxCell parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1">
+            <mxGeometry height="30" width="65" x="495" y="30" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-9" label="3.5 atm&lt;div&gt;overflow&lt;/div&gt;" machine="steam-valve" show="gate">
+          <mxCell parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1">
+            <mxGeometry height="30" width="60" x="400" y="110" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="Kq7sT2vNw8RfXa3LmP0e-10" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Kickstart this boiler manually with buckets" vertex="1">
+          <mxGeometry height="40" width="100" x="165" y="130" as="geometry" />
+        </mxCell>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-11" label="32l/s steam out" run="steam" show="flow">
+          <mxCell parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1">
+            <mxGeometry height="30" width="85" x="290" y="180" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-12" label="Watt engine operational steam pressure band is 2-4atm" machine="engine" show="engage,break">
+          <mxCell parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1">
+            <mxGeometry height="30" width="130" x="605" y="150" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-13" label="Fluid intake produces ~11l/s of water" run="pond" show="flow">
+          <mxCell parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1">
+            <mxGeometry height="30" width="120" x="650" y="200" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="Kq7sT2vNw8RfXa3LmP0e-14" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Produces water based on pump" vertex="1">
+          <mxGeometry height="30" width="90" x="850" y="100" as="geometry" />
+        </mxCell>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-15" label="30l/s steam in" machine="engine" show="steam">
+          <mxCell parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1">
+            <mxGeometry height="30" width="100" x="605" y="300" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-16" label="~1l/s excees water" machine="engine" show="water">
+          <mxCell parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1">
+            <mxGeometry height="30" width="70" x="720" y="340" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-17" label="If boiler recieves water with pressure more than 1 atm, that pressure gets added to internal steam pressure." machine="boiler" show="boostAbove">
+          <mxCell parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1">
+            <mxGeometry height="100" width="110" x="20" y="280" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-18" label="2l/s water in" machine="boiler" show="feed">
+          <mxCell parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1">
+            <mxGeometry height="30" width="70" x="170" y="330" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-19" label="Cornish boiler max pressure is 5atm" machine="boiler" show="max">
+          <mxCell parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1">
+            <mxGeometry height="50" width="90" x="370" y="320" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-20" label="There cannot be more water in the pipe than it can contain (water doesn&#39;t compact like gas does). When water reaches capacity in pipe, it&#39;s pressure becomes equal to the pumping engine incoming steam pressure * 0.75 (steam engine efficiency)." machine="engine" show="efficiency">
+          <mxCell parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1">
+            <mxGeometry height="110" width="205" x="535" y="440" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-21" label="&lt;div&gt;0.5atm&lt;/div&gt;overflow" machine="water-valve" show="gate">
+          <mxCell parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1">
+            <mxGeometry height="30" width="60" x="840" y="470" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-22" label="~10l/s excees water" machine="water-valve" show="vent">
+          <mxCell parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" vertex="1">
+            <mxGeometry height="30" width="70" x="735" y="550" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-23" label="" medium="exhaust" run="exhaust">
+          <mxCell edge="1" parent="1" source="Kq7sT2vNw8RfXa3LmP0e-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="Kq7sT2vNw8RfXa3LmP0e-2">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-24" label="" medium="steam" run="steam">
+          <mxCell edge="1" parent="1" source="Kq7sT2vNw8RfXa3LmP0e-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="Kq7sT2vNw8RfXa3LmP0e-4">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-25" label="" medium="steam" run="steam">
+          <mxCell edge="1" parent="1" source="Kq7sT2vNw8RfXa3LmP0e-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="Kq7sT2vNw8RfXa3LmP0e-3">
+            <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="490" y="270" />
+            </Array>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-26" label="" machine="steam-valve" medium="steam">
+          <mxCell edge="1" parent="1" source="Kq7sT2vNw8RfXa3LmP0e-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;">
+            <mxGeometry relative="1" as="geometry">
+            <mxPoint x="490" y="30" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-27" label="" medium="water" run="pond">
+          <mxCell edge="1" parent="1" source="Kq7sT2vNw8RfXa3LmP0e-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="Kq7sT2vNw8RfXa3LmP0e-5">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-28" label="" medium="water" run="feed">
+          <mxCell edge="1" parent="1" source="Kq7sT2vNw8RfXa3LmP0e-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="Kq7sT2vNw8RfXa3LmP0e-1">
+            <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="810" y="410" />
+              <mxPoint x="170" y="410" />
+              <mxPoint x="170" y="270" />
+            </Array>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-29" label="" medium="water" run="feed">
+          <mxCell edge="1" parent="1" source="Kq7sT2vNw8RfXa3LmP0e-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;">
+            <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="710" y="330" />
+            </Array>
+            <mxPoint x="810" y="330" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-30" label="" medium="water" run="feed">
+          <mxCell edge="1" parent="1" source="Kq7sT2vNw8RfXa3LmP0e-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="Kq7sT2vNw8RfXa3LmP0e-7">
+            <mxGeometry relative="1" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject id="Kq7sT2vNw8RfXa3LmP0e-31" label="" machine="water-valve" medium="water">
+          <mxCell edge="1" parent="1" source="Kq7sT2vNw8RfXa3LmP0e-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;">
+            <mxGeometry relative="1" as="geometry">
+            <mxPoint x="810" y="580" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
       </root>
     </mxGraphModel>
   </diagram>
