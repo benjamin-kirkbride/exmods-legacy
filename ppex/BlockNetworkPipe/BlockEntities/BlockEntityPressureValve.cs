@@ -94,6 +94,7 @@ public class BlockEntityPressureValve : BlockEntityPipe {
       NetworkSystem?.GetConnectedNetworkAcross(ba, Pos, outFace) as PipeNetwork;
 
     WaterLine.Relieve(this, null, 0f);
+    WaterLine.Hold(this, null, 0f);
     float moved =
       OverflowGas(inNet, outNet, outFace)
       + OverflowLiquid(inNet, outNet, outFace);
@@ -209,9 +210,9 @@ public class BlockEntityPressureValve : BlockEntityPipe {
 
   /// <summary>
   /// Spills the input network's water into the output network once the pressure its pumps hold
-  /// it at (<see cref="WaterLine.Head"/>, its fill ratio when none does) tops the gate. With no
-  /// output network the open face sprays water out, capped at the pipe-leak rate. Returns the
-  /// litres actually moved.
+  /// it at (<see cref="WaterLine.Head"/>, its fill ratio when none does) tops the gate, and holds
+  /// the output network at that pressure while it leaves it brim-full. With no output network the
+  /// open face sprays water out, capped at the pipe-leak rate. Returns the litres actually moved.
   /// </summary>
   private float OverflowLiquid(
     PipeNetwork? inNet,
@@ -238,11 +239,10 @@ public class BlockEntityPressureValve : BlockEntityPipe {
         outNet.Nodes.Count * ExlibValues.LitresPerPipe
         - (outNet.State?.Volume ?? 0f);
       float move = Math.Min(inState.Volume, free);
-      if (move <= 0f)
-        return 0f;
-      float drawn = inNet!.TryConsumeLiquid(move, ba);
+      float drawn = move > 0f ? inNet!.TryConsumeLiquid(move, ba) : 0f;
       if (drawn > 0f)
         outNet.TryProduceLiquid(drawn, temp, press, ba);
+      WaterLine.Hold(this, outNet, press);
       return drawn;
     }
 

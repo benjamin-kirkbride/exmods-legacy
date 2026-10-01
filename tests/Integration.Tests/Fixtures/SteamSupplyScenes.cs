@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using ExpandedLib.Helpers;
 using ExpandedLib.Industry.Helpers;
 using ExpandedLib.Industry.MechanicalPower;
@@ -10,6 +11,7 @@ using PipesAndPowerExpanded.BlockStructures.Engine.Blocks;
 using PipesAndPowerExpanded.BlockStructures.ManualPump.BlockEntities;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
+using BoilerState = PipesAndPowerExpanded.BlockStructures.Boiler.BlockEntityBoiler.BoilerState;
 
 namespace PipesAndPowerExpanded.Tests;
 
@@ -320,4 +322,202 @@ internal sealed class CondenserPlant {
     _scene.NetworkAt<PipeNetwork>(_recovered)!.State?.Volume ?? 0f;
   public bool RecoveredIsWater =>
     _scene.NetworkAt<PipeNetwork>(_recovered)!.State?.IsLiquid ?? false;
+}
+
+/// <summary>
+/// A fired Cornish boiler fed through one machine from a hand-cranked pump: a pond intake, the
+/// manual pump, a five-pipe main, a steam condenser or a water relief valve, and a two-pipe line
+/// up into the boiler's feed face, every run standing full of water at the start. The boiler's
+/// steam port carries a sealed steel pipe charged above anything the boiler reaches in a second,
+/// so the steam in the vessel after a tick is what it made in that tick. The pump, the machine
+/// between and the boiler are placed, and so tick, in the order the constructor is given.
+/// </summary>
+internal sealed class FedBoilerPlant {
+  /// <summary>The machine between the pump's main and the boiler's line.</summary>
+  public enum Between {
+    Condenser,
+    Valve,
+  }
+
+  /// <summary>The machines whose tick order the plant takes.</summary>
+  public enum Ticker {
+    Pump,
+    Between,
+    Boiler,
+  }
+
+  /// <summary>Water (L) the boiler is primed with before each second, below its intake fill, so
+  /// it asks its line for its full intake rate every second.</summary>
+  public const float PrimeWater = 200f;
+
+  public readonly Scene Scene = new Scene().Network(
+    "pipe",
+    s => new PipeNetwork(s)
+  );
+  public readonly BlockEntityManualFluidPump Pump;
+  public readonly BlockEntity Middle;
+  public BoilerFixture Boiler { get; private set; } = null!;
+
+  private readonly BlockPos _main = new(-3, 7, 0);
+  private readonly BlockPos _line = new(-1, 7, 0);
+
+  /// <param name="between">The machine at (-2, 7, 0); a valve is gated at
+  /// <paramref name="gate"/> atm.</param>
+  /// <param name="order">The pump, the machine between and the boiler, each once.</param>
+  public FedBoilerPlant(
+    Between between,
+    IReadOnlyList<Ticker> order,
+    float gate = 1.5f
+  ) {
+    var boilerPos = new BlockPos(0, 8, 0);
+    var middlePos = new BlockPos(-2, 7, 0);
+    var pumpPos = new BlockPos(-7, 7, 1);
+
+    // The boiler's line: up into the feed face under the master cell, west to the machine.
+    EnginePlant.Pipe(Scene, boilerPos.DownCopy(), "uw", 80);
+    EnginePlant.Pipe(Scene, _line, "we", 81);
+
+    // The pump's main: north off the pump's delivery face, east to the machine.
+    for (int x = -6; x <= -3; x++)
+      EnginePlant.Pipe(Scene, new BlockPos(x, 7, 0), "we", 100 + x);
+    EnginePlant.Pipe(Scene, new BlockPos(-7, 7, 0), "se", 83);
+
+    var pumpBlock = TestBlocks.Configure(
+      new Block(),
+      "ppex:manualfluidpump-north",
+      84,
+      ("side", "north")
+    );
+    Pump = new BlockEntityManualFluidPump {
+      Pos = pumpPos.Copy(),
+      Block = pumpBlock,
+    };
+
+    BlockPos pond = pumpPos.SouthCopy();
+    var intakeBlock = TestBlocks.Configure(
+      new BlockFluidIntake(),
+      "ppex:fluidintake",
+      85,
+      ("orientation", "n")
+    );
+    ReflectionHelpers.SetProperty(intakeBlock, "Orientation", "n");
+    var intake = new BlockEntityFluidIntake {
+      Pos = pond.Copy(),
+      Block = intakeBlock,
+    };
+    Scene.Node(pond, intakeBlock, intake, "pipe");
+    ReflectionHelpers.SetProperty(intake, nameof(intake.HasWater), true);
+    ReflectionHelpers.SetProperty(
+      intake,
+      nameof(intake.NetworkSystem),
+      Scene.World.Networks
+    );
+
+    Block middleBlock;
+    if (between == Between.Condenser) {
+      middleBlock = TestBlocks.Configure(
+        new PipesAndPowerExpanded.BlockNetworkPipe.Blocks.BlockSteamCondenser(),
+        "ppex:steamcondenser-north",
+        86,
+        ("side", "north")
+      );
+      Middle = new BlockEntitySteamCondenser {
+        Pos = middlePos.Copy(),
+        Block = middleBlock,
+      };
+    } else {
+      middleBlock = TestBlocks.Configure(
+        new BlockPressureValve(),
+        "ppex:pipe-pressurevalve-we-iron",
+        86,
+        ("type", "pressurevalve"),
+        ("orientation", "we"),
+        ("material", "iron")
+      );
+      ReflectionHelpers.SetProperty(middleBlock, "Type", "pressurevalve");
+      ReflectionHelpers.SetProperty(middleBlock, "Orientation", "we");
+      Middle = new BlockEntityPressureValve {
+        Pos = middlePos.Copy(),
+        Block = middleBlock,
+      };
+    }
+
+    foreach (Ticker ticker in order)
+      switch (ticker) {
+        case Ticker.Pump:
+          Scene.Machine(pumpPos, pumpBlock, Pump);
+          break;
+        case Ticker.Between:
+          Scene.Machine(middlePos, middleBlock, Middle);
+          if (Middle is BlockEntityPressureValve valve) {
+            ReflectionHelpers.SetProperty(
+              valve,
+              nameof(valve.NetworkSystem),
+              Scene.World.Networks
+            );
+            SetGate(gate);
+          }
+          break;
+        case Ticker.Boiler:
+          Boiler = new BoilerFixture(Scene, boilerPos, 87, 88);
+          break;
+      }
+
+    BlockPos steam = Boiler.SteamPipeAttachPos;
+    Scene.Block(steam.DownCopy(), PpexScenes.Cap(89));
+    EnginePlant.Pipe(Scene, steam, "ud", 90, material: "steel");
+    Scene.Block(steam.UpCopy(), PpexScenes.Cap(91));
+    Scene.Build();
+    Scene
+      .NetworkAt<PipeNetwork>(steam)!
+      .TryProduceGas(
+        60f,
+        150f,
+        "Steam",
+        Scene.World.Accessor,
+        maxOutputPressure: 2f
+      );
+    foreach (BlockPos run in new[] { pond, _main, _line })
+      while (
+        Scene
+          .NetworkAt<PipeNetwork>(run)!
+          .TryProduceLiquid(1000f, 20f, 1f, Scene.World.Accessor)
+      ) { }
+    Pump.OnPumpStart();
+  }
+
+  /// <summary>The line from the machine between into the boiler.</summary>
+  public PipeNetwork Line => Scene.NetworkAt<PipeNetwork>(_line)!;
+
+  /// <summary>
+  /// Runs <paramref name="seconds"/> seconds with the pump cranked, the boiler primed boiling with
+  /// <see cref="PrimeWater"/> and no steam before each, and returns the steam (L) it flashed from
+  /// its feed in each: what it holds after the tick over what its fire boiled.
+  /// </summary>
+  public List<float> Run(int seconds) {
+    var flashed = new List<float>();
+    for (int t = 0; t < seconds; t++) {
+      Boiler.Prime(BoilerState.Boiling, water: PrimeWater, steam: 0f);
+      Pump.OnPumpStep();
+      Scene.Step(1);
+      flashed.Add(
+        Boiler.SteamVolume - PpexValues.CornishBoilerSteamPerSecond
+      );
+    }
+    return flashed;
+  }
+
+  /// <summary>Takes the main's first pipe off the machine between, leaving its west face
+  /// capped.</summary>
+  public void CutMain() {
+    Scene.World.RemoveNode(_main);
+    Scene.Block(_main, PpexScenes.Cap(92));
+  }
+
+  /// <summary>Dials the valve between to <paramref name="atm"/> in its own steps.</summary>
+  public void SetGate(float atm) {
+    var valve = (BlockEntityPressureValve)Middle;
+    while (valve.GatePressure < atm - 0.001f && valve.AdjustGatePressure(true)) { }
+    while (valve.GatePressure > atm + 0.001f && valve.AdjustGatePressure(false)) { }
+  }
 }

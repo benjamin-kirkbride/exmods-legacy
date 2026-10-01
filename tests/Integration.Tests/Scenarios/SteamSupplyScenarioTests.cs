@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using ExpandedLib;
 using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Testing;
@@ -255,6 +258,129 @@ public class SteamSupplyScenarioTests {
 
     Assert.False(plant.Condensing);
   }
+
+  #endregion
+
+  #region A boiler fed through a condenser or a relief valve
+
+  /// <summary>Every order of the pump, the machine between and the boiler, as
+  /// <c>"Pump,Between,Boiler"</c>.</summary>
+  public static TheoryData<string> FedOrders() {
+    var orders = new TheoryData<string>();
+    FedBoilerPlant.Ticker[] all = Enum.GetValues<FedBoilerPlant.Ticker>();
+    foreach (var first in all)
+      foreach (var second in all.Where(t => t != first))
+        orders.Add($"{first},{second},{all.Single(t => t != first && t != second)}");
+    return orders;
+  }
+
+  /// <summary>
+  /// Runs <paramref name="test"/> with the manual pump delivering 20 L/s at 2 atm, enough to keep
+  /// its main and the line past the machine between brim-full against the boiler's 10 L/s intake.
+  /// </summary>
+  private static void WithStrongPump(Action test) {
+    float head = PpexValues.ManualPumpDeliveryPressure;
+    float rate = PpexValues.ManualPumpWaterPerSecond;
+    try {
+      PpexValues.Edit(c => {
+        c.ManualPumpDeliveryPressure = 2f;
+        c.ManualPumpWaterPerSecond = 20f;
+      });
+      test();
+    } finally {
+      PpexValues.Edit(c => {
+        c.ManualPumpDeliveryPressure = head;
+        c.ManualPumpWaterPerSecond = rate;
+      });
+    }
+  }
+
+  /// <summary>The steam (L) a boiler flashes in a second drawing its full intake at
+  /// <paramref name="atm"/>.</summary>
+  private static float Flash(float atm) =>
+    PpexValues.BoilerWaterIntakeRate
+    * (atm - 1f)
+    * PpexValues.WaterPressureSteamBoost;
+
+  private static List<FedBoilerPlant.Ticker> Parse(string order) =>
+    order.Split(',').Select(Enum.Parse<FedBoilerPlant.Ticker>).ToList();
+
+  // The pump holds its main at 2 atm and the condenser holds its outlet at that, so the boiler
+  // flashes 10 L of steam a second. Fails in all six when the condenser records no hold on its
+  // outlet (WaterLine.Hold in BlockEntitySteamCondenser.Process).
+  [Theory]
+  [MemberData(nameof(FedOrders))]
+  public void A_boiler_fed_through_a_condenser_flashes_at_the_pumps_head_in_every_order(
+    string order
+  ) =>
+    WithStrongPump(() => {
+      var plant = new FedBoilerPlant(FedBoilerPlant.Between.Condenser, Parse(order));
+
+      List<float> flashed = plant.Run(12);
+
+      foreach (float steam in flashed.Skip(4))
+        Assert.Equal(Flash(2f), steam, 2);
+    });
+
+  // Fails when a condenser taken off its main keeps holding its outlet (the release at the top of
+  // BlockEntitySteamCondenser.OnTick): the line would still read the pump's 2 atm.
+  [Fact]
+  public void A_condenser_taken_off_its_main_lets_its_outlet_go_to_its_fill() =>
+    WithStrongPump(() => {
+      var plant = new FedBoilerPlant(
+        FedBoilerPlant.Between.Condenser,
+        [FedBoilerPlant.Ticker.Pump, FedBoilerPlant.Ticker.Between, FedBoilerPlant.Ticker.Boiler]
+      );
+      plant.Run(8);
+      Assert.Equal(2f, WaterLine.Head(plant.Line), 3);
+
+      plant.CutMain();
+      plant.Run(1);
+
+      Assert.True(
+        WaterLine.Head(plant.Line) <= 1f,
+        $"the line read {WaterLine.Head(plant.Line)} atm"
+      );
+    });
+
+  // The pump holds its main at 2 atm, over the valve's 1.5 atm gate, and the valve holds its
+  // output at the 2 atm it spills at, so the boiler flashes 10 L of steam a second. Fails in all
+  // six when the valve records no hold on its output (WaterLine.Hold in
+  // BlockEntityPressureValve.OverflowLiquid).
+  [Theory]
+  [MemberData(nameof(FedOrders))]
+  public void A_boiler_fed_from_a_relief_valves_output_flashes_at_its_mains_head_in_every_order(
+    string order
+  ) =>
+    WithStrongPump(() => {
+      var plant = new FedBoilerPlant(FedBoilerPlant.Between.Valve, Parse(order));
+
+      List<float> flashed = plant.Run(12);
+
+      foreach (float steam in flashed.Skip(4))
+        Assert.Equal(Flash(2f), steam, 2);
+    });
+
+  // Fails when a valve turned up past its main keeps holding its output (the release at the top of
+  // BlockEntityPressureValve.OnTick): the line would still read the main's 2 atm.
+  [Fact]
+  public void A_relief_valve_turned_up_past_its_main_lets_its_output_go_to_its_fill() =>
+    WithStrongPump(() => {
+      var plant = new FedBoilerPlant(
+        FedBoilerPlant.Between.Valve,
+        [FedBoilerPlant.Ticker.Pump, FedBoilerPlant.Ticker.Between, FedBoilerPlant.Ticker.Boiler]
+      );
+      plant.Run(8);
+      Assert.Equal(2f, WaterLine.Head(plant.Line), 3);
+
+      plant.SetGate(2.5f);
+      plant.Run(1);
+
+      Assert.True(
+        WaterLine.Head(plant.Line) <= 1f,
+        $"the line read {WaterLine.Head(plant.Line)} atm"
+      );
+    });
 
   #endregion
 }

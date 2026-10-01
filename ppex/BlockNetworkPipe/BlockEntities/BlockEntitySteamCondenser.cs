@@ -6,6 +6,7 @@ using ExpandedLib.Machines;
 using ExpandedLib.Industry.Helpers;
 using ExpandedLib.Registries;
 using PipesAndPowerExpanded.BlockNetworkPipe.Blocks;
+using PipesAndPowerExpanded.Helpers;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.API.Datastructures;
@@ -15,8 +16,9 @@ namespace PipesAndPowerExpanded.BlockNetworkPipe.BlockEntities;
 
 /// <summary>
 /// The steam condenser's logic. Each tick it passes water through its W/E faces - the fuller side
-/// is the inlet, the other the outlet (inlet pressure preserved downstream) - and condenses steam
-/// drawn from the north line into that through-flow. An unplumbed face leaks: no outlet sprays the
+/// is the inlet, the other the outlet - and condenses steam drawn from the north line into that
+/// through-flow. While it passes water on and leaves the outlet brim-full it holds the outlet at
+/// the inlet's <see cref="WaterLine.Pressure"/>. An unplumbed face leaks: no outlet sprays the
 /// backed-up water (plus condensate) out, no water line at all vents drawn steam as gas.
 /// </summary>
 [BlockEntityRegister]
@@ -41,6 +43,7 @@ public class BlockEntitySteamCondenser : BlockEntity {
   }
 
   private void OnTick(float dt) {
+    WaterLine.Hold(this, null, 0f);
     if (CondenserBlock == null)
       return;
 
@@ -61,8 +64,8 @@ public class BlockEntitySteamCondenser : BlockEntity {
   }
 
   /// <summary>
-  /// Runs the water line through the W↔E faces (fuller side = inlet) and condenses steam from the
-  /// north line into that through-flow, preserving the inlet's pressure downstream. Returns
+  /// Runs the water line through the W and E faces (fuller side = inlet) and condenses steam from
+  /// the north line into that through-flow, holding the outlet at the inlet's pressure. Returns
   /// <c>true</c> if any steam was condensed this tick (for the HUD).
   /// </summary>
   private bool Process(
@@ -169,7 +172,7 @@ public class BlockEntitySteamCondenser : BlockEntity {
     float passSpace = outFree - condIn;
 
     float inTemp = inNet?.State?.Temperature ?? 20f;
-    float inPress = inNet?.State?.Pressure ?? 0f;
+    float inPress = inNet != null ? WaterLine.Pressure(inNet) : 0f;
     float move =
       inNet != null && passSpace > 0f
         ? inNet.TryConsumeLiquid(
@@ -179,12 +182,12 @@ public class BlockEntitySteamCondenser : BlockEntity {
         : 0f;
 
     float total = condIn + move;
-    if (total <= 0f)
-      return false;
-
-    float mixedTemp = (move * inTemp + condIn * steamTemp) / total;
-    mixedTemp = Math.Clamp(mixedTemp, 20f, PpexValues.BoilingPoint - 1f);
-    outNet.TryProduceLiquid(total, mixedTemp, inPress, ba);
+    if (total > 0f) {
+      float mixedTemp = (move * inTemp + condIn * steamTemp) / total;
+      mixedTemp = Math.Clamp(mixedTemp, 20f, PpexValues.BoilingPoint - 1f);
+      outNet.TryProduceLiquid(total, mixedTemp, inPress, ba);
+    }
+    WaterLine.Hold(this, inNet != null ? outNet : null, inPress);
     return condIn > 0f;
   }
 
