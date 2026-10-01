@@ -82,3 +82,6 @@ _ReSharper*/
 
 # Trace text a pin run recorded that differs from the committed trace beside it.
 *.received.trace
+
+# Setup recordings a scenario run wrote that differ from the committed ones beside them.
+tests/Integration.Tests/Setups/Recordings/**/*.received.json
