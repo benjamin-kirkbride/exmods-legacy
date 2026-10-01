@@ -198,7 +198,7 @@ internal sealed class SetupRecording {
         foreach (string part in new[] { "steady", "constants" }) {
           JsonNode? a = wasGroup[id]?[part];
           JsonNode? b = nowGroup[id]?[part];
-          if (!JsonNode.DeepEquals(a, b))
+          if (a?.ToJsonString() != b?.ToJsonString())
             differences.Add(
               $"{group}/{id}/{part}: committed {a?.ToJsonString() ?? "absent"}, recorded {b?.ToJsonString() ?? "absent"}"
             );
