@@ -22,6 +22,11 @@ its 1.22 build does not work beside the new library. A part-built machine keeps 
   steam outlet, or a steam run with an open end anywhere, takes at least what the boiler makes, so
   it settles at about 1 atm. Two boilers on one leaking run, or a charged main that sprang a leak,
   could burst a boiler; they no longer can.
+- **Whether a boiler's feed flashes to steam no longer depends on the order the game runs its
+  machines in.** A water line reads the head of the pump that keeps it brim-full, and a relief valve
+  the line tops holds it down to the valve's gate for every machine drawing from it. The starter
+  plant's 0.5 atm water relief valve now keeps the feed from flashing in every session; before, the
+  boiler caught the main full at the pump's head whenever the valve ran before the pump.
 
 ### Changed
 

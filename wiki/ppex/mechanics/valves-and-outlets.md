@@ -62,7 +62,8 @@ air or to an overflow line. A Cornish Boiler at 5 atm in front of a Watt Engine 
 4 atm is the case that needs one, gated at 2.5 to 3.5 atm.
 
 On water it does not throttle, it dumps: once the feed pressure tops the gate it moves the whole
-line into the output side, or sprays it out of an open face.
+line into the output side, or sprays it out of an open face. While it is open, a boiler drawing from
+that line takes its water at the gate.
 
 The tutorial videos in circulation predate pressure entirely and the valve's interface has changed
 since, so set the gate from the look-at line rather than from a video.
