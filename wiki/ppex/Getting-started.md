@@ -83,7 +83,14 @@ more than the 2 L/s the boiler is boiling away.
 
 Now you can stop cranking by hand.
 
-## 7. What to add next
+## 7. The whole plant
+
+The figure below is the plant this page builds, played from a test run of the current code, and
+each machine in it links to its own page.
+
+::plant{page="Starter steam power setup" recording="starter-steam-power"}
+
+## 8. What to add next
 
 - A Mechanical Power Generator instead of the pump, to turn axles. It needs its own engine and
   boiler, because one engine drives one sub-machine.
