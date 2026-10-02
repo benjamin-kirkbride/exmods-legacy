@@ -617,9 +617,10 @@ public abstract class BlockEntityEngine : BlockEntityProductionMachine {
   /// cycle, so the beam/piston motion stays locked to the visible axle at any speed and keeps
   /// cycling while the flywheel coasts. Pushed every render frame by
   /// <see cref="BlockEntityEngineMpGenerator"/>; <paramref name="angleRad"/> is the axle's render
-  /// angle (0..2π, the axle's render angle), <paramref name="turning"/> whether the network moves.
+  /// angle (0..2π), <paramref name="axisSign"/> the axle's <c>AxisSign</c>, which together say which
+  /// way the axle visibly turns, and <paramref name="turning"/> whether the network moves.
   /// </summary>
-  public void DriveMpCycleFrame(bool turning, float angleRad) {
+  public void DriveMpCycleFrame(bool turning, float angleRad, int[] axisSign) {
     if (Api is not ICoreClientAPI || _animatable == null || !_animatorReady)
       return;
 
@@ -635,7 +636,36 @@ public abstract class BlockEntityEngine : BlockEntityProductionMachine {
     // deltas. The absolute mapping cannot drift out of phase over a long run, needs no baseline to
     // reset when the clip restarts, and still follows a reversal for free - the angle itself runs
     // backwards, so the cycle does too.
-    MPAnim.LockFrameToAngle(_animatable.animUtil, "cyclemp", angleRad);
+    bool reverse =
+      EngineBlock is { } block
+      && MpCycleRunsReversed(axisSign, block.MpCycleCrankFace);
+    MPAnim.LockFrameToAngle(
+      _animatable.animUtil,
+      "cyclemp",
+      angleRad,
+      reverse
+    );
+  }
+
+  /// <summary>
+  /// Whether the <c>cyclemp</c> clip has to be fed the axle angle negated to turn the same way as
+  /// the axle beside it. True for a north or east engine, false for a south or west one.
+  /// </summary>
+  /// <remarks>
+  /// The clip has no crank of its own: its rod's lower end is the crank pin, and over a rising cycle
+  /// it goes shape +Z, up, -Z, down - round the shape's -X axis. The game's mechanical renderer turns
+  /// the axle by <c>AngleRad × AxisSign</c> about the world axes, and the generator's
+  /// <c>AxisSign</c> is the one vanilla axles use, -1 on X or on Z whichever way round the line
+  /// runs. The shape's +X ends up on <paramref name="crankFace"/> in the world, so the two turn
+  /// together when the clip angle is <c>-(AxisSign · crankFace) × AngleRad</c> - the
+  /// <c>DrivenAngleRad</c> law of exlib's <c>BEBehaviorMPFillerPort</c>, with the crank face as the
+  /// port. Opposite placements share one <c>AxisSign</c> but not one crank face, so no single sign
+  /// is right for all four: feeding the angle straight, as it used to be, ran a south or west engine
+  /// with its axle and a north or east one against it.
+  /// </remarks>
+  public static bool MpCycleRunsReversed(int[] axisSign, BlockFacing crankFace) {
+    Vec3i n = crankFace.Normali;
+    return axisSign[0] * n.X + axisSign[1] * n.Y + axisSign[2] * n.Z > 0;
   }
 
   private void ApplyPose() {

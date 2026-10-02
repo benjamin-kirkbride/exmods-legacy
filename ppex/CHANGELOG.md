@@ -5,6 +5,15 @@ All notable changes to this mod are documented here. The format is based on
 [Semantic Versioning](https://semver.org/). For changes before this file existed,
 see the git history.
 
+## [Unreleased]
+
+### Fixed
+
+- **The engine's beam turned against the Mechanical Power Generator's axle** on a Watt or Cornish
+  engine facing north or east: the rod drove the crank one way while the axle and flywheel spun
+  the other. The beam now follows the axle in all four facings, and keeps following it when the
+  line runs the other way. Engines facing south or west already turned with it and are unchanged.
+
 ## [0.7.0] - 2026-09-29
 
 Requires Expanded Library 0.8.3 or later; it no longer loads with exlib 0.7.2. Back up your world

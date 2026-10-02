@@ -58,6 +58,17 @@ public abstract class BlockEngine
   public BlockFacing WaterOutletFace =>
     ExOrientation.RotateFacing(BlockFacing.EAST, Angle);
 
+  /// <summary>
+  /// The world face the engine shape's +X axis points to once the mesh is turned to its placement:
+  /// west for a north engine, north for east, east for south, south for west. The <c>cyclemp</c> clip
+  /// cranks its rod about that axis, so it is what the MP generator's axle is measured against (see
+  /// <see cref="BlockEntityEngine.MpCycleRunsReversed"/>). It lives in the body frame, not the
+  /// <see cref="Angle"/> one: the shape's <c>rotateYByType</c> is the body angle, and the animator
+  /// turns the clip with it.
+  /// </summary>
+  public BlockFacing MpCycleCrankFace =>
+    ExOrientation.RotateFacing(BlockFacing.EAST, BodyAngle);
+
   /// <summary>Default sub-machine cell (local {0,0,2}) when <c>submachineOffset</c> is unset.</summary>
   private static readonly Vec3i DefaultSubmachineOffset = new(0, 0, 2);
 

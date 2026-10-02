@@ -110,9 +110,11 @@ public class BEBehaviorEngineMPGenerator(BlockEntity blockentity)
   }
 
   public override void SetOrientations() {
-    // Seed discovery from the BACK of the axis (south/west). The discovery direction drives
-    // vanilla's IsRotationReversed, so the far end reverses the whole shaft's rendered spin to
-    // match the engine's beam linkage (the near end turned it the opposite way).
+    // Seed discovery from the BACK of the axis (south/west). This was once picked to make the
+    // shaft's rendered spin match the engine's beam linkage, but one seed per axis cannot do that:
+    // a north and a south engine share the axis and crank their beams opposite ways. The beam now
+    // follows the axle instead, whichever way it turns (BlockEntityEngine.MpCycleRunsReversed), and
+    // the seed stays as it was so standing lines turn as they did.
     OutFacingForNetworkDiscovery = Block.Variant["side"] switch {
       "north" or "south" => BlockFacing.SOUTH,
       "east" or "west" => BlockFacing.WEST,

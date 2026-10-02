@@ -1,7 +1,14 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.Json;
 using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Testing;
+using Integration.Tests.Saves;
+using PipesAndPowerExpanded.BlockStructures.Engine;
 using PipesAndPowerExpanded.BlockStructures.Engine.BlockEntities;
+using PipesAndPowerExpanded.BlockStructures.Engine.Blocks;
 using Vintagestory.API.MathTools;
 using Xunit;
 
@@ -211,6 +218,132 @@ public class MpGeneratorBehaviorTests {
 
     Assert.Equal(BlockFacing.WEST, mp.OutFacingForNetworkDiscovery);
     Assert.Equal(new[] { -1, 0, 0 }, mp.AxisSign); // single sign per axis (X)
+  }
+
+  // The beam has to follow the axle in every facing. The renderer turns the axle by
+  // AngleRad × AxisSign about the world axes; the clip cranks its rod about the shape's -X, which
+  // the placement turns onto -MpCycleCrankFace. The two angular vectors have to be one and the same.
+  [Theory]
+  [InlineData("north", "west", true)]
+  [InlineData("east", "north", true)]
+  [InlineData("south", "east", false)]
+  [InlineData("west", "south", false)]
+  public void The_beam_turns_with_the_generator_axle_in_every_facing(
+    string side,
+    string crankFace,
+    bool reversed
+  ) {
+    var engineBlock = TestBlocks.Configure(
+      new BlockEngineCornish(),
+      $"ppex:enginecornish-{side}",
+      40,
+      ("side", side)
+    );
+    string genSide = BlockEngine.SubmachineSide(side);
+    var genBlock = TestBlocks.Configure(
+      new BlockEngineMPGenerator(),
+      $"ppex:enginempgenerator-{genSide}",
+      43,
+      ("side", genSide)
+    );
+    var mp = new BEBehaviorEngineMPGenerator(
+      new BlockEntityEngineMpGenerator { Block = genBlock }
+    );
+    mp.SetOrientations();
+
+    BlockFacing crank = engineBlock.MpCycleCrankFace;
+    Assert.Equal(crankFace, crank.Code);
+    bool reverse = BlockEntityEngine.MpCycleRunsReversed(mp.AxisSign, crank);
+    Assert.Equal(reversed, reverse);
+
+    const float angle = 1f;
+    float clip = reverse ? -angle : angle;
+    Vec3i n = crank.Normali;
+    Assert.Equal(
+      new[] { mp.AxisSign[0] * angle, 0f, mp.AxisSign[2] * angle },
+      new[] { -n.X * clip, 0f, -n.Z * clip }
+    );
+  }
+
+  // MpCycleRunsReversed leans on the clip cranking its rod about the shape's -X. Pins that against
+  // the shipped shapes: the rod's lower end, where it meets the crank pin, has to go round -X.
+  [Theory]
+  [InlineData("watt")]
+  [InlineData("cornish")]
+  public void The_cyclemp_clip_cranks_the_rod_about_the_shapes_minus_X(
+    string engine
+  ) {
+    string path = Path.Combine(
+      SaveGoldens.RepoRoot(),
+      "ppex",
+      "assets",
+      "ppex",
+      "shapes",
+      "engine",
+      engine + ".json"
+    );
+    using JsonDocument doc = JsonDocument.Parse(File.ReadAllText(path));
+    JsonElement root = doc.RootElement;
+
+    JsonElement rod = FindElement(root.GetProperty("elements"), "Rod")!.Value;
+    double pivotY = rod.GetProperty("rotationOrigin")[1].GetDouble();
+    double pivotZ = rod.GetProperty("rotationOrigin")[2].GetDouble();
+    double length = pivotY - LowestY(rod, 0);
+    Assert.True(length > 0, "the rod should hang below its pivot");
+
+    JsonElement clip = root
+      .GetProperty("animations")
+      .EnumerateArray()
+      .Single(a => a.GetProperty("code").GetString() == "cyclemp");
+    var pins = new List<(double Y, double Z)>();
+    foreach (JsonElement kf in clip.GetProperty("keyframes").EnumerateArray()) {
+      if (!kf.GetProperty("elements").TryGetProperty("Rod", out JsonElement r))
+        continue;
+      double rx =
+        (r.TryGetProperty("rotationX", out JsonElement x) ? x.GetDouble() : 0)
+        * Math.PI
+        / 180;
+      double dy = r.TryGetProperty("offsetY", out JsonElement y)
+        ? y.GetDouble()
+        : 0;
+      // The game's RotateX takes +Y toward +Z for a positive angle; the rod hangs along -Y.
+      pins.Add((pivotY + dy - length * Math.Cos(rx), pivotZ - length * Math.Sin(rx)));
+    }
+    Assert.True(pins.Count >= 3, "the clip should key the rod round its cycle");
+
+    // Signed area of the pin's path in the YZ plane: positive turns about +X, negative about -X.
+    double cy = pins.Average(p => p.Y);
+    double cz = pins.Average(p => p.Z);
+    double turn = 0;
+    for (int i = 0; i < pins.Count; i++) {
+      var (y1, z1) = pins[i];
+      var (y2, z2) = pins[(i + 1) % pins.Count];
+      turn += (y1 - cy) * (z2 - cz) - (z1 - cz) * (y2 - cy);
+    }
+    Assert.True(turn < 0, $"{engine}'s cyclemp should crank about -X (got {turn:0.0})");
+  }
+
+  private static JsonElement? FindElement(JsonElement elements, string name) {
+    foreach (JsonElement e in elements.EnumerateArray()) {
+      if (e.GetProperty("name").GetString() == name)
+        return e;
+      if (
+        e.TryGetProperty("children", out JsonElement c)
+        && FindElement(c, name) is { } hit
+      )
+        return hit;
+    }
+    return null;
+  }
+
+  // The lowest point of an element's subtree; children's coordinates are relative to their parent's from.
+  private static double LowestY(JsonElement e, double parentY) {
+    double y = parentY + e.GetProperty("from")[1].GetDouble();
+    double low = y;
+    if (e.TryGetProperty("children", out JsonElement c))
+      foreach (JsonElement child in c.EnumerateArray())
+        low = Math.Min(low, LowestY(child, y));
+    return low;
   }
 
   #endregion
