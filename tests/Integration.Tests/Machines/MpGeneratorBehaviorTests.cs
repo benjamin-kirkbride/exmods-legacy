@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using ExpandedLib.Industry.MechanicalPower;
 using ExpandedLib.Industry.Pipes;
 using ExpandedLib.Testing;
 using Integration.Tests.Saves;
@@ -10,6 +11,7 @@ using PipesAndPowerExpanded.BlockStructures.Engine;
 using PipesAndPowerExpanded.BlockStructures.Engine.BlockEntities;
 using PipesAndPowerExpanded.BlockStructures.Engine.Blocks;
 using Vintagestory.API.MathTools;
+using Vintagestory.GameContent.Mechanics;
 using Xunit;
 
 namespace PipesAndPowerExpanded.Tests;
@@ -263,6 +265,95 @@ public class MpGeneratorBehaviorTests {
       new[] { mp.AxisSign[0] * angle, 0f, mp.AxisSign[2] * angle },
       new[] { -n.X * clip, 0f, -n.Z * clip }
     );
+  }
+
+  // Which way the axle turns is the network's to say, not the generator's: vanilla mirrors a node's
+  // angle by its propagationDir (IsRotationReversed), and that is the generator's own seed only
+  // when it starts the line. Joined to a standing line, discovery reaches it from the far end and
+  // its axle turns the other way. Each facing is run both ways round, and again with the network
+  // itself running backwards; the beam has to turn with the axle in all of them.
+  [Theory]
+  [InlineData("north", "west", -1)] // the generator's own seed
+  [InlineData("north", "east", 1)] // discovered from the far end
+  [InlineData("east", "south", 1)]
+  [InlineData("east", "north", -1)]
+  [InlineData("south", "west", -1)]
+  [InlineData("south", "east", 1)]
+  [InlineData("west", "south", 1)]
+  [InlineData("west", "north", -1)]
+  public void The_beam_follows_the_axle_whichever_way_the_network_turns_it(
+    string side,
+    string propagation,
+    int axleSpin
+  ) {
+    var engineBlock = TestBlocks.Configure(
+      new BlockEngineCornish(),
+      $"ppex:enginecornish-{side}",
+      40,
+      ("side", side)
+    );
+    string genSide = BlockEngine.SubmachineSide(side);
+    var genBlock = TestBlocks.Configure(
+      new BlockEngineMPGenerator(),
+      $"ppex:enginempgenerator-{genSide}",
+      43,
+      ("side", genSide)
+    );
+    var mp = new BEBehaviorEngineMPGenerator(
+      new BlockEntityEngineMpGenerator { Block = genBlock }
+    );
+    mp.SetOrientations();
+    BlockFacing propagationDir = BlockFacing.FromCode(propagation);
+    Assert.Equal(mp.OutFacingForNetworkDiscovery.Axis, propagationDir.Axis);
+    ReflectionHelpers.SetField(mp, "propagationDir", propagationDir);
+
+    BlockFacing crank = engineBlock.MpCycleCrankFace;
+    bool reverse = BlockEntityEngine.MpCycleRunsReversed(mp.AxisSign, crank);
+    // The world axis the line lies on, +X or +Z; the spins below are measured about it.
+    int axis = propagationDir.Axis == EnumAxis.X ? 0 : 2;
+    int crankSign = axis == 0 ? crank.Normali.X : crank.Normali.Z;
+
+    foreach (
+      EnumRotDirection turnDir in new[] {
+        EnumRotDirection.Clockwise,
+        EnumRotDirection.Counterclockwise,
+      }
+    ) {
+      var network = MechPower.Network(speed: 1f);
+      network.TurnDir = turnDir;
+      ReflectionHelpers.SetField(mp, "network", network);
+      int expected =
+        turnDir == EnumRotDirection.Clockwise ? axleSpin : -axleSpin;
+
+      float lastAngle = mp.AngleRad;
+      float lastClip = ClipAngle(lastAngle, reverse);
+      // Enough steps to carry the angle past its wrap at 2π at least once.
+      for (int i = 0; i < 40; i++) {
+        // The step MechanicalNetwork.ClientTick takes: forwards clockwise, backwards otherwise.
+        network.UpdateAngle(turnDir == EnumRotDirection.Clockwise ? 2f : -2f);
+        float angle = mp.AngleRad;
+        float clip = ClipAngle(angle, reverse);
+
+        // The renderer turns the axle by AngleRad × AxisSign; the clip cranks about the shape's
+        // -X, which the placement turns onto -crank.
+        float axleStep =
+          mp.AxisSign[axis] * GameMath.AngleRadDistance(lastAngle, angle);
+        float beamStep = -crankSign * GameMath.AngleRadDistance(lastClip, clip);
+
+        Assert.Equal(expected, Math.Sign(axleStep));
+        Assert.Equal(axleStep, beamStep, 3);
+        lastAngle = angle;
+        lastClip = clip;
+      }
+    }
+  }
+
+  // The angle the cyclemp clip stands at once MPAnim.LockFrameToAngle has pinned its frame.
+  private static float ClipAngle(float angleRad, bool reverse) {
+    const int frames = 120;
+    return MPAnim.FrameFromAngle(reverse ? -angleRad : angleRad, frames)
+      / frames
+      * GameMath.TWOPI;
   }
 
   // MpCycleRunsReversed leans on the clip cranking its rod about the shape's -X. Pins that against
